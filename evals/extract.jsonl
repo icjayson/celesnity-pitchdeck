@@ -1,0 +1,10 @@
+{"id":"x01","text":"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần thứ tư.","expect":{"la_bao_loi":true,"tram":"3","lo":"2409","muc_do":"Cao","trieu_chung":"nhiệt"}}
+{"id":"x02","text":"Trạm kiểm tra cuối chuyền số 1 báo bếp đôi lô 2411 không lên nguồn, đã hai lần trong ca.","expect":{"la_bao_loi":true,"tram":"cuối chuyền","lo":"2411","model":"đôi","trieu_chung":"nguồn"}}
+{"id":"x03","text":"Ở trạm 5, quạt tản nhiệt của bếp lô 2407 kêu to bất thường.","expect":{"la_bao_loi":true,"tram":"5","lo":"2407","trieu_chung":"ồn|kêu"}}
+{"id":"x04","text":"Anh ơi trạm 2 con bếp lô 2412 cứ sập nguồn hoài, chắc dính lỗi bo.","expect":{"la_bao_loi":true,"tram":"2","lo":"2412","trieu_chung":"nguồn"}}
+{"id":"x05","text":"Bếp bị báo lỗi E3 mà không rõ lô nào.","expect":{"la_bao_loi":true,"lo":"","missingIncludes":"lô"}}
+{"id":"x06","text":"Trưa nay căng tin có món gì ngon vậy?","expect":{"la_bao_loi":false}}
+{"id":"x07","text":"Chào buổi sáng, hôm nay trời đẹp quá.","expect":{"la_bao_loi":false}}
+{"id":"x08","text":"Trạm 4 thấy mặt kính bếp lô 2410 bị nứt, ba cái liền.","expect":{"la_bao_loi":true,"tram":"4","lo":"2410","trieu_chung":"nứt|vỡ"}}
+{"id":"x09","text":"Lô 2408 ở trạm cuối chuyền có mùi khét khi chạy thử, phải dừng chuyền.","expect":{"la_bao_loi":true,"lo":"2408","muc_do":"Cao","trieu_chung":"khét"}}
+{"id":"x10","text":"Máy lọc nước model RO-11 lô 2403 rò nước ở trạm test 2.","expect":{"la_bao_loi":true,"tram":"2","lo":"2403","model":"RO-11","trieu_chung":"rò"}}
