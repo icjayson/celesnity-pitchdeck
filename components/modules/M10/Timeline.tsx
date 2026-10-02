@@ -1,12 +1,11 @@
 "use client";
 import { useRef } from "react";
-import { Lock, LockOpen } from "lucide-react";
-import { m10Gates, m10Months } from "@/content/scenarios/m10";
+import { m10Months } from "@/content/scenarios/m10";
 
 const pos = (m: number) => ((m - 1) / 11) * 100;
 
 const bands = [
-  { name: "Pilot: Học", from: 0, to: (3.5 / 11) * 100, cls: "bg-blue-100 text-blue-600" },
+  { name: "Thử nghiệm: Học", from: 0, to: (3.5 / 11) * 100, cls: "bg-blue-100 text-blue-600" },
   { name: "Dùng thật", from: (3.5 / 11) * 100, to: (7.5 / 11) * 100, cls: "bg-[linear-gradient(90deg,var(--color-blue-100),var(--color-orange-100))] text-navy-900" },
   { name: "Nhân rộng", from: (7.5 / 11) * 100, to: 100, cls: "bg-orange-100 text-orange-700" },
 ];
@@ -44,35 +43,6 @@ export function Timeline({ month, onChange }: { month: number; onChange: (m: num
 
   return (
     <div className="select-none px-3 sm:px-4">
-      {/* Ổ khóa cổng */}
-      <div className="relative h-12" aria-label="Bốn cổng" role="list">
-        {m10Gates.map((g) => {
-          const open = month >= g.m;
-          const Icon = open ? LockOpen : Lock;
-          return (
-            <div
-              key={g.m}
-              role="listitem"
-              className="absolute top-0 flex -translate-x-1/2 flex-col items-center gap-1"
-              style={{ left: `${pos(g.m)}%` }}
-            >
-              <span
-                className={`grid h-7 w-7 place-items-center rounded-full border transition-all duration-500 ease-[var(--ease-brand)] ${
-                  open ? "scale-100 border-orange-500 bg-orange-100 text-orange-700" : "scale-90 border-line-200 bg-white text-ink-500"
-                }`}
-              >
-                <Icon size={14} strokeWidth={1.5} aria-hidden />
-              </span>
-              <span className={`whitespace-nowrap text-[11px] font-medium leading-none ${open ? "text-orange-700" : "text-ink-500"}`}>
-                <span className="hidden sm:inline">{g.name}</span>
-                <span className="sm:hidden">C{g.name.slice(-1)}</span>
-                <span className="sr-only">{open ? ": đã mở" : ": chưa tới"}</span>
-              </span>
-            </div>
-          );
-        })}
-      </div>
-
       {/* Thanh kéo */}
       <div
         ref={track}
@@ -82,7 +52,7 @@ export function Timeline({ month, onChange }: { month: number; onChange: (m: num
         aria-valuemin={1}
         aria-valuemax={12}
         aria-valuenow={month}
-        aria-valuetext={`Tháng ${month}, ${row.phase}`}
+        aria-valuetext={`Tháng thứ ${month}, ${row.phase}`}
         onKeyDown={onKey}
         onPointerDown={(e) => {
           dragging.current = true;
@@ -114,7 +84,7 @@ export function Timeline({ month, onChange }: { month: number; onChange: (m: num
           className="absolute top-1/2 grid h-8 min-w-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-navy-900 bg-white px-1.5 text-[12px] font-semibold text-navy-900 shadow-[0_8px_20px_-8px_rgba(10,31,68,0.55)] transition-[left] duration-500 ease-[var(--ease-brand)] group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-orange-500"
           style={{ left: `${pos(month)}%` }}
         >
-          <span className="tabular">T{month}</span>
+          <span className="tabular">T+{month}</span>
         </span>
       </div>
 
@@ -133,7 +103,7 @@ export function Timeline({ month, onChange }: { month: number; onChange: (m: num
               } ${key ? "" : "hidden sm:block"}`}
               style={{ left: `${pos(r.m)}%` }}
             >
-              T{r.m}
+              T+{r.m}
             </button>
           );
         })}

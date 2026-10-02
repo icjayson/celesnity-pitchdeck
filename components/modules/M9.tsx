@@ -98,7 +98,7 @@ function Card({ uc, onOpen, wide = false }: { uc: UseCase; onOpen: (id: string) 
       ) : null}
       <div className={`${primary && uc.card ? "" : "mt-auto"} flex w-full flex-wrap items-center gap-x-3 gap-y-1 pt-4 text-[12px] text-ink-500`}>
         <span className="tabular">
-          Dùng thật từ <span className="font-semibold text-navy-900">{uc.liveFrom.replace(/\s*\(.*\)/, "")}</span>
+          Triển khai từ <span className="font-semibold text-navy-900">{uc.liveFrom.replace(/\s*\(.*\)/, "")}</span>
         </span>
         <span aria-hidden className="h-3 w-px bg-line-200" />
         <span className="min-w-0 truncate">{uc.sectors.map((s) => sectorLabels[s]).join(" · ")}</span>

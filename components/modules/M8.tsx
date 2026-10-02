@@ -5,6 +5,7 @@
  * Dữ liệu lấy từ bảng "Bảng ba mảng" trong lớp chi tiết của section `ban-do`.
  */
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { ScrollSteps } from "@/components/shared/ScrollSteps";
 import { CalendarRange, MapPin } from "lucide-react";
 import { FactoryScene, ISLAND_NAMES, type IslandId } from "@/components/art/FactoryScene";
 import { Label } from "@/components/shared/Label";
@@ -63,6 +64,9 @@ function getArms(): Arm[] {
 export default function M8(_props: { variant?: string }) {
   const arms = getArms();
   const [selected, setSelected] = useState<IslandId>("gia-dung");
+  const pick = (id: IslandId) => {
+    setSelected(id);
+  };
   const uid = useId();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   if (!arms.length) return null;
@@ -78,7 +82,7 @@ export default function M8(_props: { variant?: string }) {
     else if (e.key === "End") next = arms.length - 1;
     else return;
     e.preventDefault();
-    setSelected(arms[next].id);
+    pick(arms[next].id);
     tabRefs.current[next]?.focus();
   };
 
@@ -100,6 +104,7 @@ export default function M8(_props: { variant?: string }) {
   ) as Partial<Record<IslandId, ReactNode>>;
 
   return (
+    <ScrollSteps steps={arms.length} onStep={(i) => setSelected(arms[i].id)} perStepVh={45}>
     <div className="mb-12 grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-12">
       <div className="flex min-w-0 flex-col gap-6">
         <figure className="relative pb-12 sm:pb-16">
@@ -109,7 +114,7 @@ export default function M8(_props: { variant?: string }) {
             steelDestination
             showLabels
             selectedIsland={selected}
-            onIslandClick={setSelected}
+            onIslandClick={pick}
             islandNotes={notes}
           />
           <figcaption className="sr-only">
@@ -140,9 +145,9 @@ export default function M8(_props: { variant?: string }) {
                 aria-selected={on}
                 aria-controls={`${uid}-panel`}
                 tabIndex={on ? 0 : -1}
-                onClick={() => setSelected(a.id)}
+                onClick={() => pick(a.id)}
                 onKeyDown={(e) => onTabKey(e, i)}
-                className={`flex min-h-11 min-w-0 flex-col items-center justify-center gap-0.5 rounded-[var(--radius-control)] px-2 py-2 text-center transition-[background-color,color,box-shadow] duration-300 ease-[var(--ease-brand)] sm:flex-row sm:gap-2 ${
+                className={`flex min-h-11 min-w-0 flex-col items-center justify-center gap-0.5 rounded-[var(--radius-control)] px-2 py-2 text-center transition-[background-color,color,box-shadow] duration-300 ease-[var(--ease-brand)] ${
                   on
                     ? "bg-white text-navy-900 shadow-[0_8px_20px_-12px_rgba(10,31,68,0.45)]"
                     : "text-ink-500 hover:bg-white/60 hover:text-navy-900"
@@ -152,7 +157,7 @@ export default function M8(_props: { variant?: string }) {
                   {a.id === "thep" ? <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" /> : null}
                   <span className="truncate">{ISLAND_NAMES[a.id]}</span>
                 </span>
-                <span className="tabular text-[12px] font-medium text-ink-500">{a.time}</span>
+                <span className="tabular whitespace-nowrap text-[12px] font-medium text-ink-500">{a.time}</span>
               </button>
             );
           })}
@@ -200,7 +205,7 @@ export default function M8(_props: { variant?: string }) {
             <CalendarRange aria-hidden size={20} strokeWidth={1.5} className="mt-0.5 shrink-0 text-blue-600" />
             <div>
               <dt className="text-[13px] font-medium text-ink-500">{current.rowLabels.time}</dt>
-              <dd className="tabular text-[17px] font-medium text-navy-900">{current.time}</dd>
+              <dd className="tabular whitespace-nowrap text-[17px] font-medium text-navy-900">{current.time}</dd>
             </div>
           </div>
         </dl>
@@ -216,5 +221,6 @@ export default function M8(_props: { variant?: string }) {
         </ul>
       </section>
     </div>
+    </ScrollSteps>
   );
 }

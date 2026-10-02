@@ -33,7 +33,7 @@ export function PathScene({ path, play, reduced }: { path: "A" | "B"; play: bool
   ];
 
   return (
-    <LoopSvg play={play} reduced={reduced} staticAt={1.1} viewBox="0 0 400 400" className="h-auto w-full">
+    <LoopSvg play={play} reduced={reduced} staticAt={1.1} viewBox="0 0 400 400" className="h-full max-h-[560px] w-full">
       <defs>
         <radialGradient id={`${uid}core`} cx="0.4" cy="0.35" r="0.7">
           <stop offset="0" stopColor="#fff" />

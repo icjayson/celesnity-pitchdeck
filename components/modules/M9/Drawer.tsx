@@ -158,7 +158,7 @@ export function UseCaseDrawer({ uc, onClose }: { uc: UseCase | null; onClose: ()
           <div className="mt-4 flex items-center gap-3 rounded-[var(--radius-card)] border border-line-200 bg-mist-50 p-4">
             <CalendarClock size={20} strokeWidth={1.5} aria-hidden className="shrink-0 text-blue-600" />
             <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-500">Dùng thật từ</p>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-500">Triển khai từ</p>
               <p className="tabular text-[16px] font-semibold">{shown.liveFrom}</p>
             </div>
           </div>

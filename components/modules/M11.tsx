@@ -5,7 +5,7 @@ import { Lock, LockOpen, TriangleAlert, UserCheck } from "lucide-react";
 import { RichText } from "@/components/shared/RichText";
 import { gates } from "./M11/gates";
 
-const FAIL_MSG = "Dừng hoặc điều chỉnh use case này. Không chuyển sang giai đoạn có phí. UC0 vẫn tiếp tục.";
+const FAIL_MSG = "Dừng hoặc điều chỉnh use case này. Không chuyển sang giai đoạn có phí. Ứng dụng 01 vẫn tiếp tục.";
 
 export default function M11({ variant }: { variant?: string }) {
   const [active, setActive] = useState(0);

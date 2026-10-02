@@ -3,8 +3,8 @@ import { RichText } from "./RichText";
 import { DataTable } from "./DataTable";
 import { Label } from "./Label";
 import { ModuleSlot } from "./ModuleSlot";
-import { ChevronRight } from "lucide-react";
-import { KeyValue, Cards, Steps, Timeline, Compare, Chips } from "./Visuals";
+import { ArrowRight, ChevronRight } from "lucide-react";
+import { KeyValue, Cards, Steps, Timeline, Compare, Chips, Pillars } from "./Visuals";
 
 /** Hiển thị một dãy khối nội dung. `skipModules` dùng cho bản in. */
 export function Blocks({ blocks, skipModules = false }: { blocks: Block[]; skipModules?: boolean }) {
@@ -21,13 +21,13 @@ function BlockView({ block: b, skipModules }: { block: Block; skipModules: boole
   switch (b.kind) {
     case "lead":
       return (
-        <p className="max-w-[68ch] text-[18px] leading-relaxed sm:text-[22px]">
+        <p className="text-[18px] leading-relaxed sm:text-[22px]">
           <RichText text={b.text} />
         </p>
       );
     case "p":
       return (
-        <p className="max-w-[68ch]">
+        <p className="whitespace-pre-line">
           <RichText text={b.text} />
         </p>
       );
@@ -40,7 +40,7 @@ function BlockView({ block: b, skipModules }: { block: Block; skipModules: boole
     case "list": {
       const Tag = b.ordered ? "ol" : "ul";
       return (
-        <Tag className={`flex max-w-[72ch] flex-col gap-3 pl-6 ${b.ordered ? "list-decimal" : "list-disc"} marker:text-blue-500`}>
+        <Tag className={`flex flex-col gap-3 pl-6 ${b.ordered ? "list-decimal" : "list-disc"} marker:text-blue-500`}>
           {b.items.map((it, i) => (
             <li key={i} className="pl-1">
               <RichText text={it} />
@@ -62,18 +62,54 @@ function BlockView({ block: b, skipModules }: { block: Block; skipModules: boole
       return <Timeline head={b.head} rows={b.rows} />;
     case "compare":
       return <Compare head={b.head} rows={b.rows} />;
+    case "pillars":
+      return <Pillars items={b.items} />;
     case "chips":
       return <Chips items={b.items} tone={b.tone} />;
     case "quote":
+      if (b.emphasis)
+        return (
+          <blockquote className="relative mt-6 overflow-hidden rounded-[24px] bg-navy-950 px-6 py-12 text-white shadow-[0_40px_90px_-40px_rgba(10,31,68,0.8)] sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+            <span aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-blue-500/25 blur-3xl" />
+            <span aria-hidden className="pointer-events-none absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
+            <span aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-orange-500" />
+            <p className="relative whitespace-pre-line text-[32px] font-semibold leading-[1.12] tracking-[-0.025em] sm:text-[48px] lg:text-[60px]">
+              <RichText text={b.text} strongClass="font-semibold text-orange-500" />
+            </p>
+          </blockquote>
+        );
       return (
-        <blockquote className="max-w-[60ch] border-l-0 text-[22px] leading-snug sm:text-[28px]">
+        <blockquote className="border-l-0 text-[22px] leading-snug sm:text-[28px]">
           <span aria-hidden className="mb-3 block h-1 w-12 rounded-full bg-orange-500" />
-          <RichText text={b.text} />
+          <RichText
+            text={b.text}
+            strongClass="font-semibold text-orange-600"
+          />
         </blockquote>
+      );
+    case "statement":
+      return (
+        <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
+          <p className="relative self-start pl-6 text-[26px] font-semibold leading-[1.25] tracking-[-0.02em] sm:text-[32px]">
+            <span aria-hidden className="absolute bottom-1 left-0 top-1 w-1 rounded-full bg-orange-500" />
+            <RichText text={b.highlight} strongClass="font-semibold text-orange-600" />
+          </p>
+          <div className="flex flex-col gap-5 text-[16px] leading-relaxed lg:pt-1">
+            <p className="muted">
+              <RichText text={b.context} />
+            </p>
+            <p className="flex gap-3">
+              <ArrowRight aria-hidden size={18} strokeWidth={1.5} className="mt-1 shrink-0 text-blue-500" />
+              <span>
+                <RichText text={b.conclusion} />
+              </span>
+            </p>
+          </div>
+        </div>
       );
     case "note":
       return (
-        <p className="muted max-w-[72ch] text-[14px] leading-relaxed">
+        <p className="muted text-[14px] leading-relaxed">
           <RichText text={b.text} />
         </p>
       );

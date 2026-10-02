@@ -2,7 +2,8 @@ import type { Section as SectionT } from "@/content/types";
 import { acts } from "@/content/content.vi";
 import { Blocks } from "./Blocks";
 import { DetailsPanel } from "./Details";
-import { RichText } from "./RichText";
+import { RichText, plainText } from "./RichText";
+import { BrandLockup } from "./BrandLockup";
 import { ModuleSlot } from "./ModuleSlot";
 
 const themeClass: Record<SectionT["theme"], string> = {
@@ -20,16 +21,26 @@ export function Section({ s, firstOfAct = false, printMode = false }: { s: Secti
     const rest = s.blocks.filter((b) => b.kind !== "module");
     const visual = s.blocks.find((b) => b.kind === "module");
     return (
-      <section id={s.id} data-section={s.id} className={`${themeClass[s.theme]} relative overflow-hidden`}>
-        <div className="mx-auto grid min-h-[100svh] max-w-[1280px] grid-cols-1 items-center gap-10 px-4 pb-16 pt-28 sm:px-8 lg:grid-cols-[1fr_1.15fr] lg:gap-6 lg:pt-20">
+      <section id={s.id} data-section={s.id} className={`${themeClass[s.theme]} relative isolate overflow-hidden`}>
+        {s.cover ? (
+          <div aria-hidden className="absolute inset-0 -z-10">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={s.cover} alt="" className="h-full w-full object-cover object-[70%_45%]" />
+            {/* gradient navy: đậm bên trái để đọc chữ, nhạt dần sang phải để lộ ảnh */}
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,#06142E_0%,rgba(6,20,46,0.93)_30%,rgba(6,20,46,0.7)_55%,rgba(6,20,46,0.45)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,20,46,0.55)_0%,rgba(6,20,46,0)_30%,rgba(6,20,46,0)_65%,#06142E_100%)]" />
+          </div>
+        ) : null}
+        <div className={`mx-auto grid min-h-[100svh] max-w-[1280px] grid-cols-1 items-center gap-10 px-4 pb-16 pt-28 sm:px-8 lg:gap-6 lg:pt-20 ${visual ? "lg:grid-cols-[1fr_1.15fr]" : "lg:grid-cols-[minmax(0,1.5fr)_1fr]"}`}>
           <div className="relative z-10 flex flex-col gap-6">
-            <p className="text-[13px] font-medium uppercase tracking-[0.14em] text-blue-300">
-              <RichText text={s.eyebrow} />
-            </p>
-            <h1 className="text-balance text-[40px] font-semibold leading-[1.05] tracking-[-0.025em] sm:text-[60px] lg:text-[72px]">
+            <BrandLockup label={plainText(s.eyebrow)} />
+            <h1 className="whitespace-pre-line text-[40px] font-semibold leading-[1.05] tracking-[-0.025em] sm:text-[60px] lg:text-[72px]">
               <RichText text={s.title} />
             </h1>
-            <Blocks blocks={rest} />
+            {/* chú thích ở trang bìa lớn hơn 125% so với note thường (14px → 17,5px) */}
+            <div className="flex flex-col gap-6 [&_p.muted]:text-[17.5px]">
+              <Blocks blocks={rest} />
+            </div>
           </div>
           {visual && visual.kind === "module" ? (
             <div className="relative">
@@ -46,16 +57,15 @@ export function Section({ s, firstOfAct = false, printMode = false }: { s: Secti
     <section id={s.id} data-section={s.id} className={`${themeClass[s.theme]} relative`}>
       <div className={`mx-auto ${width} px-4 py-24 sm:px-8 sm:py-[120px] lg:py-[160px]`}>
         {firstOfAct && act ? (
-          <p className="mb-10 flex items-center gap-3 text-[13px] font-semibold uppercase tracking-[0.14em] text-orange-500">
-            <span aria-hidden className="h-px w-10 bg-orange-500" />
-            {act.label} · {act.title}
+          <p className="mb-10 flex items-center gap-3 text-[22px] font-semibold tracking-[-0.01em] text-orange-700">
+            {act.label} {act.title}
           </p>
         ) : null}
-        <header className="mb-12 flex max-w-[920px] flex-col gap-4">
-          <p className="text-[13px] font-medium uppercase tracking-[0.12em] text-blue-500">
+        <header className="mb-12 flex flex-col gap-4">
+          <p className="text-[22px] font-medium tracking-[-0.01em] text-blue-500">
             <RichText text={s.eyebrow} />
           </p>
-          <h2 className="text-balance text-[28px] font-semibold leading-[1.15] tracking-[-0.025em] sm:text-[36px] lg:text-[44px]">
+          <h2 className="text-[28px] font-semibold leading-[1.15] tracking-[-0.025em] sm:text-[36px] lg:text-[44px]">
             <RichText text={s.title} />
           </h2>
         </header>

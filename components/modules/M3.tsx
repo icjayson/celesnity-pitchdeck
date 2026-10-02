@@ -65,15 +65,15 @@ export default function M3(_props: { variant?: string }) {
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,1fr)] lg:gap-6">
         {/* Bản đồ */}
-        <figure className="relative isolate m-0 overflow-hidden rounded-[var(--radius-card)] border border-navy-700 bg-navy-900 p-3 text-white shadow-[0_28px_60px_-30px_rgba(10,31,68,0.7)] sm:p-5">
+        <figure className="relative isolate m-0 flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-navy-700 bg-navy-900 p-3 text-white shadow-[0_28px_60px_-30px_rgba(10,31,68,0.7)] sm:p-5">
           <span aria-hidden className="pointer-events-none absolute -left-20 top-10 -z-10 h-64 w-64 rounded-full bg-blue-500/20 blur-[80px]" />
-          <PathScene path={path} play={gate.play} reduced={gate.reduced} />
-          <figcaption className="flex flex-wrap items-end justify-between gap-3 border-t border-navy-700 px-1 pt-3 text-[14px] leading-snug text-blue-300">
-            <span key={path} className="m3-in max-w-[46ch]" aria-live="polite">
-              <span className="font-semibold text-white">{isB ? headB : headA}.</span> {CAPTION[path]}
-            </span>
-            <MotionToggle paused={gate.userPaused} onToggle={gate.toggle} reduced={gate.reduced} tone="dark" className="-mr-1" />
+          <div className="flex min-h-0 flex-1 items-center justify-center">
+            <PathScene path={path} play={gate.play} reduced={gate.reduced} />
+          </div>
+          <figcaption className="sr-only" aria-live="polite">
+            {isB ? headB : headA}. {CAPTION[path]}
           </figcaption>
+          <MotionToggle paused={gate.userPaused} onToggle={gate.toggle} reduced={gate.reduced} tone="dark" className="absolute bottom-3 right-3" />
         </figure>
 
         {/* So sánh 5 dòng */}
@@ -103,18 +103,6 @@ export default function M3(_props: { variant?: string }) {
             })}
           </dl>
 
-          <div aria-live="polite" className="mt-auto pt-5">
-            {isB ? (
-              <p className="m3-in flex items-center gap-3 rounded-[12px] bg-orange-100 px-4 py-3 text-[16px] font-semibold text-navy-900">
-                <span aria-hidden className="h-6 w-1 shrink-0 rounded-full bg-orange-500" />
-                Hòa Phát đã chọn con đường B ở thép.
-              </p>
-            ) : (
-              <p aria-hidden className="invisible px-4 py-3 text-[16px]">
-                &nbsp;
-              </p>
-            )}
-          </div>
         </div>
       </div>
     </div>

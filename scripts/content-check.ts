@@ -9,7 +9,10 @@
 import { readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { appendix, benefits, closing, packageParts, sections } from "../content/content.vi";
+import { appendix, benefits, closing, packageParts, parkedSections, sections as liveSections } from "../content/content.vi";
+
+/** Section tạm cất vẫn được tính là "có nội dung" (chưa xóa khỏi nguồn) */
+const sections = [...liveSections, ...parkedSections];
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const v4 = readFileSync(resolve(root, "docs/content-v4.md"), "utf8").split(/\r?\n/);

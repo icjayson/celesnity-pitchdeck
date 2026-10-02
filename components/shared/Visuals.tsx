@@ -48,7 +48,7 @@ export function Cards({
           className="vis-card relative flex flex-col gap-3 overflow-hidden rounded-[var(--radius-card)] p-6"
         >
           <span aria-hidden className={`absolute inset-x-0 top-0 h-[3px] ${isHoaPhat ? "bg-orange-500" : bar}`} />
-          <h4 className="text-[17px] font-semibold leading-snug">
+          <h4 className={r.length === 1 ? "pt-2 text-[18px] font-normal leading-snug" : "text-[17px] font-semibold leading-snug"}>
             <RichText text={r[0]} />
           </h4>
           {r.slice(1).map((c, j) =>
@@ -125,7 +125,7 @@ export function Steps({ head, rows, layout = "horizontal" }: { head?: string[]; 
                 </p>
                 {r.slice(1).map((c, j) =>
                   has(c) ? (
-                    <p key={j} className="max-w-[72ch] text-[15px] leading-relaxed opacity-90">
+                    <p key={j} className="text-[15px] leading-relaxed opacity-90">
                       {head?.[j + 1] ? (
                         <span className="muted mr-2 text-[12px] font-semibold uppercase tracking-[0.06em]">
                           <RichText text={head[j + 1]} />
@@ -201,18 +201,18 @@ export function Compare({ head, rows }: { head: string[]; rows: string[][] }) {
               right ? "compare-right" : "compare-left"
             }`}
           >
-            <h4 className={`mb-5 text-[18px] font-semibold ${right ? "" : "opacity-80"}`}>
+            <h4 className={`mb-5 text-[21px] font-semibold leading-snug ${right ? "" : "opacity-80"}`}>
               <RichText text={head[col]} />
             </h4>
             <dl className="flex flex-col">
               {rows.map((r, i) => (
-                <div key={i} className="flex flex-col gap-1 border-t border-current/10 py-4 first:border-t-0 first:pt-0">
-                  <dt className={`text-[12px] font-semibold uppercase tracking-[0.08em] ${right ? "text-blue-300" : "muted"}`}>
+                <div key={i} className="flex flex-col gap-1 border-t border-current/15 py-4 first:border-t-0 first:pt-0">
+                  <dt className={`text-[14px] font-semibold uppercase tracking-[0.08em] ${right ? "text-white/75" : "muted"}`}>
                     <RichText text={r[0]} strongClass="font-semibold" />
                   </dt>
-                  <dd className="flex items-start gap-2 text-[15px] leading-relaxed">
+                  <dd className="flex items-start gap-2.5 text-[17px] leading-relaxed">
                     {right ? (
-                      <Check aria-hidden size={16} strokeWidth={1.5} className="mt-1 shrink-0 text-orange-500" />
+                      <Check aria-hidden size={18} strokeWidth={2} className="mt-1 shrink-0 text-white" />
                     ) : null}
                     <span className={right ? "" : "opacity-75"}>
                       <RichText text={r[col]} />
@@ -245,5 +245,30 @@ export function Chips({ items, tone = "neutral" }: { items: string[]; tone?: "ne
         </li>
       ))}
     </ul>
+  );
+}
+
+/** Các ý nhấn mạnh: khối nền navy, đánh số, dấu tick orange */
+export function Pillars({ items }: { items: string[] }) {
+  return (
+    <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((it, i) => (
+        <li
+          key={i}
+          className="relative flex min-h-[188px] flex-col justify-between gap-6 overflow-hidden rounded-[var(--radius-card)] bg-navy-900 p-6 text-white shadow-[0_24px_50px_-28px_rgba(10,31,68,0.7)]"
+        >
+          <span aria-hidden className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-500/25 blur-2xl" />
+          <div className="relative flex items-center justify-between">
+            <span className="tabular text-[13px] font-semibold tracking-[0.08em] text-blue-300">{String(i + 1).padStart(2, "0")}</span>
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 text-navy-900">
+              <Check aria-hidden size={18} strokeWidth={2} />
+            </span>
+          </div>
+          <p className="relative text-[19px] font-semibold leading-snug tracking-[-0.01em]">
+            <RichText text={it} />
+          </p>
+        </li>
+      ))}
+    </ol>
   );
 }

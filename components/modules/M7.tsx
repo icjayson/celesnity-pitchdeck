@@ -1,6 +1,10 @@
 "use client";
 /** M7 — Ba lớp (#ba-lop). Đặc tả: docs/implementation-plan.md mục 2. */
 import { useState } from "react";
+import { ScrollSteps } from "@/components/shared/ScrollSteps";
+
+/** Thứ tự khi cuộn: ① Nền tảng → ② Mô hình → ③ Tác nhân AI → Con người quyết định (chỉ số trong bảng) */
+const SCROLL_ORDER = [2, 1, 0, 3];
 import { ArrowLeft, UserCheck } from "lucide-react";
 import { RichText, plainText } from "@/components/shared/RichText";
 import { detailTable } from "./shared/detailContent";
@@ -22,7 +26,7 @@ function parseLayer(cell: string) {
 export default function M7(_props: { variant?: string }) {
   const { rows } = detailTable("ba-lop", "Bảng ba lớp");
   const items = rows.map((r) => ({ ...parseLayer(r[0] ?? ""), role: plainText(r[1] ?? ""), what: r[2] ?? "" }));
-  const [active, setActive] = useState(1); // mặc định mở tầng ②
+  const [active, setActive] = useState(2); // mặc định mở tầng ① (bước đầu khi cuộn)
   const gate = useMotionGate<HTMLDivElement>();
   const cur = items[active];
   const isHuman = active === 3;
@@ -35,6 +39,7 @@ export default function M7(_props: { variant?: string }) {
   });
 
   return (
+    <ScrollSteps steps={SCROLL_ORDER.length} onStep={(i) => setActive(SCROLL_ORDER[i])}>
     <div ref={gate.ref} className="flex flex-col gap-5">
       <style>{FADE_CSS}</style>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_216px] lg:gap-6">
@@ -42,7 +47,7 @@ export default function M7(_props: { variant?: string }) {
         <figure className="relative m-0 rounded-[var(--radius-card)] border border-line-200 bg-[radial-gradient(120%_90%_at_30%_55%,#E6F0FF_0%,#FFFFFF_60%)] px-2 pb-3 pt-4 sm:px-6 sm:pt-6">
           <figcaption className="sr-only">
             Sơ đồ ba lớp xếp chồng: {items.slice(0, 3).map((it) => `${it.num} ${it.name}, vai trò ${it.role.toLowerCase()}`).join("; ")}. Bên cạnh là{" "}
-            {items[3]?.name}, vai trò {items[3]?.role.toLowerCase()}. Vòng học: quyết định đã duyệt và kết quả thực tế quay từ lớp ③ về lớp ①.
+            {items[3]?.name}, vai trò {items[3]?.role.toLowerCase()}. Vòng lặp cải thiện: quyết định đã duyệt và kết quả thực tế quay từ lớp ③ về lớp ①.
           </figcaption>
           <div className="relative mx-auto w-full max-w-[640px]">
             {/* trên điện thoại chỉ hiện phần khối (nhãn nằm dưới), nên cắt bớt khoảng trống bên phải */}
@@ -155,5 +160,6 @@ export default function M7(_props: { variant?: string }) {
         </div>
       ) : null}
     </div>
+    </ScrollSteps>
   );
 }

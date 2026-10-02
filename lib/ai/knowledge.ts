@@ -37,6 +37,8 @@ function blockText(b: Block): string {
       return b.lines.map(plainText).join(" ");
     case "module":
       return moduleNotes[b.id] ?? "";
+    case "statement":
+      return [b.context, b.highlight, b.conclusion].map(plainText).join(" ");
   }
   const g = b as { text?: string; items?: string[]; ordered?: boolean; head?: string[]; rows?: string[][]; caption?: string };
   if (Array.isArray(g.rows)) return rowsText(g.head, g.rows, g.caption);
@@ -65,7 +67,7 @@ function build(): string {
   }
 
   parts.push(
-    `## Đoạn kết (section loi-moi)\n${plainText(closing.headline)}\n${plainText(closing.lead)} ${plainText(closing.story)}\n${plainText(closing.tagline)} ${plainText(closing.owner)} ${plainText(closing.thanks)}`,
+    `## Đoạn kết\n${plainText(closing.headline)}\n${plainText(closing.lead)} ${plainText(closing.story)}\n${plainText(closing.tagline)} ${plainText(closing.owner)} ${plainText(closing.thanks)}`,
   );
 
   parts.push(

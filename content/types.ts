@@ -12,7 +12,11 @@ export type ModuleId =
   | "M11"
   | "M12"
   | "M13"
-  | "M14";
+  | "M14"
+  | "M15"
+  | "M16"
+  | "M17"
+  | "M18";
 
 /** Nhãn trung thực (docs/implementation-plan.md, mục 1.4) */
 export type LabelVariant = "sim" | "ai" | "future" | "proposal";
@@ -22,7 +26,8 @@ export type Rich = string;
 
 export type Block =
   | { kind: "lead"; text: Rich }
-  | { kind: "p"; text: Rich }
+  /** wide: rộng bằng container thay vì ~68 ký tự */
+  | { kind: "p"; text: Rich; wide?: boolean }
   | { kind: "h3"; text: Rich }
   | { kind: "list"; items: Rich[]; ordered?: boolean }
   | { kind: "table"; head: Rich[]; rows: Rich[][]; caption?: Rich; printOnly?: boolean }
@@ -36,9 +41,14 @@ export type Block =
   | { kind: "timeline"; head: Rich[]; rows: Rich[][] }
   /** So sánh hai cột: nhãn · cột trái · cột phải (cột phải được làm nổi bật) */
   | { kind: "compare"; head: Rich[]; rows: Rich[][] }
+  /** Các ý nhấn mạnh dạng khối nổi bật (nền navy, đánh số) */
+  | { kind: "pillars"; items: Rich[] }
   /** Nhãn ngắn dạng viên */
   | { kind: "chips"; items: Rich[]; tone?: "negative" | "neutral" }
-  | { kind: "quote"; text: Rich }
+  /** emphasis: khối nhấn lớn nền navy (câu chốt quan trọng) */
+  | { kind: "quote"; text: Rich; emphasis?: boolean }
+  /** Câu nhấn lớn kèm bối cảnh và kết luận (bố cục biên tập hai cột) */
+  | { kind: "statement"; context: Rich; highlight: Rich; conclusion: Rich }
   | { kind: "note"; text: Rich }
   | { kind: "label"; variant: LabelVariant; text: Rich }
   | { kind: "flow"; steps: Rich[]; caption?: Rich }
@@ -60,6 +70,8 @@ export type Section = {
   title: Rich;
   theme: Theme;
   layout?: "hero" | "default" | "wide" | "closing";
+  /** Ảnh nền cho section hero (đường dẫn trong public/), phủ gradient navy */
+  cover?: string;
   blocks: Block[];
   details?: Details[];
 };

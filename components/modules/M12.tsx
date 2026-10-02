@@ -126,9 +126,9 @@ export default function M12({ variant }: { variant?: string }) {
   ].filter(Boolean);
 
   const legend = [
-    { c: sourceColors.inspection, name: "Kiểm tra có mục tiêu (UC1)", v: approxMoney(r.targetedInspection) },
-    { c: sourceColors.warranty, name: "Bảo hành phát hiện sớm (UC3)", v: `${approxMoney(r.perIncident)} mỗi sự cố` },
-    { c: sourceColors.changes, name: "Tránh thay đổi không hiệu quả (UC2)", v: `${approxScenarioRange(inputs.failedChangeCostLow, inputs.failedChangeCostHigh).replace(/,0(?=\D)/g, "")} mỗi thay đổi` },
+    { c: sourceColors.inspection, name: "Kiểm tra có mục tiêu (Ứng dụng 02)", v: approxMoney(r.targetedInspection) },
+    { c: sourceColors.warranty, name: "Bảo hành phát hiện sớm (Ứng dụng 04)", v: `${approxMoney(r.perIncident)} mỗi sự cố` },
+    { c: sourceColors.changes, name: "Tránh thay đổi không hiệu quả (Ứng dụng 03)", v: `${approxScenarioRange(inputs.failedChangeCostLow, inputs.failedChangeCostHigh).replace(/,0(?=\D)/g, "")} mỗi thay đổi` },
     { c: "hatch", name: "Phần cận cao của kịch bản Cơ sở", v: `thêm ${approxMoney(r.baseHigh.total - r.baseLow.total)}` },
   ];
 

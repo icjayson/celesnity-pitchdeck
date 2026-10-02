@@ -1,5 +1,5 @@
 /** Đọc bảng "Bảng tiêu chí đầy đủ của bốn cổng" trong section `phong-thi` thành cấu trúc cho M11. */
-import { sections } from "@/content/content.vi";
+import { parkedSections, sections } from "@/content/content.vi";
 import { plainText } from "@/components/shared/RichText";
 
 export type Criterion = {
@@ -26,7 +26,7 @@ function headlineOf(text: string): string | null {
 }
 
 function parse(): Gate[] {
-  const sec = sections.find((s) => s.id === "phong-thi");
+  const sec = [...sections, ...parkedSections].find((s) => s.id === "phong-thi");
   const det = sec?.details?.find((d) => plainText(d.title).startsWith("Bảng tiêu chí đầy đủ"));
   const table = det?.blocks.find((b) => b.kind === "table");
   if (!table || table.kind !== "table") return [];
@@ -35,7 +35,7 @@ function parse(): Gate[] {
     const [g, name, detail, who] = row;
     if (g && g.trim()) {
       const title = plainText(g);
-      const m = /Cổng\s+(\d+)\s*\((T\d+)\)(?:,\s*(.+))?/.exec(title);
+      const m = /Cổng\s+(\d+)\s*\((T\+?\d+)\)(?:,\s*(.+))?/.exec(title);
       gates.push({ n: m ? +m[1] : gates.length + 1, month: m?.[2] ?? "", note: m?.[3] ?? null, title, criteria: [] });
     }
     const cur = gates[gates.length - 1];

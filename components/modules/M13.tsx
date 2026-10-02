@@ -1,5 +1,5 @@
 "use client";
-/** M13 — Chủ quyền dữ liệu (#kiem-soat). Đặc tả: docs/implementation-plan.md mục 2. */
+/** M13 — Chủ quyền dữ liệu (#kiem-soat) và các phần đề xuất trong #hop-tac. Đặc tả: docs/implementation-plan.md mục 2. */
 import { useState } from "react";
 import { Ban, ClipboardCheck, FileSignature, MapPin, UserCheck, UserX, Vault, type LucideIcon } from "lucide-react";
 import { RichText, plainText } from "@/components/shared/RichText";
@@ -16,18 +16,30 @@ const COMMIT_ICONS: LucideIcon[] = [MapPin, ClipboardCheck, UserX, UserCheck, Ba
 
 const RECOMMENDED: Level = 3;
 
-export default function M13(_props: { variant?: string }) {
-  const { head, rows } = detailTable("kiem-soat", "Ba mức tham gia");
-  const commitments = detailList("kiem-soat", "Bảy cam kết không thay đổi");
-  const [level, setLevel] = useState<Level>(RECOMMENDED);
-  const gate = useMotionGate<HTMLDivElement>();
+/**
+ * variant mặc định (#kiem-soat): bản đồ + so sánh nhanh ba mức.
+ * "founding" (#hop-tac): thẻ đề xuất Mức 3 · "commitments" (#hop-tac): bảy cam kết.
+ */
+export default function M13({ variant }: { variant?: string }) {
+  if (variant === "founding") return <Founding />;
+  if (variant === "commitments") return <Commitments />;
+  return <Sovereignty />;
+}
 
+function useLevels() {
+  const { head, rows } = detailTable("hop-tac", "Ba mức tham gia");
   const levels = ([1, 2, 3] as Level[]).map((n) => {
     const h = plainText(head[n] ?? `Mức ${n}`);
     const [label, ...rest] = h.split(":");
     return { n, label: label.trim(), sub: rest.join(":").trim(), full: h };
   });
-  const cur = levels[level - 1];
+  return { rows, levels };
+}
+
+function Sovereignty() {
+  const { rows, levels } = useLevels();
+  const [level, setLevel] = useState<Level>(RECOMMENDED);
+  const gate = useMotionGate<HTMLDivElement>();
   const leaves = plainText(rows[0]?.[level] ?? "");
   const caption = level === 1 ? "Không có gì rời môi trường Hòa Phát." : `Rời đi: ${leaves.charAt(0).toLowerCase()}${leaves.slice(1)}.`;
 
@@ -80,65 +92,106 @@ export default function M13(_props: { variant?: string }) {
         </figcaption>
       </figure>
 
-      <div className="flex flex-col gap-5">
-        {/* Tóm tắt mức đang chọn */}
-        <section aria-label={`Tóm tắt ${cur.full}`} className="rounded-[var(--radius-card)] border border-line-200 bg-white p-5 sm:p-6">
-          <div key={level} className="m13-in">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-[19px] font-semibold tracking-[-0.01em]">
-                <span className="tabular">{cur.label}</span>
-                {cur.sub ? <span className="text-ink-500">: {cur.sub}</span> : null}
-              </h3>
-              {level === RECOMMENDED ? (
-                <span className="rounded-full border border-orange-500/40 bg-orange-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-orange-700">
-                  Khuyến nghị
-                </span>
-              ) : null}
-            </div>
-            <dl className="mt-3 flex flex-col">
-              {rows.map((r, i) => {
-                const v = r[level] ?? "";
-                const empty = plainText(v).trim() === "—";
-                return (
-                  <div
-                    key={i}
-                    className={`grid grid-cols-1 gap-0.5 border-b border-line-200 py-2.5 last:border-b-0 sm:grid-cols-[170px_minmax(0,1fr)] sm:gap-4 ${
-                      i === 0 ? "-mx-2 rounded-[10px] border-b-0 bg-blue-100/70 px-2" : ""
-                    }`}
-                  >
-                    <dt className="text-[13px] font-medium text-ink-500 sm:pt-px">{plainText(r[0] ?? "")}</dt>
-                    <dd className={`text-[15px] leading-snug ${empty ? "text-ink-500" : "text-navy-900"} ${i === 0 ? "font-semibold" : ""}`}>
-                      {empty ? <span aria-label="Không có">—</span> : <RichText text={v} />}
-                    </dd>
-                  </div>
-                );
-              })}
-            </dl>
-          </div>
-        </section>
-
-        {/* Bảy cam kết */}
-        <section aria-labelledby="m13-commit" className="rounded-[var(--radius-card)] border border-line-200 bg-white p-5 sm:p-6">
-          <h3 id="m13-commit" className="text-[12px] font-semibold uppercase tracking-[0.12em] text-ink-500">
-            Bảy cam kết không thay đổi
-          </h3>
-          <ol className="mt-3 flex flex-col">
-            {commitments.map((c, i) => {
-              const Icon = COMMIT_ICONS[i] ?? ClipboardCheck;
-              return (
-                <li key={i} className="flex items-start gap-3 border-b border-line-200 py-2.5 last:border-b-0">
-                  <span className="mt-px flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-mist-50 text-navy-900 ring-1 ring-line-200">
-                    <Icon aria-hidden size={16} strokeWidth={1.5} />
+      {/* So sánh nhanh: điều gì rời môi trường Hòa Phát ở mỗi mức */}
+      <ol className="flex flex-col gap-3">
+        {levels.map((l) => {
+          const on = l.n === level;
+          const v = rows[0]?.[l.n] ?? "";
+          return (
+            <li key={l.n}>
+              <button
+                type="button"
+                onClick={() => setLevel(l.n)}
+                aria-pressed={on}
+                className={`flex w-full flex-col gap-2 rounded-[var(--radius-card)] border p-5 text-left transition-colors duration-300 sm:p-6 ${
+                  on ? "border-blue-500 bg-white shadow-[0_20px_50px_-30px_rgba(10,31,68,0.5)]" : "border-line-200 bg-white/60 hover:border-blue-300"
+                }`}
+              >
+                <span className="flex flex-wrap items-center gap-2">
+                  <span className="text-[18px] font-semibold tracking-[-0.01em] text-navy-900">
+                    <span className="tabular">{l.label}</span>
+                    {l.sub ? <span className="text-ink-500">: {l.sub}</span> : null}
                   </span>
-                  <p className="text-[14px] leading-snug text-navy-900/90">
-                    <RichText text={c} />
-                  </p>
-                </li>
-              );
-            })}
-          </ol>
-        </section>
-      </div>
+                  {l.n === RECOMMENDED ? (
+                    <span className="rounded-full border border-orange-500/40 bg-orange-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-orange-700">
+                      Khuyến nghị
+                    </span>
+                  ) : null}
+                </span>
+                <span className="text-[13px] font-medium text-ink-500">{plainText(rows[0]?.[0] ?? "")}</span>
+                <span className="text-[15px] leading-snug text-navy-900">
+                  <RichText text={v} />
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
     </div>
+  );
+}
+
+/** Đề xuất hình thức hợp tác: Mức 3, Đối tác sáng lập, với toàn bộ quyền lợi. */
+function Founding() {
+  const { rows, levels } = useLevels();
+  const l = levels[RECOMMENDED - 1];
+  return (
+    <section
+      aria-label={`Đề xuất: ${l.full}`}
+      className="relative overflow-hidden rounded-[var(--radius-card)] border border-line-200 bg-white shadow-[0_24px_60px_-40px_rgba(10,31,68,0.45)]"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+        <div className="relative isolate flex flex-col justify-between gap-6 overflow-hidden bg-navy-900 p-6 text-white sm:p-8">
+          <span aria-hidden className="pointer-events-none absolute -right-20 -top-20 -z-10 h-60 w-60 rounded-full bg-blue-500/30 blur-3xl" />
+          <div className="flex flex-col gap-3">
+            <span className="w-fit rounded-full bg-orange-500 px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.06em] text-navy-900">
+              Đề xuất hình thức hợp tác
+            </span>
+            <h4 className="text-[30px] font-semibold leading-tight tracking-[-0.02em] sm:text-[36px]">{l.sub}</h4>
+          </div>
+          <p className="text-[15px] leading-relaxed text-blue-100/90">
+            Hòa Phát cùng xây mô hình nền, giữ quyền dùng lâu dài và dẫn dắt hướng phát triển.
+          </p>
+        </div>
+        <dl className="grid grid-cols-1 sm:grid-cols-2">
+          {rows.map((r, i) => {
+            // "Như Mức 2, cộng …" → viết đầy đủ, vì ở đây chỉ hiện Mức 3
+            const raw = r[RECOMMENDED] ?? "";
+            const m = /^Như Mức 2, cộng\s+/.exec(raw);
+            const v = m ? `${r[2] ?? ""}, và thêm ${raw.slice(m[0].length)}` : raw;
+            return (
+              <div key={i} className={`flex flex-col gap-1.5 border-line-200 p-5 sm:p-6 ${i % 2 === 0 ? "sm:border-r" : ""} ${i >= 2 ? "border-t" : i === 1 ? "border-t sm:border-t-0" : ""}`}>
+                <dt className="text-[13px] font-medium text-ink-500">{plainText(r[0] ?? "")}</dt>
+                <dd className="text-[16px] leading-snug text-navy-900">
+                  <RichText text={v} />
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
+/** Bảy cam kết không thay đổi, chia hai cột. */
+function Commitments() {
+  const commitments = detailList("hop-tac", "Bảy cam kết không thay đổi");
+  return (
+    <ol className="grid grid-cols-1 gap-3 md:grid-cols-2">
+      {commitments.map((c, i) => {
+        const Icon = COMMIT_ICONS[i] ?? ClipboardCheck;
+        return (
+          <li key={i} className="flex items-start gap-3.5 rounded-[14px] border border-line-200 bg-white p-4 sm:p-5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+              <Icon aria-hidden size={18} strokeWidth={1.5} />
+            </span>
+            <p className="pt-1.5 text-[15px] leading-snug text-navy-900/90">
+              <RichText text={c} />
+            </p>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

@@ -3,7 +3,7 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { plainText } from "@/components/shared/RichText";
 import { detailTable } from "./shared/detailContent";
-import { MotionToggle, useMotionGate } from "./shared/motion";
+import { useMotionGate } from "./shared/motion";
 import { ChatArt, RobotArmArt, WorldModelArt } from "./M2/Art";
 
 /** Tách "AI ngôn ngữ (ChatGPT, trợ lý ảo)" thành tên + phụ đề */
@@ -12,6 +12,8 @@ function splitTitle(cell: string) {
   const m = t.match(/^(.*?)\s*\((.+)\)\s*$/);
   return m ? { name: m[1], sub: m[2] } : { name: t, sub: "" };
 }
+
+const WAVE_ERAS = ["Những năm 2000", "Năm 2022", "Năm 2027"];
 
 export default function M2(_props: { variant?: string }) {
   const { rows } = detailTable("ky-nguyen", "Bảng ba làn sóng");
@@ -29,7 +31,7 @@ export default function M2(_props: { variant?: string }) {
     <figure ref={gate.ref} className="relative m-0">
       <figcaption className="sr-only">
         Ba làn sóng của AI trong sản xuất, theo thứ tự.{" "}
-        {waves.map((w, i) => `Làn sóng ${i + 1}, ${w.name}: AI ${w.can.charAt(0).toLowerCase()}${w.can.slice(1)}. Ai nắm lợi thế: ${w.edge}.`).join(" ")}
+        {waves.map((w, i) => `${WAVE_ERAS[i]}, ${w.name}: AI ${w.can.charAt(0).toLowerCase()}${w.can.slice(1)}. Ai nắm lợi thế: ${w.edge}.`).join(" ")}
       </figcaption>
 
       <div className="grid grid-cols-1 items-stretch gap-3 lg:grid-cols-[minmax(0,1fr)_28px_minmax(0,1fr)_28px_minmax(0,1.14fr)] lg:gap-2">
@@ -54,7 +56,7 @@ export default function M2(_props: { variant?: string }) {
                 ) : null}
 
                 <p className={`tabular text-[12px] font-semibold uppercase tracking-[0.14em] ${featured ? "text-blue-300" : "text-ink-500"}`}>
-                  Làn sóng {i + 1}
+                  {WAVE_ERAS[i]}
                 </p>
 
                 <div
@@ -101,9 +103,6 @@ export default function M2(_props: { variant?: string }) {
         })}
       </div>
 
-      <div className="mt-4 flex justify-end">
-        <MotionToggle paused={gate.userPaused} onToggle={gate.toggle} reduced={gate.reduced} />
-      </div>
     </figure>
   );
 }

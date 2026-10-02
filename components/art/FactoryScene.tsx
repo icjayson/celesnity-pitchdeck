@@ -57,9 +57,9 @@ export type FactorySceneProps = {
 };
 
 export const ISLAND_NAMES: Record<IslandId, string> = {
-  "gia-dung": "Gia dụng",
-  "dien-lanh": "Điện lạnh",
-  thep: "Thép",
+  "gia-dung": "Nhà máy gia dụng",
+  "dien-lanh": "Nhà máy điện lạnh",
+  thep: "Nhà máy thép",
 };
 
 const CORE_NAME = "Mô hình AI Thế giới thực";

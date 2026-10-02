@@ -20,6 +20,10 @@ const registry: Record<ModuleId, ComponentType<{ variant?: string }>> = {
   M12: dynamic(() => import("@/components/modules/M12"), { loading }),
   M13: dynamic(() => import("@/components/modules/M13"), { loading }),
   M14: dynamic(() => import("@/components/modules/M14"), { loading }),
+  M15: dynamic(() => import("@/components/modules/M15"), { loading }),
+  M16: dynamic(() => import("@/components/modules/M16"), { loading }),
+  M17: dynamic(() => import("@/components/modules/M17"), { loading }),
+  M18: dynamic(() => import("@/components/modules/M18"), { loading }),
 };
 
 /** Chỗ đặt một module tương tác trong section */

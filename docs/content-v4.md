@@ -24,7 +24,7 @@
 
 **Tự học · Dự báo trước · Nhân rộng**
 
-Hòa Phát × Celesnity · Đề xuất hợp tác, Pilot và lộ trình use case · Tháng 10/2026 · Tài liệu thảo luận
+Hòa Phát × Celesnity · Đề xuất hợp tác, Thử nghiệm và lộ trình use case · Tháng 10/2026 · Tài liệu thảo luận
 
 *Cuộn xuống để bắt đầu ↓*
 
@@ -34,15 +34,34 @@ Hòa Phát × Celesnity · Đề xuất hợp tác, Pilot và lộ trình use ca
 
 ### Kính gửi Chủ tịch Hội đồng Quản trị và Ban Tổng Giám đốc Tập đoàn Hòa Phát
 
-Celesnity trân trọng đề xuất Hòa Phát trở thành **Đối tác công nghiệp sáng lập** của chương trình **Nhà máy siêu thông minh**. Chương trình xây dựng một Mô hình AI Thế giới thực hiểu cách các nhà máy của Hòa Phát vận hành. Mô hình chạy tại Việt Nam và **do chính đội ngũ Hòa Phát làm chủ**.
+Trước hết, Celesnity xin trân trọng cảm ơn Quý vị đã dành thời gian cho đề xuất này.
 
-| | |
-|---|---|
-| **Tầm nhìn** | Mỗi nhà máy của Hòa Phát, từ gia dụng đến thép, **tự học** từ mỗi quyết định và kết quả, **dự báo trước** hệ quả của quyết định tiếp theo, và **nhân rộng** kinh nghiệm sang mọi dây chuyền, mọi nhà máy |
-| **Bước đầu tiên** | Pilot **16 tuần** trên một dòng bếp từ tại Hòa Mạc, nơi vòng phản hồi nhanh nhất để mô hình học và chứng minh |
-| **Sau 12 tháng** | 6 use case chạy thật · 2–3 dòng sản phẩm · điện lạnh Hưng Yên/Phú Mỹ · **đội IT Hòa Phát tự vận hành mô hình** · sẵn sàng bước sang thép |
-| **Cách chứng minh** | **Hòa Phát giữ bộ đề thi kín.** Mô hình phải thi đạt trên dữ liệu của chính Hòa Phát trước khi được dùng |
-| **Đề nghị** | ① Thống nhất chủ trương · ② Cử đầu mối · ③ Cho phép khảo sát Hòa Mạc |
+Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ ngôn ngữ sang thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài.
+
+Vì vậy, Celesnity trân trọng đề xuất Hòa Phát trở thành **Đối tác công nghiệp sáng lập** của chương trình **Nhà máy siêu thông minh**. Chương trình xây dựng một Mô hình AI Thế giới thực hiểu cách các nhà máy của Hòa Phát vận hành. Mô hình chạy tại Việt Nam, trên dữ liệu của Hòa Phát, và **do chính đội ngũ Hòa Phát làm chủ**.
+
+**Tầm nhìn**
+Mỗi nhà máy của Hòa Phát, từ gia dụng đến thép, đều có thể **tự học** từ mỗi quyết định và kết quả thực tế, **dự báo trước** hệ quả của quyết định tiếp theo, và **nhân rộng** kinh nghiệm sang mọi dây chuyền, mọi nhà máy trong Tập đoàn.
+
+**Cách làm**
+Chương trình bắt đầu nhỏ và chắc: một dòng bếp từ tại Hòa Mạc, sáu ứng dụng mở dần theo bằng chứng. Ngay từ tháng thứ 1, đội ngũ IT của Hòa Phát làm việc cùng kỹ sư Celesnity tại nhà máy, để năng lực ở lại Hòa Phát chứ không nằm ở nhà cung cấp.
+
+**Kết quả dự kiến sau 12 tháng**
+6 ứng dụng chạy thật trên 2–3 dòng sản phẩm, mở rộng sang nhà máy điện lạnh Hưng Yên và Phú Mỹ. **Đội ngũ IT của Hòa Phát tự vận hành và tự huấn luyện lại mô hình**, và có kế hoạch cụ thể để bước sang nhà máy thép.
+
+**Cách chứng minh**
+**Hòa Phát giữ bộ đề thi kín** cho Mô hình AI Thế giới thực. Mô hình phải thi đạt trên dữ liệu của chính Hòa Phát, do Hòa Phát chấm, trước khi được dùng thật. Giai đoạn nào chưa đạt thì chương trình không chuyển sang giai đoạn có phí tiếp theo.
+
+**Cam kết của Celesnity**
+Dữ liệu thô lưu tại Việt Nam và dưới quyền Hòa Phát; bản vẽ, thiết kế và công thức quy trình không bao giờ rời Hòa Phát. Mô hình chỉ dự báo và so sánh; **con người có thẩm quyền phê duyệt mọi thay đổi**.
+
+**Kính đề nghị Ban Lãnh đạo**
+
+1. **Thống nhất chủ trương:** Hòa Phát là Đối tác công nghiệp sáng lập; gia dụng là điểm khởi đầu, thép là đích đến.
+2. **Cử đầu mối:** lãnh đạo phụ trách, đầu mối dữ liệu, đầu mối R&D và Chất lượng Hòa Mạc, cùng 2 kỹ sư IT cho đội vận hành mô hình.
+3. **Cho phép khảo sát Hòa Mạc** để chốt dòng sản phẩm, bài toán, số liệu nền và phí thử nghiệm.
+
+Chúng tôi tin rằng Nhà máy siêu thông minh do một tập đoàn Việt Nam làm chủ, trên dữ liệu Việt Nam, có thể trở thành chuẩn mực mới cho sản xuất trong khu vực. Celesnity mong được đồng hành cùng Hòa Phát trên chặng đường đó.
 
 Trân trọng,
 **Celesnity**, đơn vị phát triển nền tảng Minder
@@ -52,27 +71,26 @@ Trân trọng,
 
 # HỒI 1 · MỘT KỶ NGUYÊN MỚI
 
-## `#tu-chu` · Hòa Phát lớn lên bằng tự chủ
+## `#tu-chu` · Hòa Phát phát triển lớn mạnh từ sự tự chủ
 
 ### Mỗi bước tiến của Hòa Phát là một lần làm chủ thêm một mắt xích của chuỗi giá trị
 
 **[Hình: chuỗi giá trị chạy ngang, từng mắt xích sáng lên khi cuộn]**
 
-**Nguyên liệu → Thép → Ống thép, tôn → Điện máy gia dụng → Dịch vụ sau bán**
-*Chuỗi sản xuất khép kín · Dung Quất, Hải Dương · Sản phẩm từ thép · Tự thiết kế bo mạch tại Hòa Mạc, Hưng Yên, Phú Mỹ · Bảo hành điện tử*
+**Hạ tầng → Nguyên liệu → Quy trình sản xuất → Xử lý & tái chế → Dịch vụ sau bán**
 
 - **Tự chủ sản xuất:** chuỗi khép kín từ nguyên liệu đến thép thành phẩm.
 - **Tự chủ công nghệ:** tự phát triển bo mạch bếp từ; đạt chứng nhận CB và hợp tác với TÜV SÜD (25/9/2026).
 - **Tự chủ quy mô:** dự án tủ lạnh Phú Mỹ với công suất thiết kế 1,2 triệu sản phẩm/năm.
 - **Tự chủ số:** chương trình AI Tập đoàn với mục tiêu **+30% năng suất** trên từng công việc; **13 tác nhân AI** đang được hoàn thiện tại Dung Quất.
 
-> **Mắt xích tiếp theo để làm chủ: trí thông minh vận hành.**
+> Mắt xích tiếp theo để làm chủ: **trí thông minh vận hành**.
 
 ---
 
 ## `#ky-nguyen` · Kỷ nguyên tiếp theo của sản xuất
 
-### Thế hệ AI tiếp theo không phải AI biết nói, mà là AI hiểu thế giới vật lý
+### Thế hệ AI tiếp theo là AI hiểu và tương tác với thế giới vật lý
 
 **[Tương tác M2: Ba làn sóng]**
 
@@ -82,9 +100,9 @@ Trân trọng,
 | **AI ngôn ngữ** (ChatGPT, trợ lý ảo) | Đọc, viết, trả lời câu hỏi | Ai có mô hình ngôn ngữ; nay đang phổ biến và rẻ dần |
 | **Mô hình AI Thế giới thực** *(World Model)* | **Hiểu một hệ thống vật lý phản ứng thế nào với quyết định, và dự báo trước** | **Ai có dữ liệu quyết định vận hành thật** |
 
-Các tập đoàn công nghệ lớn đang dồn sức vào AI cho thế giới vật lý (ví dụ NVIDIA Cosmos, Meta V-JEPA 2). Mô hình chung về hình ảnh và ngôn ngữ rồi ai cũng sẽ có.
-
-**Thứ không thể mua được là kinh nghiệm vận hành của từng nhà máy**: đã quyết định gì, vì sao, và kết quả ra sao. Những ai xây Mô hình AI Thế giới thực cho công nghiệp đầu tiên sẽ đặt ra từ điển và bộ đề thi mà cả ngành theo sau.
+Các tập đoàn công nghệ lớn đều đang dồn sức vào AI cho thế giới vật lý (ví dụ NVIDIA Cosmos, Meta V-JEPA 2).
+**Thứ làm nên sự khác biệt của chúng ta là kinh nghiệm vận hành thực tế của từng nhà máy.**
+Mô hình AI Thế giới thực cho công nghiệp của Celesnity sẽ đặt ra bộ quy chuẩn và nền móng đầu tiên mà cả ngành phải theo sau.
 
 ---
 
@@ -96,13 +114,13 @@ Các tập đoàn công nghệ lớn đang dồn sức vào AI cho thế giới 
 
 | | **Con đường A: Thuê AI** | **Con đường B: Tự chủ** |
 |---|---|---|
-| **Mô hình** | Thuộc nhà cung cấp | **Mô hình riêng của Hòa Phát** |
-| **Dữ liệu** | Thường phải đưa ra hệ thống của nhà cung cấp | **Ở lại Việt Nam, dưới quyền Hòa Phát** |
-| **Kinh nghiệm** | Làm giàu mô hình của người khác | **Tích lũy thành tài sản của Hòa Phát** |
-| **Đội ngũ** | Phụ thuộc chuyên gia bên ngoài | **Kỹ sư Hòa Phát vận hành và huấn luyện** |
-| **Khi mở nhà máy mới** | Mua thêm, tích hợp lại | **Mang kinh nghiệm sang** |
+| **Mô hình** | Thuộc nhà cung cấp | **Mô hình AI Thế giới thực riêng của Hòa Phát** |
+| **Dữ liệu** | Thường phải đưa ra hệ thống của nhà cung cấp | **Bảo toàn, hoàn toàn kiểm soát bởi Hòa Phát** |
+| **Kinh nghiệm** | Làm giàu mô hình của người khác | **Được tích lũy thành tài sản vĩnh viễn của Hòa Phát** |
+| **Đội ngũ** | Phụ thuộc chuyên gia bên ngoài | **Kỹ sư Hòa Phát toàn quyền vận hành và huấn luyện** |
+| **Khi mở nhà máy mới** | Mua thêm, tích hợp lại | **Mang kinh nghiệm sang nhanh chóng** |
 
-> Hòa Phát đã chọn con đường B ở thép, ở bo mạch, ở chuỗi cung ứng. **Nhà máy siêu thông minh là con đường B cho trí thông minh vận hành.**
+> Hòa Phát đã chọn tự chủ ở thép, ở bo mạch, ở chuỗi cung ứng. **Nhà máy siêu thông minh là con đường tiếp theo mà Hòa Phát hoàn toàn có thể tự chủ.**
 
 ---
 ---
@@ -123,11 +141,9 @@ Các tập đoàn công nghệ lớn đang dồn sức vào AI cho thế giới 
 
 Giống **buồng mô phỏng bay**: phi công tập thao tác trước khi bay thật. Mô hình không lái máy bay; nó giúp con người thử và so sánh trước khi cam kết. **Con người luôn là người quyết định.**
 
-### AI-native, không phải AI-powered
+### Khác biệt không nằm ở việc có thêm AI, mà ở chỗ **AI là chính quy trình**.
 
-Khác biệt không nằm ở việc có thêm AI, mà ở chỗ **AI là chính quy trình**.
-
-| | Nhà máy thông minh *(AI-powered)* | **Nhà máy siêu thông minh** *(AI-native)* |
+| | Nhà máy thông minh *(ứng dụng AI và tự động hóa)* | **Nhà máy siêu thông minh** *(ứng dụng Mô hình AI Thế giới thực)* |
 |---|---|---|
 | **AI ở đâu** | Một công cụ, con người mở ra khi cần | **Nằm ngay trong quy trình**: AI tạo hồ sơ, nối dữ liệu, kiểm tra mọi quyết định |
 | **Dữ liệu** | Cảm biến và dashboard; con người nhập tay | Mọi việc làm, quyết định và kết quả **tự trở thành dữ liệu học** |
@@ -148,12 +164,12 @@ Khác biệt không nằm ở việc có thêm AI, mà ở chỗ **AI là chính
 |---|---|---|
 | **③ Tác nhân AI**: "người trợ lý làm việc" | Hành động | Lập hồ sơ, soạn kế hoạch kiểm tra, điều phối việc. **Mọi đề xuất đều được mô hình kiểm tra hệ quả trước** |
 | **② Mô hình AI Thế giới thực**: "bộ não hiểu nhà máy" | Dự báo | Học cách sản phẩm và nhà máy phản ứng với quyết định; dự báo kèm mức độ chắc chắn; nói "không biết" khi gặp tình huống chưa từng thấy |
-| **① Nền tảng Minder**: "trí nhớ của nhà máy" | Ghi lại | Ghi việc bằng giọng nói tiếng Việt · nối ERP, kiểm tra, bảo hành · phân quyền · lưu mọi quyết định |
+| **① Nền tảng dữ liệu tập trung**: "trí nhớ của nhà máy" | Ghi lại | Ghi việc bằng giọng nói tiếng Việt · nối ERP, kiểm tra, bảo hành · phân quyền · lưu mọi quyết định |
 | 👤 **Con người có thẩm quyền** | Quyết định | Phê duyệt mọi thay đổi sản phẩm, thông số, quyết định xuất xưởng và vận hành thiết bị |
 
-↻ **Vòng học:** quyết định đã duyệt và kết quả thực tế quay lại lớp ①, mô hình học tiếp.
+↻ **Vòng lặp cải thiện:** quyết định đã duyệt và kết quả thực tế quay lại lớp ①, mô hình học tiếp.
 
-**Điều chỉ Mô hình AI Thế giới thực làm được:** máy móc ghi lại điều đã xảy ra. Minder ghi thêm **ai quyết định gì, vì sao, và điều gì xảy ra sau đó**. Học từ hàng nghìn chuỗi "quyết định → hệ quả", mô hình hiểu được **hệ quả**, không chỉ thấy **tương quan**.
+**Điều chỉ Mô hình AI Thế giới thực làm được:** máy móc ghi lại điều đã xảy ra. Nền tảng dữ liệu tập trung ghi thêm **ai quyết định gì, vì sao, và điều gì xảy ra sau đó**. Học từ hàng nghìn chuỗi "quyết định → hệ quả", mô hình hiểu được **hệ quả**, không chỉ thấy **tương quan**.
 
 **Xem chi tiết: Mô hình AI Thế giới thực không phải là**
 - Chatbot
@@ -167,7 +183,7 @@ Khác biệt không nằm ở việc có thêm AI, mà ở chỗ **AI là chính
 
 ### Ngồi vào buồng mô phỏng: chọn một phương án, xem mô hình dự báo, rồi Quý vị quyết định
 
-**[Tương tác M4: Buồng mô phỏng quyết định]** · *Mô phỏng minh họa. Mô hình thật được huấn luyện trên dữ liệu Hòa Phát trong pilot.*
+**[Tương tác M4: Buồng mô phỏng quyết định]** · *Mô phỏng minh họa. Mô hình thật được huấn luyện trên dữ liệu Hòa Phát trong thử nghiệm.*
 
 **Tình huống:** trạm kiểm tra cuối chuyền của một dòng bếp từ báo bảo vệ nhiệt kích hoạt lặp lại.
 
@@ -205,60 +221,43 @@ Khác biệt không nằm ở việc có thêm AI, mà ở chỗ **AI là chính
 
 ## `#ban-do` · Bản đồ Nhà máy siêu thông minh của Hòa Phát
 
-### Bắt đầu ở gia dụng, mở rộng sang điện lạnh, đích đến là thép
+### Bắt đầu từ nhà máy gia dụng, mở rộng sang sản xuất điện lạnh và thép
 
 **[Tương tác M8: Bản đồ Tập đoàn, chạm từng đảo]**
 
-| | **① Gia dụng** | **② Điện lạnh** | **③ Thép và ống thép** |
+| | **① Nhà máy gia dụng** | **② Nhà máy điện lạnh** | **③ Nhà máy thép** |
 |---|---|---|---|
 | **Nơi** | Hòa Mạc | Hưng Yên · Phú Mỹ | Dung Quất · Hải Dương |
 | **Vai trò** | Nơi bắt đầu | Nhân rộng | **Đích đến** |
-| **Thời gian** | Tháng 1–8 | Tháng 9–12 | Năm 2 |
+| **Thời gian** | Tháng thứ 1–8 | Tháng thứ 9–12 | Năm thứ 2 |
 | **Câu hỏi mô hình trả lời** *(ví dụ)* | Lô nào cần kiểm tra ngay? Phương án sửa nào hiệu quả hơn? Nhóm sản phẩm nào sắp phát sinh bảo hành? | Dây chuyền mới tăng công suất thế nào? Công đoạn nào cần theo dõi sát? | Một lần dừng máy sẽ ảnh hưởng thế nào và phục hồi bằng cách nào nhanh nhất? Thay đổi nguyên liệu hay thông số tác động thế nào đến chất lượng mẻ? Lịch sản xuất nào tiêu hao năng lượng ít nhất? Đề xuất của tác nhân AI có an toàn để thực hiện không? |
 
-**Cùng một nền tảng · cùng một họ mô hình · cùng một đội IT Hòa Phát.** Ở cấp Tập đoàn, các tác nhân AI có một mô hình của nhà máy để kiểm tra hệ quả trước khi đề xuất.
+**Cùng một nền tảng · cùng một họ mô hình · cùng một đội ngũ IT của Hòa Phát.** Ở cấp Tập đoàn, các tác nhân AI có một mô hình của nhà máy để kiểm tra hệ quả trước khi đề xuất.
 
-*Use case thép là hướng đề xuất, sẽ được xác định cùng Hòa Phát sau khi có kết quả ở gia dụng.*
+*Dây chuyền sản xuất thép là hướng đề xuất, sẽ được xác định cùng Hòa Phát sau khi có kết quả ở các nhà máy gia dụng.*
 
-### Vì sao Hòa Phát, vì sao bây giờ
+### Vì sao Hòa Phát nên triển khai ngay bây giờ
 
-| Điều kiện | Hòa Phát có gì |
-|---|---|
-| **Chuỗi khép kín** | Từ thiết kế, sản xuất đến dịch vụ trong một tập đoàn. Nguyên nhân và hệ quả nằm trong cùng một hồ sơ, đúng thứ mô hình cần để học |
-| **Đa dạng lĩnh vực** | Gia dụng, điện lạnh, thép, ống thép. Vật lý khác nhau nhưng chung một kiểu quyết định: phát hiện → tập hợp bằng chứng → duyệt thay đổi → kiểm chứng kết quả |
-| **Quy mô và tốc độ mở rộng** | Nhà máy và dây chuyền mới, như dự án tủ lạnh Phú Mỹ 1,2 triệu sản phẩm/năm |
-| **Định hướng AI Tập đoàn** | Mục tiêu +30% năng suất; 13 tác nhân AI tại Dung Quất. Các tác nhân cần một mô hình của nhà máy để kiểm tra hệ quả |
+- **Chuỗi khép kín** từ thiết kế, sản xuất đến dịch vụ
+- **Đa dạng lĩnh vực** nhưng chung luồng quyết định: phát hiện → tập hợp bằng chứng → duyệt thay đổi → kiểm chứng kết quả
+- **Quy mô và tốc độ mở rộng** nhanh chưa từng có
+- **Định hướng AI Tập đoàn** với mục tiêu +30% năng suất
 
-**Vì sao bây giờ**
-- Tài sản khan hiếm của kỷ nguyên mới là **dữ liệu quyết định vận hành**, và Hòa Phát đang tạo ra nó mỗi ngày.
-- Bộ đề thi và từ điển sản phẩm của ngành **còn đang được xác lập**. Đối tác sáng lập cùng định nghĩa chúng; đối tác đến sau phải kế thừa.
-- Luật Trí tuệ nhân tạo (hiệu lực 1/3/2026) đã có khung pháp lý rõ để xây năng lực này trong nước.
+### Những thành tựu nhà máy thép có thể kế thừa từ ứng dụng thành công tại nhà máy gia dụng
 
-### Vì sao bắt đầu từ gia dụng: học ở nơi vòng phản hồi nhanh nhất, rồi mang sang nơi giá trị lớn nhất
-
-| Lý do | Gia dụng cho phép |
-|---|---|
-| **Vòng phản hồi nhanh** | Một thay đổi cho thấy kết quả sau vài tuần đến vài tháng, nên mô hình học và được kiểm chứng nhanh |
-| **Chuỗi đầy đủ trong một hồ sơ** | Thiết kế → sản xuất → kiểm tra → bảo hành; đo được bằng tiền trên từng sản phẩm |
-| **Rủi ro vận hành thấp** | Bắt đầu mà không chạm vào các quy trình liên tục, nhiệt độ cao của mảng thép |
-| **Hòa Phát tự thiết kế** | Bo mạch và firmware bếp từ do Hòa Phát phát triển; vừa đạt chứng nhận CB, hợp tác với TÜV SÜD |
-
-**Những gì mang sang thép khi gia dụng đạt kết quả:**
-- ✓ Nền tảng đã chạy thật
-- ✓ Phương pháp và bộ đề thi đã kiểm chứng
-- ✓ **Đội IT Hòa Phát đã tự vận hành được mô hình**
-- ✓ Quy trình quản trị dữ liệu đã được Hòa Phát duyệt
-
-*Mô hình được học tiếp bằng dữ liệu thép. Độ chính xác ở thép được kiểm chứng riêng, không mặc định.*
+- Mô hình AI được triển khai thực tế
+- Phương pháp và bộ quy chuẩn được kiểm chứng
+- Đội ngũ IT ở Hòa Phát tự chủ vận hành mô hình AI
+- Quy trình quản trị dữ liệu đã được Hòa Phát duyệt
 
 ---
 ---
 
-# HỒI 3 · CON ĐƯỜNG ĐẾN TỰ CHỦ
+# HỒI 3 · LỘ TRÌNH TRIỂN KHAI NHÀ MÁY SIÊU THÔNG MINH
 
 ## `#thu-ngay` · Use case đầu tiên: bếp từ tại Hòa Mạc
 
-### Từ một lời báo lỗi đến một thay đổi được kiểm chứng, AI nằm trong từng bước
+### Từ một lời báo lỗi đến một thay đổi được kiểm chứng, AI nằm trong từng bước của nhà máy
 
 *Tình huống minh họa cách hệ thống làm việc. Bài toán cụ thể do R&D, Chất lượng và Tài chính Hòa Phát chọn trong khảo sát; phương án dự phòng là một dòng máy lọc nước tại Hòa Mạc.*
 
@@ -284,26 +283,26 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 ---
 
-## `#use-case` · Danh mục use case
+## `#use-case` · Danh mục các ứng dụng
 
-### Một mô hình, sáu use case, mở dần theo bằng chứng, từ gia dụng đến thép
+### Triển khai qua 6 ứng dụng thực tế, mở rộng từ đồ gia dụng đến thép
 
 **[Tương tác M9: Bộ khám phá use case, lọc theo mảng và thời điểm]**
 
 | # | Use case | Câu hỏi được trả lời | Dùng thật từ |
 |---|---|---|---|
-| **UC0** | **Hồ sơ chất lượng tự động** | Lỗi này đã có đủ bằng chứng chưa? Ai cần xử lý? | **T1** |
-| **UC1** | **Dự báo lô rủi ro** | Lô hoặc trạm nào cần kiểm tra ngay? | **T5** (thi trên lịch sử từ T2) |
-| **UC2** | **So sánh phương án sửa trước khi làm** | Chỉnh firmware hay đổi linh kiện, cách nào hiệu quả hơn? | **T6** (thi trên lịch sử từ T3) |
-| UC3 | Cảnh báo sớm bảo hành | Nhóm sản xuất nào sắp phát sinh bảo hành? | T7 |
-| UC4 | Kiểm tra đề xuất của tác nhân AI | Đề xuất của tác nhân AI (của Minder, hoặc của Tập đoàn như tại Dung Quất) đã đủ an toàn để đến người duyệt chưa? | T8 |
-| UC5 | Chẩn đoán dịch vụ | Kỹ thuật viên nên chuẩn bị lỗi và linh kiện nào trước khi đến nhà khách? | T9 |
-| → | **Nhân rộng** | Dòng thứ 2 tại Hòa Mạc (T9) → điện lạnh Hưng Yên/Phú Mỹ (T10) → ramp-up Phú Mỹ mới (T11, nếu tiến độ dự án cho phép) | |
-| → | **Thép và ống thép** | Chọn use case thép đầu tiên (T10–T12) → pilot thép do đội Hòa Phát dẫn dắt (năm 2) | |
+| **Ứng dụng 01** | **Lập hồ sơ khách hàng tự động** | Lỗi này đã có đủ bằng chứng chưa? Ai cần xử lý? | **T+1** |
+| **Ứng dụng 02** | **Dự báo lô hàng rủi ro cao** | Lô hoặc trạm nào cần kiểm tra ngay? | **T+5** (thi trên lịch sử từ T+2) |
+| **Ứng dụng 03** | **So sánh các phương án trước khi thực hiện** | Chỉnh firmware hay đổi linh kiện, cách nào hiệu quả hơn? | **T+6** (thi trên lịch sử từ T+3) |
+| Ứng dụng 04 | Cảnh báo sớm bảo hành | Nhóm sản xuất nào sắp phát sinh bảo hành? | T+7 |
+| Ứng dụng 05 | Tối ưu đề xuất của tác nhân AI | Đề xuất của tác nhân AI (của Minder, hoặc của Tập đoàn như tại Dung Quất) đã đủ an toàn để đến người duyệt chưa? | T+8 |
+| Ứng dụng 06 | Chẩn đoán trước yêu cầu khách hàng | Kỹ thuật viên nên chuẩn bị lỗi và linh kiện nào trước khi đến nhà khách? | T+9 |
+| → | **Nhân rộng** | Dòng thứ 2 tại Hòa Mạc (T+9) → điện lạnh Hưng Yên/Phú Mỹ (T+10) → ramp-up Phú Mỹ mới (T+11, nếu tiến độ dự án cho phép) | |
+| → | **Thép và ống thép** | Chọn use case thép đầu tiên (T+10–T+12) → thử nghiệm thép do đội Hòa Phát dẫn dắt (năm thứ 2) | |
 
 ### Thẻ use case: ba use case đầu tiên
 
-| | **UC0 Hồ sơ tự động** | **UC1 Lô rủi ro** | **UC2 So sánh phương án** |
+| | **Ứng dụng 01 Lập hồ sơ khách hàng tự động** | **Ứng dụng 02 Dự báo lô hàng rủi ro cao** | **Ứng dụng 03 So sánh các phương án trước khi thực hiện** |
 |---|---|---|---|
 | **Cơ hội** | Rút ngắn thời gian kỹ sư tập hợp bằng chứng từ nhiều hệ thống | Dồn nguồn lực kiểm tra vào đúng nơi có nguy cơ cao | Dự báo trước phương án nào hiệu quả, trước khi đầu tư khuôn, thẩm định, chứng nhận |
 | **AI làm gì** | Từ lời báo bằng giọng nói, AI tạo hồ sơ, gắn model, phiên bản bo mạch, lô linh kiện, kết quả đo | Xếp hạng lô và trạm theo nguy cơ không đạt kiểm tra hoặc bảo hành | Dự báo tác động của từng phương án lên lỗi và bảo hành, kèm các thay đổi lịch sử làm dẫn chứng |
@@ -314,7 +313,7 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 ### Thẻ use case: ba use case tiếp theo, mở rộng ra thị trường và sang tác nhân AI của Tập đoàn
 
-| | **UC3 Bảo hành sớm** | **UC4 Kiểm tra tác nhân AI** | **UC5 Chẩn đoán dịch vụ** |
+| | **Ứng dụng 04 Cảnh báo sớm bảo hành** | **Ứng dụng 05 Tối ưu đề xuất của tác nhân AI** | **Ứng dụng 06 Chẩn đoán trước yêu cầu khách hàng** |
 |---|---|---|---|
 | **Cơ hội** | Phát hiện xu hướng sớm hơn, nên ít sản phẩm bị ảnh hưởng hơn | Người duyệt chỉ nhận đề xuất đã được kiểm tra, nên năng suất tăng mà chuẩn duyệt không giảm | Sửa đúng ngay lần đầu |
 | **AI làm gì** | Dự báo đường bảo hành của từng nhóm sản xuất, vài tháng trước khi yêu cầu bảo hành xuất hiện | Kiểm tra trước tính khả thi và hệ quả của đề xuất từ tác nhân AI. **Đây là cầu nối sang thép** | Dự báo lỗi và cách sửa có khả năng nhất cho từng ca dịch vụ |
@@ -337,18 +336,18 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 ## `#lo-trinh` · Lộ trình 12 tháng và đội Hòa Phát làm chủ
 
-### Từ một dòng bếp từ đến sẵn sàng bước sang thép; đến tháng 12, kỹ sư Hòa Phát vận hành mô hình
+### Các giai đoạn triển khai
 
 **[Tương tác M10: Thanh kéo 12 tháng]**
 
-### Pilot 16 tuần: kết quả nhanh ở tháng 1, kết quả thi ở tháng 4
+### Thử nghiệm 16 tuần: kết quả nhanh ở tháng thứ 1, kết quả thi ở tháng thứ 4
 
 | Tuần | Việc | Đầu ra |
 |---|---|---|
 | **1–2** | Khảo sát Hòa Mạc; R&D, Chất lượng và Tài chính chọn dòng sản phẩm và bài toán; ký thỏa thuận dữ liệu | Phạm vi và số nền được thống nhất |
-| **3–4** | Dựng môi trường tại Việt Nam; xây từ điển sản phẩm bếp từ; **bật ghi nhận tiếng Việt và hồ sơ tự động (UC0)** | **Cổng 1** · UC0 chạy trên chuyền |
+| **3–4** | Dựng môi trường tại Việt Nam; xây từ điển sản phẩm bếp từ; **bật ghi nhận tiếng Việt và hồ sơ tự động (Ứng dụng 01)** | **Cổng 1** · Ứng dụng 01 chạy trên chuyền |
 | **5–8** | Nối dữ liệu lịch sử 2 năm; Hòa Phát dựng **bộ đề thi kín**; huấn luyện mô hình riêng phiên bản đầu | Mô hình v0.1 |
-| **9–12** | **Thi trên lịch sử của chính Hòa Phát**: dự báo của mô hình được so với những gì đã thực sự xảy ra (UC1 với các lô cũ, UC2 với các thay đổi kỹ thuật cũ); R&D và QC chấm mẫu | Kết quả thi |
+| **9–12** | **Thi trên lịch sử của chính Hòa Phát**: dự báo của mô hình được so với những gì đã thực sự xảy ra (Ứng dụng 02 với các lô cũ, Ứng dụng 03 với các thay đổi kỹ thuật cũ); R&D và QC chấm mẫu | Kết quả thi |
 | **13–14** | Chạy thử song song trên ca thật; IT Hòa Phát tự chạy một vòng dữ liệu và chấm điểm | Bằng chứng chuyển giao |
 | **15–16** | Tài chính xác nhận giá trị; báo cáo trước Ban chỉ đạo | **Cổng 2**: mở rộng, điều chỉnh hay dừng |
 
@@ -359,27 +358,27 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 ### Mười hai tháng: mỗi use case là một chương
 
-*T1 là tháng đầu tiên sau khi Hòa Phát duyệt quyền truy cập dữ liệu và môi trường tính toán.*
+*T+1 là tháng đầu tiên sau khi Hòa Phát duyệt quyền truy cập dữ liệu và môi trường tính toán.*
 
 | Tháng | Giai đoạn | Use case gia dụng và điện lạnh | Thép | Dữ liệu và nền tảng | IT Hòa Phát | Cổng |
 |---|---|---|---|---|---|---|
-| **T1** | Pilot: Học | **UC0 dùng thật** | | Môi trường tại Việt Nam · từ điển sản phẩm · nối dữ liệu | Học việc | **Cổng 1** |
-| **T2** | Pilot: Học | UC1 thi trên lịch sử | | Bộ đề thi kín | Học việc | |
-| **T3** | Pilot: Học | UC2 thi trên lịch sử | | Nối dữ liệu bảo hành | Học việc | |
-| **T4** | Pilot: Học | Kết quả thi | | | **Tự chạy 1 vòng** | **Cổng 2** |
-| **T5** | Dùng thật | **UC1 dùng thật** | | Mở cho kỹ sư dùng | Cùng vận hành | |
-| **T6** | Dùng thật | **UC2 dùng thật** | | | Cùng vận hành | |
-| **T7** | Dùng thật | **UC3** bảo hành sớm | | Nối dữ liệu dịch vụ | Cùng vận hành | |
-| **T8** | Dùng thật | **UC4** kiểm tra tác nhân AI | Kết nối thử UC4 với tác nhân AI của Tập đoàn* | | **Tự vận hành 4 tuần** | **Cổng 3** |
-| **T9** | Nhân rộng | **UC5** dịch vụ · dòng thứ 2 Hòa Mạc | | Dữ liệu dòng mới | Tự vận hành | |
-| **T10** | Nhân rộng | Điện lạnh Hưng Yên/Phú Mỹ | Khảo sát và chọn use case thép | Dữ liệu điện lạnh | Tự vận hành | |
-| **T11** | Nhân rộng | Ramp-up Phú Mỹ mới** | Đánh giá dữ liệu thép | | Tự huấn luyện lại | |
-| **T12** | Nhân rộng | Báo cáo kỹ thuật chung | **Kế hoạch pilot thép năm 2** | | **Bắt đầu đồng huấn luyện** | **Cổng 4** |
+| **T+1** | Thử nghiệm: Học | **Ứng dụng 01 dùng thật** | | Môi trường tại Việt Nam · từ điển sản phẩm · nối dữ liệu | Học việc | **Cổng 1** |
+| **T+2** | Thử nghiệm: Học | Ứng dụng 02 thi trên lịch sử | | Bộ đề thi kín | Học việc | |
+| **T+3** | Thử nghiệm: Học | Ứng dụng 03 thi trên lịch sử | | Nối dữ liệu bảo hành | Học việc | |
+| **T+4** | Thử nghiệm: Học | Kết quả thi | | | **Tự chạy 1 vòng** | **Cổng 2** |
+| **T+5** | Dùng thật | **Ứng dụng 02 dùng thật** | | Mở cho kỹ sư dùng | Cùng vận hành | |
+| **T+6** | Dùng thật | **Ứng dụng 03 dùng thật** | | | Cùng vận hành | |
+| **T+7** | Dùng thật | **Ứng dụng 04** bảo hành sớm | | Nối dữ liệu dịch vụ | Cùng vận hành | |
+| **T+8** | Dùng thật | **Ứng dụng 05** tối ưu đề xuất AI | Kết nối thử Ứng dụng 05 với tác nhân AI của Tập đoàn* | | **Tự vận hành 4 tuần** | **Cổng 3** |
+| **T+9** | Nhân rộng | **Ứng dụng 06** chẩn đoán trước · dòng thứ 2 Hòa Mạc | | Dữ liệu dòng mới | Tự vận hành | |
+| **T+10** | Nhân rộng | Điện lạnh Hưng Yên/Phú Mỹ | Khảo sát và chọn use case thép | Dữ liệu điện lạnh | Tự vận hành | |
+| **T+11** | Nhân rộng | Ramp-up Phú Mỹ mới** | Đánh giá dữ liệu thép | | Tự huấn luyện lại | |
+| **T+12** | Nhân rộng | Báo cáo kỹ thuật chung | **Kế hoạch thử nghiệm thép năm thứ 2** | | **Bắt đầu đồng huấn luyện** | **Cổng 4** |
 
 \* Nếu Tập đoàn đồng ý, ví dụ với các tác nhân AI tại Dung Quất.
 \*\* Phụ thuộc tiến độ dự án; trình bày như một nghiên cứu chuyển giao, độ chính xác được kiểm chứng riêng.
 
-**Năm 2:** pilot thép **do đội IT Hòa Phát dẫn dắt**, Celesnity hỗ trợ · Hòa Phát cùng huấn luyện mô hình nền.
+**Năm thứ 2:** thử nghiệm thép **do đội ngũ IT của Hòa Phát dẫn dắt**, Celesnity hỗ trợ · Hòa Phát cùng huấn luyện mô hình nền.
 
 ### Đội Hòa Phát làm chủ
 
@@ -387,27 +386,27 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 | Giai đoạn | Celesnity | Hòa Phát |
 |---|---|---|
-| Pilot (T1–4) | 90% | 10% |
-| Dùng thật (T5–8) | 50% | 50% |
-| Nhân rộng (T9–12) | 20% | **80%** |
-| Năm 2: thép | Hỗ trợ | **Dẫn dắt** |
+| Thử nghiệm (T+1–T+4) | 90% | 10% |
+| Dùng thật (T+5–T+8) | 50% | 50% |
+| Nhân rộng (T+9–T+12) | 20% | **80%** |
+| Năm thứ 2: thép | Hỗ trợ | **Dẫn dắt** |
 
 **Nhân sự theo giai đoạn**
 
-| | **Pilot (T1–4)** | **Dùng thật (T5–8)** | **Nhân rộng (T9–12)** |
+| | **Thử nghiệm (T+1–T+4)** | **Dùng thật (T+5–T+8)** | **Nhân rộng (T+9–T+12)** |
 |---|---|---|---|
 | **Celesnity** | **~5,5 người**: quản lý triển khai 1 · kỹ sư hiện trường (FDE) tại Hòa Mạc 2 · kỹ sư AI 1 · kỹ sư dữ liệu 1 · trưởng nhóm nghiên cứu ½ | **~4,5 người**: quản lý 1 · FDE 1,5 · kỹ sư AI 1 · kỹ sư dữ liệu ½ · nghiên cứu ½ | **~3 người**: quản lý ½ · FDE 1 · kỹ sư AI 1 · nghiên cứu ½ |
 | **IT Hòa Phát: đội vận hành mô hình** | **2 người**: kỹ sư dữ liệu, kỹ sư hạ tầng | **3 người**: thêm 1 kỹ sư AI | **4 người**: thêm 1 kỹ sư vận hành mô hình |
 | **Chuyên gia nghiệp vụ Hòa Phát** | R&D, Chất lượng: ~4 giờ/tuần mỗi người · đầu mối dữ liệu: ~2 giờ/tuần | Như cũ, thêm Dịch vụ ~2 giờ/tuần | Như cũ, thêm chuyên gia thép cho khảo sát |
 | **Lãnh đạo Hòa Phát** | Lãnh đạo phụ trách: họp tháng · Bảo trợ ngành hàng và Tài chính: tại mỗi cổng | | |
 
-**Thang năng lực của đội IT Hòa Phát**
+**Thang năng lực của đội ngũ IT của Hòa Phát**
 
-| Bậc | Đội IT Hòa Phát làm được | Bài kiểm tra | Khi nào |
+| Bậc | Đội ngũ IT của Hòa Phát làm được | Bài kiểm tra | Khi nào |
 |---|---|---|---|
-| **1. Vận hành** | Chạy luồng dữ liệu, giám sát mô hình, quản trị người dùng, xử lý sự cố thường gặp | Tự chạy 1 vòng (T4) → tự vận hành 4 tuần (T8) | T4–T8 |
-| **2. Tự huấn luyện lại** | Cập nhật mô hình riêng bằng dữ liệu mới, chấm trên bộ đề, quyết định phát hành phiên bản | Tự huấn luyện lại không cần hỗ trợ, kết quả không kém phiên bản trước | T12 |
-| **3. Đồng huấn luyện** | Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thi, đồng tác giả báo cáo kỹ thuật, **dẫn dắt mở rộng sang thép** | Một vòng đóng góp qua kiểm thử bảo mật | Năm 2 |
+| **1. Vận hành** | Chạy luồng dữ liệu, giám sát mô hình, quản trị người dùng, xử lý sự cố thường gặp | Tự chạy 1 vòng (T+4) → tự vận hành 4 tuần (T+8) | T+4–T+8 |
+| **2. Tự huấn luyện lại** | Cập nhật mô hình riêng bằng dữ liệu mới, chấm trên bộ đề, quyết định phát hành phiên bản | Tự huấn luyện lại không cần hỗ trợ, kết quả không kém phiên bản trước | T+12 |
+| **3. Đồng huấn luyện** | Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thi, đồng tác giả báo cáo kỹ thuật, **dẫn dắt mở rộng sang thép** | Một vòng đóng góp qua kiểm thử bảo mật | Năm thứ 2 |
 
 **Nguyên tắc chia vai:** IT vận hành hệ thống. Chuyên gia nghiệp vụ (R&D, Chất lượng, và sau này là kỹ sư thép) xác nhận mô hình có đúng về chuyên môn hay không.
 
@@ -423,22 +422,22 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 | Cổng | Tiêu chí | Ngưỡng đạt | Ai chấm |
 |---|---|---|---|
-| **Cổng 1 (T1)** | Dữ liệu đủ để làm | ≥80% sản phẩm trong phạm vi nối được tới lô linh kiện và phiên bản; ≥2 năm lịch sử kiểm tra và bảo hành; ≥10 thay đổi kỹ thuật cũ có đủ dữ liệu theo dõi | Đầu mối dữ liệu Hòa Phát |
-| | Sẵn sàng | Thỏa thuận dữ liệu đã ký; môi trường tại Việt Nam đã duyệt; UC0 chạy trên chuyền | Pháp chế, IT |
-| **Cổng 2 (T4), kết thúc pilot** | UC1: phát hiện lỗi | Với cùng nguồn lực kiểm tra, bắt **nhiều hơn ≥20%** lỗi thật so với cách chọn mẫu hiện tại | Chất lượng, chấm trên bộ đề kín |
+| **Cổng 1 (T+1)** | Dữ liệu đủ để làm | ≥80% sản phẩm trong phạm vi nối được tới lô linh kiện và phiên bản; ≥2 năm lịch sử kiểm tra và bảo hành; ≥10 thay đổi kỹ thuật cũ có đủ dữ liệu theo dõi | Đầu mối dữ liệu Hòa Phát |
+| | Sẵn sàng | Thỏa thuận dữ liệu đã ký; môi trường tại Việt Nam đã duyệt; Ứng dụng 01 chạy trên chuyền | Pháp chế, IT |
+| **Cổng 2 (T+4), kết thúc thử nghiệm** | UC1: phát hiện lỗi | Với cùng nguồn lực kiểm tra, bắt **nhiều hơn ≥20%** lỗi thật so với cách chọn mẫu hiện tại | Chất lượng, chấm trên bộ đề kín |
 | | UC2: chọn phương án | Chọn đúng phương án tốt hơn ở **≥70%** các cặp thay đổi cũ | R&D |
 | | Độ tin cậy | Khi mô hình nói "chắc chắn 90%", kết quả đúng trong **85–95%** số lần | Hội đồng dữ liệu |
 | | Hữu ích | **≥70%** đánh giá của kỹ sư là "hữu ích" | R&D, Chất lượng |
 | | UC0: năng suất | Thời gian lập một hồ sơ kỹ thuật giảm **≥25%** | Ngành hàng |
 | | An toàn | **0** sự cố dữ liệu rời Việt Nam; kiểm thử bảo mật đạt | IT, Pháp chế |
 | | Chuyển giao | IT Hòa Phát tự chạy 1 vòng dữ liệu và chấm điểm | IT, Celesnity |
-| **Cổng 3 (T8)** | Dùng thật | **≥20** ca thật có dùng dự báo; độ tin cậy giữ được trên dữ liệu mới | Ban chỉ đạo |
+| **Cổng 3 (T+8)** | Dùng thật | **≥20** ca thật có dùng dự báo; độ tin cậy giữ được trên dữ liệu mới | Ban chỉ đạo |
 | | Chuyển giao | IT Hòa Phát **tự vận hành 4 tuần** liên tục | IT |
 | | Mở cửa sang thép | Ban chỉ đạo duyệt khảo sát use case thép đầu tiên | Ban chỉ đạo |
-| **Cổng 4 (T12)** | Giá trị | Tài chính xác nhận giá trị năm **≥ ngưỡng hòa vốn** (xem `#gia-tri`) | Tài chính |
+| **Cổng 4 (T+12)** | Giá trị | Tài chính xác nhận giá trị năm **≥ ngưỡng hòa vốn** (xem `#gia-tri`) | Tài chính |
 | | Tự chủ | IT Hòa Phát **tự huấn luyện lại** mô hình riêng, không cần hỗ trợ | Ban chỉ đạo |
 
-**Không đạt thì sao:** dừng hoặc điều chỉnh use case đó. **Không chuyển sang giai đoạn có phí tiếp theo khi cổng chưa đạt.** Các use case khác và quy trình UC0 vẫn tiếp tục.
+**Không đạt thì sao:** dừng hoặc điều chỉnh use case đó. **Không chuyển sang giai đoạn có phí tiếp theo khi cổng chưa đạt.** Các use case khác và quy trình Ứng dụng 01 vẫn tiếp tục.
 
 **Xem chi tiết: bốn bước trước khi kỹ sư được dùng dự báo**
 1. **Thi trên lịch sử:** mô hình chỉ thấy thông tin có tại thời điểm của mỗi quyết định cũ.
@@ -461,10 +460,10 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 | Nguồn giá trị | Giả định | Giá trị/năm |
 |---|---|---|
-| **Kiểm tra có mục tiêu (UC1)** | 0,5% lỗi lọt = 500 lỗi; bắt thêm 1/5 = 100 lỗi × 800.000 đ | **~80 triệu đ** |
-| **Phát hiện bảo hành sớm 8 tuần (UC3)** | Dòng 10.000 sp/tháng → ~18.500 sp ít bị ảnh hưởng; 2% bảo hành × 800.000 đ | **~300 triệu đ mỗi sự cố** |
-| **Tránh một thay đổi kỹ thuật không hiệu quả (UC2)** | Khuôn, thẩm định lại, chứng nhận, sửa lại | **1–2 tỷ đ mỗi thay đổi** |
-| **Năng suất kỹ sư (UC0)** | 300 hồ sơ/năm × 6 giờ; giảm 25% | **~450 giờ kỹ sư/năm được giải phóng** |
+| **Kiểm tra có mục tiêu (Ứng dụng 02)** | 0,5% lỗi lọt = 500 lỗi; bắt thêm 1/5 = 100 lỗi × 800.000 đ | **~80 triệu đ** |
+| **Phát hiện bảo hành sớm 8 tuần (Ứng dụng 04)** | Dòng 10.000 sp/tháng → ~18.500 sp ít bị ảnh hưởng; 2% bảo hành × 800.000 đ | **~300 triệu đ mỗi sự cố** |
+| **Tránh một thay đổi kỹ thuật không hiệu quả (Ứng dụng 03)** | Khuôn, thẩm định lại, chứng nhận, sửa lại | **1–2 tỷ đ mỗi thay đổi** |
+| **Năng suất kỹ sư (Ứng dụng 01)** | 300 hồ sơ/năm × 6 giờ; giảm 25% | **~450 giờ kỹ sư/năm được giải phóng** |
 
 | Kịch bản | Gồm những gì | **Giá trị/năm/dòng** |
 |---|---|---|
@@ -486,18 +485,12 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 ## `#hai-ben` · Lợi ích hai bên
 
-### Một quan hệ đối tác minh bạch, và Hòa Phát không có gì để mất
+### Một quan hệ đối tác minh bạch
 
 | | **Hòa Phát** | **Celesnity** |
 |---|---|---|
-| **Nhận** | Giá trị đo được trên từng sản phẩm · mô hình riêng chạy tại Việt Nam · **đội IT tự chủ vận hành và huấn luyện** · quyền dùng mô hình nền · tiếp cận tính năng mới sớm 6 tháng · chủ trì Ban chỉ đạo · con đường sang thép | Mô hình được kiểm chứng trong công nghiệp Việt Nam · bản cập nhật mô hình (**không bao giờ là dữ liệu thô**) · đối tác tham chiếu đầu tiên · bộ đề thi làm chung · doanh thu |
-| **Góp** | Dữ liệu (theo mức Hòa Phát chọn) · chuyên gia nghiệp vụ · hạ tầng tính toán tại Việt Nam · đội IT 2→4 người | Mô hình nền · nền tảng Minder · đội FDE 5,5→3 người · chi phí nghiên cứu mô hình nền |
-
-**Kể cả khi pilot không đạt, Hòa Phát vẫn giữ:**
-- Dữ liệu đã được làm sạch và liên kết theo phiên bản, lô, số máy
-- Quy trình ghi nhận tiếng Việt và hồ sơ tự động (UC0) đang chạy
-- Bộ đề thi kín, dùng được để đánh giá bất kỳ giải pháp AI nào khác
-- Đội IT đã được đào tạo về vận hành dữ liệu và mô hình
+| **Nhận** | Giá trị đo được trên từng sản phẩm · mô hình riêng chạy tại Việt Nam · **đội ngũ IT tự chủ vận hành và huấn luyện** · quyền dùng mô hình nền · tiếp cận tính năng mới sớm 6 tháng · chủ trì Ban chỉ đạo · con đường sang thép | Mô hình được kiểm chứng trong công nghiệp Việt Nam · bản cập nhật mô hình (**không bao giờ là dữ liệu thô**) · đối tác tham chiếu đầu tiên · bộ đề thi làm chung · doanh thu |
+| **Góp** | Dữ liệu (theo mức Hòa Phát chọn) · chuyên gia nghiệp vụ · hạ tầng tính toán tại Việt Nam · đội ngũ IT 2→4 người | Mô hình nền · nền tảng dữ liệu tập trung · đội FDE 5,5→3 người · chi phí nghiên cứu mô hình nền |
 
 ---
 
@@ -520,14 +513,14 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 | | **Mức 1: Riêng** | **Mức 2: Đóng góp** | **Mức 3: Đối tác sáng lập** |
 |---|---|---|---|
-| **Điều gì rời môi trường Hòa Phát** | Không có gì | Chỉ bản cập nhật mô hình đã qua kiểm thử bảo mật | Bản cập nhật, cộng tập dữ liệu kiểm chứng đã khử nhận diện, duyệt từng bản ghi |
-| **Hòa Phát góp** | Dữ liệu cho mô hình riêng | Dữ liệu, chuyên gia, hạ tầng tính toán tại Việt Nam | Như Mức 2, cộng đồng đầu tư hạ tầng (thuộc sở hữu Hòa Phát) và đội IT tham gia đồng huấn luyện |
+| **Điều gì rời môi trường Hòa Phát** | Không có gì | Chỉ bản cập nhật mô hình đã qua kiểm thử bảo mật | Bản cập nhật mô hình và một bộ dữ liệu mẫu để kiểm chứng; dữ liệu đã xoá thông tin nhận diện, Hòa Phát duyệt từng dòng trước khi gửi |
+| **Hòa Phát đóng góp** | Dữ liệu cho mô hình riêng | Dữ liệu, chuyên gia, hạ tầng tính toán tại Việt Nam | Như Mức 2, cộng đồng đầu tư hạ tầng (thuộc sở hữu Hòa Phát) và đội ngũ IT tham gia đồng huấn luyện |
 | **Quyền dùng mô hình nền** | Phiên bản tại thời điểm ký | Mọi phiên bản trong thời gian đóng góp | Như Mức 2, cộng **3 năm** sau khi ngừng đóng góp |
 | **Tiếp cận tính năng mới** | — | — | Sớm **6 tháng** |
 | **Ban chỉ đạo** | — | Thành viên | **Chủ trì** |
 | **Phí sử dụng sau chương trình** | Giá tiêu chuẩn | Giá ưu đãi | Giá ưu đãi, **cố định 3 năm** |
 
-**Khuyến nghị:** đăng ký **Mức 3**. Trong pilot, dữ liệu chạy ở chế độ Mức 2. Tập kiểm chứng chỉ được chia sẻ sau khi Hòa Phát đã xem kết quả Cổng 2.
+**Khuyến nghị:** đăng ký **Mức 3**. Trong thử nghiệm, dữ liệu chạy ở chế độ Mức 2. Tập kiểm chứng chỉ được chia sẻ sau khi Hòa Phát đã xem kết quả Cổng 2.
 
 *Bản cập nhật đã tích hợp vào một phiên bản mô hình nền đã phát hành thì không thu hồi được, nên mỗi lần đóng góp phải qua kiểm thử và được duyệt trước.*
 
@@ -538,10 +531,7 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 | Dữ liệu, thiết kế, hồ sơ vận hành | Hòa Phát | Toàn quyền |
 | Mô hình riêng và các kết quả về hoạt động Hòa Phát | Hòa Phát | Sở hữu; Celesnity chỉ dùng để vận hành dịch vụ |
 | Mô hình nền, mã huấn luyện, bộ công cụ đánh giá | Celesnity | Giấy phép nội bộ vĩnh viễn, miễn phí bản quyền theo mức tham gia |
-| Phần mở rộng từ điển sản phẩm làm chung | Celesnity | Dùng nội bộ vĩnh viễn, miễn phí bản quyền |
-| Bộ đề thi Hòa Phát (Mức 3), báo cáo kỹ thuật chung | Đồng sở hữu | Hòa Phát kiểm soát việc công bố |
 
-Hợp đồng ký tại Việt Nam với Celesnity Việt Nam; Celesnity Ltd (Anh) cấp giấy phép mô hình nền.
 
 **Xem chi tiết: pháp lý**
 - **Văn bản áp dụng:** Luật Trí tuệ nhân tạo 134/2025/QH15 (hiệu lực 1/3/2026) · Nghị định 142/2026/NĐ-CP · Quyết định 33/2026/QĐ-TTg (hiệu lực 15/8/2026) · Luật Bảo vệ dữ liệu cá nhân 91/2025/QH15 và Nghị định 356/2025/NĐ-CP (hiệu lực 1/1/2026).
@@ -551,25 +541,25 @@ Hợp đồng ký tại Việt Nam với Celesnity Việt Nam; Celesnity Ltd (An
 
 ---
 
-## `#hop-tac` · Gói hợp tác
+## `#hop-tac` · Hình thức hợp tác
 
-### Hòa Phát mua một năng lực, không mua một phần mềm lẻ; càng tự chủ, chi phí triển khai càng giảm
+### Hòa Phát đang đầu tư vào năng lực tự triển khai trong tương lai, không mua một phần mềm riêng lẻ
 
 | Thành phần | Gồm những gì |
 |---|---|
 | **① Mô hình AI Thế giới thực** | Bản riêng của Hòa Phát, chạy tại Việt Nam; nhận các phiên bản mô hình nền mới, học được từ nhiều nhà máy |
 | **② Bộ ứng dụng AI-native** | Hồ sơ tự động · dự báo và so sánh trong không gian làm việc của kỹ sư · bảng chỉ tiêu · kết nối cho tác nhân AI của Tập đoàn |
-| **③ Triển khai và chuyển giao (FDE)** | Cấu hình theo quy trình Hòa Phát · tích hợp hệ thống · **đào tạo đội IT tới khi tự vận hành, tự huấn luyện và dẫn dắt mở rộng** |
+| **③ Triển khai và chuyển giao (FDE)** | Cấu hình theo quy trình Hòa Phát · tích hợp hệ thống · **đào tạo đội ngũ IT tới khi tự vận hành, tự huấn luyện và dẫn dắt mở rộng** |
 
 **Cơ cấu chi phí dịch chuyển theo mức tự chủ của Hòa Phát**
 
 | | Triển khai và chuyển giao | Mô hình + Ứng dụng |
 |---|---|---|
-| **Năm 1** | Phần lớn | Phần nhỏ |
-| **Năm 2+** | Phần nhỏ | Phần lớn |
+| **Năm thứ 1** | Phần lớn | Phần nhỏ |
+| **Năm thứ 2+** | Phần nhỏ | Phần lớn |
 
-- **Pilot:** phí cố định, phạm vi rõ ràng, thống nhất sau khảo sát Hòa Mạc. Không đạt Cổng 2 thì không chuyển sang giai đoạn có phí tiếp theo.
-- **Sau pilot:** định giá theo giá trị Tài chính đã xác minh. Mỗi dòng sản phẩm, nhà máy hay mảng mới (kể cả thép) được định giá theo phạm vi riêng.
+- **Thử nghiệm:** phí cố định, phạm vi rõ ràng, thống nhất sau khảo sát Hòa Mạc. Không đạt Cổng 2 thì không chuyển sang giai đoạn có phí tiếp theo.
+- **Sau thử nghiệm:** định giá theo giá trị Tài chính đã xác minh. Mỗi dòng sản phẩm, nhà máy hay mảng mới (kể cả thép) được định giá theo phạm vi riêng.
 - **Không đề xuất:** độc quyền · góp vốn hay chia doanh thu · chuyển dữ liệu ra khỏi Việt Nam.
 - **Nguồn tài trợ mô hình nền:** Celesnity tự tài trợ. Hai bên có thể cùng nộp hồ sơ xin quỹ khoa học và công nghệ của Việt Nam.
 
@@ -587,16 +577,16 @@ Hợp đồng ký tại Việt Nam với Celesnity Việt Nam; Celesnity Ltd (An
 **Kính đề nghị Ban Lãnh đạo:**
 1. **Thống nhất chủ trương:** Hòa Phát là Đối tác công nghiệp sáng lập. Gia dụng là điểm khởi đầu của chương trình Nhà máy siêu thông minh toàn Tập đoàn, với thép là đích đến.
 2. **Cử nhân sự:** lãnh đạo phụ trách · bảo trợ ngành hàng · đầu mối dữ liệu · đầu mối R&D và Chất lượng Hòa Mạc · đầu mối Tài chính · **2 kỹ sư IT cho đội vận hành mô hình**.
-3. **Cho phép khảo sát Hòa Mạc** để chốt dòng sản phẩm, bài toán, số nền và phí pilot.
+3. **Cho phép khảo sát Hòa Mạc** để chốt dòng sản phẩm, bài toán, số nền và phí thử nghiệm.
 
 | Thời gian | Việc |
 |---|---|
 | Tháng 10/2026 | Làm việc với Trưởng bộ phận AI và ngành hàng; thống nhất term sheet, NDA, thỏa thuận xử lý dữ liệu |
-| Tháng 11/2026 | Khảo sát Hòa Mạc → chốt phạm vi và phí pilot |
-| T1 | Pilot bắt đầu khi dữ liệu và môi trường được duyệt |
-| T4 | Cổng 2: kết quả thi trước Ban chỉ đạo |
-| T8 | Cổng 3: mở cửa sang khảo sát thép |
-| T12 | **Đội IT Hòa Phát tự vận hành; bắt đầu đồng huấn luyện; kế hoạch pilot thép** |
+| Tháng 11/2026 | Khảo sát Hòa Mạc → chốt phạm vi và phí thử nghiệm |
+| T+1 | Thử nghiệm bắt đầu khi dữ liệu và môi trường được duyệt |
+| T+4 | Cổng 2: kết quả thi trước Ban chỉ đạo |
+| T+8 | Cổng 3: mở cửa sang khảo sát thép |
+| T+12 | **Đội ngũ IT của Hòa Phát tự vận hành; bắt đầu đồng huấn luyện; kế hoạch thử nghiệm thép** |
 
 **[Tương tác M14: Tải bản PDF · Hỏi trợ lý]**
 
@@ -624,7 +614,7 @@ Celesnity mong được cùng Hòa Phát xây dựng nó.
 5. **Kiểm tra quy tắc kỹ thuật:** một lớp kiểm tra riêng đảm bảo đề xuất không vi phạm BOM, firmware, giới hạn thử, chứng nhận hay giới hạn vận hành thiết bị.
 6. **Không thử nghiệm trên dây chuyền:** mô hình chỉ học từ hoạt động đã ghi lại và các thử nghiệm đã được duyệt.
 
-*Chi tiết kỹ thuật cho đội IT:*
+*Chi tiết kỹ thuật cho đội ngũ IT:*
 - Lõi mô hình học trong không gian biểu diễn (hướng JEPA).
 - Độ chắc chắn được hiệu chuẩn bằng phương pháp conformal.
 - Ước lượng tác động bằng propensity và doubly robust.
@@ -648,7 +638,7 @@ Celesnity mong được cùng Hòa Phát xây dựng nó.
 | Mô hình nhầm trùng hợp thành nguyên nhân | Thi trên các thay đổi cũ; chuyên gia chấm; chỉ dùng ở chế độ tư vấn |
 | Kinh nghiệm gia dụng không áp dụng được cho thép | Thép có khảo sát và bộ đề thi riêng; thứ mang sang là nền tảng, phương pháp và đội ngũ, không mặc định mang sang độ chính xác |
 | Lộ thiết kế hoặc công thức | Thiết kế không rời Hòa Phát; kiểm thử chống khôi phục dữ liệu trước mọi lần đóng góp |
-| Phụ thuộc vào Celesnity | Đội IT tự vận hành từ T8, tự huấn luyện từ T12; mã nguồn và mô hình được lưu ký |
+| Phụ thuộc vào Celesnity | Đội ngũ IT tự vận hành từ T+8, tự huấn luyện từ T+12; mã nguồn và mô hình được lưu ký |
 | Người lao động lo bị giám sát | Tham vấn trước; khử nhận diện; không dùng để đánh giá cá nhân |
 
 ## Nguồn

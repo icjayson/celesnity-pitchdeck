@@ -32,12 +32,64 @@ function currentIndex(): number {
   return best;
 }
 
+/**
+ * Các điểm dừng khi bấm phím (toạ độ cuộn tuyệt đối), tính lại mỗi lần bấm vì chiều cao trang thay đổi:
+ * đầu mỗi section · từng bước của khối cuộn ghim (ScrollSteps) · từng thẻ [data-step] · mỗi màn hình trong section dài.
+ */
+function computeStops(): number[] {
+  const vh = window.innerHeight;
+  const y0 = window.scrollY;
+  const abs = (el: Element) => el.getBoundingClientRect().top + y0;
+  const stops: number[] = [];
+  for (const id of ids) {
+    const sec = document.getElementById(id);
+    if (!sec) continue;
+    const top = abs(sec);
+    const bottom = top + sec.getBoundingClientRect().height;
+    stops.push(top);
+    const covered: [number, number][] = [];
+    sec.querySelectorAll<HTMLElement>("[data-scroll-steps]").forEach((el) => {
+      const n = Number(el.dataset.scrollSteps) || 1;
+      const sticky = Number(el.dataset.stickyTop) || 0;
+      const box = Number(el.dataset.boxH) || 0;
+      const elTop = abs(el);
+      const span = Math.max(1, el.getBoundingClientRect().height - box);
+      for (let k = 0; k < n; k++) stops.push(elTop - sticky + (span * (k + 0.5)) / n);
+      covered.push([elTop - sticky, elTop - sticky + span]);
+    });
+    sec.querySelectorAll<HTMLElement>("[data-step]").forEach((el) => {
+      const r = el.getBoundingClientRect();
+      stops.push(abs(el) + r.height / 2 - vh / 2);
+      covered.push([abs(el) - vh / 2, abs(el) + r.height - vh / 2]);
+    });
+    // Section dài: thêm một điểm dừng mỗi ~85% màn hình, bỏ qua đoạn đã có điểm dừng theo bước
+    for (let y = top + vh * 0.85; y < bottom - vh * 0.6; y += vh * 0.85) {
+      if (!covered.some(([a, b]) => y >= a - 40 && y <= b + 40)) stops.push(y);
+    }
+  }
+  const max = document.documentElement.scrollHeight - vh;
+  return [...new Set(stops.map((s) => Math.round(Math.max(0, Math.min(max, s)))))]
+    .sort((a, b) => a - b)
+    .filter((s, i, arr) => i === 0 || s - arr[i - 1] > 24);
+}
+
 export function PresenterMode() {
   const [on, setOn] = useState(false);
   const [index, setIndex] = useState(0);
   const [qr, setQr] = useState<string | null>(null);
   const reduced = useReducedMotion();
   const indexRef = useRef(0);
+
+  const step = useCallback(
+    (dir: 1 | -1) => {
+      const y = window.scrollY;
+      const stops = computeStops();
+      const target = dir > 0 ? stops.find((s) => s > y + 8) : [...stops].reverse().find((s) => s < y - 8);
+      if (target === undefined) return;
+      window.scrollTo({ top: target, behavior: reduced ? "auto" : "smooth" });
+    },
+    [reduced],
+  );
 
   const go = useCallback(
     (i: number) => {
@@ -61,11 +113,11 @@ export function PresenterMode() {
     };
   }, [on]);
 
-  // Khi bật: căn section hiện tại vào khung, theo dõi vị trí cuộn
+  // Khi bật: giữ nguyên vị trí đang xem, theo dõi section hiện tại khi cuộn
   useEffect(() => {
     if (!on) return;
-    const start = currentIndex();
-    go(start);
+    indexRef.current = currentIndex();
+    setIndex(indexRef.current);
     const onScroll = () => {
       const i = currentIndex();
       indexRef.current = i;
@@ -73,7 +125,7 @@ export function PresenterMode() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [on, go]);
+  }, [on]);
 
   // Mã QR dẫn tới trang
   useEffect(() => {
@@ -121,13 +173,13 @@ export function PresenterMode() {
         case "PageDown":
         case " ":
           e.preventDefault();
-          go(indexRef.current + 1);
+          step(1);
           break;
         case "ArrowLeft":
         case "ArrowUp":
         case "PageUp":
           e.preventDefault();
-          go(indexRef.current - 1);
+          step(-1);
           break;
         case "Home":
           e.preventDefault();
@@ -149,7 +201,7 @@ export function PresenterMode() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [on, go]);
+  }, [on, go, step]);
 
   if (!on) return null;
 
@@ -168,7 +220,7 @@ export function PresenterMode() {
         <div className="min-w-0">
           <p className="tabular text-[13px] font-semibold tracking-[0.04em] text-white">
             {index + 1} / {ids.length}
-            {act ? <span className="font-medium text-blue-300"> · {act.label}</span> : null}
+            {act ? <span className="font-medium text-blue-300"> · {act.title}</span> : null}
           </p>
           <p className="max-w-[26ch] truncate text-[15px] font-medium leading-snug">{s ? plainText(s.eyebrow) : ""}</p>
         </div>

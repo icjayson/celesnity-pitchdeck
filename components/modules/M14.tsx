@@ -104,7 +104,7 @@ function Package() {
   const reduced = useReducedMotion();
   const show = inView || reduced;
   return (
-    <div className="mb-14 flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <ol className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {packageParts.map((p, i) => {
           const isDeploy = i === 2;
@@ -142,6 +142,7 @@ function Package() {
         })}
       </ol>
 
+      <h3 className="pt-4 text-[22px] font-semibold tracking-tight sm:text-[26px]">Dự tính chi phí</h3>
       <figure
         ref={ref}
         className="rounded-[var(--radius-card)] border border-line-200 bg-white p-6 shadow-[0_20px_50px_-28px_rgba(10,31,68,0.4)] sm:p-8"

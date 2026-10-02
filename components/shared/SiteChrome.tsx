@@ -34,8 +34,14 @@ export function SiteChrome() {
     };
   }, []);
 
+  // Nhóm mục lục theo đúng thứ tự trên trang: các section liền nhau cùng hồi gộp một nhóm
+  const tocGroups = sections.reduce<{ act: number; list: typeof sections }[]>((acc, s) => {
+    const last = acc[acc.length - 1];
+    if (last && last.act === s.act) last.list.push(s);
+    else acc.push({ act: s.act, list: [s] });
+    return acc;
+  }, []);
   const activeSection = sections.find((s) => s.id === active);
-  const activeAct = activeSection?.act ?? 0;
   const darkNow = activeSection?.theme === "dark" || activeSection?.theme === "navy";
 
   return (
@@ -71,10 +77,7 @@ export function SiteChrome() {
           }`}
         >
           {open ? <X size={16} strokeWidth={1.5} aria-hidden /> : <List size={16} strokeWidth={1.5} aria-hidden />}
-          <span className="hidden sm:inline">
-            {activeAct ? `${acts[activeAct - 1].label} · ${acts[activeAct - 1].title}` : "Mục lục"}
-          </span>
-          <span className="sm:hidden">Mục lục</span>
+          <span>Mục lục</span>
         </button>
       </div>
 
@@ -85,14 +88,12 @@ export function SiteChrome() {
           className="fixed bottom-4 left-4 top-16 z-40 w-[min(360px,calc(100vw-32px))] overflow-y-auto rounded-[var(--radius-card)] border border-line-200 bg-white p-5 text-navy-900 shadow-[0_24px_60px_-20px_rgba(10,31,68,0.35)]"
         >
           <ol className="flex flex-col gap-1 text-[14px]">
-            {[0, 1, 2, 3].map((n) => {
-              const list = sections.filter((s) => s.act === n);
-              if (!list.length) return null;
+            {tocGroups.map(({ act: n, list }, gi) => {
               return (
-                <li key={n} className="mb-3">
+                <li key={`${n}-${gi}`} className="mb-3">
                   {n > 0 ? (
                     <p className="mb-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-orange-700">
-                      {acts[n - 1].label} · {acts[n - 1].title}
+                      {acts[n - 1].label} {acts[n - 1].title}
                     </p>
                   ) : null}
                   <ol className="flex flex-col">

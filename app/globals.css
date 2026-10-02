@@ -225,10 +225,10 @@ body {
   border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
 }
 .compare-right {
-  background: var(--color-navy-900);
+  background: var(--color-blue-600);
   color: var(--color-white);
-  border: 1px solid var(--color-blue-500);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-blue-500) 30%, transparent), 0 24px 60px -30px rgba(47, 123, 246, 0.55);
+  border: 1px solid var(--color-blue-600);
+  box-shadow: 0 24px 60px -28px rgba(47, 123, 246, 0.7);
 }
 
 /* Chuyển nền tối → sáng bằng dải gradient (mục 5.1) */
@@ -242,15 +242,10 @@ body {
 }
 
 /* Chế độ trình chiếu */
-html[data-presenter="on"] {
-  scroll-snap-type: y mandatory;
-}
+/* Không dùng scroll-snap: nó phá các khối cuộn ghim (ScrollSteps) và section dài hơn màn hình.
+   Điều hướng bằng phím đi qua từng điểm dừng (components/presenter/PresenterMode.tsx). */
 html[data-presenter="on"] [data-section] {
-  scroll-snap-align: start;
   min-height: 100vh;
-}
-html[data-presenter="on"] body {
-  font-size: 19px;
 }
 html[data-presenter="on"] [data-hide-in-presenter] {
   display: none !important;

@@ -68,10 +68,11 @@ export function MotionToggle({
       type="button"
       onClick={onToggle}
       aria-pressed={paused}
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[13px] font-medium transition-colors duration-300 ease-[var(--ease-brand)] ${toneClass} ${className}`}
+      aria-label={paused ? "Chạy hoạt ảnh" : "Tạm dừng hoạt ảnh"}
+      title={paused ? "Chạy hoạt ảnh" : "Tạm dừng hoạt ảnh"}
+      className={`inline-flex items-center gap-1.5 rounded-full p-1.5 text-[13px] font-medium transition-colors duration-300 ease-[var(--ease-brand)] ${toneClass} ${className}`}
     >
       {paused ? <Play aria-hidden size={14} strokeWidth={1.5} /> : <Pause aria-hidden size={14} strokeWidth={1.5} />}
-      {paused ? "Chạy hoạt ảnh" : "Tạm dừng hoạt ảnh"}
     </button>
   );
 }

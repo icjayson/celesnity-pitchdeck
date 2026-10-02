@@ -4,7 +4,8 @@
  * Xem docs/implementation-plan.md mục 2 (M1) và mục 5.
  */
 import { useEffect, useRef, useState } from "react";
-import { FactoryScene } from "@/components/art/FactoryScene";
+import { StoryVisuals } from "./M1/StoryVisuals";
+import { CoverVisual } from "./M1/Cover";
 import { plainText } from "@/components/shared/RichText";
 import { sections } from "@/content/content.vi";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -14,11 +15,10 @@ type SceneState = 0 | 1 | 2 | 3;
 /** Mô tả cảnh cho trình đọc màn hình (theo trạng thái) */
 const SCENE_CAPTION: Record<SceneState, string> = {
   0: "Minh họa: ba đảo nhà máy Gia dụng, Điện lạnh và Thép, phía trên là lõi Mô hình AI Thế giới thực phát sáng, nối với từng đảo bằng đường mảnh.",
-  1: "Tự học: hạt dữ liệu bay từ dây chuyền gia dụng lên lõi Mô hình AI Thế giới thực, lõi sáng dần.",
-  2: "Dự báo trước: ba nhánh tương lai mờ tỏa ra trước dây chuyền gia dụng; một nhánh được chọn sáng lên, hai nhánh còn lại mờ đi.",
-  3: "Nhân rộng: tia sáng chạy từ đảo gia dụng sang điện lạnh, rồi sang thép.",
+  1: "Tự học: vòng quyết định, kết quả, học thêm quay quanh mô hình; độ chính xác dự báo tăng dần từ tháng thứ 1 đến tháng thứ 12.",
+  2: "Dự báo trước: từ hôm nay, mô hình vẽ ba nhánh tỉ lệ lỗi cho ba phương án (giữ nguyên, chỉnh firmware, đổi linh kiện) kèm dải độ chắc chắn; đổi linh kiện giảm lỗi nhiều nhất.",
+  3: "Nhân rộng: kinh nghiệm của dây chuyền bếp từ Hòa Mạc được mang sang dây chuyền mới, nhà cung cấp mới, model mới và nhà máy thép, không bắt đầu lại từ 0.",
 };
-const STEEL_CAPTION = " Đảo thép phát sáng màu cam như đích đến.";
 
 /** Ba bước lấy từ bảng thuộc tính của section `sieu-thong-minh` (cột "Thuộc tính" và "Nghĩa là") */
 function getSteps(): { title: string; body: string }[] {
@@ -35,8 +35,10 @@ export default function M1({ variant }: { variant?: string }) {
 function Hero() {
   return (
     <figure className="relative -mx-4 sm:mx-0">
-      <FactoryScene state={0} particles />
-      <figcaption className="sr-only">{SCENE_CAPTION[0]}</figcaption>
+      <CoverVisual />
+      <figcaption className="sr-only">
+        Minh họa: quả cầu lưới Mô hình AI Thế giới thực với ba quỹ đạo Tự học, Dự báo trước, Nhân rộng; bên dưới là đường chân trời các nhà máy gia dụng, điện lạnh và thép đẩy dòng dữ liệu lên mô hình.
+      </figcaption>
     </figure>
   );
 }
@@ -45,9 +47,7 @@ function Story() {
   const steps = getSteps();
   const reduced = useReducedMotion();
   const [active, setActive] = useState<SceneState>(0);
-  const [steel, setSteel] = useState(false);
   const stepRefs = useRef<(HTMLElement | null)[]>([]);
-  const steelRef = useRef<HTMLDivElement>(null);
 
   // Bước đang ở giữa khung nhìn quyết định trạng thái cảnh
   useEffect(() => {
@@ -68,33 +68,11 @@ function Story() {
     return () => io.disconnect();
   }, [steps.length]);
 
-  // Cuối bước 3: đảo thép thành đích đến (đo trực tiếp khi cuộn để không lỡ khi cuộn nhanh)
-  useEffect(() => {
-    let raf = 0;
-    const check = () => {
-      raf = 0;
-      const el = steelRef.current;
-      if (el) setSteel(el.getBoundingClientRect().top < window.innerHeight * 0.5);
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(check);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    check();
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
   const goTo = (i: number) => {
     stepRefs.current[i - 1]?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
   };
 
   const sceneState = active;
-  const steelOn = active === 3 && steel;
 
   return (
     <div className="relative mb-16 lg:mb-24">
@@ -102,10 +80,9 @@ function Story() {
         {/* Cảnh dính: phía trên (mobile) hoặc bên trái (desktop) */}
         <div className="sticky top-14 z-10 self-start -mx-4 bg-navy-950/92 px-4 pb-3 pt-2 backdrop-blur-md sm:-mx-8 sm:px-8 lg:top-0 lg:mx-0 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-0 lg:backdrop-blur-none">
           <figure className="mx-auto w-full max-w-[min(100%,calc((42svh)*1.54))] lg:max-w-none">
-            <FactoryScene state={sceneState} steelDestination={steelOn} showLabels showCoreLabel={false} />
+            <StoryVisuals step={sceneState === 0 ? 1 : sceneState} reduced={reduced} />
             <figcaption className="sr-only" aria-live="polite">
-              {SCENE_CAPTION[sceneState]}
-              {steelOn ? STEEL_CAPTION : ""}
+              {SCENE_CAPTION[sceneState === 0 ? 1 : sceneState]}
             </figcaption>
           </figure>
           <StepIndicator steps={steps} active={active} onSelect={goTo} />
@@ -141,7 +118,6 @@ function Story() {
                   </p>
                   <h3 className="text-[24px] font-semibold leading-tight tracking-[-0.015em] sm:text-[28px]">{st.title}</h3>
                   <p className="mt-3 text-[17px] leading-[1.6] text-white/85">{st.body}</p>
-                  {n === 3 ? <div ref={steelRef} aria-hidden className="absolute bottom-[-6svh] left-0 h-px w-px" /> : null}
                 </article>
               </li>
             );

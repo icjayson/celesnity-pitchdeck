@@ -30,19 +30,19 @@ export const sectorLabels: Record<Sector, string> = {
 };
 
 export const phaseLabels: Record<Phase, string> = {
-  pilot: "Pilot",
-  "dung-that": "Dùng thật",
+  pilot: "Thử nghiệm",
+  "dung-that": "Triển khai",
   "nhan-rong": "Nhân rộng",
-  "nam-2": "Năm 2",
+  "nam-2": "Năm thứ 2",
 };
 
 export const useCases: UseCase[] = [
   {
     id: "UC0",
-    code: "UC0",
-    name: "Hồ sơ chất lượng tự động",
+    code: "Ứng dụng 0",
+    name: "Lập hồ sơ khách hàng tự động",
     question: "Lỗi này đã có đủ bằng chứng chưa? Ai cần xử lý?",
-    liveFrom: "T1",
+    liveFrom: "T+1",
     sectors: ["gia-dung"],
     phase: "pilot",
     primary: true,
@@ -57,10 +57,10 @@ export const useCases: UseCase[] = [
   },
   {
     id: "UC1",
-    code: "UC1",
-    name: "Dự báo lô rủi ro",
+    code: "Ứng dụng 1",
+    name: "Dự báo lô hàng rủi ro cao",
     question: "Lô hoặc trạm nào cần kiểm tra ngay?",
-    liveFrom: "T5 (thi trên lịch sử từ T2)",
+    liveFrom: "T+5 (thi trên lịch sử từ T+2)",
     sectors: ["gia-dung", "dien-lanh"],
     phase: "pilot",
     primary: true,
@@ -75,10 +75,10 @@ export const useCases: UseCase[] = [
   },
   {
     id: "UC2",
-    code: "UC2",
-    name: "So sánh phương án sửa trước khi làm",
+    code: "Ứng dụng 2",
+    name: "So sánh các phương án trước khi thực hiện",
     question: "Chỉnh firmware hay đổi linh kiện, cách nào hiệu quả hơn?",
-    liveFrom: "T6 (thi trên lịch sử từ T3)",
+    liveFrom: "T+6 (thi trên lịch sử từ T+3)",
     sectors: ["gia-dung", "dien-lanh"],
     phase: "pilot",
     primary: true,
@@ -93,10 +93,10 @@ export const useCases: UseCase[] = [
   },
   {
     id: "UC3",
-    code: "UC3",
+    code: "Ứng dụng 3",
     name: "Cảnh báo sớm bảo hành",
     question: "Nhóm sản xuất nào sắp phát sinh bảo hành?",
-    liveFrom: "T7",
+    liveFrom: "T+7",
     sectors: ["gia-dung", "dien-lanh"],
     phase: "dung-that",
     card: {
@@ -108,11 +108,11 @@ export const useCases: UseCase[] = [
   },
   {
     id: "UC4",
-    code: "UC4",
-    name: "Kiểm tra đề xuất của tác nhân AI",
+    code: "Ứng dụng 4",
+    name: "Tối ưu đề xuất của tác nhân AI",
     question:
       "Đề xuất của tác nhân AI (của Minder, hoặc của Tập đoàn như tại Dung Quất) đã đủ an toàn để đến người duyệt chưa?",
-    liveFrom: "T8",
+    liveFrom: "T+8",
     sectors: ["gia-dung", "thep", "tap-doan"],
     phase: "dung-that",
     card: {
@@ -124,10 +124,10 @@ export const useCases: UseCase[] = [
   },
   {
     id: "UC5",
-    code: "UC5",
-    name: "Chẩn đoán dịch vụ",
+    code: "Ứng dụng 5",
+    name: "Chẩn đoán trước yêu cầu khách hàng",
     question: "Kỹ thuật viên nên chuẩn bị lỗi và linh kiện nào trước khi đến nhà khách?",
-    liveFrom: "T9",
+    liveFrom: "T+9",
     sectors: ["gia-dung", "dien-lanh"],
     phase: "nhan-rong",
     card: {
@@ -142,8 +142,8 @@ export const useCases: UseCase[] = [
     code: "Nhân rộng",
     name: "Nhân rộng",
     question:
-      "Dòng thứ 2 tại Hòa Mạc (T9) → điện lạnh Hưng Yên/Phú Mỹ (T10) → ramp-up Phú Mỹ mới (T11, nếu tiến độ dự án cho phép)",
-    liveFrom: "T9–T11",
+      "Dòng thứ 2 tại Hòa Mạc (T+9) → điện lạnh Hưng Yên/Phú Mỹ (T+10) → ramp-up Phú Mỹ mới (T+11, nếu tiến độ dự án cho phép)",
+    liveFrom: "T+9–T+11",
     sectors: ["gia-dung", "dien-lanh"],
     phase: "nhan-rong",
   },
@@ -151,8 +151,8 @@ export const useCases: UseCase[] = [
     id: "thep",
     code: "Thép",
     name: "Thép và ống thép",
-    question: "Chọn use case thép đầu tiên (T10–T12) → pilot thép do đội Hòa Phát dẫn dắt (năm 2)",
-    liveFrom: "Năm 2",
+    question: "Chọn use case thép đầu tiên (T+10–T+12) → thử nghiệm thép do đội Hòa Phát dẫn dắt (năm thứ 2)",
+    liveFrom: "Năm thứ 2",
     sectors: ["thep"],
     phase: "nam-2",
     note: "Hướng đề xuất",

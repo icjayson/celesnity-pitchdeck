@@ -9,6 +9,7 @@ import { RichText } from "@/components/shared/RichText";
 import { FactoryScene } from "@/components/art/FactoryScene";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useInView } from "@/lib/useInView";
+import { ScrollSteps } from "@/components/shared/ScrollSteps";
 
 /** Thang giờ của thanh kéo: 06:00 → 20:00 */
 const START = 6 * 60;
@@ -104,6 +105,7 @@ export default function M5({ variant }: { variant?: string }) {
   const pos = STOPS[idx] * 100;
 
   return (
+    <ScrollSteps steps={m5Events.length} onStep={go}>
     <div ref={rootRef} data-variant={variant} className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Label variant="future" text={labels.future} />
@@ -315,5 +317,6 @@ export default function M5({ variant }: { variant?: string }) {
         .m5-pulse { animation: m5-pulse 900ms var(--ease-brand) 500ms 1; }
       `}</style>
     </div>
+    </ScrollSteps>
   );
 }
