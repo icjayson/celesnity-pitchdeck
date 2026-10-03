@@ -2,7 +2,7 @@
 
 Landing page tương tác trình bày đề xuất hợp tác, pilot và lộ trình use case giữa Hòa Phát và Celesnity. Trang kể câu chuyện qua 19 section chia 3 hồi, có 14 module tương tác (M1–M14), trợ lý AI "Hỏi về đề xuất", chế độ trình chiếu, trang phụ lục và bản in/PDF.
 
-Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · `@anthropic-ai/sdk` · Vitest · Playwright.
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · API tương thích OpenAI (proxy LiteLLM, `gpt-5-mini`) · Vitest · Playwright.
 
 Tài liệu gốc trong `docs/`: `content-v4.md` (nội dung), `implementation-plan.md` (kế hoạch), `minder-design-system.md` (quy ước thiết kế), `BUILD_BRIEF.md` (quy tắc khi code).
 
@@ -42,7 +42,7 @@ npm install
 cp .env.example .env.local
 ```
 
-Để trống `ANTHROPIC_API_KEY` thì trợ lý và M6 chạy bằng câu trả lời soạn sẵn (chế độ offline).
+Để trống `OPENAI_API_KEY` thì trợ lý và M6 chạy bằng câu trả lời soạn sẵn (chế độ offline).
 
 ## Chạy
 
@@ -62,8 +62,9 @@ Xem `.env.example`.
 
 | Biến | Dùng cho |
 |---|---|
-| `ANTHROPIC_API_KEY` | Gọi API Claude (chỉ ở server). Trống: chế độ offline |
-| `CHAT_MODEL` | Model cho trợ lý và M6 (mặc định `claude-opus-5-5`) |
+| `OPENAI_API_KEY` | Khóa API tương thích OpenAI (chỉ ở server; lấy cùng khóa với minder-internal-operation). Trống: chế độ offline |
+| `OPENAI_BASE_URL` | Địa chỉ API (proxy LiteLLM); mặc định `https://api.openai.com/v1`. Bản cho khách nên dùng https |
+| `CHAT_MODEL` | Model cho trợ lý và M6 (mặc định `gpt-5-mini`) |
 | `CHAT_DAILY_BUDGET` | Trần chi phí theo ngày (USD); chạm trần thì chuyển sang câu trả lời soạn sẵn |
 | `CHAT_LOG` | `on` / `off`: lưu câu hỏi chat vào `.data/chat-log.jsonl` |
 | `ACCESS_CODE` | Mã truy cập tùy chọn. Trống: không khóa. Có mã: mọi trang chuyển về `/truy-cap` tới khi nhập đúng (cookie `ld_access`, httpOnly, 30 ngày) |
@@ -121,3 +122,12 @@ Code sẵn sàng deploy lên Vercel (đặt biến môi trường trong dự án
 | Font Be Vietnam Pro | Font hệ thống theo Minder Design System | SF Pro / Segoe UI / Noto đủ dấu tiếng Việt, không tải font |
 | `scenarios/*.json` | `scenarios/*.ts` | Có kiểu TypeScript, kiểm tra lúc build |
 | `middleware.ts` | `proxy.ts` | Next.js 16 đổi tên Middleware thành Proxy |
+
+## Tri thức của trợ lý
+
+Trợ lý trả lời từ hai phần (lib/ai/knowledge.ts):
+
+- **Phần A · trang đề xuất**: sinh tự động từ `content/content.vi.ts` và `content/faq.ts` (nguồn chính).
+- **Phần B · hồ sơ đề xuất chi tiết**: tóm lược đã duyệt từ ba tài liệu gốc gửi Hòa Phát (`knowledge/curated/D1–D3.md`, mỗi dữ kiện có nguồn `[Dn tr.N]`; các điểm mâu thuẫn với trang nằm ở `*-conflicts.md` và không đưa vào).
+
+Cập nhật hồ sơ: sửa `knowledge/curated/*.md` → `npm run knowledge:build` → `npm run knowledge:check` (chặn số tiền/phí, tên gọi cũ, dữ kiện thiếu nguồn). Văn bản thô trích từ PDF nằm ở `knowledge/sources/` và không commit.

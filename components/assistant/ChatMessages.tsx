@@ -1,7 +1,7 @@
 "use client";
 /** Danh sách tin nhắn, trạng thái trống (câu gợi ý), đang soạn, lỗi. */
 import { useEffect, useRef } from "react";
-import { ArrowRight, CircleAlert, RotateCcw, Sparkles, WifiOff, BookOpenText } from "lucide-react";
+import { ArrowRight, BookOpenText, CircleAlert, CornerDownRight, RotateCcw, Sparkles, WifiOff } from "lucide-react";
 import { sections } from "@/content/content.vi";
 import { suggestedFaq } from "@/content/faq";
 import { plainText, renderRich } from "@/components/shared/RichText";
@@ -166,6 +166,24 @@ export function ChatMessages({
                       className={`shrink-0 ${reduced ? "" : "transition-transform duration-200 group-hover:translate-x-0.5"}`}
                     />
                   </button>
+                ) : null}
+                {/* câu hỏi gợi ý tiếp theo: chỉ dưới câu trả lời mới nhất */}
+                {i === messages.length - 1 && m.status === "done" && m.followups?.length ? (
+                  <ul className="mt-1.5 flex max-w-full flex-col items-start gap-1.5" aria-label="Câu hỏi gợi ý tiếp theo">
+                    {m.followups.map((q) => (
+                      <li key={q}>
+                        <button
+                          type="button"
+                          disabled={busy}
+                          onClick={() => onSuggest(q)}
+                          className="inline-flex max-w-full items-start gap-1.5 rounded-[14px] border border-line-200 bg-white px-3.5 py-1.5 text-left text-[13.5px] leading-snug text-navy-900 transition-colors duration-200 hover:border-blue-500 hover:bg-blue-100 disabled:opacity-50"
+                        >
+                          <CornerDownRight aria-hidden size={14} strokeWidth={1.5} className="mt-0.5 shrink-0 text-blue-500" />
+                          {q}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 ) : null}
               </li>
             ),

@@ -1,19 +1,19 @@
 /**
  * Trần chi phí theo ngày (ước tính từ usage). Bộ đếm trong bộ nhớ tiến trình, đặt lại mỗi ngày (giờ Việt Nam).
- * CHAT_DAILY_BUDGET: USD/ngày (mặc định 10). Giá ước tính theo Claude Opus 5.5.
+ * CHAT_DAILY_BUDGET: USD/ngày (mặc định 10).
+ * Giá ước tính theo gpt-5-mini (USD / 1 triệu token), đổi được bằng CHAT_PRICE_IN / CHAT_PRICE_OUT / CHAT_PRICE_CACHED.
  */
-const PRICE_PER_MTOK = {
-  input: 4,
-  output: 20,
-  cacheRead: 0.2,
-  cacheWrite: 5, // ~1,25× input
-};
+import type { OaiUsage } from "./openai";
 
-type UsageLike = {
-  input_tokens?: number | null;
-  output_tokens?: number | null;
-  cache_read_input_tokens?: number | null;
-  cache_creation_input_tokens?: number | null;
+function price(name: string, fallback: number): number {
+  const v = Number(process.env[name]);
+  return Number.isFinite(v) && v >= 0 ? v : fallback;
+}
+
+const PRICE_PER_MTOK = {
+  input: price("CHAT_PRICE_IN", 0.25),
+  output: price("CHAT_PRICE_OUT", 2),
+  cached: price("CHAT_PRICE_CACHED", 0.025),
 };
 
 const state = { day: "", spent: 0 };
@@ -36,14 +36,11 @@ export function dailyBudgetUsd(): number {
   return Number.isFinite(v) && v >= 0 ? v : 10;
 }
 
-export function estimateCostUsd(u: UsageLike): number {
-  return (
-    ((u.input_tokens ?? 0) * PRICE_PER_MTOK.input +
-      (u.output_tokens ?? 0) * PRICE_PER_MTOK.output +
-      (u.cache_read_input_tokens ?? 0) * PRICE_PER_MTOK.cacheRead +
-      (u.cache_creation_input_tokens ?? 0) * PRICE_PER_MTOK.cacheWrite) /
-    1_000_000
-  );
+export function estimateCostUsd(u: OaiUsage | null | undefined): number {
+  if (!u) return 0;
+  const cached = u.prompt_tokens_details?.cached_tokens ?? 0;
+  const fresh = Math.max(0, (u.prompt_tokens ?? 0) - cached);
+  return (fresh * PRICE_PER_MTOK.input + cached * PRICE_PER_MTOK.cached + (u.completion_tokens ?? 0) * PRICE_PER_MTOK.output) / 1_000_000;
 }
 
 /** Còn ngân sách hôm nay không */
@@ -53,7 +50,7 @@ export function budgetAvailable(): boolean {
 }
 
 /** Ghi nhận chi phí của một lần gọi API */
-export function recordUsage(u: UsageLike): number {
+export function recordUsage(u: OaiUsage | null | undefined): number {
   roll();
   const c = estimateCostUsd(u);
   state.spent += c;

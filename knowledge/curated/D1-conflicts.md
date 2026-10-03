@@ -1,0 +1,18 @@
+# D1 · Mâu thuẫn với docs/content-v4.md (đã loại khỏi bản tóm tắt)
+
+- D1 nói: chương trình tên là "Mô hình Thế giới Công nghiệp" / "World Model" của Minder | Website nói: chương trình "Nhà máy siêu thông minh", mô hình là "Mô hình AI Thế giới thực" [D1 tr.1]
+- D1 nói: đây là "đề xuất hợp tác nghiên cứu" | Website nói: đề xuất hợp tác, thử nghiệm và lộ trình 6 ứng dụng chạy thật [D1 tr.1]
+- D1 nói: đề nghị "đàm phán vai trò Đối tác công nghiệp sáng lập" | Website nói: đề nghị thống nhất chủ trương Hòa Phát là Đối tác công nghiệp sáng lập, gia dụng là điểm khởi đầu, thép là đích đến [D1 tr.1]
+- D1 nói: cử một lãnh đạo phụ trách, một đầu mối dữ liệu và nhóm chuyên môn | Website nói: cử lãnh đạo phụ trách, bảo trợ ngành hàng, đầu mối dữ liệu, đầu mối R&D và Chất lượng Hòa Mạc, đầu mối Tài chính và 2 kỹ sư IT cho đội vận hành mô hình [D1 tr.1]
+- D1 nói: bước đầu là giai đoạn đánh giá khoảng 8 tuần rồi mới quyết định đầu tư tiếp | Website nói: khảo sát Hòa Mạc (tháng 11/2026), sau đó thử nghiệm 16 tuần (T+1–T+4) [D1 tr.1]
+- D1 nói: lộ trình khoảng 15 tháng, 4 giai đoạn: Chuẩn bị ~8 tuần, Xây dựng mô hình đầu tiên ~12 tuần, Kiểm chứng trong thực tế ~16 tuần, Đánh giá khả năng mở rộng ~20 tuần | Website nói: lộ trình 12 tháng: Thử nghiệm T+1–T+4, Dùng thật T+5–T+8, Nhân rộng T+9–T+12, thép ở năm thứ 2 [D1 tr.5]
+- D1 nói: quyết định tiếp tục sau mỗi giai đoạn theo căn cứ định tính (dữ liệu đủ, tốt hơn phương pháp đơn giản, chuyên gia đánh giá có ích, dự báo giữ độ tin cậy) | Website nói: 4 cổng tại T+1, T+4, T+8, T+12 với tiêu chí định lượng cụ thể [D1 tr.5]
+- D1 nói: ngưỡng nghiệm thu do hai bên thống nhất sau khi đánh giá dữ liệu | Website nói: ngưỡng đã định sẵn (≥20% lỗi thật, ≥70% chọn đúng phương án, độ tin cậy 85–95%, ≥70% kỹ sư đánh giá hữu ích, giảm ≥25% thời gian lập hồ sơ, ≥20 ca thật ở Cổng 3...) [D1 tr.5]
+- D1 nói: chỉ có 3 bài toán (lô rủi ro, tác động thay đổi kỹ thuật, cảnh báo bảo hành), không có lập hồ sơ tự động bằng giọng nói | Website nói: 6 ứng dụng, Ứng dụng 01 Lập hồ sơ khách hàng tự động chạy thật từ T+1 [D1 tr.2]
+- D1 nói: dự báo chỉ được thử trên tình huống thực tế và hỗ trợ kỹ sư ở giai đoạn 3 (sau khoảng 20 tuần chuẩn bị và xây dựng) | Website nói: Ứng dụng 02 dùng thật từ T+5, Ứng dụng 03 từ T+6 [D1 tr.5]
+- D1 nói: chỉ sau khi có kết quả mới xem xét điện lạnh, dây chuyền mới hoặc "các lĩnh vực công nghiệp khác"; không nêu thép là đích đến | Website nói: điện lạnh Hưng Yên/Phú Mỹ ở T+10, ramp-up Phú Mỹ T+11, kế hoạch thử nghiệm thép ở T+12, thép là đích đến [D1 tr.2]
+- D1 nói: với phương án đối tác sáng lập, Celesnity không thu phí nghiên cứu và không thu phí cung cấp mô hình riêng trong thời gian chương trình | Website nói: thử nghiệm có phí cố định chốt sau khảo sát; sau thử nghiệm định giá theo giá trị đã xác minh [D1 tr.4]
+- D1 nói: Hòa Phát cử hai kỹ sư tham gia "nhóm nghiên cứu", mỗi người dành ít nhất một nửa thời gian | Website nói: 2 kỹ sư IT (kỹ sư dữ liệu, kỹ sư hạ tầng) cho đội vận hành mô hình, tăng lên 3 rồi 4 người [D1 tr.4]
+- D1 nói: Celesnity bố trí trưởng nhóm nghiên cứu, kỹ sư AI và dữ liệu, đầu mối quản lý chương trình (không có kỹ sư hiện trường tại nhà máy) | Website nói: ~5,5 → 4,5 → 3 người, gồm 2 kỹ sư hiện trường (FDE) tại Hòa Mạc ở giai đoạn thử nghiệm [D1 tr.4]
+- D1 nói: Celesnity phụ trách phát triển và đánh giá mô hình | Website nói: Hòa Phát giữ bộ đề thi kín và chấm điểm; Celesnity không xem được đáp án [D1 tr.4]
+- D1 nói: bản vẽ, thiết kế, phần mềm điều khiển và định mức vật tư không rời "môi trường do Hòa Phát phê duyệt" | Website nói: bản vẽ, thiết kế, firmware, BOM, công thức quy trình "không bao giờ rời Hòa Phát" [D1 tr.6]

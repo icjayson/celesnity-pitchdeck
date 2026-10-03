@@ -948,7 +948,7 @@ export const sections: Section[] = [
                 "Hồ sơ tự động · dự báo và so sánh trong không gian làm việc của kỹ sư · bảng chỉ tiêu · kết nối cho tác nhân AI của Tập đoàn",
               ],
               [
-                "**③ Triển khai và chuyển giao (FDE)**",
+                "**③ Triển khai và nghiệm thu (kỹ sư thực địa)**",
                 "Cấu hình theo quy trình Hòa Phát · tích hợp hệ thống · **đào tạo đội ngũ IT tới khi tự vận hành, tự huấn luyện và dẫn dắt mở rộng**",
               ],
             ],
@@ -1365,7 +1365,7 @@ export const packageParts = [
   },
   {
     n: "③",
-    name: "Triển khai và chuyển giao (FDE)",
+    name: "Triển khai và nghiệm thu (kỹ sư thực địa)",
     body: "Cấu hình theo quy trình Hòa Phát · tích hợp hệ thống · **đào tạo đội ngũ IT tới khi tự vận hành, tự huấn luyện và dẫn dắt mở rộng**",
   },
 ];

@@ -8,6 +8,8 @@ import { sessionCookieHeader, sessionFromRequest, takeToken } from "@/lib/ai/rat
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+/** Vercel: cho phép stream đủ lâu (mô hình suy luận + tool có thể mất 10–30 giây) */
+export const maxDuration = 60;
 
 const MAX_TURNS_IN = 12;
 const MAX_CHARS = 1000;

@@ -1,9 +1,10 @@
-import { sections } from "@/content/content.vi";
+import { parkedSections, sections } from "@/content/content.vi";
 import type { Block } from "@/content/types";
 
 /** Lấy khối trong lớp "Xem chi tiết" của một section (theo tiêu đề), để module dùng đúng câu chữ nguồn. */
 function detailBlocks(sectionId: string, title: string): Block[] {
-  const s = sections.find((x) => x.id === sectionId);
+  // tìm cả trong các section tạm cất (hiển thị ở /v1)
+  const s = [...sections, ...parkedSections].find((x) => x.id === sectionId);
   const d = s?.details?.find((x) => x.title === title);
   return d?.blocks ?? [];
 }

@@ -1,9 +1,11 @@
 /**
- * Gói tri thức của trợ lý, sinh tự động từ content.vi.ts + content/faq.ts.
+ * Gói tri thức của trợ lý, sinh tự động từ content.vi.ts + content/faq.ts + hồ sơ đề xuất đã tóm lược
+ * (content/knowledge/hoaphat-brief.ts, từ ba tài liệu gốc gửi Hòa Phát).
  * Kết quả là một chuỗi cố định (xác định, không chứa thời gian hay id) để tận dụng prompt caching.
  */
 import { appendix, benefits, closing, meta, packageParts, sections } from "@/content/content.vi";
 import { faq } from "@/content/faq";
+import { hoaphatBrief } from "@/content/knowledge/hoaphat-brief";
 import type { Block } from "@/content/types";
 import { plainText } from "@/components/shared/RichText";
 
@@ -53,7 +55,7 @@ function blocksText(blocks: Block[]): string {
 
 function build(): string {
   const parts: string[] = [];
-  parts.push(`# ${meta.title}\n${meta.description}\nKhẩu hiệu: ${meta.tagline}`);
+  parts.push(`# PHẦN A · TRANG ĐỀ XUẤT (nguồn chính)\n\n# ${meta.title}\n${meta.description}\nKhẩu hiệu: ${meta.tagline}`);
 
   parts.push(
     "## Bảng ánh xạ section (id → chủ đề)\n" +
@@ -90,6 +92,10 @@ function build(): string {
   parts.push(
     "## Câu hỏi thường gặp và câu trả lời chuẩn\n" +
       faq.map((f) => `H: ${f.q}\nĐ: ${f.a}\n(Section liên quan: ${f.section ?? "không có"})`).join("\n\n"),
+  );
+
+  parts.push(
+    "# PHẦN B · HỒ SƠ ĐỀ XUẤT CHI TIẾT (bổ sung; khi khác với PHẦN A thì theo PHẦN A)\n\n" + hoaphatBrief,
   );
 
   return parts.join("\n\n---\n\n");

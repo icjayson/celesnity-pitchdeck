@@ -9,3 +9,6 @@ playwright-report
 tests/e2e/__screenshots__/*.actual.png
 *.tsbuildinfo
 next-env.d.ts
+
+# Văn bản thô trích từ PDF nguồn (có nội dung nội bộ: phí, chiến lược). Chỉ commit bản tóm lược đã duyệt.
+knowledge/sources/

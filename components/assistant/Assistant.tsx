@@ -5,7 +5,7 @@
  * Mở từ nơi khác: window.dispatchEvent(new CustomEvent("landing:open-assistant", { detail: "câu hỏi điền sẵn" })).
  */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
-import { MessageCircleQuestion, X } from "lucide-react";
+import { Sparkles, X } from "lucide-react";
 import { dispatchAction } from "@/lib/actions";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useChat } from "./useChat";
@@ -21,6 +21,21 @@ const isMobile = () => typeof window !== "undefined" && window.matchMedia(MOBILE
 export function Assistant() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  /** Tooltip "Trợ lý AI" tự hiện 5 giây, ẩn 5 giây, lặp lại (khi ngăn chat đang đóng) */
+  const [hintOn, setHintOn] = useState(false);
+  useEffect(() => {
+    if (open) {
+      setHintOn(false);
+      return;
+    }
+    let on = false;
+    // lần đầu hiện sau 5 giây để không chen vào lúc trang vừa mở
+    const id = window.setInterval(() => {
+      on = !on;
+      setHintOn(on);
+    }, 5000);
+    return () => window.clearInterval(id);
+  }, [open]);
   const reduced = useReducedMotion();
   const launcherRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -131,15 +146,27 @@ export function Assistant() {
         aria-label={open ? "Đóng trợ lý hỏi về đề xuất" : "Mở trợ lý hỏi về đề xuất"}
         aria-expanded={open}
         aria-controls="assistant-panel"
-        className={`fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-blue-500 bg-navy-900 text-white shadow-[0_0_0_6px_rgba(47,123,246,0.14),0_14px_36px_-10px_rgba(47,123,246,0.7)] hover:border-blue-400 hover:bg-navy-800 hover:shadow-[0_0_0_8px_rgba(47,123,246,0.18),0_16px_40px_-10px_rgba(47,123,246,0.8)] sm:bottom-6 sm:right-6 ${
+        className={`group fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-blue-500 bg-navy-900 text-white shadow-[0_0_0_6px_rgba(47,123,246,0.14),0_14px_36px_-10px_rgba(47,123,246,0.7)] hover:border-blue-400 hover:bg-navy-800 hover:shadow-[0_0_0_8px_rgba(47,123,246,0.18),0_16px_40px_-10px_rgba(47,123,246,0.8)] sm:bottom-6 sm:right-6 ${
           reduced ? "" : "transition-[background-color,box-shadow,border-color] duration-300"
         } ${open ? "max-md:hidden" : ""}`}
       >
         {open ? (
           <X aria-hidden size={22} strokeWidth={1.5} />
         ) : (
-          <MessageCircleQuestion aria-hidden size={24} strokeWidth={1.5} />
+          <Sparkles aria-hidden size={24} strokeWidth={1.5} />
         )}
+        {/* tooltip nhỏ phía trên nút, hiện khi rê chuột hoặc focus bàn phím */}
+        {!open ? (
+          <span
+            aria-hidden
+            className={`pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-[8px] border border-line-200 bg-white px-2.5 py-1 text-[12px] font-semibold text-navy-900 shadow-[0_8px_24px_-8px_rgba(10,31,68,0.45)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 ${
+              hintOn ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"
+            } ${reduced ? "" : "transition-[opacity,transform] duration-300"}`}
+          >
+            Trợ lý AI
+            <span className="absolute left-1/2 top-full -translate-x-1/2 border-x-[5px] border-t-[5px] border-x-transparent border-t-white" />
+          </span>
+        ) : null}
       </button>
 
       {/* Ngăn chat */}

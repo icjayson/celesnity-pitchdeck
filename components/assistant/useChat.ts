@@ -15,6 +15,8 @@ export type ChatMsg = {
   status: "streaming" | "done" | "error";
   kind?: MsgKind;
   section?: string | null;
+  /** Câu hỏi gợi ý tiếp theo do trợ lý đề xuất */
+  followups?: string[];
   error?: string;
 };
 
@@ -132,7 +134,16 @@ export function useChat(opts: { onAction: (a: Action) => void; reducedMotion: bo
         let buf = "";
         const handle = (line: string) => {
           if (!line.trim()) return;
-          let e: { t: string; d?: string; name?: string; input?: unknown; answer?: string; section?: string | null; message?: string };
+          let e: {
+            t: string;
+            d?: string;
+            name?: string;
+            input?: unknown;
+            answer?: string;
+            section?: string | null;
+            message?: string;
+            items?: unknown;
+          };
           try {
             e = JSON.parse(line);
           } catch {
@@ -146,6 +157,8 @@ export function useChat(opts: { onAction: (a: Action) => void; reducedMotion: bo
             if (s && (!section || e.name === "scroll_to_section")) section = s;
             patch(aId, { section });
             optsRef.current.onAction({ name: e.name, input: e.input });
+          } else if (e.t === "followups" && Array.isArray(e.items)) {
+            patch(aId, { followups: e.items.filter((x): x is string => typeof x === "string").slice(0, 3) });
           } else if (e.t === "fallback" && typeof e.answer === "string") {
             gotFallback = true;
             typing.current = null;
