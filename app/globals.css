@@ -68,6 +68,10 @@ body {
   outline-offset: 3px;
   border-radius: 6px;
 }
+/* Ô nhập của trợ lý: khung bao ngoài đã có viền focus riêng */
+#assistant-input:focus-visible {
+  outline: none;
+}
 
 .tabular {
   font-variant-numeric: tabular-nums;
@@ -279,5 +283,32 @@ html[data-presenter="on"] [data-hide-in-presenter] {
   }
   [data-section] {
     break-inside: avoid-page;
+  }
+}
+
+/* Vệt sáng lướt qua chữ (thẻ "Đang suy nghĩ…", chuyển từ minder-platform). Màu đặt qua --shimmer-base / --shimmer-band. */
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    .shimmer-text {
+      background-image: linear-gradient(
+        to right,
+        var(--shimmer-base, currentColor) 40%,
+        var(--shimmer-band, rgba(255, 255, 255, 0.4)) 50%,
+        var(--shimmer-base, currentColor) 60%
+      );
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: text-sheen 2s linear infinite;
+    }
+  }
+}
+@keyframes text-sheen {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0% 0;
   }
 }

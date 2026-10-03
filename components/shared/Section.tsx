@@ -46,7 +46,10 @@ export function Section({ s, firstOfAct = false, printMode = false }: { s: Secti
             <div className="relative">
               <ModuleSlot id={visual.id} variant={visual.variant} />
             </div>
-          ) : null}
+          ) : (
+            // Chỗ đặt khung chat trợ lý trên desktop (components/assistant/Assistant.tsx tự canh theo phần tử này)
+            <div data-hero-chat-slot aria-hidden className="hidden h-[min(620px,72svh)] w-full max-w-[440px] justify-self-end lg:block" />
+          )}
         </div>
       </section>
     );

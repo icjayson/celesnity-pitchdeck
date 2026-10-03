@@ -6,46 +6,33 @@ import { sections } from "@/content/content.vi";
 import { suggestedFaq } from "@/content/faq";
 import { plainText, renderRich } from "@/components/shared/RichText";
 import type { ChatMsg } from "./useChat";
+import { ThinkingStatus } from "./thinking/ThinkingStatus";
 
 const sectionName = (id: string) => {
   const s = sections.find((x) => x.id === id);
   return s ? plainText(s.eyebrow) : null;
 };
 
-function KindTag({ m }: { m: ChatMsg }) {
+function KindTag({ m, glass }: { m: ChatMsg; glass: boolean }) {
+  const muted = glass ? "text-blue-100/70" : "text-ink-500";
   if (m.kind === "offline")
     return (
-      <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-ink-500">
+      <span className={`inline-flex items-center gap-1.5 text-[12px] font-medium ${muted}`}>
         <WifiOff aria-hidden size={13} strokeWidth={1.5} />
         Ngoại tuyến · câu trả lời soạn sẵn
       </span>
     );
   if (m.kind === "prepared")
     return (
-      <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-ink-500">
+      <span className={`inline-flex items-center gap-1.5 text-[12px] font-medium ${muted}`}>
         <BookOpenText aria-hidden size={13} strokeWidth={1.5} />
         Câu trả lời soạn sẵn
       </span>
     );
   return (
-    <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-blue-600">
+    <span className={`inline-flex items-center gap-1.5 text-[12px] font-medium ${glass ? "text-blue-300" : "text-blue-600"}`}>
       <Sparkles aria-hidden size={13} strokeWidth={1.5} />
-      Trợ lý AI
-    </span>
-  );
-}
-
-function Typing({ reduced }: { reduced: boolean }) {
-  if (reduced) return <span className="text-[14px] text-ink-500">Đang soạn câu trả lời…</span>;
-  return (
-    <span className="flex items-center gap-1.5 py-1.5" aria-label="Đang soạn câu trả lời">
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-500"
-          style={{ animationDelay: `${i * 160}ms` }}
-        />
-      ))}
+      Trợ lý Minder AI
     </span>
   );
 }
@@ -57,6 +44,7 @@ export function ChatMessages({
   onSuggest,
   onRetry,
   onGoToSection,
+  glass = false,
 }: {
   messages: ChatMsg[];
   busy: boolean;
@@ -64,13 +52,19 @@ export function ChatMessages({
   onSuggest: (q: string) => void;
   onRetry: (q: string) => void;
   onGoToSection: (id: string) => void;
+  /** Kiểu kính trong suốt (khung chat neo ở trang bìa) */
+  glass?: boolean;
 }) {
+  const chip = glass
+    ? "border-white/20 bg-[rgba(6,20,46,0.45)] text-white backdrop-blur-xl hover:border-blue-300/70 hover:bg-[rgba(18,43,87,0.65)]"
+    : "border-line-200 bg-white text-navy-900 hover:border-blue-500 hover:bg-blue-100";
   const listRef = useRef<HTMLDivElement>(null);
   const last = messages[messages.length - 1];
 
   useEffect(() => {
     const el = listRef.current;
-    if (!el) return;
+    // Chưa có tin nhắn: giữ ở đầu để lời chào và câu hỏi gợi ý hiện đầy đủ
+    if (!el || messages.length === 0) return;
     el.scrollTo({ top: el.scrollHeight, behavior: reduced ? "auto" : "smooth" });
   }, [messages.length, last?.text, last?.status, reduced]);
 
@@ -80,10 +74,10 @@ export function ChatMessages({
   };
 
   return (
-    <div ref={listRef} className="flex-1 overflow-y-auto overscroll-contain bg-mist-50 px-4 py-5 sm:px-5">
+    <div ref={listRef} className={`flex-1 overflow-y-auto overscroll-contain ${glass ? "bg-transparent px-0 py-4" : "bg-mist-50 px-4 py-5 sm:px-5"}`}>
       {messages.length === 0 ? (
         <div>
-          <p className="text-[15px] leading-relaxed text-navy-900">
+          <p className={`text-[15px] leading-relaxed ${glass ? "text-white/90" : "text-navy-900"}`}>
             Celesnity sẵn sàng trả lời các câu hỏi về đề xuất <span className="font-semibold">Nhà máy siêu thông minh</span>.
             Quý vị có thể chọn một câu hỏi gợi ý:
           </p>
@@ -94,7 +88,7 @@ export function ChatMessages({
                   type="button"
                   disabled={busy}
                   onClick={() => onSuggest(f.q)}
-                  className="rounded-full border border-line-200 bg-white px-3.5 py-2 text-left text-[14px] leading-snug text-navy-900 transition-colors duration-200 hover:border-blue-500 hover:bg-blue-100 disabled:opacity-50"
+                  className={`rounded-full border px-3.5 py-2 text-left text-[14px] leading-snug transition-colors duration-200 disabled:opacity-50 ${chip}`}
                 >
                   {f.q}
                 </button>
@@ -107,17 +101,28 @@ export function ChatMessages({
           {messages.map((m, i) =>
             m.role === "user" ? (
               <li key={m.id} className="flex justify-end">
-                <p className="max-w-[85%] whitespace-pre-wrap break-words rounded-[14px] rounded-br-[4px] bg-navy-900 px-4 py-2.5 text-[15px] leading-relaxed text-white">
+                <p
+                  className={`max-w-[85%] whitespace-pre-wrap break-words rounded-[14px] rounded-br-[4px] px-4 py-2.5 text-[15px] leading-relaxed ${
+                    glass ? "bg-white text-navy-900" : "bg-navy-900 text-white"
+                  }`}
+                >
                   {m.text}
                 </p>
               </li>
             ) : (
               <li key={m.id} className="flex flex-col items-start gap-1.5">
-                <KindTag m={m} />
+                {m.status === "streaming" && !m.text ? (
+                  // chưa có chữ nào: thẻ "Đang suy nghĩ…" thay cho bong bóng trả lời
+                  <ThinkingStatus glass={glass} />
+                ) : (
+                <>
+                <KindTag m={m} glass={glass} />
                 <div
-                  className={`max-w-[92%] rounded-[14px] rounded-tl-[4px] border bg-white px-4 py-3 text-[15px] leading-relaxed text-navy-900 shadow-[0_8px_24px_-18px_rgba(10,31,68,0.45)] ${
-                    m.status === "error" ? "border-orange-500/40" : "border-line-200"
-                  }`}
+                  className={`max-w-[92%] rounded-[14px] rounded-tl-[4px] border px-4 py-3 text-[15px] leading-relaxed ${
+                    glass
+                      ? "bg-[rgba(6,20,46,0.55)] text-white backdrop-blur-xl"
+                      : "bg-white text-navy-900 shadow-[0_8px_24px_-18px_rgba(10,31,68,0.45)]"
+                  } ${m.status === "error" ? "border-orange-500/40" : glass ? "border-white/[0.12]" : "border-line-200"}`}
                 >
                   {m.status === "error" && !m.text ? (
                     <div className="flex flex-col items-start gap-2">
@@ -146,19 +151,23 @@ export function ChatMessages({
                           </p>
                         ))}
                     </div>
-                  ) : (
-                    <Typing reduced={reduced} />
-                  )}
-                  {m.error && m.text ? <p className="mt-2 text-[13px] text-ink-500">{m.error}</p> : null}
+                  ) : null}
+                  {m.error && m.text ? <p className={`mt-2 text-[13px] ${glass ? "text-blue-100/70" : "text-ink-500"}`}>{m.error}</p> : null}
                 </div>
+                </>
+                )}
                 {m.section && m.status === "done" && sectionName(m.section) ? (
                   <button
                     type="button"
                     onClick={() => onGoToSection(m.section!)}
-                    className="group mt-0.5 inline-flex max-w-full items-center gap-2 rounded-full border border-blue-300 bg-blue-100 px-3.5 py-1.5 text-[13px] font-medium text-navy-900 transition-colors duration-200 hover:border-blue-500 hover:bg-white"
+                    className={`group mt-0.5 inline-flex max-w-full items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors duration-200 ${
+                      glass
+                        ? "border-blue-300/40 bg-[rgba(31,95,214,0.35)] text-white backdrop-blur-xl hover:bg-[rgba(31,95,214,0.5)]"
+                        : "border-blue-300 bg-blue-100 text-navy-900 hover:border-blue-500 hover:bg-white"
+                    }`}
                   >
                     <span className="shrink-0 whitespace-nowrap">Xem phần này</span>
-                    <span className="min-w-0 truncate font-normal text-ink-500">· {sectionName(m.section)}</span>
+                    <span className={`min-w-0 truncate font-normal ${glass ? "text-blue-100/70" : "text-ink-500"}`}>· {sectionName(m.section)}</span>
                     <ArrowRight
                       aria-hidden
                       size={14}
@@ -176,9 +185,9 @@ export function ChatMessages({
                           type="button"
                           disabled={busy}
                           onClick={() => onSuggest(q)}
-                          className="inline-flex max-w-full items-start gap-1.5 rounded-[14px] border border-line-200 bg-white px-3.5 py-1.5 text-left text-[13.5px] leading-snug text-navy-900 transition-colors duration-200 hover:border-blue-500 hover:bg-blue-100 disabled:opacity-50"
+                          className={`inline-flex max-w-full items-start gap-1.5 rounded-[14px] border px-3.5 py-1.5 text-left text-[13.5px] leading-snug transition-colors duration-200 disabled:opacity-50 ${chip}`}
                         >
-                          <CornerDownRight aria-hidden size={14} strokeWidth={1.5} className="mt-0.5 shrink-0 text-blue-500" />
+                          <CornerDownRight aria-hidden size={14} strokeWidth={1.5} className={`mt-0.5 shrink-0 ${glass ? "text-blue-300" : "text-blue-500"}`} />
                           {q}
                         </button>
                       </li>

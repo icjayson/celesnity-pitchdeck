@@ -14,6 +14,7 @@ export function ChatComposer({
   onSubmit,
   busy,
   speech,
+  glass = false,
 }: {
   inputRef: RefObject<HTMLTextAreaElement | null>;
   value: string;
@@ -21,6 +22,8 @@ export function ChatComposer({
   onSubmit: () => void;
   busy: boolean;
   speech: ReturnType<typeof useSpeech>;
+  /** Kiểu kính trong suốt (khung chat neo ở trang bìa) */
+  glass?: boolean;
 }) {
   // Ô nhập tự giãn tới ~4 dòng
   useEffect(() => {
@@ -34,13 +37,19 @@ export function ChatComposer({
 
   return (
     <form
-      className="border-t border-line-200 bg-white px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 sm:px-5"
+      className={`border-t px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 sm:px-5 ${glass ? "border-white/10 bg-transparent" : "border-line-200 bg-white"}`}
       onSubmit={(e) => {
         e.preventDefault();
         if (canSend) onSubmit();
       }}
     >
-      <div className="flex items-end gap-2 rounded-[14px] border border-line-200 bg-white p-1.5 pl-3.5 transition-colors duration-200 focus-within:border-blue-500 focus-within:shadow-[0_0_0_3px_rgba(47,123,246,0.12)]">
+      <div
+        className={`flex items-end gap-2 rounded-[14px] border p-1.5 pl-3.5 transition-colors duration-200 ${
+          glass
+            ? "border-white/20 bg-[rgba(6,20,46,0.5)] backdrop-blur-xl"
+            : "border-line-200 bg-white focus-within:border-blue-500 focus-within:shadow-[0_0_0_3px_rgba(47,123,246,0.12)]"
+        }`}
+      >
         <label htmlFor="assistant-input" className="sr-only">
           Câu hỏi về đề xuất
         </label>
@@ -58,7 +67,9 @@ export function ChatComposer({
             }
           }}
           placeholder={speech.listening ? "Đang nghe…" : "Nhập câu hỏi của Quý vị"}
-          className="max-h-[132px] min-h-[38px] flex-1 resize-none bg-transparent py-2 text-[15px] leading-snug text-navy-900 outline-none placeholder:text-ink-500 focus-visible:outline-none"
+          className={`max-h-[132px] min-h-[38px] flex-1 resize-none bg-transparent py-2 text-[15px] leading-snug outline-none focus-visible:outline-none ${
+            glass ? "text-white placeholder:text-blue-100/60" : "text-navy-900 placeholder:text-ink-500"
+          }`}
         />
         {speech.supported ? (
           <button
@@ -69,7 +80,9 @@ export function ChatComposer({
             className={`flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[var(--radius-control)] transition-colors duration-200 ${
               speech.listening
                 ? "bg-blue-100 text-blue-600 shadow-[0_0_0_3px_rgba(47,123,246,0.18)]"
-                : "text-ink-500 hover:bg-mist-50 hover:text-navy-900"
+                : glass
+                  ? "text-blue-100/80 hover:bg-white/10 hover:text-white"
+                  : "text-ink-500 hover:bg-mist-50 hover:text-navy-900"
             }`}
           >
             {speech.listening ? (
@@ -83,7 +96,9 @@ export function ChatComposer({
           type="submit"
           disabled={!canSend}
           aria-label="Gửi câu hỏi"
-          className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[var(--radius-control)] bg-blue-600 text-white transition-colors duration-200 hover:bg-blue-500 disabled:bg-line-200 disabled:text-ink-500"
+          className={`flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[var(--radius-control)] bg-blue-600 text-white transition-colors duration-200 hover:bg-blue-500 ${
+            glass ? "disabled:bg-white/10 disabled:text-blue-100/50" : "disabled:bg-line-200 disabled:text-ink-500"
+          }`}
         >
           <ArrowUp aria-hidden size={20} strokeWidth={1.5} />
         </button>
@@ -98,7 +113,8 @@ export function ChatComposer({
           {value.length}/{MAX}
         </p>
       ) : null}
-      <p className="mt-2.5 text-[12px] leading-snug text-ink-500">{labels.chatNotice}</p>
+      {/* Ở trang bìa (kiểu kính) không hiện dòng lưu ý */}
+      {glass ? null : <p className="mt-2.5 text-[12px] leading-snug text-ink-500">{labels.chatNotice}</p>}
     </form>
   );
 }
