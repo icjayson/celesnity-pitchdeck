@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { Ban, ClipboardCheck, FileSignature, MapPin, UserCheck, UserX, Vault, type LucideIcon } from "lucide-react";
 import { RichText, plainText } from "@/components/shared/RichText";
-import { detailList, detailTable } from "./shared/detailContent";
+import { useDetailList, useDetailTable } from "./shared/detailContent";
 import { MotionToggle, useMotionGate } from "./shared/motion";
 import { Segmented } from "./shared/Segmented";
 import { SovereigntyScene, type Level } from "./M13/Scene";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 const FADE_CSS = `@keyframes m13-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .m13-in{animation:m13-in 450ms cubic-bezier(.22,1,.36,1) both}`;
@@ -27,7 +28,7 @@ export default function M13({ variant }: { variant?: string }) {
 }
 
 function useLevels() {
-  const { head, rows } = detailTable("hop-tac", "Ba mức tham gia");
+  const { head, rows } = useDetailTable("hop-tac", "Ba mức tham gia");
   const levels = ([1, 2, 3] as Level[]).map((n) => {
     const h = plainText(head[n] ?? `Mức ${n}`);
     const [label, ...rest] = h.split(":");
@@ -37,11 +38,12 @@ function useLevels() {
 }
 
 function Sovereignty() {
+  const { party } = useDeck();
   const { rows, levels } = useLevels();
   const [level, setLevel] = useState<Level>(RECOMMENDED);
   const gate = useMotionGate<HTMLDivElement>();
   const leaves = plainText(rows[0]?.[level] ?? "");
-  const caption = level === 1 ? "Không có gì rời môi trường Hòa Phát." : `Rời đi: ${leaves.charAt(0).toLowerCase()}${leaves.slice(1)}.`;
+  const caption = level === 1 ? `Không có gì rời ${party.environment.charAt(0).toLowerCase()}${party.environment.slice(1)}.` : `Rời đi: ${leaves.charAt(0).toLowerCase()}${leaves.slice(1)}.`;
 
   return (
     <div ref={gate.ref} className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-6">
@@ -75,7 +77,7 @@ function Sovereignty() {
           <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12.5px] text-blue-300">
             <li className="flex items-center gap-1.5">
               <span aria-hidden className="h-3 w-4 rounded-[4px] border-[1.5px] border-orange-500" />
-              Môi trường Hòa Phát
+              {party.environment}
             </li>
             <li className={`flex items-center gap-1.5 transition-opacity duration-500 ${level >= 2 ? "" : "opacity-40"}`}>
               <span aria-hidden className="h-2 w-2 rounded-full bg-blue-300" />
@@ -92,7 +94,7 @@ function Sovereignty() {
         </figcaption>
       </figure>
 
-      {/* So sánh nhanh: điều gì rời môi trường Hòa Phát ở mỗi mức */}
+      {/* So sánh nhanh: điều gì rời môi trường khách hàng ở mỗi mức */}
       <ol className="flex flex-col gap-3">
         {levels.map((l) => {
           const on = l.n === level;
@@ -133,6 +135,7 @@ function Sovereignty() {
 
 /** Đề xuất hình thức hợp tác: Mức 3, Đối tác sáng lập, với toàn bộ quyền lợi. */
 function Founding() {
+  const { scenarios } = useDeck();
   const { rows, levels } = useLevels();
   const l = levels[RECOMMENDED - 1];
   return (
@@ -150,7 +153,7 @@ function Founding() {
             <h4 className="text-[30px] font-semibold leading-tight tracking-[-0.02em] sm:text-[36px]">{l.sub}</h4>
           </div>
           <p className="text-[15px] leading-relaxed text-blue-100/90">
-            Hòa Phát cùng xây mô hình nền, giữ quyền dùng lâu dài và dẫn dắt hướng phát triển.
+            {scenarios.m13.foundingNote}
           </p>
         </div>
         <dl className="grid grid-cols-1 sm:grid-cols-2">
@@ -176,7 +179,7 @@ function Founding() {
 
 /** Bảy cam kết không thay đổi, chia hai cột. */
 function Commitments() {
-  const commitments = detailList("hop-tac", "Bảy cam kết không thay đổi");
+  const commitments = useDetailList("hop-tac", "Bảy cam kết không thay đổi");
   return (
     <ol className="grid grid-cols-1 gap-3 md:grid-cols-2">
       {commitments.map((c, i) => {

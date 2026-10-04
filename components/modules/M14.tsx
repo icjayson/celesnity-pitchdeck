@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { ArrowLeftRight, ArrowDownUp, FileDown, MessageCircle, ArrowRight } from "lucide-react";
-import { benefits, closing, costShift, packageParts } from "@/content/content.vi";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { RichText } from "@/components/shared/RichText";
 import { FactoryScene } from "@/components/art/FactoryScene";
 import { useInView } from "@/lib/useInView";
@@ -30,8 +30,9 @@ const ui = {
 };
 
 function Benefits() {
+  const { benefits } = useDeck();
   const sides = [
-    { key: "hp", data: benefits.hoaPhat, accent: "orange" as const },
+    { key: "hp", data: benefits.partner, accent: "orange" as const },
     { key: "cel", data: benefits.celesnity, accent: "blue" as const },
   ];
   return (
@@ -100,6 +101,7 @@ function BenefitColumn({
 /* ───────────── Gói hợp tác ───────────── */
 
 function Package() {
+  const { packageParts, costShift } = useDeck();
   const [ref, inView] = useInView<HTMLElement>("-10% 0px");
   const reduced = useReducedMotion();
   const show = inView || reduced;
@@ -228,6 +230,7 @@ function Segment({
 /* ───────────── Lời mời và đoạn kết ───────────── */
 
 function Closing() {
+  const { closing, basePath } = useDeck();
   const bleedRef = useRef<HTMLDivElement>(null);
   const [sceneRef, inView] = useInView<HTMLDivElement>("-15% 0px");
   const reduced = useReducedMotion();
@@ -248,7 +251,7 @@ function Closing() {
     <div className="mt-14">
       <div className="flex flex-col gap-3 sm:flex-row" data-hide-in-print>
         <a
-          href="/ban-in?print=1"
+          href={`${basePath}/ban-in?print=1`}
           target="_blank"
           rel="noopener"
           className="inline-flex h-12 items-center justify-center gap-2 rounded-[var(--radius-control)] bg-orange-500 px-6 text-[15px] font-semibold text-navy-900 shadow-[0_14px_30px_-16px_rgba(232,98,10,0.7)] transition-colors hover:bg-orange-600"

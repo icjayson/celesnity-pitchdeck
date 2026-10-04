@@ -2,7 +2,7 @@
  * Trích xuất thẻ hồ sơ theo quy tắc (chế độ offline của M6). Thuần TypeScript, chạy được ở server và trình duyệt.
  * Đây KHÔNG phải AI: UI phải ghi nhãn "Chế độ offline: trích xuất theo quy tắc".
  */
-import { m6Fallback, type CaseCard } from "@/content/scenarios/m6";
+import type { CaseCard } from "@/decks/types";
 import { foldKeepLength } from "./text";
 
 export type ExtractMode = "ai" | "rules" | "sample";
@@ -36,10 +36,10 @@ function cap(s: string): string {
   return t ? t[0].toUpperCase() + t.slice(1) : t;
 }
 
-/** Thẻ soạn sẵn cho 3 câu mẫu (so khớp đúng câu, bỏ khoảng trắng thừa). */
-export function sampleCard(text: string): CaseCard | null {
+/** Thẻ soạn sẵn cho các câu mẫu của deck (so khớp đúng câu, bỏ khoảng trắng thừa). */
+export function sampleCard(text: string, fallback: Record<string, CaseCard>): CaseCard | null {
   const t = text.trim().replace(/\s+/g, " ");
-  return m6Fallback[t] ?? null;
+  return fallback[t] ?? null;
 }
 
 export function extractByRules(text: string): CaseCard {
@@ -95,7 +95,7 @@ export function extractByRules(text: string): CaseCard {
 }
 
 /** Trích xuất không cần AI: câu mẫu → kết quả soạn sẵn, còn lại → quy tắc. */
-export function extractOffline(text: string): ExtractResult {
-  const s = sampleCard(text);
+export function extractOffline(text: string, fallback: Record<string, CaseCard>): ExtractResult {
+  const s = sampleCard(text, fallback);
   return s ? { card: s, mode: "sample" } : { card: extractByRules(text), mode: "rules" };
 }

@@ -1,6 +1,6 @@
 /**
  * Gộp các bản tóm lược đã duyệt (knowledge/curated/D1–D3.md) thành module TS để trợ lý dùng làm ngữ cảnh.
- *   npm run knowledge:build   → content/knowledge/hoaphat-brief.ts
+ *   npm run knowledge:build   → decks/hoa-phat/knowledge/hoaphat-brief.ts
  * Không đọc knowledge/sources (văn bản thô, không commit). Các file *-conflicts.md chỉ để đối chiếu, không đưa vào.
  */
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -23,6 +23,6 @@ const parts = DOCS.map((d) => {
 
 const brief = parts.join("\n\n---\n\n");
 const out = `/** SINH TỰ ĐỘNG bởi scripts/knowledge-build.ts từ knowledge/curated/*.md. Không sửa tay. */\nexport const hoaphatBrief: string = ${JSON.stringify(brief)};\n\nexport const hoaphatBriefDocs = ${JSON.stringify(DOCS, null, 2)} as const;\n`;
-mkdirSync(path.join(root, "content/knowledge"), { recursive: true });
-writeFileSync(path.join(root, "content/knowledge/hoaphat-brief.ts"), out);
-console.log(`knowledge:build · ${brief.split(/\s+/).length} từ · ${(brief.match(/^- /gm) ?? []).length} dữ kiện → content/knowledge/hoaphat-brief.ts`);
+mkdirSync(path.join(root, "decks/hoa-phat/knowledge"), { recursive: true });
+writeFileSync(path.join(root, "decks/hoa-phat/knowledge/hoaphat-brief.ts"), out);
+console.log(`knowledge:build · ${brief.split(/\s+/).length} từ · ${(brief.match(/^- /gm) ?? []).length} dữ kiện → decks/hoa-phat/knowledge/hoaphat-brief.ts`);

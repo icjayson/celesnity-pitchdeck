@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { meta } from "@/content/content.vi";
 
 export const metadata: Metadata = {
-  title: meta.title,
-  description: meta.description,
+  title: "Celesnity · Tài liệu thảo luận",
   robots: { index: false, follow: false },
 };
 

@@ -85,7 +85,7 @@ export function Segmented<V extends string>({
               checked ? selectedCls(o.accent) : idleCls
             } ${pulse === o.value && !checked ? "seg-pulse" : ""}`}
           >
-            <span className="whitespace-nowrap text-[14px] font-semibold leading-tight">{o.label}</span>
+            <span className="text-balance text-center text-[14px] font-semibold leading-tight sm:whitespace-nowrap">{o.label}</span>
             {o.badge ? (
               <span
                 className={`pointer-events-none absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-2 py-px text-[10.5px] font-semibold uppercase tracking-[0.06em] ${

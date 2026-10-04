@@ -2,16 +2,10 @@
 /** Danh sách tin nhắn, trạng thái trống (câu gợi ý), đang soạn, lỗi. */
 import { useEffect, useRef } from "react";
 import { ArrowRight, BookOpenText, CircleAlert, CornerDownRight, RotateCcw, Sparkles, WifiOff } from "lucide-react";
-import { sections } from "@/content/content.vi";
-import { suggestedFaq } from "@/content/faq";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { plainText, renderRich } from "@/components/shared/RichText";
 import type { ChatMsg } from "./useChat";
 import { ThinkingStatus } from "./thinking/ThinkingStatus";
-
-const sectionName = (id: string) => {
-  const s = sections.find((x) => x.id === id);
-  return s ? plainText(s.eyebrow) : null;
-};
 
 function KindTag({ m, glass }: { m: ChatMsg; glass: boolean }) {
   const muted = glass ? "text-blue-100/70" : "text-ink-500";
@@ -55,6 +49,12 @@ export function ChatMessages({
   /** Kiểu kính trong suốt (khung chat neo ở trang bìa) */
   glass?: boolean;
 }) {
+  const { sections, faq } = useDeck();
+  const suggestedFaq = faq.filter((f) => f.suggested);
+  const sectionName = (id: string) => {
+    const s = sections.find((x) => x.id === id);
+    return s ? plainText(s.eyebrow) : null;
+  };
   const chip = glass
     ? "border-white/20 bg-[rgba(6,20,46,0.45)] text-white backdrop-blur-xl hover:border-blue-300/70 hover:bg-[rgba(18,43,87,0.65)]"
     : "border-line-200 bg-white text-navy-900 hover:border-blue-500 hover:bg-blue-100";

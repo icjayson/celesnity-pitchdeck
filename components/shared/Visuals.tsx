@@ -27,11 +27,14 @@ export function Cards({
   rows,
   cols = 3,
   tone = "blue",
+  partner,
 }: {
   head?: string[];
   rows: string[][];
   cols?: 2 | 3 | 4;
   tone?: "blue" | "orange" | "navy";
+  /** Tên ngắn của khách hàng: thẻ có tiêu đề nhắc tên này (và không nhắc Celesnity) có viền orange */
+  partner?: string;
 }) {
   const grid = { 2: "md:grid-cols-2", 3: "md:grid-cols-2 lg:grid-cols-3", 4: "md:grid-cols-2 lg:grid-cols-4" }[cols];
   const bar = { blue: "bg-blue-500", orange: "bg-orange-500", navy: "bg-navy-700" }[tone];
@@ -41,13 +44,13 @@ export function Cards({
       {rows.map((r, i) => {
         const filled = r.slice(1).filter(has).length;
         const showLabels = labelled && filled > 1;
-        const isHoaPhat = tone === "blue" && /Hòa Phát/.test(r[0]) && !/Celesnity/.test(r[0]);
+        const isPartner = tone === "blue" && !!partner && r[0].includes(partner) && !/Celesnity/.test(r[0]);
         return (
         <article
           key={i}
           className="vis-card relative flex flex-col gap-3 overflow-hidden rounded-[var(--radius-card)] p-6"
         >
-          <span aria-hidden className={`absolute inset-x-0 top-0 h-[3px] ${isHoaPhat ? "bg-orange-500" : bar}`} />
+          <span aria-hidden className={`absolute inset-x-0 top-0 h-[3px] ${isPartner ? "bg-orange-500" : bar}`} />
           <h4 className={r.length === 1 ? "pt-2 text-[18px] font-normal leading-snug" : "text-[17px] font-semibold leading-snug"}>
             <RichText text={r[0]} />
           </h4>

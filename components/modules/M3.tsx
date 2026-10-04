@@ -1,25 +1,26 @@
 "use client";
-/** M3 — Hai con đường (#hai-con-duong). Đặc tả: docs/implementation-plan.md mục 2. */
+/**
+ * M3 — Hai con đường (#hai-con-duong). Đặc tả: docs/implementation-plan.md mục 2.
+ * variant "sovereignty" (mặc định): dữ liệu và mô hình ở đâu · "loop": công cụ AI riêng lẻ hay một vòng quyết định khép kín.
+ */
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { plainText } from "@/components/shared/RichText";
-import { detailTable } from "./shared/detailContent";
+import { useDetailTable } from "./shared/detailContent";
 import { MotionToggle, useAfter, useMotionGate } from "./shared/motion";
 import { Segmented } from "./shared/Segmented";
 import { PathScene } from "./M3/Scene";
+import { LoopScene } from "./M3/LoopScene";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 type Path = "A" | "B";
 
 const FADE_CSS = `@keyframes m3-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .m3-in{animation:m3-in 450ms cubic-bezier(.22,1,.36,1) both}`;
 
-const CAPTION: Record<Path, string> = {
-  A: "Dữ liệu đi ra hệ thống của nhà cung cấp; mô hình thuộc nhà cung cấp.",
-  B: "Dữ liệu ở lại Việt Nam, trong môi trường Hòa Phát; mô hình và đội kỹ sư là của Hòa Phát.",
-};
-
-export default function M3(_props: { variant?: string }) {
-  const { head, rows } = detailTable("hai-con-duong", "Bảng hai con đường");
+export default function M3({ variant }: { variant?: string }) {
+  const CAPTION = useDeck().scenarios.m3.captions;
+  const { head, rows } = useDetailTable("hai-con-duong", "Bảng hai con đường");
   const [path, setPath] = useState<Path>("A");
   const [touched, setTouched] = useState(false);
   const gate = useMotionGate<HTMLDivElement>();
@@ -68,7 +69,11 @@ export default function M3(_props: { variant?: string }) {
         <figure className="relative isolate m-0 flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-navy-700 bg-navy-900 p-3 text-white shadow-[0_28px_60px_-30px_rgba(10,31,68,0.7)] sm:p-5">
           <span aria-hidden className="pointer-events-none absolute -left-20 top-10 -z-10 h-64 w-64 rounded-full bg-blue-500/20 blur-[80px]" />
           <div className="flex min-h-0 flex-1 items-center justify-center">
-            <PathScene path={path} play={gate.play} reduced={gate.reduced} />
+            {variant === "loop" ? (
+              <LoopScene path={path} play={gate.play} reduced={gate.reduced} />
+            ) : (
+              <PathScene path={path} play={gate.play} reduced={gate.reduced} />
+            )}
           </div>
           <figcaption className="sr-only" aria-live="polite">
             {isB ? headB : headA}. {CAPTION[path]}

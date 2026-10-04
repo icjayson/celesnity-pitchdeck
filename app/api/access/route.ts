@@ -1,28 +1,16 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { ACCESS_MAX_AGE, accessCodeFor, accessCookieName, safeEqual, sha256Hex } from "@/lib/access";
 
-/** POST mã truy cập (form hoặc JSON). Đúng → đặt cookie httpOnly 30 ngày. */
-const COOKIE = "ld_access";
-const MAX_AGE = 60 * 60 * 24 * 30;
-
-async function sha256Hex(text: string): Promise<string> {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`ld-access:${text}`));
-  return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-/** So sánh không phụ thuộc thời gian trên hai chuỗi hex cùng độ dài */
-function safeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
-}
+/**
+ * POST mã truy cập (form hoặc JSON). Deck lấy từ đường dẫn `next` (/<slug>/...).
+ * Đúng mã của deck đó → đặt cookie httpOnly `ld_access_<slug>` 30 ngày (chỉ mở deck đó).
+ */
 
 function safeNext(v: unknown): string {
   return typeof v === "string" && v.startsWith("/") && !v.startsWith("//") && !v.startsWith("/\\") ? v : "/";
 }
 
 export async function POST(request: NextRequest) {
-  const expected = process.env.ACCESS_CODE?.trim();
   const isJson = request.headers.get("content-type")?.includes("application/json") ?? false;
 
   let input = "";
@@ -41,6 +29,8 @@ export async function POST(request: NextRequest) {
     input = "";
   }
   input = input.trim().slice(0, 200);
+  const slug = next.split("/")[1] ?? "";
+  const expected = accessCodeFor(slug);
 
   if (!expected) {
     return isJson ? NextResponse.json({ ok: true, next }) : NextResponse.redirect(new URL(next, request.url), 303);
@@ -56,12 +46,12 @@ export async function POST(request: NextRequest) {
   }
 
   const res = isJson ? NextResponse.json({ ok: true, next }) : NextResponse.redirect(new URL(next, request.url), 303);
-  res.cookies.set(COOKIE, await sha256Hex(expected), {
+  res.cookies.set(accessCookieName(slug), await sha256Hex(expected), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: MAX_AGE,
+    maxAge: ACCESS_MAX_AGE,
   });
   return res;
 }

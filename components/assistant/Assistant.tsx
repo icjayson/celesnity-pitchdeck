@@ -12,7 +12,7 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { Sparkles, X } from "lucide-react";
 import { dispatchAction } from "@/lib/actions";
-import { suggestedFaq } from "@/content/faq";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useChat } from "./useChat";
 import { useSpeech } from "./useSpeech";
@@ -29,9 +29,6 @@ type Geom = { top: number; left: number; width: number; height: number; radius: 
 const DOCK_MIN_WIDTH = 1024;
 /** Chiều cao khung chat mở rộng ở trang bìa so với ô dành cho nó */
 const DOCK_EXPANDED_RATIO = 0.8;
-/** Câu hỏi nhanh dưới ô nhập ở trang bìa */
-const QUICK_IDS = ["khi-nao-thep", "du-lieu-roi-vn", "so-huu-mo-hinh", "sau-12-thang"];
-const quickPrompts = QUICK_IDS.map((id) => suggestedFaq.find((f) => f.id === id)?.q).filter((q): q is string => !!q);
 const MORPH_MS = 520;
 
 function rectGeom(r: DOMRect): Geom {
@@ -57,6 +54,9 @@ function floatGeom(): Geom {
 }
 
 export function Assistant() {
+  const { faq, quickFaqIds } = useDeck();
+  /** Câu hỏi nhanh dưới ô nhập ở trang bìa */
+  const quickPrompts = quickFaqIds.map((id) => faq.find((f) => f.id === id)?.q).filter((q): q is string => !!q);
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
   openRef.current = open;

@@ -4,6 +4,7 @@ import { Lock, ShieldCheck } from "lucide-react";
 import { LoopSvg } from "../shared/motion";
 import { Stream } from "../shared/Stream";
 import { VietnamMap, VN_POINTS } from "../shared/VietnamMap";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 const BLUE5 = "#2F7BF6";
 const BLUE3 = "#8DB8FF";
@@ -15,8 +16,9 @@ const T = "600ms cubic-bezier(0.22, 1, 0.36, 1)";
 
 export type Level = 1 | 2 | 3;
 
-/** Khung cảnh M13: chỉ đúng thứ được phép rời môi trường Hòa Phát ở mỗi mức mới chuyển động ra ngoài. */
+/** Khung cảnh M13: chỉ đúng thứ được phép rời môi trường của khách hàng ở mỗi mức mới chuyển động ra ngoài. */
 export function SovereigntyScene({ level, play, reduced }: { level: Level; play: boolean; reduced: boolean }) {
+  const { party } = useDeck();
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const showUpdate = level >= 2;
   const showSet = level >= 3;
@@ -49,7 +51,7 @@ export function SovereigntyScene({ level, play, reduced }: { level: Level; play:
 
       <VietnamMap fill="#0F2A5C" stroke="rgba(141,184,255,0.5)" islandFill="rgba(141,184,255,0.6)" labelFill="rgba(141,184,255,0.75)" />
 
-      {/* Các nhà máy gửi dữ liệu về môi trường Hòa Phát, vẫn trong Việt Nam */}
+      {/* Các nhà máy gửi dữ liệu về môi trường của khách hàng, vẫn trong Việt Nam */}
       {[
         [dx, dy],
         [sx, sy],
@@ -96,10 +98,10 @@ export function SovereigntyScene({ level, play, reduced }: { level: Level; play:
         </g>
       </g>
 
-      {/* Môi trường Hòa Phát */}
+      {/* Môi trường của khách hàng */}
       <rect x={36} y={34} width={148} height={76} rx={12} fill="rgba(255,122,26,0.08)" stroke={ORANGE} strokeWidth={2} />
       <text x={47} y={51} fontSize={10.5} fontWeight={600} fill={ORANGE}>
-        Môi trường Hòa Phát
+        {party.environment}
       </text>
       <path d={rawLoop} fill="none" stroke={ORANGE} strokeOpacity={0.25} strokeDasharray="2 4" />
       <Stream d={rawLoop} n={5} dur={6} fill="#FFD2B0" r={2} />

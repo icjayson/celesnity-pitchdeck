@@ -3,8 +3,9 @@
  * Trạng thái hội thoại của trợ lý (chỉ trong phiên, chỉ nối thêm) và đọc stream NDJSON từ /api/chat.
  * Chữ được hiện dần mượt bằng requestAnimationFrame (tắt khi giảm chuyển động).
  */
-import { useCallback, useEffect, useRef, useState } from "react";
-import { fallbackAnswer } from "@/lib/ai/faqMatch";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createFaqMatcher } from "@/lib/ai/faqMatch";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 export type MsgKind = "ai" | "prepared" | "offline";
 
@@ -43,6 +44,9 @@ export const chatCopy = {
 };
 
 export function useChat(opts: { onAction: (a: Action) => void; reducedMotion: boolean }) {
+  // Mỗi deck có trợ lý riêng: câu trả lời soạn sẵn và yêu cầu gửi server đều gắn đúng deck này
+  const { slug, faq } = useDeck();
+  const matcher = useMemo(() => createFaqMatcher(faq), [faq]);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [busy, setBusy] = useState(false);
   const optsRef = useRef(opts);
@@ -103,7 +107,7 @@ export function useChat(opts: { onAction: (a: Action) => void; reducedMotion: bo
       setBusy(true);
 
       const prepared = (kind: MsgKind, note?: string) => {
-        const f = fallbackAnswer(q);
+        const f = matcher.fallbackAnswer(q);
         typing.current = null;
         patch(aId, { text: f.answer, status: "done", kind, section: f.section, error: note });
       };
@@ -125,7 +129,7 @@ export function useChat(opts: { onAction: (a: Action) => void; reducedMotion: bo
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ messages: payload }),
+          body: JSON.stringify({ deck: slug, messages: payload }),
           signal: ac.signal,
         });
         if (!res.body) throw new Error("no body");
@@ -208,7 +212,7 @@ export function useChat(opts: { onAction: (a: Action) => void; reducedMotion: bo
         setBusy(false);
       }
     },
-    [busy, messages, kick, patch],
+    [busy, messages, kick, patch, matcher, slug],
   );
 
   return { messages, busy, send };

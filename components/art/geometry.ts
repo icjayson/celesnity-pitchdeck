@@ -2,7 +2,8 @@
  * Hình học dùng chung cho cảnh "Nhà máy sống" (SVG và Canvas cùng một hệ tọa độ viewBox 800 × 520).
  * Phép chiếu isometric trên lưới 30°: x đi xuống phải, y đi xuống trái, z đi lên.
  */
-import type { IslandId } from "./FactoryScene";
+/** Ba vị trí đảo cố định: trái · giữa · phải (tên giữ theo bản đầu tiên; mỗi deck tự gán đảo của mình vào vị trí) */
+export type IslandId = "gia-dung" | "dien-lanh" | "thep";
 
 export const VB_W = 800;
 export const VB_H = 520;

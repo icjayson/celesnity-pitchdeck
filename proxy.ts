@@ -1,42 +1,37 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { accessCodeFor, accessCookieName, safeEqual, sha256Hex } from "@/lib/access";
 
 /**
- * Mã truy cập tùy chọn (docs/implementation-plan.md, mục 6.1).
- * ACCESS_CODE rỗng → không khóa. Có mã → mọi trang cần cookie `ld_access` = SHA-256 của mã,
- * thiếu thì chuyển về /truy-cap (API trả 401).
+ * Mã truy cập theo từng deck: /<slug>/... cần cookie `ld_access_<slug>` khớp ACCESS_CODE_<SLUG>.
+ * Mã của khách hàng này không mở được deck của khách hàng khác. Deck không đặt mã → mở.
+ * Tệp trong public/decks/<slug>/ (trừ ảnh) cũng cần mã của deck đó. Route API tự kiểm tra quyền theo deck trong nội dung yêu cầu.
  */
-const ACCESS_COOKIE = "ld_access";
-
-async function sha256Hex(text: string): Promise<string> {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`ld-access:${text}`));
-  return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, "0")).join("");
-}
-
 export async function proxy(request: NextRequest) {
-  const code = process.env.ACCESS_CODE?.trim();
-  if (!code) return NextResponse.next();
-
   const { pathname, search } = request.nextUrl;
   if (
+    pathname === "/" ||
     pathname === "/truy-cap" ||
-    pathname.startsWith("/api/access") ||
+    pathname.startsWith("/api/") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon")
   ) {
     return NextResponse.next();
   }
 
-  const cookie = request.cookies.get(ACCESS_COOKIE)?.value;
-  if (cookie && cookie === (await sha256Hex(code))) return NextResponse.next();
+  // Tệp riêng của deck trong public/decks/<slug>/ (ví dụ bản PDF) dùng mã của deck đó.
+  // Ảnh và logo được matcher bỏ qua (tĩnh, công khai); PDF và tệp khác đi qua đây.
+  const parts = pathname.split("/");
+  const slug = (parts[1] === "decks" ? parts[2] : parts[1]) ?? "";
+  const code = accessCodeFor(slug);
+  if (!code) return NextResponse.next();
 
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.json({ error: "access_required" }, { status: 401 });
-  }
+  const cookie = request.cookies.get(accessCookieName(slug))?.value;
+  if (cookie && safeEqual(cookie, await sha256Hex(code))) return NextResponse.next();
+
   const url = request.nextUrl.clone();
   url.pathname = "/truy-cap";
   url.search = "";
-  const next = pathname + search;
-  if (next !== "/") url.searchParams.set("next", next);
+  url.searchParams.set("next", parts[1] === "decks" ? `/${slug}` : pathname + search);
   return NextResponse.redirect(url);
 }
 

@@ -2,7 +2,7 @@
 /** M2 — Ba làn sóng (#ky-nguyen). Đặc tả: docs/implementation-plan.md mục 2. */
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { plainText } from "@/components/shared/RichText";
-import { detailTable } from "./shared/detailContent";
+import { useDetailTable } from "./shared/detailContent";
 import { useMotionGate } from "./shared/motion";
 import { ChatArt, RobotArmArt, WorldModelArt } from "./M2/Art";
 
@@ -16,7 +16,7 @@ function splitTitle(cell: string) {
 const WAVE_ERAS = ["Những năm 2000", "Năm 2022", "Năm 2027"];
 
 export default function M2(_props: { variant?: string }) {
-  const { rows } = detailTable("ky-nguyen", "Bảng ba làn sóng");
+  const { rows } = useDetailTable("ky-nguyen", "Bảng ba làn sóng");
   const gate = useMotionGate<HTMLDivElement>();
   const arts = [RobotArmArt, ChatArt, WorldModelArt];
 

@@ -2,8 +2,8 @@
 /** M4 — Buồng mô phỏng quyết định (docs/implementation-plan.md mục 2). Toàn bộ số liệu là minh họa, lấy từ content/scenarios/m4.ts. */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Check, CalendarClock, RotateCcw, ShieldQuestionMark, CircleQuestionMark, History, Gauge } from "lucide-react";
-import { m4Options, m4Score, type M4OptionId } from "@/content/scenarios/m4";
-import { labels } from "@/content/content.vi";
+import type { M4OptionId } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Label } from "@/components/shared/Label";
 import { onAction } from "@/lib/actions";
 import { vnNumber } from "@/lib/format";
@@ -13,6 +13,9 @@ import { ScoreGauge } from "./M4/ScoreGauge";
 type Phase = "forecast" | "approved" | "result";
 
 export default function M4({ variant }: { variant?: string }) {
+  const { labels, scenarios } = useDeck();
+  const m4Options = scenarios.m4?.options ?? [];
+  const m4Score = scenarios.m4?.score ?? { before: 0, after: 0, unit: "" };
   const [selected, setSelected] = useState<M4OptionId | null>(null);
   const [phase, setPhase] = useState<Phase>("forecast");
   const radios = useRef<(HTMLButtonElement | null)[]>([]);
@@ -71,7 +74,7 @@ export default function M4({ variant }: { variant?: string }) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.12em] text-blue-300">
             <span aria-hidden className="h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_12px_2px_rgba(47,123,246,0.7)]" />
-            Buồng mô phỏng · bếp từ · bảo vệ nhiệt
+            {scenarios.m4?.title}
           </p>
           <Label variant="sim" text={labels.simShort} />
         </div>

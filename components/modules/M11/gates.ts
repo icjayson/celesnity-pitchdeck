@@ -1,5 +1,6 @@
 /** Đọc bảng "Bảng tiêu chí đầy đủ của bốn cổng" trong section `phong-thi` thành cấu trúc cho M11. */
-import { parkedSections, sections } from "@/content/content.vi";
+import type { Section } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { plainText } from "@/components/shared/RichText";
 
 export type Criterion = {
@@ -25,8 +26,8 @@ function headlineOf(text: string): string | null {
   return m ? m[0].replace(/\s/g, "") : null;
 }
 
-function parse(): Gate[] {
-  const sec = [...sections, ...parkedSections].find((s) => s.id === "phong-thi");
+function parse(all: Section[]): Gate[] {
+  const sec = all.find((s) => s.id === "phong-thi");
   const det = sec?.details?.find((d) => plainText(d.title).startsWith("Bảng tiêu chí đầy đủ"));
   const table = det?.blocks.find((b) => b.kind === "table");
   if (!table || table.kind !== "table") return [];
@@ -45,4 +46,7 @@ function parse(): Gate[] {
   return gates;
 }
 
-export const gates: Gate[] = parse();
+export function useGates(): Gate[] {
+  const { sections, parkedSections } = useDeck();
+  return parse([...sections, ...parkedSections]);
+}

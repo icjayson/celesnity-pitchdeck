@@ -1,33 +1,9 @@
 "use client";
-/** M17 — Thang năng lực của đội ngũ IT của Hòa Phát: 3 bậc dạng bậc thang + nguyên tắc chia vai. */
+/** M17 — Thang năng lực của đội khách hàng: 3 bậc dạng bậc thang + nguyên tắc chia vai. Dữ liệu: deck.scenarios.m17. */
 import { ArrowUpRight, BadgeCheck, Wrench } from "lucide-react";
+import { useDeck } from "@/components/deck/DeckProvider";
 
-const levels = [
-  {
-    n: 1,
-    name: "Vận hành",
-    when: "T+4–T+8",
-    can: "Chạy luồng dữ liệu, giám sát mô hình, quản trị người dùng, xử lý sự cố thường gặp",
-    test: "Tự chạy 1 vòng (T+4) → tự vận hành 4 tuần (T+8)",
-    tone: "l1",
-  },
-  {
-    n: 2,
-    name: "Tự huấn luyện lại",
-    when: "T+12",
-    can: "Cập nhật mô hình riêng bằng dữ liệu mới, chấm trên bộ đề, quyết định phát hành phiên bản",
-    test: "Tự huấn luyện lại không cần hỗ trợ, kết quả không kém phiên bản trước",
-    tone: "l2",
-  },
-  {
-    n: 3,
-    name: "Đồng huấn luyện",
-    when: "Năm thứ 2",
-    can: "Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thi, đồng tác giả báo cáo kỹ thuật, dẫn dắt mở rộng sang thép",
-    test: "Một vòng đóng góp qua kiểm thử bảo mật",
-    tone: "l3",
-  },
-] as const;
+const TONES = ["l1", "l2", "l3"] as const;
 
 const tones = {
   l1: { card: "bg-white border-line-200 text-navy-900", badge: "bg-blue-100 text-blue-600", muted: "text-ink-500", test: "bg-mist-50", bar: "bg-blue-300" },
@@ -36,6 +12,7 @@ const tones = {
 };
 
 export default function M17(_props: { variant?: string }) {
+  const levels = useDeck().scenarios.m17.map((l, i) => ({ ...l, n: i + 1, tone: TONES[Math.min(i, TONES.length - 1)] }));
   return (
     <div className="flex flex-col gap-8">
       {/* Bậc thang: thẻ sau cao hơn thẻ trước */}

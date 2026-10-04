@@ -1,133 +1,100 @@
-# Nhà máy siêu thông minh · Hòa Phát × Celesnity
+# Landing deck · Celesnity
 
-Landing page tương tác trình bày đề xuất hợp tác, pilot và lộ trình use case giữa Hòa Phát và Celesnity. Trang kể câu chuyện qua 19 section chia 3 hồi, có 14 module tương tác (M1–M14), trợ lý AI "Hỏi về đề xuất", chế độ trình chiếu, trang phụ lục và bản in/PDF.
+Thư mục chung cho các landing deck tương tác gửi khách hàng. Mỗi khách hàng một đường dẫn con, một bộ nội dung, một trợ lý AI và một mã truy cập riêng.
+
+| Đường dẫn | Deck |
+|---|---|
+| `/hoa-phat` (+ `/phu-luc`, `/ban-in`, `/v1`) | Nhà máy siêu thông minh · Hòa Phát × Celesnity |
+| `/nestle-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Nestlé Trị An × Celesnity |
+| `/` | Tạm chuyển tới `/hoa-phat` (giữ đường dẫn đã gửi). Thư viện deck làm sau |
+
+Đường dẫn cũ `/phu-luc`, `/ban-in`, `/v1` tự chuyển về `/hoa-phat/...`.
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · API tương thích OpenAI (proxy LiteLLM, `gpt-5-mini`) · Vitest · Playwright.
 
-Tài liệu gốc trong `docs/`: `content-v4.md` (nội dung), `implementation-plan.md` (kế hoạch), `minder-design-system.md` (quy ước thiết kế), `BUILD_BRIEF.md` (quy tắc khi code).
+Tài liệu: `docs/content-v4.md` (nội dung Hòa Phát) · `docs/nestle-content-v2.md` (nội dung Nestlé) · `docs/nestle-implementation-plan.md` (kiến trúc nhiều deck) · `docs/minder-design-system.md` · `docs/BUILD_BRIEF.md`.
 
-## Cấu trúc thư mục
+## Cấu trúc
 
 ```
 app/
-  page.tsx              trang chính, 19 section
-  phu-luc/              phụ lục
-  ban-in/               bản in, nguồn cho PDF (?print=1 tự mở hộp thoại in)
-  truy-cap/             trang nhập mã truy cập (khi đặt ACCESS_CODE)
-  api/chat/             trợ lý: streaming + tool
-  api/extract/          M6: trích xuất có cấu trúc
-  api/access/           kiểm tra mã truy cập, đặt cookie
-  globals.css           token màu, theme section, CSS trình chiếu và in
+  [deck]/                 trang của từng deck: page, phu-luc, ban-in, v1; layout nạp đúng deck vào DeckProvider
+  truy-cap/               trang nhập mã truy cập (trung tính, không hiện tên khách hàng)
+  api/chat · api/extract  trợ lý và trích xuất M6, bắt buộc gửi `deck`, kiểm tra quyền theo deck
+  api/access              nhập mã của một deck → cookie riêng ld_access_<slug>
+decks/
+  types.ts                hợp đồng dữ liệu DeckData (gửi xuống trình duyệt) và DeckAssistant (chỉ ở server)
+  all.ts                  bảng tất cả deck (script, evals), tệp nội dung gốc, tên riêng cấm lẫn giữa deck
+  registry.ts             bảng deck cho ứng dụng (server-only)
+  hoa-phat/               nội dung, câu hỏi thường gặp, use case, kịch bản, trợ lý, hồ sơ tri thức
+  nestle-vietnam/         như trên
 components/
-  modules/M1…M14        module tương tác
-  art/FactoryScene.tsx  cảnh "Nhà máy sống" dùng chung
-  shared/               Section, Blocks, RichText, Label, DataTable, Details, SiteChrome, ModuleSlot
-  presenter/            chế độ trình chiếu
-  assistant/            trợ lý AI
-content/
-  content.vi.ts         toàn bộ câu chữ (một nguồn duy nhất)
-  types.ts, usecases.ts
-  scenarios/*.ts        dữ liệu kịch bản mô phỏng
-lib/                    actions (điều phối hành động), hooks, định dạng số
-scripts/                content-check, terms-check, export-pdf
-evals/                  bộ kiểm thử trợ lý
-tests/unit, tests/e2e   Vitest, Playwright
-proxy.ts                khóa trang bằng mã truy cập (tùy chọn)
+  deck/DeckProvider.tsx   useDeck(): component đọc deck hiện tại, không import trực tiếp từ decks/
+  modules/M1…M18          module tương tác dùng chung, chữ lấy từ deck
+  art/                    cảnh "Nhà máy sống" (ba đảo; hình vẽ từng đảo theo deck)
+  shared/ presenter/ assistant/
+lib/ai/                   trợ lý: ngữ cảnh dựng riêng cho từng deck (prompt.ts), trích xuất case/incident
+lib/access.ts             mã truy cập theo deck
+public/decks/<slug>/      ảnh, logo, bản PDF của từng deck
+evals/<slug>/             bộ kiểm thử trợ lý và trích xuất của từng deck
 ```
 
-## Cài đặt
+## Tách biệt giữa khách hàng
+
+- **Trang:** mỗi `/<slug>` chỉ nhận dữ liệu deck của mình (server → DeckProvider). Bundle JS dùng chung không chứa câu chữ khách hàng.
+- **Trợ lý AI:** mỗi deck có system prompt, gói tri thức, câu hỏi thường gặp, tool, trích xuất, nhật ký, trần chi phí và giới hạn tần suất riêng. Trợ lý từ chối nói về khách hàng khác.
+- **Truy cập:** `ACCESS_CODE_<SLUG>` cho từng deck; cookie của deck này không mở deck khác, không gọi được trợ lý của deck khác.
+- **Kiểm tra:** `npm run leak:check` (và `-- --build` sau khi build).
+
+## Cài đặt và chạy
 
 ```bash
 npm install
 cp .env.example .env.local
-```
-
-Để trống `OPENAI_API_KEY` thì trợ lý và M6 chạy bằng câu trả lời soạn sẵn (chế độ offline).
-
-## Chạy
-
-```bash
-npm run dev          # http://localhost:3000
-```
-
-## Build
-
-```bash
+npm run dev          # http://localhost:3000/hoa-phat · /nestle-vietnam
 npm run build && npm start
 ```
 
-## Biến môi trường
+Để trống `OPENAI_API_KEY` thì trợ lý và M6 chạy bằng câu trả lời soạn sẵn của từng deck (chế độ offline).
 
-Xem `.env.example`.
+## Biến môi trường
 
 | Biến | Dùng cho |
 |---|---|
-| `OPENAI_API_KEY` | Khóa API tương thích OpenAI (chỉ ở server; lấy cùng khóa với minder-internal-operation). Trống: chế độ offline |
-| `OPENAI_BASE_URL` | Địa chỉ API (proxy LiteLLM); mặc định `https://api.openai.com/v1`. Bản cho khách nên dùng https |
-| `CHAT_MODEL` | Model cho trợ lý và M6 (mặc định `gpt-5-mini`) |
-| `CHAT_DAILY_BUDGET` | Trần chi phí theo ngày (USD); chạm trần thì chuyển sang câu trả lời soạn sẵn |
-| `CHAT_LOG` | `on` / `off`: lưu câu hỏi chat vào `.data/chat-log.jsonl` |
-| `ACCESS_CODE` | Mã truy cập tùy chọn. Trống: không khóa. Có mã: mọi trang chuyển về `/truy-cap` tới khi nhập đúng (cookie `ld_access`, httpOnly, 30 ngày) |
+| `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `CHAT_MODEL` | Trợ lý và M6 (chỉ ở server) |
+| `CHAT_DAILY_BUDGET`, `CHAT_DAILY_BUDGET_<SLUG>` | Trần chi phí theo ngày, tính riêng từng deck |
+| `CHAT_LOG` | `on`: lưu câu hỏi vào `.data/<slug>/chat-log.jsonl` |
+| `ACCESS_CODE_<SLUG>` | Mã truy cập của từng deck (`ACCESS_CODE_HOA_PHAT`, `ACCESS_CODE_NESTLE_VIETNAM`). Trống: không khóa |
+| `ACCESS_CODE` | Mã cũ, chỉ áp dụng cho `/hoa-phat` khi chưa đặt `ACCESS_CODE_HOA_PHAT` |
 | `SITE_URL` | Địa chỉ trang, dùng cho `npm run pdf` và Playwright |
 
 ## Scripts
 
 | Lệnh | Việc |
 |---|---|
-| `npm run check` | Gộp: typecheck, content:check, terms:check, test |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm test` | Vitest (công thức M12, dữ liệu kịch bản) |
-| `npm run content:check` | So `content/content.vi.ts` với `docs/content-v4.md`: đủ section, tiêu đề khớp, đủ mục phụ lục, mọi ô bảng v4 (≥ 12 chữ cái) có trên trang |
-| `npm run terms:check` | Quét `content/ components/ app/ lib/` tìm thuật ngữ cấm ("Mô hình Thế giới" thiếu "AI … thực", "trí tuệ vận hành", "tác tử", "biết trước", "không bị khóa"). Bỏ qua một dòng bằng chú thích `terms-check-ignore` |
-| `npm run eval` | Chạy bộ kiểm thử trợ lý (`evals/`) |
-| `npm run pdf` | Xuất `public/nha-may-sieu-thong-minh.pdf` từ `/ban-in` (cần server đang chạy và `npx playwright install chromium`) |
-| `npm run e2e` | Playwright: `tests/e2e/smoke.spec.ts` (tải trang, 19 section, module, trình chiếu, phụ lục, bản in, lỗi console) và `visual.spec.ts` (ảnh chụp từng section ở 375 / 768 / 1280 / 1920px; tạo ảnh gốc bằng `--update-snapshots`) |
+| `npm run check` | typecheck, content:check, terms:check, knowledge:check, leak:check, test |
+| `npm run content:check [-- --deck=<slug>]` | So nội dung deck với tệp markdown gốc |
+| `npm run terms:check` | Thuật ngữ cấm trong `decks/ components/ app/ lib/` |
+| `npm run knowledge:check` | Hồ sơ tri thức của trợ lý: có nguồn, không giá, không ghi chú khảo sát nội bộ |
+| `npm run leak:check [-- --build]` | Nội dung khách hàng không lẫn sang deck khác hay sang code dùng chung |
+| `npm run eval -- --deck=<slug> [--http]` | Bộ kiểm thử trợ lý và trích xuất của một deck (gọi API thật) |
+| `npm run pdf -- --deck=<slug>` | Xuất `public/decks/<slug>/nha-may-sieu-thong-minh.pdf` từ `/<slug>/ban-in` |
+| `npm run e2e` | Playwright cho mọi deck (smoke, ảnh chụp từng section) |
 
-## Chế độ trình chiếu
+## Thêm khách hàng mới
 
-Bấm `P` (hoặc "Chế độ trình chiếu" trong mục lục). Mỗi section thành một khung toàn màn hình, chữ lớn hơn, ẩn mục lục và trợ lý. Góc phải dưới có số trang, phím gợi ý và mã QR dẫn tới trang.
+1. Viết nội dung gốc `docs/<slug>-content.md` theo cấu trúc section của deck hiện có.
+2. Tạo `decks/<slug>/` (sao chép `decks/nestle-vietnam/` làm mẫu): `content.vi.ts`, `usecases.ts`, `scenarios.ts`, `faq.ts`, `knowledge.ts`, `assistant.ts`, `index.ts`.
+3. Thêm deck vào `decks/all.ts` (allDecks, allAssistants, deckSources, forbiddenTerms) và ảnh vào `public/decks/<slug>/`.
+4. Đặt `ACCESS_CODE_<SLUG>` trong `.env.local` và trên Vercel.
+5. Chạy `npm run check`, `npm run eval -- --deck=<slug>`, `npm run e2e`, rồi `npm run pdf -- --deck=<slug>`.
 
-| Phím | Việc |
-|---|---|
-| `P` | Bật / tắt |
-| `→` `↓` `PageDown` `Space` | Section kế tiếp |
-| `←` `↑` `PageUp` | Section trước |
-| `Home` / `End` | Section đầu / cuối |
-| `D` | Mở / đóng lớp "Xem chi tiết" của section hiện tại |
-| `Esc` | Thoát |
+## Chế độ trình chiếu và bản in
 
-Phím không hoạt động khi đang gõ trong ô nhập.
-
-## Bản in và PDF
-
-`/ban-in` hiển thị toàn bộ nội dung, mọi lớp chi tiết mở sẵn, nền sáng. Nút "Tải bản PDF" ở cuối trang mở `/ban-in?print=1` (tự mở hộp thoại in). Bản PDF tĩnh tạo bằng `npm run pdf`.
+Bấm `P` để trình chiếu (→ ↓ PageDown Space: section kế · ← ↑ PageUp: trước · Home/End · D: lớp chi tiết · Esc: thoát). `/<slug>/ban-in` hiển thị toàn bộ nội dung với mọi lớp chi tiết mở sẵn; `?print=1` tự mở hộp thoại in.
 
 ## Nguyên tắc nội dung
 
-- **Một nguồn duy nhất:** mọi câu chữ nằm trong `content/content.vi.ts`; component không viết cứng câu chữ (trừ vi-copy cho tương tác).
-- Sửa nội dung xong chạy `npm run content:check` và `npm run terms:check`.
+- Câu chữ nằm trong `decks/<slug>/`; component không viết cứng câu chữ hay tên khách hàng.
 - Thuật ngữ chuẩn: **Tự học · Dự báo trước · Nhân rộng** · "Mô hình AI Thế giới thực" · "trí thông minh vận hành" · "Tác nhân AI".
-- Mọi dữ liệu kịch bản mang nhãn "Mô phỏng minh họa".
-
-## Deploy
-
-Code sẵn sàng deploy lên Vercel (đặt biến môi trường trong dự án Vercel). Việc deploy làm sau.
-
-## Điểm lệch so với kế hoạch
-
-| Kế hoạch | Bản dựng | Lý do |
-|---|---|---|
-| PixiJS cho hạt và tia sáng | Canvas 2D tự viết | Nhẹ hơn, không thêm thư viện |
-| GSAP + ScrollTrigger, Framer Motion | IntersectionObserver + CSS transition | Đủ cho chuyển động theo cuộn, giảm JavaScript ban đầu |
-| Font Be Vietnam Pro | Font hệ thống theo Minder Design System | SF Pro / Segoe UI / Noto đủ dấu tiếng Việt, không tải font |
-| `scenarios/*.json` | `scenarios/*.ts` | Có kiểu TypeScript, kiểm tra lúc build |
-| `middleware.ts` | `proxy.ts` | Next.js 16 đổi tên Middleware thành Proxy |
-
-## Tri thức của trợ lý
-
-Trợ lý trả lời từ hai phần (lib/ai/knowledge.ts):
-
-- **Phần A · trang đề xuất**: sinh tự động từ `content/content.vi.ts` và `content/faq.ts` (nguồn chính).
-- **Phần B · hồ sơ đề xuất chi tiết**: tóm lược đã duyệt từ ba tài liệu gốc gửi Hòa Phát (`knowledge/curated/D1–D3.md`, mỗi dữ kiện có nguồn `[Dn tr.N]`; các điểm mâu thuẫn với trang nằm ở `*-conflicts.md` và không đưa vào).
-
-Cập nhật hồ sơ: sửa `knowledge/curated/*.md` → `npm run knowledge:build` → `npm run knowledge:check` (chặn số tiền/phí, tên gọi cũ, dữ kiện thiếu nguồn). Văn bản thô trích từ PDF nằm ở `knowledge/sources/` và không commit.
+- Không nói điểm yếu của khách hàng. Mọi dữ liệu kịch bản mang nhãn "Mô phỏng minh họa".

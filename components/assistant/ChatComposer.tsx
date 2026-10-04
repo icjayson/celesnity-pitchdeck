@@ -2,7 +2,7 @@
 /** Khung nhập: ô chữ tự giãn, micro (Web Speech vi-VN, ẩn nếu không hỗ trợ), nút gửi, thông báo chatNotice. */
 import { useEffect, type RefObject } from "react";
 import { ArrowUp, Mic, Square } from "lucide-react";
-import { labels } from "@/content/content.vi";
+import { useDeck } from "@/components/deck/DeckProvider";
 import type { useSpeech } from "./useSpeech";
 
 const MAX = 1000;
@@ -25,6 +25,7 @@ export function ChatComposer({
   /** Kiểu kính trong suốt (khung chat neo ở trang bìa) */
   glass?: boolean;
 }) {
+  const { labels } = useDeck();
   // Ô nhập tự giãn tới ~4 dòng
   useEffect(() => {
     const el = inputRef.current;

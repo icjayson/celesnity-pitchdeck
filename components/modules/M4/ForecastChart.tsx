@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import type { M4Option } from "@/content/scenarios/m4";
+import type { M4Option } from "@/decks/types";
 import { vnNumber } from "@/lib/format";
 
 /** Biểu đồ hình quạt M4, vẽ bằng SVG theo pixel thật để chữ không bị co ở 375px. */

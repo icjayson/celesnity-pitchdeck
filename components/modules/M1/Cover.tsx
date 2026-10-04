@@ -1,7 +1,7 @@
 "use client";
 /**
  * Minh họa trang bìa (#mo-dau): quả cầu lưới Mô hình AI Thế giới thực, ba quỹ đạo
- * Tự học · Dự báo trước · Nhân rộng, và đường chân trời các nhà máy Hòa Phát
+ * Tự học · Dự báo trước · Nhân rộng, và đường chân trời các nhà máy của khách hàng
  * (gia dụng · điện lạnh · thép) đẩy dòng dữ liệu lên quả cầu.
  */
 import { useId } from "react";

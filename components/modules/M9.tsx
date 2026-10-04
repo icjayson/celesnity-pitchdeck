@@ -2,8 +2,8 @@
 /** M9. Bộ khám phá use case (#use-case). Xem docs/implementation-plan.md mục 2 và 5. */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, ChevronDown, MapPinned, SearchX } from "lucide-react";
-import { expansionMap, phaseLabels, sectorLabels, useCases, type Phase, type Sector, type UseCase } from "@/content/usecases";
-import { labels } from "@/content/content.vi";
+import type { Phase, UseCase } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Label } from "@/components/shared/Label";
 import { RichText } from "@/components/shared/RichText";
 import { onAction } from "@/lib/actions";
@@ -11,7 +11,7 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 import { UseCaseDrawer } from "./M9/Drawer";
 
 type All = "all";
-const sectorOrder: Sector[] = ["gia-dung", "dien-lanh", "thep", "tap-doan"];
+type Sector = string;
 const phaseOrder: Phase[] = ["pilot", "dung-that", "nhan-rong", "nam-2"];
 
 function Pills<T extends string>({
@@ -51,8 +51,10 @@ function Pills<T extends string>({
 }
 
 function Card({ uc, onOpen, wide = false }: { uc: UseCase; onOpen: (id: string) => void; wide?: boolean }) {
+  const { labels, phaseLabels, sectorLabels } = useDeck();
   const primary = !!uc.primary;
-  const isSteel = uc.id === "thep";
+  /** Hướng đề xuất (chưa chốt) hiển thị nét đứt */
+  const isSteel = !!uc.note;
   return (
     <button
       type="button"
@@ -109,6 +111,8 @@ function Card({ uc, onOpen, wide = false }: { uc: UseCase; onOpen: (id: string) 
 
 export default function M9({ variant }: { variant?: string }) {
   void variant;
+  const { useCases, sectorLabels, phaseLabels, expansionMap } = useDeck();
+  const sectorOrder = Object.keys(sectorLabels);
   const [sector, setSector] = useState<Sector | All>("all");
   const [phase, setPhase] = useState<Phase | All>("all");
   const [openId, setOpenId] = useState<string | null>(null);
@@ -117,7 +121,7 @@ export default function M9({ variant }: { variant?: string }) {
 
   const list = useMemo(
     () => useCases.filter((u) => (sector === "all" || u.sectors.includes(sector)) && (phase === "all" || u.phase === phase)),
-    [sector, phase],
+    [sector, phase, useCases],
   );
   const primary = list.filter((u) => u.primary);
   const rest = list.filter((u) => !u.primary);

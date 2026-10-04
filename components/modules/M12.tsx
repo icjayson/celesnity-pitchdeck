@@ -2,8 +2,8 @@
 /** M12. Máy tính giá trị (#gia-tri). Xem docs/implementation-plan.md mục 2 và 5. */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RotateCcw, Clock } from "lucide-react";
-import { calcDefaults, breakEvenGrid, type CalcInputs } from "@/content/scenarios/m12-defaults";
-import { labels } from "@/content/content.vi";
+import type { CalcInputs } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Label } from "@/components/shared/Label";
 import { onAction } from "@/lib/actions";
 import { vnNumber } from "@/lib/format";
@@ -57,6 +57,8 @@ function Assume({ children }: { children: React.ReactNode }) {
 }
 
 export default function M12({ variant }: { variant?: string }) {
+  const { labels, scenarios, party } = useDeck();
+  const { defaults: calcDefaults, breakEvenGrid } = scenarios.m12!;
   void variant;
   const [inputs, setInputs] = useState<CalcInputs>(calcDefaults);
   const [flash, setFlash] = useState<Set<Key>>(new Set());
@@ -69,8 +71,8 @@ export default function M12({ variant }: { variant?: string }) {
     inputsRef.current = inputs;
   }, [inputs]);
   const r = useMemo(() => calculate(inputs), [inputs]);
-  const grid = useMemo(() => breakEvenTable(), []);
-  const near = nearestGridCell(inputs.volumePerYear, inputs.programCostPerYear);
+  const grid = useMemo(() => breakEvenTable(breakEvenGrid), [breakEvenGrid]);
+  const near = nearestGridCell(inputs.volumePerYear, inputs.programCostPerYear, breakEvenGrid);
   const isDefault = sameInputs(inputs, calcDefaults);
 
   const set = useCallback(<K extends Key>(k: K, v: CalcInputs[K]) => setInputs((p) => ({ ...p, [k]: v })), []);
@@ -137,7 +139,7 @@ export default function M12({ variant }: { variant?: string }) {
       <style>{rangeCss}</style>
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <Label variant="sim" text={labels.simShort} />
-        <p className="text-[14px] text-ink-500">Giả định minh họa, không phải số liệu Hòa Phát; số thật được thay sau Cổng 1.</p>
+        <p className="text-[14px] text-ink-500">Giả định minh họa, không phải số liệu {party.short}; số thật được thay sau Cổng 1.</p>
       </div>
 
       <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-8">
@@ -335,7 +337,7 @@ export default function M12({ variant }: { variant?: string }) {
               </p>
               <p className="tabular mt-3 text-[13px] leading-snug text-ink-500">
                 {billions(inputs.programCostPerYear).replace(/,0$/, "")} tỷ đ ÷ {vnNumber(inputs.volumePerYear)} sp. Mức cải thiện tối thiểu mỗi sản
-                phẩm cần đạt; Tài chính Hòa Phát xác nhận.
+                phẩm cần đạt; Tài chính {party.short} xác nhận.
               </p>
             </div>
             <div className="min-w-0 rounded-[var(--radius-card)] border border-line-200 bg-white p-5 sm:p-6">

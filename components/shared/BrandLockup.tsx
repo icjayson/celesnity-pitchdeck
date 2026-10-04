@@ -1,12 +1,14 @@
 "use client";
 /**
- * Logo hai bên ở hero: Hòa Phát × Celesnity.
- * Logo Hòa Phát đặt tại public/brand/hoa-phat-logo-white.png (bản trắng cho nền tối). Khi chưa có file, hiện chữ thay thế.
+ * Logo hai bên ở trang bìa: khách hàng × Celesnity.
+ * Logo khách hàng (bản trắng cho nền tối) lấy từ deck.brand. Khi chưa có file, hiện chữ thay thế.
  */
 import { useEffect, useRef, useState } from "react";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 export function BrandLockup({ label }: { label: string }) {
-  const [hpMissing, setHpMissing] = useState(false);
+  const { brand } = useDeck();
+  const [hpMissing, setHpMissing] = useState(!brand.partnerLogo);
   const hpRef = useRef<HTMLImageElement>(null);
   // Ảnh có thể lỗi trước khi React gắn onError (lúc hydrate), nên kiểm tra lại khi mount
   useEffect(() => {
@@ -16,10 +18,17 @@ export function BrandLockup({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-4" role="img" aria-label={label}>
       {hpMissing ? (
-        <span className="text-[17px] font-semibold tracking-[0.08em] text-white">HÒA PHÁT</span>
+        <span className="text-[17px] font-semibold tracking-[0.08em] text-white">{brand.partnerWordmark}</span>
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
-        <img ref={hpRef} src="/brand/hoa-phat-logo-white.png" alt="" className="h-7 w-auto" onError={() => setHpMissing(true)} />
+        <img
+          ref={hpRef}
+          src={brand.partnerLogo}
+          alt=""
+          className="w-auto"
+          style={{ height: brand.partnerLogoHeight ?? 28 }}
+          onError={() => setHpMissing(true)}
+        />
       )}
       <span aria-hidden className="text-[18px] font-light text-blue-300">
         ×

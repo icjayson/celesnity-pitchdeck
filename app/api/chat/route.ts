@@ -1,9 +1,12 @@
 /**
- * POST /api/chat — trợ lý "Hỏi về đề xuất". Trả stream NDJSON:
+ * POST /api/chat {deck, messages} — trợ lý "Hỏi về đề xuất" của đúng một deck. Trả stream NDJSON:
  * {"t":"text","d"} · {"t":"action","name","input"} · {"t":"fallback","answer","section"} · {"t":"error","message"} · {"t":"done"}
  */
 import { z } from "zod";
 import { chatErrors, runChat, type ChatEvent, type ChatTurn } from "@/lib/ai/chat";
+import { assistantContextFor } from "@/lib/ai/prompt";
+import { hasDeckAccess } from "@/lib/access";
+import { getAssistant, getDeck } from "@/decks/registry";
 import { sessionCookieHeader, sessionFromRequest, takeToken } from "@/lib/ai/rateLimit";
 
 export const runtime = "nodejs";
@@ -15,6 +18,8 @@ const MAX_TURNS_IN = 12;
 const MAX_CHARS = 1000;
 
 const Body = z.object({
+  /** Slug deck: bắt buộc, không có deck mặc định */
+  deck: z.string().min(1).max(64),
   messages: z
     .array(
       z.object({
@@ -61,11 +66,23 @@ export async function POST(request: Request) {
   }
   const parsed = Body.safeParse(json);
   const messages = parsed.success ? normalize(parsed.data.messages) : null;
-  if (!messages) {
+  if (!parsed.success || !messages) {
     return oneShot([{ t: "error", message: chatErrors.badRequest }, { t: "done" }], 400, cookieHeaders);
   }
 
-  if (!takeToken(session.id)) {
+  // Ngữ cảnh riêng của deck: chỉ deck có trong registry, và người gửi phải có quyền vào deck đó
+  const slug = parsed.data.deck;
+  const deck = getDeck(slug);
+  const assistant = getAssistant(slug);
+  if (!deck || !assistant) {
+    return oneShot([{ t: "error", message: chatErrors.badRequest }, { t: "done" }], 400, cookieHeaders);
+  }
+  if (!(await hasDeckAccess(slug, request.headers.get("cookie")))) {
+    return oneShot([{ t: "error", message: chatErrors.badRequest }, { t: "done" }], 401, cookieHeaders);
+  }
+  const ctx = assistantContextFor(deck, assistant);
+
+  if (!takeToken(`${slug}:${session.id}`)) {
     return oneShot([{ t: "error", message: chatErrors.rateLimit }, { t: "done" }], 429, cookieHeaders);
   }
 
@@ -85,7 +102,7 @@ export async function POST(request: Request) {
         }
       };
       try {
-        await runChat(messages, emit, { signal: abort.signal });
+        await runChat(ctx, messages, emit, { signal: abort.signal });
       } finally {
         closed = true;
         try {

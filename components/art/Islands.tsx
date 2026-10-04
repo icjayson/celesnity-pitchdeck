@@ -1,10 +1,11 @@
 /**
  * Ba đảo isometric của cảnh "Nhà máy sống" (SVG thuần, không trạng thái).
  * Gia dụng: dây chuyền lắp ráp, băng chuyền, bếp và tủ · Điện lạnh: tủ lạnh, ống, dàn nóng · Thép: lò, ống khói, cuộn thép.
+ * Viên nang: máy chiết rót, băng tải viên nang, máy đóng hộp · Nhà máy cà phê: tháp sấy, silo · Mạng lưới: ba nhà máy nối về một điểm.
  */
 import type { ReactNode } from "react";
-import type { IslandId } from "./FactoryScene";
-import { HALF, HEX, ISLAND_POS, SLAB, box, cyl, iso, line, mix, type BoxFaces, type CylFaces, type Pt } from "./geometry";
+import type { IslandSpec } from "@/decks/types";
+import { HALF, HEX, ISLAND_POS, SLAB, box, cyl, iso, line, mix, type BoxFaces, type CylFaces, type IslandId, type Pt } from "./geometry";
 
 export type Tone = "dark" | "light";
 
@@ -217,13 +218,116 @@ function Thep({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
   );
 }
 
-export function IslandArt({ id, tone }: { id: IslandId; tone: Tone }) {
+/** Dây chuyền viên nang: máy chiết rót có phễu, băng tải viên nang, máy đóng hộp và chồng hộp */
+function CapsuleLine({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const rollers: string[] = [];
+  for (let x = -44; x <= 44; x += 11) rollers.push(line([P(x, 4, 6), P(x, 18, 6)]));
+  const hopper = cyl(ox, oy, -38, -40, 7, 12, 34);
+  return (
+    <g>
+      {/* Máy chiết rót */}
+      <Box f={box(ox, oy, -52, -52, 28, 24, 34)} pal={pal} />
+      <Cyl c={hopper} pal={pal} />
+      <Detail d={line([P(-50, -28, 10), P(-30, -28, 10), P(-30, -28, 26), P(-50, -28, 26)]) + "Z"} pal={pal} />
+      {/* Bảng điều khiển */}
+      <Box f={box(ox, oy, -18, -50, 6, 10, 22)} pal={pal} />
+      {/* Máy đóng hộp */}
+      <Box f={box(ox, oy, 8, -50, 32, 22, 20)} pal={pal} />
+      <Detail d={line([P(12, -28, 6), P(36, -28, 6)])} pal={pal} />
+      {/* Chồng hộp thành phẩm */}
+      <Box f={box(ox, oy, 42, -46, 12, 12, 8)} pal={pal} />
+      <Box f={box(ox, oy, 42, -46, 12, 12, 8, 8)} pal={pal} />
+      {/* Băng tải và viên nang */}
+      <Box f={box(ox, oy, -52, 4, 104, 14, 6)} pal={pal} />
+      <Detail d={rollers.join("")} pal={pal} opacity={0.4} />
+      {[-42, -30, -18, -6, 6, 18, 30, 42].map((x) => (
+        <Cyl key={x} c={cyl(ox, oy, x, 11, 3.6, 4, 6)} pal={pal} />
+      ))}
+    </g>
+  );
+}
+
+/** Nhà máy cà phê: tháp sấy phun, cyclone, khu chiết xuất và silo bột */
+function CoffeePlant({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const tower = cyl(ox, oy, -28, -30, 13, 62);
+  const cyclone = cyl(ox, oy, -4, -44, 5, 46);
+  const silo1 = cyl(ox, oy, 22, -36, 9, 40);
+  const silo2 = cyl(ox, oy, 40, -18, 9, 34);
+  return (
+    <g>
+      {/* Khu chiết xuất */}
+      <Box f={box(ox, oy, -52, 10, 46, 30, 18)} pal={pal} />
+      <Detail d={line([P(-46, 40, 6), P(-12, 40, 6)]) + line([P(-46, 40, 12), P(-12, 40, 12)])} pal={pal} opacity={0.45} />
+      {/* Tháp sấy phun */}
+      <Cyl c={tower} pal={pal}>
+        <Detail d={`M${tower.cx - tower.rx} ${tower.cy + 18}A${tower.rx} ${tower.ry} 0 0 0 ${tower.cx + tower.rx} ${tower.cy + 18}`} pal={pal} />
+        <Detail d={`M${tower.cx - tower.rx} ${tower.cy + 40}A${tower.rx} ${tower.ry} 0 0 0 ${tower.cx + tower.rx} ${tower.cy + 40}`} pal={pal} opacity={0.35} />
+      </Cyl>
+      <Cyl c={cyclone} pal={pal} />
+      {/* Silo bột */}
+      <Cyl c={silo1} pal={pal} />
+      <Cyl c={silo2} pal={pal} />
+      {/* Ống dẫn bột */}
+      <Pipe pts={[P(-16, -30, 56), P(-4, -40, 56), P(-4, -40, 46)]} pal={pal} />
+      <Pipe pts={[P(-4, -40, 30), P(22, -36, 30), P(22, -36, 40)]} pal={pal} />
+      <Pipe pts={[P(22, -28, 14), P(40, -18, 14)]} pal={pal} />
+      {/* Băng tải ra dây chuyền */}
+      <Box f={box(ox, oy, 6, 14, 46, 10, 5)} pal={pal} />
+    </g>
+  );
+}
+
+/** Mạng lưới nhà máy: ba nhà máy nhỏ nối về một điểm chung */
+function Network({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const hub = cyl(ox, oy, 4, 4, 7, 8);
+  const tank = cyl(ox, oy, 36, -40, 7, 22);
+  const links = [
+    line([P(-34, -34, 1), P(4, 4, 1)]),
+    line([P(28, -30, 1), P(4, 4, 1)]),
+    line([P(-30, 36, 1), P(4, 4, 1)]),
+  ];
+  return (
+    <g>
+      <path {...NS} d={links.join("")} fill="none" stroke={pal.detail} strokeOpacity={0.55} strokeWidth={1} strokeDasharray="3 4" />
+      {/* Nhà máy 1: xưởng và ống khói */}
+      <Box f={box(ox, oy, -50, -50, 26, 26, 22)} pal={pal} />
+      <Cyl c={cyl(ox, oy, -30, -46, 4, 40)} pal={pal} />
+      {/* Nhà máy 2: xưởng và bồn */}
+      <Box f={box(ox, oy, 12, -46, 22, 22, 16)} pal={pal} />
+      <Cyl c={tank} pal={pal} />
+      {/* Nhà máy 3: xưởng dài */}
+      <Box f={box(ox, oy, -50, 26, 38, 20, 14)} pal={pal} />
+      <Detail d={line([P(-46, 46, 5), P(-16, 46, 5)])} pal={pal} opacity={0.45} />
+      {/* Điểm chung */}
+      <Cyl c={hub} pal={pal}>
+        <ellipse {...NS} cx={hub.cx} cy={hub.cy} rx={hub.rx * 0.45} ry={hub.ry * 0.45} fill={pal.detail} fillOpacity={0.7} />
+      </Cyl>
+    </g>
+  );
+}
+
+type ArtKind = IslandSpec["art"];
+const ART: Record<ArtKind, (p: { ox: number; oy: number; pal: Pal }) => ReactNode> = {
+  "gia-dung": GiaDung,
+  "dien-lanh": DienLanh,
+  thep: Thep,
+  "capsule-line": CapsuleLine,
+  "coffee-plant": CoffeePlant,
+  network: Network,
+};
+
+/** Vẽ một đảo: `id` là vị trí (trái · giữa · phải, quyết định bảng màu), `art` là kiểu hình vẽ của deck */
+export function IslandArt({ id, art, tone }: { id: IslandId; art?: ArtKind; tone: Tone }) {
   const pal = paletteFor(id, tone);
   const { x, y } = ISLAND_POS[id];
+  const Art = ART[art ?? id];
   return (
     <g>
       <Platform ox={x} oy={y} pal={pal} />
-      {id === "gia-dung" ? <GiaDung ox={x} oy={y} pal={pal} /> : id === "dien-lanh" ? <DienLanh ox={x} oy={y} pal={pal} /> : <Thep ox={x} oy={y} pal={pal} />}
+      <Art ox={x} oy={y} pal={pal} />
     </g>
   );
 }

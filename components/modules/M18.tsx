@@ -1,20 +1,21 @@
 "use client";
 /**
  * M18 — Danh mục ứng dụng dạng carousel trước/sau, tự chuyển khi cuộn.
- * Dữ liệu: content/usecases.ts (6 ứng dụng chính) + content/scenarios/usecase-before-after.ts.
+ * Dữ liệu: deck.useCases + deck.beforeAfter.
  */
-import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { ArrowRight, BadgeCheck, Hand, Sparkles, UserRound } from "lucide-react";
-import { useCases } from "@/content/usecases";
-import { beforeAfter } from "@/content/scenarios/usecase-before-after";
+import type { UseCase } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { RichText } from "@/components/shared/RichText";
 import { ScrollSteps } from "@/components/shared/ScrollSteps";
 import { onAction } from "@/lib/actions";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-const items = useCases.filter((u) => beforeAfter[u.id] && u.card);
 
 export default function M18(_props: { variant?: string }) {
+  const { useCases, beforeAfter } = useDeck();
+  const items = useMemo(() => useCases.filter((u) => beforeAfter[u.id] && u.card), [useCases, beforeAfter]);
   const [idx, setIdx] = useState(0);
   const reduced = useReducedMotion();
   const total = items.length;
@@ -28,7 +29,7 @@ export default function M18(_props: { variant?: string }) {
         const i = items.findIndex((u) => u.id === uc);
         if (i >= 0) setIdx(i);
       }),
-    [],
+    [items],
   );
 
   const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -108,8 +109,8 @@ export default function M18(_props: { variant?: string }) {
   );
 }
 
-function Slide({ u, n, total }: { u: (typeof items)[number]; n: number; total: number }) {
-  const ba = beforeAfter[u.id];
+function Slide({ u, n, total }: { u: UseCase; n: number; total: number }) {
+  const ba = useDeck().beforeAfter[u.id];
   const card = u.card!;
   return (
     <article className="w-full rounded-[var(--radius-card)] border border-line-200 bg-white p-6 shadow-[0_24px_60px_-40px_rgba(10,31,68,0.45)] sm:p-8">

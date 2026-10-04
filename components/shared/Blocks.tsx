@@ -1,23 +1,27 @@
-import type { Block } from "@/content/types";
+import type { Block } from "@/decks/types";
 import { RichText } from "./RichText";
 import { DataTable } from "./DataTable";
+import { Photo } from "./Photo";
 import { Label } from "./Label";
 import { ModuleSlot } from "./ModuleSlot";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { KeyValue, Cards, Steps, Timeline, Compare, Chips, Pillars } from "./Visuals";
 
-/** Hiển thị một dãy khối nội dung. `skipModules` dùng cho bản in. */
-export function Blocks({ blocks, skipModules = false }: { blocks: Block[]; skipModules?: boolean }) {
+/**
+ * Hiển thị một dãy khối nội dung. `skipModules` dùng cho bản in.
+ * `partner`: tên ngắn của khách hàng, để thẻ của khách hàng có viền orange.
+ */
+export function Blocks({ blocks, skipModules = false, partner }: { blocks: Block[]; skipModules?: boolean; partner?: string }) {
   return (
     <div className="flex flex-col gap-6">
       {blocks.map((b, i) => (
-        <BlockView key={i} block={b} skipModules={skipModules} />
+        <BlockView key={i} block={b} skipModules={skipModules} partner={partner} />
       ))}
     </div>
   );
 }
 
-function BlockView({ block: b, skipModules }: { block: Block; skipModules: boolean }) {
+function BlockView({ block: b, skipModules, partner }: { block: Block; skipModules: boolean; partner?: string }) {
   switch (b.kind) {
     case "lead":
       return (
@@ -55,7 +59,7 @@ function BlockView({ block: b, skipModules }: { block: Block; skipModules: boole
     case "kv":
       return <KeyValue rows={b.rows} />;
     case "cards":
-      return <Cards head={b.head} rows={b.rows} cols={b.cols} tone={b.tone} />;
+      return <Cards head={b.head} rows={b.rows} cols={b.cols} tone={b.tone} partner={partner} />;
     case "steps":
       return <Steps head={b.head} rows={b.rows} layout={b.layout} />;
     case "timeline":
@@ -155,5 +159,22 @@ function BlockView({ block: b, skipModules }: { block: Block; skipModules: boole
       );
     case "module":
       return skipModules ? null : <ModuleSlot id={b.id} variant={b.variant} />;
+    case "photo":
+      return <Photo photo={b.photo} />;
+    case "media":
+      return (
+        <div
+          className={`grid grid-cols-1 items-start gap-8 lg:gap-12 ${
+            b.side === "left" ? "lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]" : "lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]"
+          }`}
+        >
+          <div className={`flex flex-col gap-6 ${b.side === "left" ? "lg:order-2" : ""}`}>
+            {b.blocks.map((x, i) => (
+              <BlockView key={i} block={x} skipModules={skipModules} partner={partner} />
+            ))}
+          </div>
+          <Photo photo={b.photo} className={b.side === "left" ? "lg:order-1" : "lg:justify-self-end"} />
+        </div>
+      );
   }
 }

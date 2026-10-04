@@ -2,8 +2,9 @@
  * Máy tính giá trị (M12): hàm thuần, không phụ thuộc React.
  * Công thức khớp docs/content-v4.md mục #gia-tri (xem content.vi.ts, section "gia-tri").
  */
-import type { CalcInputs } from "@/content/scenarios/m12-defaults";
-import { breakEvenGrid } from "@/content/scenarios/m12-defaults";
+import type { CalcInputs } from "@/decks/types";
+
+type Grid = { volumes: number[]; costs: number[] };
 import { vnNumber } from "./format";
 
 /** Số ngày trung bình mỗi tháng dùng trong công thức v4 */
@@ -108,12 +109,14 @@ export function calculate(i: CalcInputs): CalcResult {
 }
 
 /** Bảng hòa vốn 2×3 (hàng: sản lượng, cột: chi phí) */
-export function breakEvenTable(volumes = breakEvenGrid.volumes, costs = breakEvenGrid.costs): number[][] {
+export function breakEvenTable(grid: Grid): number[][] {
+  const { volumes, costs } = grid;
   return volumes.map((v) => costs.map((c) => breakEvenPerUnit(c, v)));
 }
 
 /** Ô gần nhất trong bảng hòa vốn với lựa chọn hiện tại (so sánh theo tỷ lệ, log) */
-export function nearestGridCell(volume: number, cost: number, volumes = breakEvenGrid.volumes, costs = breakEvenGrid.costs) {
+export function nearestGridCell(volume: number, cost: number, grid: Grid) {
+  const { volumes, costs } = grid;
   const near = (arr: number[], x: number) => {
     let best = 0;
     let bestD = Infinity;

@@ -1,16 +1,19 @@
 "use client";
 /**
  * M15 — Tổng quan lộ trình: dải roadmap 4 giai đoạn + carousel chi tiết từng giai đoạn.
- * Dữ liệu: content/scenarios/roadmap.ts. Đặt trên M10 (chi tiết theo tháng) trong section #lo-trinh.
+ * Dữ liệu: deck.scenarios.roadmap. Đặt trên M10 (chi tiết theo tháng) trong section #lo-trinh.
  */
 import { useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { Flag, Lock, Users, Sparkles, Target, UserRound } from "lucide-react";
 import { vnNumber } from "@/lib/format";
-import { itSteps, phaseEndMonth, roadmapPhases, type RoadmapPhase } from "@/content/scenarios/roadmap";
+import type { RoadmapPhase } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ScrollSteps } from "@/components/shared/ScrollSteps";
 
 export default function M15(_props: { variant?: string }) {
+  const { party, scenarios } = useDeck();
+  const roadmapPhases = scenarios.roadmap.phases;
   const [idx, setIdx] = useState(0);
   const reduced = useReducedMotion();
   const total = roadmapPhases.length;
@@ -75,16 +78,16 @@ export default function M15(_props: { variant?: string }) {
                   ) : null}
                 </span>
                 <span className="text-[16px] font-semibold leading-snug sm:text-[17px]">{p.name}</span>
-                {/* tỷ lệ vận hành: phần orange = Hòa Phát */}
+                {/* tỷ lệ vận hành: phần orange = khách hàng */}
                 <span aria-hidden className={`mt-1 flex h-1.5 w-full overflow-hidden rounded-full ${active && !p.lead ? "bg-white/15" : "bg-navy-900/10"}`}>
                   <span
                     className={active && !p.lead ? "bg-blue-300" : "bg-blue-300/70"}
                     style={{ width: `${p.ops ? p.ops.celesnity : 0}%` }}
                   />
-                  <span className={p.lead && active ? "bg-navy-900" : "bg-orange-500"} style={{ width: `${p.ops ? p.ops.hoaPhat : 100}%` }} />
+                  <span className={p.lead && active ? "bg-navy-900" : "bg-orange-500"} style={{ width: `${p.ops ? p.ops.partner : 100}%` }} />
                 </span>
                 <span className={`text-[12px] ${active && !p.lead ? "text-blue-100/80" : "text-ink-500"} ${active && p.lead ? "!text-navy-900/80" : ""}`}>
-                  {p.ops ? `Hòa Phát vận hành ${p.ops.hoaPhat}%` : "Hòa Phát dẫn dắt"}
+                  {p.ops ? `${party.short} vận hành ${p.ops.partner}%` : `${party.short} dẫn dắt`}
                 </span>
               </button>
             );
@@ -125,6 +128,7 @@ export default function M15(_props: { variant?: string }) {
 }
 
 function PhaseCard({ p }: { p: RoadmapPhase }) {
+  const { party, scenarios } = useDeck();
   const dark = !p.lead;
   return (
     <article
@@ -170,7 +174,7 @@ function PhaseCard({ p }: { p: RoadmapPhase }) {
               ))}
             </ul>
           ) : (
-            <p className="text-[14px] leading-snug">Ban chỉ đạo duyệt khảo sát và phạm vi thử nghiệm thép</p>
+            <p className="text-[14px] leading-snug">{scenarios.roadmap.noGateNote}</p>
           )}
         </Box>
         <Box title="Nguồn lực" icon={<Users aria-hidden size={16} strokeWidth={1.5} />} dark={dark}>
@@ -181,30 +185,30 @@ function PhaseCard({ p }: { p: RoadmapPhase }) {
                   Celesnity <span className="tabular block text-[28px] font-semibold leading-none text-white">{p.ops.celesnity}%</span>
                 </span>
                 <span className="text-right text-[13px] font-medium text-orange-500">
-                  Hòa Phát <span className="tabular block text-[28px] font-semibold leading-none text-orange-500">{p.ops.hoaPhat}%</span>
+                  {party.short} <span className="tabular block text-[28px] font-semibold leading-none text-orange-500">{p.ops.partner}%</span>
                 </span>
               </div>
               <div
                 role="img"
-                aria-label={`Tỷ lệ vận hành: Celesnity ${p.ops.celesnity}%, Hòa Phát ${p.ops.hoaPhat}%`}
+                aria-label={`Tỷ lệ vận hành: Celesnity ${p.ops.celesnity}%, ${party.short} ${p.ops.partner}%`}
                 className="flex h-3.5 overflow-hidden rounded-full bg-white/10"
               >
                 <span className="h-full bg-blue-300" style={{ width: `${p.ops.celesnity}%` }} />
-                <span className="h-full border-l-2 border-navy-800 bg-orange-500" style={{ width: `${p.ops.hoaPhat}%` }} />
+                <span className="h-full border-l-2 border-navy-800 bg-orange-500" style={{ width: `${p.ops.partner}%` }} />
               </div>
               <div className="mt-4 flex flex-col gap-3 border-t border-navy-700 pt-4">
                 <People count={p.people.celesnity} tone="blue" label="Celesnity" />
-                <People count={p.people.hoaPhatIT} tone="orange" label="IT Hòa Phát" />
+                <People count={p.people.partnerTeam} tone="orange" label={party.team} />
               </div>
             </div>
           ) : (
             <div className="flex flex-col gap-1">
-              <p className="text-[20px] font-semibold">Hòa Phát dẫn dắt</p>
+              <p className="text-[20px] font-semibold">{party.short} dẫn dắt</p>
               <p className="text-[14px] text-navy-900/80">Celesnity hỗ trợ</p>
             </div>
           )}
         </Box>
-        <Box title="Năng lực IT Hòa Phát" icon={<Flag aria-hidden size={16} strokeWidth={1.5} />} dark={dark}>
+        <Box title={`Năng lực ${party.team}`} icon={<Flag aria-hidden size={16} strokeWidth={1.5} />} dark={dark}>
           <ItLadder phase={p} dark={dark} />
         </Box>
       </div>
@@ -256,12 +260,15 @@ function People({ count, tone, label }: { count: number; tone: "blue" | "orange"
   );
 }
 
-/** Thang năng lực IT Hòa Phát: mốc đã đạt tới cuối giai đoạn, mốc hiện tại nổi bật */
+/** Thang năng lực của đội khách hàng: mốc đã đạt tới cuối giai đoạn, mốc hiện tại nổi bật */
 function ItLadder({ phase, dark }: { phase: RoadmapPhase; dark: boolean }) {
+  const { phases, itSteps, phaseEndMonth } = useDeck().scenarios.roadmap;
   const end = phaseEndMonth[phase.id];
   const reached = itSteps.filter((s) => s.m <= end);
   const current = reached[reached.length - 1];
-  const start = { "thu-nghiem": 1, "trien-khai": 5, "nhan-rong": 9, "nam-2": 13 }[phase.id];
+  // Giai đoạn bắt đầu ngay sau tháng cuối của giai đoạn trước
+  const pi = phases.findIndex((x) => x.id === phase.id);
+  const start = pi > 0 ? phaseEndMonth[phases[pi - 1].id] + 1 : 1;
   return (
     <div className="flex flex-col">
       <p className={`mb-3 text-[17px] font-semibold leading-snug ${dark ? "text-white" : "text-navy-900"}`}>{current.label}</p>

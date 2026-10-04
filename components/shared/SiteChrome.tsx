@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { List, X, FileDown, BookOpen, Presentation } from "lucide-react";
-import { acts, sections } from "@/content/content.vi";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { plainText } from "./RichText";
 import { scrollToSection } from "@/lib/actions";
 
 /** Mục lục bên trái (thu gọn được) và thanh tiến độ chia 3 hồi. */
 export function SiteChrome() {
+  const { acts, sections, basePath } = useDeck();
   const [active, setActive] = useState<string>(sections[0].id);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -120,10 +121,10 @@ export function SiteChrome() {
             })}
           </ol>
           <div className="mt-2 flex flex-col gap-1 border-t border-line-200 pt-4 text-[14px]">
-            <Link href="/phu-luc" className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-mist-50">
+            <Link href={`${basePath}/phu-luc`} className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-mist-50">
               <BookOpen size={16} strokeWidth={1.5} aria-hidden /> Phụ lục
             </Link>
-            <Link href="/ban-in" className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-mist-50">
+            <Link href={`${basePath}/ban-in`} className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-mist-50">
               <FileDown size={16} strokeWidth={1.5} aria-hidden /> Bản in / PDF
             </Link>
             <button

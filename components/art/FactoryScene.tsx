@@ -7,6 +7,7 @@
  * (components/art/sceneEngine.ts). Canvas tạm dừng khi ngoài khung nhìn, dừng hẳn khi giảm chuyển động.
  */
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { useInView } from "@/lib/useInView";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { IslandArt, paletteFor } from "./Islands";
@@ -25,9 +26,11 @@ import {
   VB_H,
   VB_W,
   box,
+  type IslandId as Slot,
 } from "./geometry";
 
-export type IslandId = "gia-dung" | "dien-lanh" | "thep";
+/** Id đảo theo deck (decks/*: `islands[].id`). Đảo thứ 1, 2, 3 nằm ở vị trí trái, giữa, phải. */
+export type IslandId = string;
 
 export type FactorySceneProps = {
   /** 0: toàn cảnh · 1: Tự học · 2: Dự báo trước · 3: Nhân rộng */
@@ -56,12 +59,6 @@ export type FactorySceneProps = {
   showCoreLabel?: boolean;
 };
 
-export const ISLAND_NAMES: Record<IslandId, string> = {
-  "gia-dung": "Nhà máy gia dụng",
-  "dien-lanh": "Nhà máy điện lạnh",
-  thep: "Nhà máy thép",
-};
-
 const CORE_NAME = "Mô hình AI Thế giới thực";
 
 const EASE = "var(--ease-brand)";
@@ -83,15 +80,24 @@ export function FactoryScene({
   islandNotes,
   showCoreLabel = true,
 }: FactorySceneProps) {
+  const { islands } = useDeck();
+  /** Vị trí ↔ đảo của deck */
+  const spec = (slot: Slot) => islands[ISLAND_IDS.indexOf(slot)];
+  const slotOf = (id: IslandId | null | undefined): Slot | null => {
+    const i = islands.findIndex((x) => x.id === id);
+    return i >= 0 ? ISLAND_IDS[i] : null;
+  };
+  const selSlot = slotOf(selectedIsland);
+  const hlSlot: Slot | "all" | null = highlight === "all" ? "all" : slotOf(highlight);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const [wrapRef, inView] = useInView<HTMLDivElement>("160px");
   const reduced = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<SceneEngine | null>(null);
-  const [hovered, setHovered] = useState<IslandId | null>(null);
+  const [hovered, setHovered] = useState<Slot | null>(null);
   const light = tone === "light";
 
-  const targets: EngineTargets = { state, converge, steel: steelDestination, compact, tone, highlight };
+  const targets: EngineTargets = { state, converge, steel: steelDestination, compact, tone, highlight: hlSlot };
   const targetsRef = useRef(targets);
   targetsRef.current = targets;
   const animate = particles && !reduced;
@@ -121,7 +127,7 @@ export function FactoryScene({
     if (!e) return;
     e.setTargets(targetsRef.current);
     if (e.staticMode) e.renderStatic();
-  }, [state, converge, steelDestination, compact, tone, highlight]);
+  }, [state, converge, steelDestination, compact, tone, hlSlot]);
 
   // Chạy, tạm dừng (ngoài khung nhìn) hoặc dừng hẳn (giảm chuyển động / tắt hạt)
   useEffect(() => {
@@ -132,8 +138,8 @@ export function FactoryScene({
     else e.stop();
   }, [animate, inView]);
 
-  const learnFrom = (id: IslandId) => converge || (state === 1 && id === "gia-dung");
-  const isDim = (id: IslandId) => highlight != null && highlight !== "all" && highlight !== id;
+  const learnFrom = (id: Slot) => converge || (state === 1 && id === "gia-dung");
+  const isDim = (id: Slot) => hlSlot != null && hlSlot !== "all" && hlSlot !== id;
   const strokeVar = compact ? "[--fs-stroke:1px]" : "[--fs-stroke:1.1px] sm:[--fs-stroke:1.5px]";
 
   const futureOn = state === 2;
@@ -195,7 +201,7 @@ export function FactoryScene({
         {/* Quầng dưới đảo: đảo đang chọn (blue) và đích đến thép (orange) */}
         {ISLAND_IDS.map((id) => {
           const { x, y } = ISLAND_POS[id];
-          const on = selectedIsland === id || hovered === id;
+          const on = selSlot === id || hovered === id;
           return (
             <ellipse
               key={id}
@@ -204,7 +210,7 @@ export function FactoryScene({
               rx={170}
               ry={96}
               fill={`url(#${uid}-sel)`}
-              style={{ opacity: on ? (selectedIsland === id ? 1 : 0.6) : 0, transition: tr(["opacity"]) }}
+              style={{ opacity: on ? (selSlot === id ? 1 : 0.6) : 0, transition: tr(["opacity"]) }}
             />
           );
         })}
@@ -221,7 +227,7 @@ export function FactoryScene({
         {ISLAND_IDS.map((id) => {
           const pal = paletteFor(id, tone);
           const dest = id === "thep" && steelDestination;
-          const lift = selectedIsland === id || hovered === id;
+          const lift = selSlot === id || hovered === id;
           const style: CSSProperties = {
             stroke: dest ? HEX.orange500 : pal.stroke,
             strokeWidth: "var(--fs-stroke)",
@@ -231,7 +237,7 @@ export function FactoryScene({
           };
           return (
             <g key={id} strokeLinejoin="round" strokeLinecap="round" style={style}>
-              <IslandArt id={id} tone={tone} />
+              <IslandArt id={id} art={spec(id)?.art} tone={tone} />
             </g>
           );
         })}
@@ -333,7 +339,8 @@ export function FactoryScene({
         ? ISLAND_IDS.map((id) => {
             const { x, y } = ISLAND_POS[id];
             const dest = id === "thep" && steelDestination;
-            const sel = selectedIsland === id;
+            const sel = selSlot === id;
+            const deckId = spec(id)?.id ?? id;
             return (
               <div
                 key={id}
@@ -342,9 +349,9 @@ export function FactoryScene({
               >
                 <Pill light={light} compact={compact} selected={sel} dest={dest}>
                   {dest ? <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" /> : null}
-                  {ISLAND_NAMES[id]}
+                  {spec(id)?.label}
                 </Pill>
-                {islandNotes?.[id] ? <div className="flex flex-col items-center gap-1">{islandNotes[id]}</div> : null}
+                {islandNotes?.[deckId] ? <div className="flex flex-col items-center gap-1">{islandNotes[deckId]}</div> : null}
               </div>
             );
           })
@@ -354,14 +361,15 @@ export function FactoryScene({
       {onIslandClick
         ? ISLAND_IDS.map((id) => {
             const { x, y } = ISLAND_POS[id];
-            const sel = selectedIsland === id;
+            const sel = selSlot === id;
+            const deckId = spec(id)?.id ?? id;
             return (
               <button
                 key={id}
                 type="button"
-                aria-label={`${ISLAND_NAMES[id]}${sel ? ", đang chọn" : ""}`}
+                aria-label={`${spec(id)?.label ?? ""}${sel ? ", đang chọn" : ""}`}
                 aria-pressed={sel}
-                onClick={() => onIslandClick(id)}
+                onClick={() => onIslandClick(deckId)}
                 onMouseEnter={() => setHovered(id)}
                 onMouseLeave={() => setHovered((h) => (h === id ? null : h))}
                 onFocus={() => setHovered(id)}

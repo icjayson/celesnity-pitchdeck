@@ -1,5 +1,5 @@
 import { Sparkles, FlaskConical, Telescope, Compass } from "lucide-react";
-import type { LabelVariant } from "@/content/types";
+import type { LabelVariant } from "@/decks/types";
 import { RichText } from "./RichText";
 
 /** Nhãn trung thực (mục 1.4 và 5.1 của kế hoạch). */

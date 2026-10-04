@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calcDefaults, breakEvenGrid } from "@/content/scenarios/m12-defaults";
+import { calcDefaults, breakEvenGrid } from "@/decks/hoa-phat/scenarios/m12-defaults";
 import {
   approxMoney,
   approxNumber,
@@ -96,7 +96,7 @@ describe("hòa vốn", () => {
     expect(breakEvenPerUnit(1e9, 0)).toBe(Infinity);
   });
   it("bảng 2×3 khớp v4", () => {
-    const t = breakEvenTable();
+    const t = breakEvenTable(breakEvenGrid);
     expect(t.map((r) => r.map(perUnit))).toEqual([
       ["10.000 đ/sp", "20.000 đ/sp", "30.000 đ/sp"],
       ["5.000 đ/sp", "10.000 đ/sp", "15.000 đ/sp"],
@@ -104,9 +104,9 @@ describe("hòa vốn", () => {
     expect(breakEvenGrid.volumes).toEqual([100_000, 200_000]);
   });
   it("ô gần nhất với lựa chọn hiện tại", () => {
-    expect(nearestGridCell(100_000, 2e9)).toEqual({ row: 0, col: 1 });
-    expect(nearestGridCell(180_000, 2.8e9)).toEqual({ row: 1, col: 2 });
-    expect(nearestGridCell(50_000, 0.5e9)).toEqual({ row: 0, col: 0 });
+    expect(nearestGridCell(100_000, 2e9, breakEvenGrid)).toEqual({ row: 0, col: 1 });
+    expect(nearestGridCell(180_000, 2.8e9, breakEvenGrid)).toEqual({ row: 1, col: 2 });
+    expect(nearestGridCell(50_000, 0.5e9, breakEvenGrid)).toEqual({ row: 0, col: 0 });
   });
 });
 

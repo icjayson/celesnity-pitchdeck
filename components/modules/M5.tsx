@@ -1,9 +1,8 @@
 "use client";
 /** M5 — Một ngày trong Nhà máy siêu thông minh (docs/implementation-plan.md mục 2). Dữ liệu: content/scenarios/m5.ts. */
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { Check, MapPin, Pause, Play, RotateCcw } from "lucide-react";
-import { m5Events } from "@/content/scenarios/m5";
-import { labels } from "@/content/content.vi";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Label } from "@/components/shared/Label";
 import { RichText } from "@/components/shared/RichText";
 import { FactoryScene } from "@/components/art/FactoryScene";
@@ -18,11 +17,13 @@ const toMin = (t: string) => {
   const m = /^(\d{2}):(\d{2})$/.exec(t);
   return m ? +m[1] * 60 + +m[2] : 19 * 60 + 15; // "Cuối ngày"
 };
-const STOPS = m5Events.map((e) => (toMin(e.time) - START) / (END - START));
 const HOURS = [6, 8, 10, 12, 14, 16, 18, 20];
 const STEP_MS = 3600;
 
 export default function M5({ variant }: { variant?: string }) {
+  const { labels, scenarios } = useDeck();
+  const m5Events = scenarios.m5.events;
+  const STOPS = useMemo(() => m5Events.map((e) => (toMin(e.time) - START) / (END - START)), [m5Events]);
   const [idx, setIdx] = useState(0);
   const [approved, setApproved] = useState<Record<number, boolean>>({});
   const [playing, setPlaying] = useState(false);

@@ -1,7 +1,7 @@
 "use client";
 /** Thẻ hồ sơ có cấu trúc do AI (hoặc quy tắc) trích xuất. */
 import { CircleCheck, ClipboardList } from "lucide-react";
-import type { CaseCard } from "@/content/scenarios/m6";
+import type { CaseCard } from "@/decks/types";
 
 const severityBars: Record<CaseCard["muc_do"], number> = { Thấp: 1, "Trung bình": 2, Cao: 3 };
 

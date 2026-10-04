@@ -7,7 +7,7 @@ import { ScrollSteps } from "@/components/shared/ScrollSteps";
 const SCROLL_ORDER = [2, 1, 0, 3];
 import { ArrowLeft, UserCheck } from "lucide-react";
 import { RichText, plainText } from "@/components/shared/RichText";
-import { detailTable } from "./shared/detailContent";
+import { useDetailTable } from "./shared/detailContent";
 import { MotionToggle, useMotionGate } from "./shared/motion";
 import { LABEL_X, STACK_H, STACK_W, anchorY, LayerStack } from "./M7/Stack";
 
@@ -24,7 +24,7 @@ function parseLayer(cell: string) {
 }
 
 export default function M7(_props: { variant?: string }) {
-  const { rows } = detailTable("ba-lop", "Bảng ba lớp");
+  const { rows } = useDetailTable("ba-lop", "Bảng ba lớp");
   const items = rows.map((r) => ({ ...parseLayer(r[0] ?? ""), role: plainText(r[1] ?? ""), what: r[2] ?? "" }));
   const [active, setActive] = useState(2); // mặc định mở tầng ① (bước đầu khi cuộn)
   const gate = useMotionGate<HTMLDivElement>();

@@ -1,14 +1,14 @@
 /**
  * Logic trợ lý "Hỏi về đề xuất" (dùng chung cho route /api/chat và evals/run.ts).
+ * Mỗi lượt chạy trên ngữ cảnh của đúng một deck (AssistantContext), không có ngữ cảnh chung giữa khách hàng.
  * Vòng lặp thủ công có streaming qua API tương thích OpenAI (proxy LiteLLM), tối đa 3 lượt gọi mô hình;
  * tool chỉ phát sự kiện hành động xuống trình duyệt.
  */
-import { actionSchemas, type ActionName } from "@/lib/actionSchemas";
+import type { ActionName } from "@/lib/actionSchemas";
 import { budgetAvailable, recordUsage } from "./budget";
-import { fallbackAnswer } from "./faqMatch";
 import { logQuestion } from "./log";
 import { hasApiKey, OaiError, streamChat, type OaiMessage } from "./openai";
-import { followupPool, systemPrompt, tools } from "./prompt";
+import type { AssistantContext } from "./prompt";
 
 export type ChatTurn = { role: "user" | "assistant"; content: string };
 
@@ -83,7 +83,7 @@ function makeTextFilter(out: (d: string) => void) {
 }
 
 /** Đổi các số thứ tự (sau ###GOI_Y###) thành câu hỏi trong danh sách được phép; bỏ câu vừa hỏi và câu trùng */
-function pickFollowups(captured: string[], asked: string[]): string[] {
+function pickFollowups(captured: string[], asked: string[], followupPool: string[]): string[] {
   const nums = (captured.join(" ").match(/\d+/g) ?? []).map(Number);
   const askedSet = new Set(asked.map((a) => a.trim().toLowerCase()));
   const out: string[] = [];
@@ -118,8 +118,8 @@ function lastUserText(messages: ChatTurn[]): string {
   return "";
 }
 
-function emitFallback(emit: (e: ChatEvent) => void, q: string, reason: FallbackReason) {
-  const f = fallbackAnswer(q);
+function emitFallback(ctx: AssistantContext, emit: (e: ChatEvent) => void, q: string, reason: FallbackReason) {
+  const f = ctx.matcher.fallbackAnswer(q);
   emit({ t: "fallback", answer: f.answer, section: f.section, reason });
 }
 
@@ -127,34 +127,33 @@ function emitFallback(emit: (e: ChatEvent) => void, q: string, reason: FallbackR
  * Chạy một lượt hội thoại. `emit` nhận từng sự kiện theo thứ tự; luôn kết thúc bằng {t:"done"}.
  */
 export async function runChat(
+  ctx: AssistantContext,
   messages: ChatTurn[],
   emit: (e: ChatEvent) => void,
   opts: { signal?: AbortSignal } = {},
 ): Promise<void> {
   const q = lastUserText(messages);
-  void logQuestion(q);
+  void logQuestion(ctx.slug, q);
 
   if (!hasApiKey()) {
-    emitFallback(emit, q, "no-key");
+    emitFallback(ctx, emit, q, "no-key");
     emit({ t: "done" });
     return;
   }
-  if (!budgetAvailable()) {
-    emitFallback(emit, q, "budget");
+  if (!budgetAvailable(ctx.slug)) {
+    emitFallback(ctx, emit, q, "budget");
     emit({ t: "done" });
     return;
   }
 
   const convo: OaiMessage[] = [
-    { role: "system", content: systemPrompt },
+    { role: "system", content: ctx.systemPrompt },
     ...messages.map((m): OaiMessage => ({ role: m.role, content: m.content })),
   ];
   // Câu hỏi không có chữ tiếng Việt (có dấu) → nhắc trả lời bằng tiếng Anh. Đặt sau lịch sử để không phá cache tiền tố.
   convo.push({
     role: "system",
-    content: isLikelyEnglish(q)
-      ? "LANGUAGE: English. Write the whole answer in English. Topic: only the Nhà máy siêu thông minh proposal to Hòa Phát. The ###GOI_Y### line lists numbers only."
-      : "LANGUAGE: Tiếng Việt. Chỉ nói về đề xuất Nhà máy siêu thông minh gửi Hòa Phát.",
+    content: isLikelyEnglish(q) ? ctx.languageNudge.en : ctx.languageNudge.vi,
   });  let textEmitted = false;
 
   try {
@@ -170,7 +169,7 @@ export async function runChat(
       const lastTurn = turn === MAX_TURNS - 1;
       const res = await streamChat({
         messages: convo,
-        tools: lastTurn ? undefined : tools,
+        tools: lastTurn ? undefined : ctx.tools,
         maxTokens: MAX_TOKENS,
         effort: "low",
         signal: opts.signal,
@@ -179,12 +178,13 @@ export async function runChat(
       const followups = pickFollowups(
         filter.end(),
         messages.filter((m) => m.role === "user").map((m) => m.content),
+        ctx.followupPool,
       );
       if (followups.length) emit({ t: "followups", items: followups });
-      recordUsage(res.usage);
+      recordUsage(res.usage, ctx.slug);
 
       if (res.finishReason === "content_filter") {
-        if (!textEmitted) emitFallback(emit, q, "refusal");
+        if (!textEmitted) emitFallback(ctx, emit, q, "refusal");
         break;
       }
       if (!res.toolCalls.length) break;
@@ -195,7 +195,7 @@ export async function runChat(
         tool_calls: res.toolCalls.map((c) => ({ id: c.id, type: "function", function: { name: c.name, arguments: c.arguments } })),
       });
       for (const tc of res.toolCalls) {
-        const schema = (actionSchemas as Record<string, (typeof actionSchemas)[ActionName]>)[tc.name];
+        const schema = (ctx.schemas as Record<string, (typeof ctx.schemas)[ActionName]>)[tc.name];
         let input: unknown = null;
         try {
           input = JSON.parse(tc.arguments || "{}");
@@ -217,7 +217,7 @@ export async function runChat(
       if (turnText) emit({ t: "text", d: "\n\n" });
     }
 
-    if (!textEmitted) emitFallback(emit, q, "empty");
+    if (!textEmitted) emitFallback(ctx, emit, q, "empty");
   } catch (err) {
     if (opts.signal?.aborted) {
       emit({ t: "done" });
@@ -230,7 +230,7 @@ export async function runChat(
     } else {
       console.error("[chat] unexpected error", err);
     }
-    if (!textEmitted) emitFallback(emit, q, "api-error");
+    if (!textEmitted) emitFallback(ctx, emit, q, "api-error");
     else emit({ t: "error", message: chatErrors.generic });
   }
   emit({ t: "done" });

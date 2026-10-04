@@ -1,8 +1,8 @@
 "use client";
-/** Khung "bộ đàm": nút micro lớn (Web Speech vi-VN), ô gõ, nút lập hồ sơ, 3 câu mẫu. */
+/** Khung "bộ đàm": nút micro lớn (Web Speech vi-VN), ô gõ, nút gửi, câu mẫu. Chữ lấy từ deck (scenarios.m6.copy). */
 import { useEffect, useRef } from "react";
 import { ArrowRight, Mic, Square } from "lucide-react";
-import { m6Samples } from "@/content/scenarios/m6";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { useSpeech } from "@/components/assistant/useSpeech";
 
 const MAX = 300;
@@ -20,6 +20,7 @@ export function RadioInput({
   busy: boolean;
   reduced: boolean;
 }) {
+  const { samples, copy } = useDeck().scenarios.m6;
   const speech = useSpeech({
     onText: (t) => onChange(t.slice(0, MAX)),
     onEnd: (t) => {
@@ -47,7 +48,7 @@ export function RadioInput({
               aria-hidden
               className={`h-1.5 w-1.5 rounded-full ${speech.listening ? "bg-blue-400 shadow-[0_0_10px_rgba(79,163,247,1)]" : "bg-blue-300/60"}`}
             />
-            <span className="truncate">Kênh báo lỗi · trạm kiểm tra</span>
+            <span className="truncate">{copy.channel}</span>
           </span>
           <span className="shrink-0 whitespace-nowrap text-[12px] text-blue-300">{speech.listening ? "Đang nghe" : busy ? "Đang gửi" : "Sẵn sàng"}</span>
         </div>
@@ -60,7 +61,7 @@ export function RadioInput({
           }}
         >
           <label htmlFor="m6-input" className="text-[13px] text-blue-300">
-            {speech.supported ? "Nói vào bộ đàm hoặc gõ lời báo lỗi" : "Gõ lời báo lỗi như công nhân nói"}
+            {speech.supported ? copy.prompt : copy.promptNoSpeech}
           </label>
           <textarea
             id="m6-input"
@@ -76,7 +77,7 @@ export function RadioInput({
                 if (canSend) onSubmit(value.trim());
               }
             }}
-            placeholder="Ví dụ: Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt…"
+            placeholder={copy.placeholder}
             className="mt-2 block min-h-[84px] w-full resize-none bg-transparent text-[17px] leading-relaxed text-white outline-none placeholder:text-blue-300/50 focus-visible:outline-none disabled:opacity-70"
           />
           <div className="mt-3 flex items-center justify-between gap-3 border-t border-navy-700 pt-3">
@@ -88,7 +89,7 @@ export function RadioInput({
               disabled={!canSend}
               className="inline-flex items-center gap-2 rounded-[var(--radius-control)] bg-blue-600 px-4 py-2 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-blue-500 disabled:bg-navy-800 disabled:text-blue-300/60"
             >
-              Lập hồ sơ
+              {copy.submit}
               <ArrowRight aria-hidden size={16} strokeWidth={1.5} />
             </button>
           </div>
@@ -100,7 +101,7 @@ export function RadioInput({
               type="button"
               onClick={speech.toggle}
               disabled={busy}
-              aria-label={speech.listening ? "Dừng nghe" : "Bấm để nói lời báo lỗi"}
+              aria-label={speech.listening ? "Dừng nghe" : copy.micLabel}
               aria-pressed={speech.listening}
               className={`relative flex h-20 w-20 items-center justify-center rounded-full border border-blue-400 text-white transition-[background-color,box-shadow] duration-300 disabled:opacity-60 ${
                 speech.listening
@@ -130,7 +131,7 @@ export function RadioInput({
       <div>
         <p className="text-[13px] font-medium text-ink-500">Câu mẫu, chạm để thử</p>
         <ul className="mt-2.5 flex flex-col gap-2">
-          {m6Samples.map((s) => (
+          {samples.map((s) => (
             <li key={s}>
               <button
                 type="button"

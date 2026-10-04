@@ -1,11 +1,10 @@
 "use client";
-/** M10. Thanh kéo 12 tháng (#lo-trinh): quyền vận hành chuyển dần về đội Hòa Phát. Xem docs/implementation-plan.md mục 2 và 5. */
+/** M10. Thanh kéo 12 tháng (#lo-trinh): quyền vận hành chuyển dần về đội của khách hàng. Xem docs/implementation-plan.md mục 2 và 5. */
 import { useEffect, useState } from "react";
 import { ScrollSteps } from "@/components/shared/ScrollSteps";
 import { ArrowRight, Check, Database, Factory, Pause, Play, RotateCcw, SkipForward, UserRound } from "lucide-react";
-import { m10Finale, m10Months } from "@/content/scenarios/m10";
-import { useCases } from "@/content/usecases";
-import { labels } from "@/content/content.vi";
+import type { MonthRow, UseCase } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Label } from "@/components/shared/Label";
 import { onAction } from "@/lib/actions";
 import { vnNumber } from "@/lib/format";
@@ -14,26 +13,17 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 import { Timeline } from "./M10/Timeline";
 
 const STEP_MS = 1200;
-const chipIds = ["UC0", "UC1", "UC2", "UC3", "UC4", "UC5"];
-const shortName: Record<string, string> = {
-  UC0: "Hồ sơ khách hàng",
-  UC1: "Lô hàng rủi ro cao",
-  UC2: "So sánh phương án",
-  UC3: "Bảo hành sớm",
-  UC4: "Tối ưu đề xuất AI",
-  UC5: "Chẩn đoán trước",
-};
-const liveMonth = (id: string) => {
+const liveMonth = (useCases: UseCase[], id: string) => {
   const uc = useCases.find((u) => u.id === id);
   const m = uc?.liveFrom.match(/T\+?(\d+)/);
   return m ? Number(m[1]) : 12;
 };
-/** Các bậc của đội ngũ IT theo đúng thứ tự xuất hiện trong bảng 12 tháng */
-const itSteps = m10Months.reduce<{ label: string; from: number }[]>((acc, r) => {
-  if (!acc.some((s) => s.label === r.it)) acc.push({ label: r.it, from: r.m });
-  return acc;
-}, []);
-const steelRows = m10Months.filter((r) => r.steel);
+/** Các bậc của đội vận hành theo đúng thứ tự xuất hiện trong bảng 12 tháng */
+const itStepsOf = (months: MonthRow[]) =>
+  months.reduce<{ label: string; from: number }[]>((acc, r) => {
+    if (!acc.some((s) => s.label === r.it)) acc.push({ label: r.it, from: r.m });
+    return acc;
+  }, []);
 
 /** Biểu tượng người, có nửa người cho 0,5 */
 function People({ count, tone, label }: { count: number; tone: "blue" | "orange"; label: string }) {
@@ -65,6 +55,10 @@ function People({ count, tone, label }: { count: number; tone: "blue" | "orange"
 
 export default function M10({ variant }: { variant?: string }) {
   void variant;
+  const { labels, useCases, party, scenarios } = useDeck();
+  const { months: m10Months, finale: m10Finale, chips, lane, partnerShareNote } = scenarios.m10;
+  const itSteps = itStepsOf(m10Months);
+  const laneRows = m10Months.filter((r) => r.expansion);
   const [month, setMonth] = useState(1);
   const [playing, setPlaying] = useState(false);
   const reduced = useReducedMotion();
@@ -171,7 +165,7 @@ export default function M10({ variant }: { variant?: string }) {
                 <div className="flex min-w-0 items-start gap-2">
                   <UserRound size={16} strokeWidth={1.5} aria-hidden className="mt-[3px] shrink-0 text-orange-700" />
                   <div className="min-w-0">
-                    <dt className="text-[12px] font-medium text-ink-500">IT Hòa Phát</dt>
+                    <dt className="text-[12px] font-medium text-ink-500">{party.team}</dt>
                     <dd className="text-navy-900">{row.it}</dd>
                   </div>
                 </div>
@@ -182,7 +176,7 @@ export default function M10({ variant }: { variant?: string }) {
             <div className="mt-5">
               <p className="mb-2.5 text-[13px] font-semibold text-navy-900">Use case đang dùng thật</p>
               <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {chipIds.map((id) => {
+                {chips.map(({ id, short }) => {
                   const on = row.live.includes(id);
                   return (
                     <li
@@ -196,10 +190,10 @@ export default function M10({ variant }: { variant?: string }) {
                       </span>
                       <span className="min-w-0 leading-tight">
                         <span className="tabular block text-[13px] font-semibold">Ứng dụng {String(Number(id.slice(2)) + 1).padStart(2, "0")}</span>
-                        <span className={`block truncate text-[12px] ${on ? "text-white/85" : ""}`}>{shortName[id]}</span>
+                        <span className={`block truncate text-[12px] ${on ? "text-white/85" : ""}`}>{short}</span>
                       </span>
-                      <span className="sr-only">{on ? ": dùng thật" : `: từ T+${liveMonth(id)}`}</span>
-                      {!on ? <span aria-hidden className="tabular ml-auto shrink-0 text-[11px]">T+{liveMonth(id)}</span> : null}
+                      <span className="sr-only">{on ? ": dùng thật" : `: từ T+${liveMonth(useCases, id)}`}</span>
+                      {!on ? <span aria-hidden className="tabular ml-auto shrink-0 text-[11px]">T+{liveMonth(useCases, id)}</span> : null}
                     </li>
                   );
                 })}
@@ -209,17 +203,17 @@ export default function M10({ variant }: { variant?: string }) {
             {/* Làn thép */}
             <div
               className={`mt-5 overflow-hidden rounded-[var(--radius-card)] border transition-all duration-500 ease-[var(--ease-brand)] ${
-                month >= 8 ? "border-navy-700/25 bg-white opacity-100" : "border-dashed border-line-200 bg-transparent opacity-70"
+                month >= lane.opensAt ? "border-navy-700/25 bg-white opacity-100" : "border-dashed border-line-200 bg-transparent opacity-70"
               }`}
             >
               <div className="flex flex-wrap items-center gap-2 border-b border-line-200 px-4 py-3">
                 <Factory size={16} strokeWidth={1.5} aria-hidden className="text-navy-700" />
-                <p className="text-[13px] font-semibold text-navy-900">Làn thép</p>
-                <span className="text-[12px] text-ink-500">{month >= 8 ? "mở từ T+8" : "xuất hiện từ T+8"}</span>
+                <p className="text-[13px] font-semibold text-navy-900">{lane.title}</p>
+                <span className="text-[12px] text-ink-500">{month >= lane.opensAt ? lane.openNote : lane.closedNote}</span>
               </div>
-              {month >= 8 ? (
+              {month >= lane.opensAt ? (
                 <ol className="flex flex-col gap-0.5 px-4 py-3">
-                  {steelRows.map((s) => {
+                  {laneRows.map((s) => {
                     const shown = s.m <= month;
                     const cur = s.m === month;
                     return (
@@ -229,13 +223,13 @@ export default function M10({ variant }: { variant?: string }) {
                         aria-hidden={!shown}
                       >
                         <span className={`tabular ${cur ? "font-semibold text-navy-900" : "text-ink-500"}`}>T+{s.m}</span>
-                        <span className={cur ? "font-medium text-navy-900" : "text-ink-500"}>{s.steel}</span>
+                        <span className={cur ? "font-medium text-navy-900" : "text-ink-500"}>{s.expansion}</span>
                       </li>
                     );
                   })}
                 </ol>
               ) : (
-                <p className="px-4 py-3 text-[13px] text-ink-500">Sau Cổng 3, mô hình bắt đầu bước sang thép.</p>
+                <p className="px-4 py-3 text-[13px] text-ink-500">{lane.pending}</p>
               )}
             </div>
           </div>
@@ -249,26 +243,26 @@ export default function M10({ variant }: { variant?: string }) {
                   Celesnity <span className="tabular block text-[28px] font-semibold leading-none text-navy-900">{share.celesnity}%</span>
                 </span>
                 <span className="text-right text-[13px] font-medium text-orange-700">
-                  Hòa Phát <span className="tabular block text-[28px] font-semibold leading-none text-orange-600">{share.hoaPhat}%</span>
+                  {party.short} <span className="tabular block text-[28px] font-semibold leading-none text-orange-600">{share.partner}%</span>
                 </span>
               </div>
               <div
                 className="flex h-4 overflow-hidden rounded-full bg-line-200"
                 role="img"
-                aria-label={`Tỷ lệ vận hành: Celesnity ${share.celesnity}%, Hòa Phát ${share.hoaPhat}%`}
+                aria-label={`Tỷ lệ vận hành: Celesnity ${share.celesnity}%, ${party.short} ${share.partner}%`}
               >
                 <div className="h-full bg-blue-300 transition-[width] duration-500 ease-[var(--ease-brand)]" style={{ width: `${share.celesnity}%` }} />
-                <div className="h-full border-l-2 border-white bg-orange-500 transition-[width] duration-500 ease-[var(--ease-brand)]" style={{ width: `${share.hoaPhat}%` }} />
+                <div className="h-full border-l-2 border-white bg-orange-500 transition-[width] duration-500 ease-[var(--ease-brand)]" style={{ width: `${share.partner}%` }} />
               </div>
 
               <div className="mt-5 flex flex-col gap-3 border-t border-line-200 pt-4">
                 <People count={row.people.celesnity} tone="blue" label="Celesnity" />
-                <People count={row.people.hoaPhatIT} tone="orange" label="IT Hòa Phát" />
+                <People count={row.people.partnerTeam} tone="orange" label={party.team} />
               </div>
             </div>
 
             <div className="rounded-[var(--radius-card)] border border-line-200 bg-white p-5 sm:p-6">
-              <p className="text-[13px] font-semibold uppercase tracking-[0.1em] text-ink-500">Năng lực IT Hòa Phát</p>
+              <p className="text-[13px] font-semibold uppercase tracking-[0.1em] text-ink-500">Năng lực {party.team}</p>
               <p className="mt-1.5 text-[17px] font-semibold text-navy-900">{row.itLevel}</p>
               <ol className="mt-4 flex flex-col">
                 {itSteps.map((s, i) => {
@@ -315,8 +309,8 @@ export default function M10({ variant }: { variant?: string }) {
             <span aria-hidden className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-orange-500/25 blur-3xl" />
             <div className="relative grid grid-cols-1 items-end gap-6 lg:grid-cols-[auto_1fr] lg:gap-12">
               <div>
-                <p className="tabular text-[72px] font-semibold leading-none tracking-[-0.04em] text-orange-600 sm:text-[96px]">{share.hoaPhat}%</p>
-                <p className="mt-2 text-[14px] font-semibold text-orange-700">phần vận hành của Hòa Phát</p>
+                <p className="tabular text-[72px] font-semibold leading-none tracking-[-0.04em] text-orange-600 sm:text-[96px]">{share.partner}%</p>
+                <p className="mt-2 text-[14px] font-semibold text-orange-700">{partnerShareNote}</p>
               </div>
               <div>
                 <p className="text-[28px] font-semibold leading-[1.15] tracking-[-0.02em] text-navy-900 sm:text-[40px]">{m10Finale.headline}</p>

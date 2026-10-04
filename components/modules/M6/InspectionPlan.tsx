@@ -1,8 +1,18 @@
 "use client";
 /** Kế hoạch kiểm tra do Tác nhân AI soạn (mẫu điền theo thẻ hồ sơ) + nút "Trưởng ca duyệt". */
 import { Bot, Check, CircleCheck } from "lucide-react";
-import { m6PlanTemplate, type CaseCard } from "@/content/scenarios/m6";
-import { labels } from "@/content/content.vi";
+import type { CaseCard } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
+
+/** Điền mẫu "{khóa|chữ thay thế}" bằng dữ liệu thẻ hồ sơ */
+function fill(tpl: string, card: CaseCard): string {
+  const values: Record<string, string> = {
+    lo: card.lo,
+    tram: card.tram,
+    thieu: card.thong_tin_con_thieu.join(", ").toLowerCase(),
+  };
+  return tpl.replace(/\{(\w+)(?:\|([^}]*))?\}/g, (_, k: string, alt?: string) => values[k] || alt || "");
+}
 import { Label } from "@/components/shared/Label";
 
 export function InspectionPlan({
@@ -14,7 +24,8 @@ export function InspectionPlan({
   approved: boolean;
   onApprove: () => void;
 }) {
-  const steps = m6PlanTemplate(card);
+  const { labels, scenarios } = useDeck();
+  const steps = (scenarios.m6.kind === "case" ? scenarios.m6.planTemplate : []).map((t) => fill(t, card));
   return (
     <section aria-labelledby="m6-plan-title" className="rounded-[var(--radius-card)] border border-line-200 bg-white p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">

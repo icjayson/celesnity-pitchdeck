@@ -1,5 +1,4 @@
-import type { Section as SectionT } from "@/content/types";
-import { acts } from "@/content/content.vi";
+import type { Act, Section as SectionT } from "@/decks/types";
 import { Blocks } from "./Blocks";
 import { DetailsPanel } from "./Details";
 import { RichText, plainText } from "./RichText";
@@ -14,7 +13,20 @@ const themeClass: Record<SectionT["theme"], string> = {
 };
 
 /** Một section của trang (mục 3 của kế hoạch). `printMode` mở hết chi tiết, bỏ module. */
-export function Section({ s, firstOfAct = false, printMode = false }: { s: SectionT; firstOfAct?: boolean; printMode?: boolean }) {
+export function Section({
+  s,
+  acts,
+  partner,
+  firstOfAct = false,
+  printMode = false,
+}: {
+  s: SectionT;
+  acts: Act[];
+  /** Tên ngắn của khách hàng (deck.party.short) */
+  partner?: string;
+  firstOfAct?: boolean;
+  printMode?: boolean;
+}) {
   const act = acts.find((a) => a.n === s.act);
 
   if (s.layout === "hero" && !printMode) {
@@ -25,7 +37,12 @@ export function Section({ s, firstOfAct = false, printMode = false }: { s: Secti
         {s.cover ? (
           <div aria-hidden className="absolute inset-0 -z-10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={s.cover} alt="" className="h-full w-full object-cover object-[70%_45%]" />
+            <img
+              src={s.cover}
+              alt=""
+              className={`h-full w-full object-cover object-[70%_45%] ${s.coverSoft ? "scale-[1.04] blur-[1.5px]" : ""}`}
+            />
+            {s.coverSoft ? <div className="absolute inset-0 bg-[rgba(6,20,46,0.28)]" /> : null}
             {/* gradient navy: đậm bên trái để đọc chữ, nhạt dần sang phải để lộ ảnh */}
             <div className="absolute inset-0 bg-[linear-gradient(90deg,#06142E_0%,rgba(6,20,46,0.93)_30%,rgba(6,20,46,0.7)_55%,rgba(6,20,46,0.45)_100%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,20,46,0.55)_0%,rgba(6,20,46,0)_30%,rgba(6,20,46,0)_65%,#06142E_100%)]" />
@@ -39,7 +56,7 @@ export function Section({ s, firstOfAct = false, printMode = false }: { s: Secti
             </h1>
             {/* chú thích ở trang bìa lớn hơn 125% so với note thường (14px → 17,5px) */}
             <div className="flex flex-col gap-6 [&_p.muted]:text-[17.5px]">
-              <Blocks blocks={rest} />
+              <Blocks blocks={rest} partner={partner} />
             </div>
           </div>
           {visual && visual.kind === "module" ? (
@@ -72,7 +89,7 @@ export function Section({ s, firstOfAct = false, printMode = false }: { s: Secti
             <RichText text={s.title} />
           </h2>
         </header>
-        <Blocks blocks={s.blocks} skipModules={printMode} />
+        <Blocks blocks={s.blocks} skipModules={printMode} partner={partner} />
         {(() => {
           const items = (s.details ?? []).filter((d) => printMode || !d.printOnly);
           return items.length ? (

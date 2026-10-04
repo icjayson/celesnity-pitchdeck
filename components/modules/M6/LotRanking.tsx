@@ -5,8 +5,8 @@
  */
 import { useEffect, useState } from "react";
 import { Network } from "lucide-react";
-import { m6Ranking, type CaseCard } from "@/content/scenarios/m6";
-import { labels } from "@/content/content.vi";
+import type { CaseCard } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Label } from "@/components/shared/Label";
 
 const ROW = 64; // chiều cao mỗi hàng (px), dùng cho đường nối
@@ -15,6 +15,8 @@ const GAP = 8;
 type Row = { lo: string; risk: number | null; reason: string; own?: boolean };
 
 export function LotRanking({ card, reduced }: { card: CaseCard; reduced: boolean }) {
+  const { labels, scenarios } = useDeck();
+  const m6Ranking = scenarios.m6.kind === "case" ? scenarios.m6.ranking : [];
   const own: Row = { lo: card.lo || "chưa rõ", risk: null, reason: "Lô của hồ sơ vừa lập", own: true };
   const rows: Row[] = [own, ...m6Ranking.filter((r) => r.lo !== card.lo)];
   const [linked, setLinked] = useState(reduced);

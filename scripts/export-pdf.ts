@@ -1,24 +1,27 @@
 /**
- * npm run pdf
- * Mở trang /ban-in bằng Chromium (Playwright) và lưu public/nha-may-sieu-thong-minh.pdf.
+ * npm run pdf -- --deck=<slug>   (mặc định hoa-phat)
+ * Mở trang /<slug>/ban-in bằng Chromium (Playwright) và lưu public/decks/<slug>/nha-may-sieu-thong-minh.pdf.
  * Cần server đang chạy (npm run dev hoặc npm run build && npm start) và trình duyệt Playwright:
  *   npx playwright install chromium
  * Script không tự cài trình duyệt.
  */
+import { mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const base = (process.env.SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
-const url = `${base}/ban-in`;
-const out = resolve(root, "public/nha-may-sieu-thong-minh.pdf");
+const deck = process.argv.find((a) => a.startsWith("--deck="))?.slice(7) ?? "hoa-phat";
+if (!/^[a-z0-9-]+$/.test(deck)) throw new Error(`Slug không hợp lệ: ${deck}`);
+const url = `${base}/${deck}/ban-in`;
+const out = resolve(root, `public/decks/${deck}/nha-may-sieu-thong-minh.pdf`);
 
 async function main() {
   try {
     const res = await fetch(url, { redirect: "manual" });
     if (res.status >= 300 && res.status < 400 && res.headers.get("location")?.includes("/truy-cap")) {
-      console.error(`Trang đang khóa bằng ACCESS_CODE. Tạm để trống ACCESS_CODE khi xuất PDF, hoặc chạy server không có mã.`);
+      console.error(`Deck ${deck} đang khóa bằng mã truy cập. Tạm bỏ ACCESS_CODE_${deck.toUpperCase().replace(/-/g, "_")} khi xuất PDF.`);
       process.exit(1);
     }
     if (!res.ok) {
@@ -48,6 +51,7 @@ async function main() {
     await page.emulateMedia({ media: "print" });
     await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
     await page.evaluate(() => document.fonts.ready);
+    mkdirSync(dirname(out), { recursive: true });
     await page.pdf({
       path: out,
       format: "A4",

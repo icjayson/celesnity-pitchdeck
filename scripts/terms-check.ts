@@ -1,6 +1,6 @@
 /**
  * npm run terms:check
- * Quét content/, components/, app/, lib/ (.ts, .tsx) tìm thuật ngữ cấm (docs/BUILD_BRIEF.md, "Thuật ngữ").
+ * Quét decks/, components/, app/, lib/ (.ts, .tsx) tìm thuật ngữ cấm (docs/BUILD_BRIEF.md, "Thuật ngữ").
  * Chuẩn: "Mô hình AI Thế giới thực" · "trí thông minh" (vận hành) · "Tác nhân AI".
  * Được phép: "Luật Trí tuệ nhân tạo", "sở hữu trí tuệ" (tên pháp lý).
  * Bỏ qua một dòng: thêm chú thích `terms-check-ignore` trên chính dòng đó.
@@ -11,7 +11,7 @@ import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const dirs = ["content", "components", "app", "lib"];
+const dirs = ["decks", "components", "app", "lib"];
 
 const rules: { re: RegExp; why: string }[] = [
   { re: /Mô hình Thế giới/giu, why: 'thiếu "AI": dùng "Mô hình AI Thế giới thực"' },

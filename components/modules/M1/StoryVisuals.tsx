@@ -7,6 +7,7 @@
  * Chuyển động chỉ chạy khi minh họa đang hiển thị; tắt khi người dùng giảm chuyển động.
  */
 import { useId } from "react";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 const BLUE5 = "#2F7BF6";
 const BLUE3 = "#8DB8FF";
@@ -186,23 +187,21 @@ function SelfLearning({ on, reduced }: P) {
 
 const NOW_X = 220;
 const NOW_Y = 160;
-const OPTIONS = [
+/** Hình dạng ba nhánh; nhãn lấy từ deck (scenarios.m1.foresight.options) */
+const OPTION_SHAPES = [
   {
-    label: "Giữ nguyên",
     line: `M${NOW_X} ${NOW_Y} C 320 158, 450 160, 570 156`,
     band: `M${NOW_X} ${NOW_Y} C 320 146, 450 136, 570 124 L570 188 C 450 182, 320 172, ${NOW_X} ${NOW_Y} Z`,
     ly: 114,
     tone: "mute",
   },
   {
-    label: "Chỉnh firmware",
     line: `M${NOW_X} ${NOW_Y} C 310 172, 440 208, 570 218`,
     band: `M${NOW_X} ${NOW_Y} C 310 162, 440 190, 570 196 L570 240 C 440 226, 310 182, ${NOW_X} ${NOW_Y} Z`,
     ly: 190,
     tone: "blue",
   },
   {
-    label: "Đổi linh kiện",
     line: `M${NOW_X} ${NOW_Y} C 300 182, 420 268, 570 282`,
     band: `M${NOW_X} ${NOW_Y} C 300 176, 420 256, 570 266 L570 298 C 420 280, 300 188, ${NOW_X} ${NOW_Y} Z`,
     ly: 320,
@@ -211,12 +210,14 @@ const OPTIONS = [
 ] as const;
 
 function Foresight({ on }: P) {
+  const f = useDeck().scenarios.m1.foresight;
+  const OPTIONS = OPTION_SHAPES.map((o, i) => ({ ...o, label: f.options[i] }));
   const history = `M40 168 L70 152 L100 170 L130 150 L160 164 L190 152 L${NOW_X} ${NOW_Y}`;
   return (
     <svg {...svgProps}>
       {/* trục */}
       <text x={40} y={70} fontSize="12" fontWeight="600" letterSpacing="1.2" fill={BLUE3}>
-        TỈ LỆ LỖI
+        {f.axis}
       </text>
       <line x1={40} x2={40} y1={82} y2={340} stroke={BLUE3} strokeOpacity="0.3" />
       <line x1={40} x2={580} y1={340} y2={340} stroke={BLUE3} strokeOpacity="0.3" />
@@ -280,10 +281,10 @@ function Foresight({ on }: P) {
         <circle cx={570} cy={282} r="6" fill={ORANGE} />
         <rect x={300} y={286} width="168" height="44" rx="10" fill={NAVY8} stroke={ORANGE} strokeOpacity="0.7" />
         <text x={314} y={304} fontSize="12" fontWeight="700" fill="#fff">
-          Giảm lỗi nhiều nhất
+          {f.pickTitle}
         </text>
         <text x={314} y={321} fontSize="11.5" fill={BLUE3}>
-          Độ chắc chắn: cao
+          {f.pickNote}
         </text>
       </g>
     </svg>
@@ -292,14 +293,17 @@ function Foresight({ on }: P) {
 
 /* ───────────── 3. Nhân rộng ───────────── */
 
-const TARGETS = [
-  { label: "Dây chuyền mới", y: 72, fill: 0.62 },
-  { label: "Nhà cung cấp mới", y: 158, fill: 0.68 },
-  { label: "Model mới", y: 244, fill: 0.58 },
-  { label: "Nhà máy thép", y: 330, fill: 0.45, steel: true },
+/** Vị trí bốn nơi nhận; nhãn lấy từ deck (scenarios.m1.replicate.targets), nơi cuối là đích đến */
+const TARGET_SLOTS = [
+  { y: 72, fill: 0.62 },
+  { y: 158, fill: 0.68 },
+  { y: 244, fill: 0.58 },
+  { y: 330, fill: 0.45, steel: true },
 ];
 
 function Replicate({ on, reduced }: P) {
+  const r = useDeck().scenarios.m1.replicate;
+  const TARGETS = TARGET_SLOTS.map((t, i) => ({ ...t, label: r.targets[i] }));
   const sx = 222;
   const sy = 200;
   const tx = 392;
@@ -313,10 +317,10 @@ function Replicate({ on, reduced }: P) {
       <rect x={46} y={152} width="180" height="96" rx="14" fill={NAVY8} stroke={BLUE3} strokeOpacity="0.4" />
       <rect x={40} y={158} width="180" height="96" rx="14" fill="#0E2550" stroke={BLUE5} strokeWidth="2" />
       <text x={58} y={190} fontSize="14.5" fontWeight="700" fill="#fff">
-        Dây chuyền bếp từ
+        {r.sourceTitle}
       </text>
       <text x={58} y={210} fontSize="12.5" fill={BLUE3}>
-        Hòa Mạc
+        {r.sourceSub}
       </text>
       <rect x={58} y={224} width="144" height="7" rx="3.5" fill={BLUE5} />
 

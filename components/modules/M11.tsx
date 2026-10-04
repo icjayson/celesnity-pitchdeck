@@ -3,11 +3,14 @@
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { Lock, LockOpen, TriangleAlert, UserCheck } from "lucide-react";
 import { RichText } from "@/components/shared/RichText";
-import { gates } from "./M11/gates";
+import { useGates } from "./M11/gates";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 const FAIL_MSG = "Dừng hoặc điều chỉnh use case này. Không chuyển sang giai đoạn có phí. Ứng dụng 01 vẫn tiếp tục.";
 
 export default function M11({ variant }: { variant?: string }) {
+  const gates = useGates();
+  const { party } = useDeck();
   const [active, setActive] = useState(0);
   const [fails, setFails] = useState<Record<string, boolean>>({});
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -37,8 +40,8 @@ export default function M11({ variant }: { variant?: string }) {
           <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/3 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 blur-[60px]" />
           <Envelope />
           <div className="relative">
-            <p className="text-[18px] font-semibold leading-snug text-white">Bộ đề thi kín — Hòa Phát giữ</p>
-            <p className="mt-1 text-[14px] text-blue-300">Mô hình làm bài · Hòa Phát chấm · Celesnity không xem đáp án</p>
+            <p className="text-[18px] font-semibold leading-snug text-white">Bộ đề thi kín — {party.short} giữ</p>
+            <p className="mt-1 text-[14px] text-blue-300">Mô hình làm bài · {party.short} chấm · Celesnity không xem đáp án</p>
           </div>
         </div>
 
@@ -232,7 +235,7 @@ function GateLock({ open }: { open: boolean }) {
   );
 }
 
-/** Phong bì niêm phong: thân navy, nét blue, dấu niêm phong orange = Hòa Phát */
+/** Phong bì niêm phong: thân navy, nét blue, dấu niêm phong orange = khách hàng */
 function Envelope() {
   const scallop = Array.from({ length: 16 }, (_, i) => {
     const a = (i / 16) * Math.PI * 2;

@@ -1,8 +1,8 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";
 import { X } from "lucide-react";
-import { acts, sections } from "@/content/content.vi";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { plainText } from "@/components/shared/RichText";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -11,8 +11,6 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
  * P bật/tắt · → ↓ PageDown Space: section kế · ← ↑ PageUp: section trước · Home/End · D: lớp chi tiết · Esc: thoát.
  * Style trình chiếu (scroll-snap, chữ lớn, ẩn [data-hide-in-presenter]) nằm trong app/globals.css.
  */
-const ids = sections.map((s) => s.id);
-
 function isTyping(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
   if (!el || !el.tagName) return false;
@@ -21,7 +19,7 @@ function isTyping(target: EventTarget | null): boolean {
 }
 
 /** Section đang chiếm phần trên khung nhìn */
-function currentIndex(): number {
+function currentIndex(ids: string[]): number {
   const mid = window.innerHeight * 0.4;
   let best = 0;
   for (let i = 0; i < ids.length; i++) {
@@ -36,7 +34,7 @@ function currentIndex(): number {
  * Các điểm dừng khi bấm phím (toạ độ cuộn tuyệt đối), tính lại mỗi lần bấm vì chiều cao trang thay đổi:
  * đầu mỗi section · từng bước của khối cuộn ghim (ScrollSteps) · từng thẻ [data-step] · mỗi màn hình trong section dài.
  */
-function computeStops(): number[] {
+function computeStops(ids: string[]): number[] {
   const vh = window.innerHeight;
   const y0 = window.scrollY;
   const abs = (el: Element) => el.getBoundingClientRect().top + y0;
@@ -74,6 +72,8 @@ function computeStops(): number[] {
 }
 
 export function PresenterMode() {
+  const { acts, sections, basePath } = useDeck();
+  const ids = useMemo(() => sections.map((s) => s.id), [sections]);
   const [on, setOn] = useState(false);
   const [index, setIndex] = useState(0);
   const [qr, setQr] = useState<string | null>(null);
@@ -83,12 +83,12 @@ export function PresenterMode() {
   const step = useCallback(
     (dir: 1 | -1) => {
       const y = window.scrollY;
-      const stops = computeStops();
+      const stops = computeStops(ids);
       const target = dir > 0 ? stops.find((s) => s > y + 8) : [...stops].reverse().find((s) => s < y - 8);
       if (target === undefined) return;
       window.scrollTo({ top: target, behavior: reduced ? "auto" : "smooth" });
     },
-    [reduced],
+    [reduced, ids],
   );
 
   const go = useCallback(
@@ -100,7 +100,7 @@ export function PresenterMode() {
       setIndex(next);
       el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
     },
-    [reduced],
+    [reduced, ids],
   );
 
   // Gắn cờ lên <html>
@@ -116,22 +116,22 @@ export function PresenterMode() {
   // Khi bật: giữ nguyên vị trí đang xem, theo dõi section hiện tại khi cuộn
   useEffect(() => {
     if (!on) return;
-    indexRef.current = currentIndex();
+    indexRef.current = currentIndex(ids);
     setIndex(indexRef.current);
     const onScroll = () => {
-      const i = currentIndex();
+      const i = currentIndex(ids);
       indexRef.current = i;
       setIndex(i);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [on]);
+  }, [on, ids]);
 
   // Mã QR dẫn tới trang
   useEffect(() => {
     if (!on || qr) return;
     let cancelled = false;
-    QRCode.toString(window.location.origin, {
+    QRCode.toString(window.location.origin + basePath, {
       type: "svg",
       margin: 1,
       errorCorrectionLevel: "M",
@@ -146,7 +146,7 @@ export function PresenterMode() {
     return () => {
       cancelled = true;
     };
-  }, [on, qr]);
+  }, [on, qr, basePath]);
 
   // Sự kiện từ mục lục
   useEffect(() => {
@@ -201,7 +201,7 @@ export function PresenterMode() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [on, go, step]);
+  }, [on, go, step, ids]);
 
   if (!on) return null;
 

@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CalendarClock, X } from "lucide-react";
-import { phaseLabels, sectorLabels, type UseCase } from "@/content/usecases";
-import { labels } from "@/content/content.vi";
+import type { UseCase } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Label } from "@/components/shared/Label";
 import { RichText } from "@/components/shared/RichText";
 
@@ -11,6 +11,7 @@ const FOCUSABLE = 'a[href],button:not([disabled]),input,select,textarea,[tabinde
 
 /** Ngăn chi tiết use case: bên phải trên desktop, trượt từ dưới trên điện thoại. Có bẫy focus và Esc để đóng. */
 export function UseCaseDrawer({ uc, onClose }: { uc: UseCase | null; onClose: () => void }) {
+  const { labels, phaseLabels, sectorLabels } = useDeck();
   const [mounted, setMounted] = useState(false);
   const [shown, setShown] = useState<UseCase | null>(uc);
   const [open, setOpen] = useState(false);

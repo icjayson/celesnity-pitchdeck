@@ -6,7 +6,8 @@
  */
 import { useRef, useState } from "react";
 import { ClipboardList, CircleAlert, RotateCcw } from "lucide-react";
-import type { CaseCard } from "@/content/scenarios/m6";
+import type { CaseCard } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Label } from "@/components/shared/Label";
 import { extractOffline, type ExtractMode } from "@/lib/ai/extractRules";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -14,17 +15,16 @@ import { RadioInput } from "./M6/RadioInput";
 import { CaseCardView } from "./M6/CaseCardView";
 import { LotRanking } from "./M6/LotRanking";
 import { InspectionPlan } from "./M6/InspectionPlan";
+import { IncidentFlow } from "./M6/IncidentFlow";
 
 type Result = { card: CaseCard; mode: ExtractMode };
 type Phase = "idle" | "loading" | "result" | "not-fault" | "error";
 
-const modeLabel: Record<ExtractMode, { variant: "ai" | "sim"; text: string }> = {
-  ai: { variant: "ai", text: "AI thật: trích xuất hồ sơ từ lời nói" },
+const modeLabelOf = (aiText: string): Record<ExtractMode, { variant: "ai" | "sim"; text: string }> => ({
+  ai: { variant: "ai", text: aiText },
   rules: { variant: "sim", text: "Chế độ offline: trích xuất theo quy tắc" },
   sample: { variant: "sim", text: "Kết quả soạn sẵn" },
-};
-
-const steps = ["Nói hoặc gõ lời báo lỗi", "AI lập thẻ hồ sơ", "Mô hình nối dữ liệu, xếp hạng lô", "Trưởng ca duyệt kế hoạch"];
+});
 
 function isExtractResult(x: unknown): x is Result {
   if (!x || typeof x !== "object") return false;
@@ -39,6 +39,17 @@ function isExtractResult(x: unknown): x is Result {
 
 export default function M6({ variant }: { variant?: string }) {
   void variant;
+  const { scenarios } = useDeck();
+  if (scenarios.m6.kind === "incident") return <IncidentFlow />;
+  return <CaseFlow fallback={scenarios.m6.fallback} />;
+}
+
+/** Luồng "case": lời báo lỗi → thẻ hồ sơ → xếp hạng lô → kế hoạch kiểm tra */
+function CaseFlow({ fallback }: { fallback: Record<string, CaseCard> }) {
+  const { slug, scenarios } = useDeck();
+  const { copy } = scenarios.m6;
+  const steps = copy.steps;
+  const modeLabel = modeLabelOf(copy.aiLabel);
   const reduced = useReducedMotion();
   const [text, setText] = useState("");
   const [phase, setPhase] = useState<Phase>("idle");
@@ -62,7 +73,7 @@ export default function M6({ variant }: { variant?: string }) {
       const res = await fetch("/api/extract", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text: input }),
+        body: JSON.stringify({ deck: slug, text: input }),
       });
       const json: unknown = await res.json().catch(() => null);
       if (!res.ok) {
@@ -72,10 +83,10 @@ export default function M6({ variant }: { variant?: string }) {
         setPhase("error");
         return;
       }
-      r = isExtractResult(json) ? json : extractOffline(input);
+      r = isExtractResult(json) ? json : extractOffline(input, fallback);
     } catch {
       // Mất mạng hoặc API lỗi: câu mẫu → kết quả soạn sẵn, câu khác → quy tắc
-      r = extractOffline(input);
+      r = extractOffline(input, fallback);
     }
     if (id !== reqId.current) return;
     setResult(r);
@@ -104,7 +115,7 @@ export default function M6({ variant }: { variant?: string }) {
         {phase === "idle" ? (
           <div className="flex h-full min-h-[320px] flex-col justify-center rounded-[var(--radius-card)] border border-dashed border-line-200 bg-white/60 p-6 sm:p-8">
             <ClipboardList aria-hidden size={28} strokeWidth={1.5} className="text-blue-600" />
-            <p className="mt-4 text-[17px] font-semibold">Thẻ hồ sơ sẽ hiện ở đây</p>
+            <p className="mt-4 text-[17px] font-semibold">{copy.idleTitle}</p>
             <ol className="mt-4 flex flex-col gap-2.5">
               {steps.map((s, i) => (
                 <li key={s} className="flex items-center gap-3 text-[15px] text-ink-500">
@@ -127,7 +138,7 @@ export default function M6({ variant }: { variant?: string }) {
           <div className="rounded-[var(--radius-card)] border border-line-200 bg-white p-6" role="status">
             <p className="flex items-center gap-2 text-[15px] font-medium text-blue-600">
               <span aria-hidden className={`h-2 w-2 rounded-full bg-blue-500 ${reduced ? "" : "animate-pulse"}`} />
-              Đang lập hồ sơ từ lời báo lỗi…
+              {copy.loading}
             </p>
             <div aria-hidden className="mt-5 grid grid-cols-2 gap-4">
               {[0, 1, 2, 3].map((i) => (
@@ -154,10 +165,10 @@ export default function M6({ variant }: { variant?: string }) {
             <Label variant={modeLabel[result.mode].variant} text={modeLabel[result.mode].text} />
             <p className="mt-4 flex items-start gap-2 text-[17px] font-semibold">
               <CircleAlert aria-hidden size={22} strokeWidth={1.5} className="mt-0.5 shrink-0 text-blue-600" />
-              Chưa nhận ra đây là báo lỗi, Quý vị thử lại
+              {copy.notFaultTitle}
             </p>
             <p className="mt-2 text-[15px] text-ink-500">
-              Hãy nói như công nhân báo lỗi: trạm nào, sản phẩm hoặc lô nào, hiện tượng gì. Hoặc chạm một câu mẫu.
+              {copy.notFaultHint}
             </p>
           </div>
         ) : null}

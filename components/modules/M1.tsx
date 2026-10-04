@@ -7,21 +7,14 @@ import { useEffect, useRef, useState } from "react";
 import { StoryVisuals } from "./M1/StoryVisuals";
 import { CoverVisual } from "./M1/Cover";
 import { plainText } from "@/components/shared/RichText";
-import { sections } from "@/content/content.vi";
+import type { Section } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 type SceneState = 0 | 1 | 2 | 3;
 
-/** Mô tả cảnh cho trình đọc màn hình (theo trạng thái) */
-const SCENE_CAPTION: Record<SceneState, string> = {
-  0: "Minh họa: ba đảo nhà máy Gia dụng, Điện lạnh và Thép, phía trên là lõi Mô hình AI Thế giới thực phát sáng, nối với từng đảo bằng đường mảnh.",
-  1: "Tự học: vòng quyết định, kết quả, học thêm quay quanh mô hình; độ chính xác dự báo tăng dần từ tháng thứ 1 đến tháng thứ 12.",
-  2: "Dự báo trước: từ hôm nay, mô hình vẽ ba nhánh tỉ lệ lỗi cho ba phương án (giữ nguyên, chỉnh firmware, đổi linh kiện) kèm dải độ chắc chắn; đổi linh kiện giảm lỗi nhiều nhất.",
-  3: "Nhân rộng: kinh nghiệm của dây chuyền bếp từ Hòa Mạc được mang sang dây chuyền mới, nhà cung cấp mới, model mới và nhà máy thép, không bắt đầu lại từ 0.",
-};
-
 /** Ba bước lấy từ bảng thuộc tính của section `sieu-thong-minh` (cột "Thuộc tính" và "Nghĩa là") */
-function getSteps(): { title: string; body: string }[] {
+function getSteps(sections: Section[]): { title: string; body: string }[] {
   const s = sections.find((x) => x.id === "sieu-thong-minh");
   const table = s?.blocks.find((b) => b.kind === "table");
   if (!table || table.kind !== "table") return [];
@@ -37,14 +30,17 @@ function Hero() {
     <figure className="relative -mx-4 sm:mx-0">
       <CoverVisual />
       <figcaption className="sr-only">
-        Minh họa: quả cầu lưới Mô hình AI Thế giới thực với ba quỹ đạo Tự học, Dự báo trước, Nhân rộng; bên dưới là đường chân trời các nhà máy gia dụng, điện lạnh và thép đẩy dòng dữ liệu lên mô hình.
+        Minh họa: quả cầu lưới Mô hình AI Thế giới thực với ba quỹ đạo Tự học, Dự báo trước, Nhân rộng; bên dưới là đường chân trời các nhà máy đẩy dòng dữ liệu lên mô hình.
       </figcaption>
     </figure>
   );
 }
 
 function Story() {
-  const steps = getSteps();
+  const { sections, scenarios } = useDeck();
+  /** Mô tả cảnh cho trình đọc màn hình (theo trạng thái) */
+  const SCENE_CAPTION = scenarios.m1.captions;
+  const steps = getSteps(sections);
   const reduced = useReducedMotion();
   const [active, setActive] = useState<SceneState>(0);
   const stepRefs = useRef<(HTMLElement | null)[]>([]);

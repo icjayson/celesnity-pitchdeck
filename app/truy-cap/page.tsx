@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { LockKeyhole, ArrowRight } from "lucide-react";
-import { meta } from "@/content/content.vi";
+import { accessCodeFor } from "@/lib/access";
 
-export const metadata: Metadata = { title: `Truy cập · ${meta.title}`, robots: { index: false, follow: false } };
+/** Trang trung tính: không hiện tên khách hàng (đoán đường dẫn cũng không lộ khách hàng nào) */
+const BRAND = { tagline: "Celesnity · Tài liệu thảo luận", footer: "Celesnity · Tài liệu thảo luận dành riêng cho người nhận" };
 
-/** Trang nhập mã truy cập (chỉ dùng khi ACCESS_CODE được đặt). Form chạy cả khi tắt JavaScript. */
+export const metadata: Metadata = { title: "Truy cập · Celesnity", robots: { index: false, follow: false } };
+
+/** Trang nhập mã truy cập của một deck (chỉ dùng khi deck đặt mã). Form chạy cả khi tắt JavaScript. */
 export default async function AccessPage({
   searchParams,
 }: {
@@ -14,7 +17,7 @@ export default async function AccessPage({
   const sp = await searchParams;
   const nextRaw = typeof sp.next === "string" ? sp.next : "/";
   const next = nextRaw.startsWith("/") && !nextRaw.startsWith("//") ? nextRaw : "/";
-  if (!process.env.ACCESS_CODE?.trim()) redirect(next);
+  if (!accessCodeFor(next.split("/")[1] ?? "")) redirect(next);
   const error = sp.error === "1";
 
   return (
@@ -28,7 +31,7 @@ export default async function AccessPage({
           <span className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-700 bg-navy-800 text-blue-300">
             <LockKeyhole size={20} strokeWidth={1.5} aria-hidden />
           </span>
-          <p className="text-[13px] font-medium uppercase tracking-[0.14em] text-blue-300">{meta.tagline}</p>
+          <p className="text-[13px] font-medium uppercase tracking-[0.14em] text-blue-300">{BRAND.tagline}</p>
           <h1 className="text-[26px] font-semibold leading-tight tracking-[-0.02em]">Nhập mã truy cập</h1>
           <p className="muted text-[15px]">Tài liệu thảo luận dành riêng cho người nhận. Mã truy cập có trong thư mời.</p>
         </div>
@@ -64,7 +67,7 @@ export default async function AccessPage({
             <ArrowRight size={18} strokeWidth={1.5} aria-hidden />
           </button>
         </form>
-        <p className="muted mt-8 text-[13px]">{meta.footer}</p>
+        <p className="muted mt-8 text-[13px]">{BRAND.footer}</p>
       </div>
     </main>
   );

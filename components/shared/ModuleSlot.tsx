@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
-import type { ModuleId } from "@/content/types";
+import type { ModuleId } from "@/decks/types";
 
 const loading = () => <div className="min-h-[240px] animate-pulse rounded-[var(--radius-card)] bg-current/[0.04]" />;
 

@@ -2,7 +2,7 @@
  * Lớp Canvas 2D phủ lên cảnh SVG: hạt "Tự học", hạt nền, tia "Nhân rộng", quầng sáng lõi.
  * Tự viết, không thư viện. Cùng hệ tọa độ viewBox 800 × 520 với SVG.
  */
-import type { IslandId } from "./FactoryScene";
+import type { IslandId } from "./geometry";
 import { CORE, HALF, ISLAND_IDS, VB_W, islandPoint, sampleBeam, type Pt } from "./geometry";
 
 export type EngineTargets = {

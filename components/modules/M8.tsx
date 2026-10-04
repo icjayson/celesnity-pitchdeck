@@ -7,12 +7,11 @@
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { ScrollSteps } from "@/components/shared/ScrollSteps";
 import { CalendarRange, MapPin } from "lucide-react";
-import { FactoryScene, ISLAND_NAMES, type IslandId } from "@/components/art/FactoryScene";
+import { FactoryScene, type IslandId } from "@/components/art/FactoryScene";
 import { Label } from "@/components/shared/Label";
 import { plainText } from "@/components/shared/RichText";
-import { labels, sections } from "@/content/content.vi";
-
-const ORDER: IslandId[] = ["gia-dung", "dien-lanh", "thep"];
+import type { Section } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 type Arm = {
   id: IslandId;
@@ -26,9 +25,9 @@ type Arm = {
   rowLabels: { place: string; role: string; time: string };
 };
 
-function getArms(): Arm[] {
+function getArms(sections: Section[], ORDER: IslandId[]): Arm[] {
   const s = sections.find((x) => x.id === "ban-do");
-  const d = s?.details?.find((x) => plainText(x.title) === "Bảng ba mảng");
+  const d = s?.details?.find((x) => plainText(x.title).startsWith("Bảng ba"));
   const t = d?.blocks.find((b) => b.kind === "table");
   if (!t || t.kind !== "table") return [];
   const row = (prefix: string) => t.rows.find((r) => plainText(r[0]).startsWith(prefix));
@@ -62,8 +61,13 @@ function getArms(): Arm[] {
 }
 
 export default function M8(_props: { variant?: string }) {
-  const arms = getArms();
-  const [selected, setSelected] = useState<IslandId>("gia-dung");
+  const { sections, labels, islands } = useDeck();
+  const order = islands.map((x) => x.id);
+  /** Đảo cuối là đích đến (orange) */
+  const destId = order[order.length - 1];
+  const nameOf = (id: IslandId) => islands.find((x) => x.id === id)?.label ?? id;
+  const arms = getArms(sections, order);
+  const [selected, setSelected] = useState<IslandId>(order[0]);
   const pick = (id: IslandId) => {
     setSelected(id);
   };
@@ -72,7 +76,7 @@ export default function M8(_props: { variant?: string }) {
   if (!arms.length) return null;
 
   const current = arms.find((a) => a.id === selected) ?? arms[0];
-  const isDest = current.id === "thep";
+  const isDest = current.id === destId;
 
   const onTabKey = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
     let next = i;
@@ -91,7 +95,7 @@ export default function M8(_props: { variant?: string }) {
       a.id,
       <>
         <span className="tabular text-[12px] font-medium text-ink-500 sm:text-[13px]">{a.time}</span>
-        {a.id === "thep" ? (
+        {a.id === destId ? (
           <>
             <span className="text-[12px] font-semibold text-orange-700 sm:text-[13px]">{a.role}</span>
             <span className="hidden sm:block">
@@ -118,8 +122,8 @@ export default function M8(_props: { variant?: string }) {
             islandNotes={notes}
           />
           <figcaption className="sr-only">
-            Bản đồ ba mảng: {arms.map((a) => `${a.name}, ${a.role}, ${a.time}`).join("; ")}. Tia sáng đi từ gia dụng sang điện lạnh rồi
-            tới thép. Bấm một đảo hoặc dùng các tab để xem chi tiết.
+            Bản đồ ba mảng: {arms.map((a) => `${a.name}, ${a.role}, ${a.time}`).join("; ")}. Tia sáng đi từ{" "}
+            {order.map((id) => nameOf(id).toLowerCase()).join(" sang ")}. Bấm một đảo hoặc dùng các tab để xem chi tiết.
           </figcaption>
         </figure>
         <div className="-mt-10 flex justify-end sm:hidden">
@@ -154,8 +158,8 @@ export default function M8(_props: { variant?: string }) {
                 }`}
               >
                 <span className="flex items-center gap-1.5 text-[14px] font-semibold leading-tight">
-                  {a.id === "thep" ? <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" /> : null}
-                  <span className="truncate">{ISLAND_NAMES[a.id]}</span>
+                  {a.id === destId ? <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" /> : null}
+                  <span className="truncate">{nameOf(a.id)}</span>
                 </span>
                 <span className="tabular whitespace-nowrap text-[12px] font-medium text-ink-500">{a.time}</span>
               </button>

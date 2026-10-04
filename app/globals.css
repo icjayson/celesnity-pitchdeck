@@ -3,7 +3,7 @@
 /*
  * Bảng màu Navy · Blue · White · Orange (docs/implementation-plan.md, mục 5.1).
  * Nghĩa cố định: navy = nền và cấu trúc · blue = AI và Mô hình AI Thế giới thực ·
- * white = không gian · orange = Hòa Phát và con người quyết định.
+ * white = không gian · orange = khách hàng và con người quyết định.
  */
 @theme {
   --color-navy-950: #06142e;

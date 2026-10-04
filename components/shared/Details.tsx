@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import type { Details as DetailsT } from "@/content/types";
-import { labels } from "@/content/content.vi";
+import type { Details as DetailsT } from "@/decks/types";
+import { useDeck } from "@/components/deck/DeckProvider";
 import { Blocks } from "./Blocks";
 import { RichText } from "./RichText";
 
 /** Lớp "Xem chi tiết": bảng đầy đủ, mở ra khi cần. Phím D trong chế độ trình chiếu mở/đóng. */
 export function DetailsPanel({ items, sectionId, forceOpen = false }: { items: DetailsT[]; sectionId: string; forceOpen?: boolean }) {
+  const { labels, party } = useDeck();
   const [open, setOpen] = useState<number | null>(forceOpen ? -1 : null);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -47,7 +48,7 @@ export function DetailsPanel({ items, sectionId, forceOpen = false }: { items: D
             </button>
             {isOpen ? (
               <div className="px-5 pb-6 pt-1">
-                <Blocks blocks={d.blocks} skipModules />
+                <Blocks blocks={d.blocks} skipModules partner={party.short} />
               </div>
             ) : null}
           </div>

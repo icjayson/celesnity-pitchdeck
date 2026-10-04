@@ -4,6 +4,7 @@ import { Lock, Users } from "lucide-react";
 import { LoopSvg } from "../shared/motion";
 import { Stream } from "../shared/Stream";
 import { VietnamMap, VN_POINTS } from "../shared/VietnamMap";
+import { useDeck } from "@/components/deck/DeckProvider";
 
 const BLUE5 = "#2F7BF6";
 const BLUE3 = "#8DB8FF";
@@ -11,8 +12,9 @@ const INK = "#5B6B85";
 const ORANGE = "#FF7A1A";
 const T = "600ms cubic-bezier(0.22, 1, 0.36, 1)";
 
-/** Khung cảnh M3: bản đồ Việt Nam, khối Hòa Phát, khối Nhà cung cấp và dòng dữ liệu theo con đường đã chọn. */
+/** Khung cảnh M3 "sovereignty": bản đồ Việt Nam, khối khách hàng, khối Nhà cung cấp và dòng dữ liệu theo con đường đã chọn. */
 export function PathScene({ path, play, reduced }: { path: "A" | "B"; play: boolean; reduced: boolean }) {
+  const { party } = useDeck();
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const isB = path === "B";
   const [hx, hy] = VN_POINTS.hanoi;
@@ -25,7 +27,7 @@ export function PathScene({ path, play, reduced }: { path: "A" | "B"; play: bool
     `M${dx} ${dy} C 236 222, 280 214, 326 210`,
     `M${sx} ${sy} C 210 324, 290 270, 334 224`,
   ];
-  // Con đường B: dữ liệu chảy về mô hình nằm trong khối Hòa Phát, không rời bản đồ
+  // Con đường B: dữ liệu chảy về mô hình nằm trong khối khách hàng, không rời bản đồ
   const inB = [
     "M58 56 C 74 50, 94 54, 108 62",
     "M60 94 C 78 96, 94 86, 108 75",
@@ -78,7 +80,7 @@ export function PathScene({ path, play, reduced }: { path: "A" | "B"; play: bool
         ))}
       </g>
 
-      {/* Môi trường Hòa Phát */}
+      {/* Môi trường khách hàng */}
       <g>
         <rect
           x={40}
@@ -93,7 +95,7 @@ export function PathScene({ path, play, reduced }: { path: "A" | "B"; play: bool
           style={{ transition: `stroke ${T}, fill ${T}` }}
         />
         <text x={52} y={51} fontSize={11} fontWeight={600} fill={isB ? ORANGE : BLUE3} style={{ transition: `fill ${T}` }}>
-          Hòa Phát
+          {party.short}
         </text>
         <g style={{ opacity: isB ? 1 : 0, transition: `opacity ${T}` }}>
           <rect x={154} y={25} width={18} height={18} rx={5} fill={ORANGE} />
@@ -109,7 +111,7 @@ export function PathScene({ path, play, reduced }: { path: "A" | "B"; play: bool
             <Stream d={d} n={i === 2 ? 3 : 2} dur={i === 2 ? 3 : 2} fill={BLUE3} r={2.3} offset={i * 0.3} />
           </g>
         ))}
-        {/* Đội kỹ sư Hòa Phát */}
+        {/* Đội kỹ sư khách hàng */}
         <path d="M54 108 L54 132" stroke={ORANGE} strokeWidth={1.25} strokeDasharray="2 3" />
         <g transform="translate(8 132)">
           <rect width={92} height={40} rx={10} fill="#0A1F44" stroke={ORANGE} strokeWidth={1.25} />
@@ -118,12 +120,12 @@ export function PathScene({ path, play, reduced }: { path: "A" | "B"; play: bool
             Kỹ sư
           </text>
           <text x={32} y={31} fontSize={9.5} fill={BLUE3}>
-            Hòa Phát
+            {party.short}
           </text>
         </g>
       </g>
 
-      {/* Lõi mô hình: di chuyển giữa Nhà cung cấp (A) và Hòa Phát (B) */}
+      {/* Lõi mô hình: di chuyển giữa Nhà cung cấp (A) và khách hàng (B) */}
       <g style={{ transform: isB ? "translate(122px, 68px)" : "translate(338px, 210px)", transition: `transform ${T}` }}>
         <circle r={28} fill={`url(#${uid}halo)`}>
           <animate attributeName="r" values="24;30;24" dur="3s" repeatCount="indefinite" />
@@ -140,7 +142,7 @@ export function PathScene({ path, play, reduced }: { path: "A" | "B"; play: bool
         fill="#fff"
         style={{ transition: `opacity ${T}` }}
       >
-        {isB ? "Mô hình của Hòa Phát" : "Mô hình"}
+        {isB ? `Mô hình của ${party.short}` : "Mô hình"}
       </text>
     </LoopSvg>
   );
