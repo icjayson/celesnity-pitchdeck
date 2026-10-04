@@ -7,6 +7,7 @@ import { budgetAvailable, recordUsage } from "./budget";
 import type { CaseCard } from "@/decks/types";
 import { extractOffline, type ExtractResult } from "./extractRules";
 import { extractIncident, type IncidentResult } from "./incident";
+import { extractDefect, type DefectResult } from "./defect";
 import type { AssistantContext } from "./prompt";
 import { completeJson, hasApiKey, OaiError } from "./openai";
 
@@ -61,7 +62,8 @@ export async function extractCase(ctx: AssistantContext, text: string): Promise<
   }
 }
 
-/** Trích xuất theo kiểu của deck ("case" hoặc "incident") */
-export async function extractCard(ctx: AssistantContext, text: string): Promise<ExtractResult | IncidentResult> {
+/** Trích xuất theo kiểu của deck ("case", "incident" hoặc "defect") */
+export async function extractCard(ctx: AssistantContext, text: string): Promise<ExtractResult | IncidentResult | DefectResult> {
+  if (ctx.extract.kind === "defect") return extractDefect(ctx, text);
   return ctx.extract.kind === "incident" ? extractIncident(ctx, text) : extractCase(ctx, text);
 }

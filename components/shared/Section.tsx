@@ -34,13 +34,29 @@ export function Section({
     const visual = s.blocks.find((b) => b.kind === "module");
     return (
       <section id={s.id} data-section={s.id} className={`${themeClass[s.theme]} relative isolate overflow-hidden`}>
-        {s.cover ? (
+        {s.cover && s.coverLayout === "right" ? (
+          /* Ảnh chỉ chiếm nửa phải (máy tính): giữ được chủ thể ở mép trái ảnh, không bị chữ và lớp phủ che */
+          <div aria-hidden className="absolute inset-0 -z-10 bg-[#06142E]">
+            <div className="absolute inset-0 lg:left-[44%]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={s.cover}
+                alt=""
+                className="h-full w-full object-cover"
+                style={{ objectPosition: s.coverPosition ?? "30% 50%" }}
+              />
+              <div className="absolute inset-0 bg-[rgba(6,20,46,0.78)] lg:bg-transparent lg:bg-[linear-gradient(90deg,#06142E_0%,rgba(6,20,46,0.6)_22%,rgba(6,20,46,0.38)_55%,rgba(6,20,46,0.32)_100%)]" />
+            </div>
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,20,46,0.55)_0%,rgba(6,20,46,0)_30%,rgba(6,20,46,0)_65%,#06142E_100%)]" />
+          </div>
+        ) : s.cover ? (
           <div aria-hidden className="absolute inset-0 -z-10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={s.cover}
               alt=""
-              className={`h-full w-full object-cover object-[70%_45%] ${s.coverSoft ? "scale-[1.04] blur-[1.5px]" : ""}`}
+              className={`h-full w-full object-cover ${s.coverPosition ? "" : "object-[70%_45%]"} ${s.coverSoft ? "scale-[1.04] blur-[1.5px]" : ""}`}
+              style={s.coverPosition ? { objectPosition: s.coverPosition } : undefined}
             />
             {s.coverSoft ? <div className="absolute inset-0 bg-[rgba(6,20,46,0.28)]" /> : null}
             {/* gradient navy: đậm bên trái để đọc chữ, nhạt dần sang phải để lộ ảnh */}

@@ -151,10 +151,8 @@ export async function runChat(
     ...messages.map((m): OaiMessage => ({ role: m.role, content: m.content })),
   ];
   // Câu hỏi không có chữ tiếng Việt (có dấu) → nhắc trả lời bằng tiếng Anh. Đặt sau lịch sử để không phá cache tiền tố.
-  convo.push({
-    role: "system",
-    content: isLikelyEnglish(q) ? ctx.languageNudge.en : ctx.languageNudge.vi,
-  });  let textEmitted = false;
+  const nudge = isLikelyEnglish(q) ? ctx.languageNudge.en : ctx.languageNudge.vi;
+  convo.push({ role: "system", content: nudge });  let textEmitted = false;
 
   try {
     for (let turn = 0; turn < MAX_TURNS; turn++) {
@@ -213,6 +211,8 @@ export async function runChat(
       // Tool chỉ tác động lên trang, kết quả luôn "đã thực hiện": nếu lượt này đã có câu trả lời thì dừng,
       // chỉ gọi thêm lượt khi mô hình gọi tool mà chưa viết chữ.
       if (turnText.trim()) break;
+      // Kết quả tool viết bằng tiếng Việt: nhắc lại ngôn ngữ để lượt trả lời sau tool không đổi ngôn ngữ
+      convo.push({ role: "system", content: nudge });
       // Ngắt đoạn giữa hai lượt để chữ không dính nhau
       if (turnText) emit({ t: "text", d: "\n\n" });
     }

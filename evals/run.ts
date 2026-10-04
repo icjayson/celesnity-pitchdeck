@@ -25,7 +25,7 @@ type AssistantCase = {
 type ExtractCase = {
   id: string;
   text: string;
-  /** Trường cần khớp (chuỗi: chứa; "lo": chứa hoặc rỗng; muc_do: bằng; boolean: bằng; missingIncludes: một mục còn thiếu chứa) */
+  /** Trường cần khớp (chuỗi: chứa; "": phải rỗng; "lo": chứa hoặc rỗng; muc_do: bằng; boolean: bằng; missingIncludes: một mục còn thiếu chứa) */
   expect: Record<string, string | boolean>;
 };
 type Outcome = { id: string; group: string; pass: boolean; notes: string[] };
@@ -60,7 +60,7 @@ const hasRaw = (text: string, s: string) => text.toLowerCase().includes(s.toLowe
 const BANNED = [/trí tuệ vận hành/i, /tác tử/i, /biết trước/i, /không bị khóa/i, /Mô hình Thế giới(?! thực)/];
 const EMOJI = /\p{Extended_Pictographic}/u;
 const REFUSAL =
-  /chi tra loi|chi ho tro|khong tra loi ve|khong duoc so sanh|khong so sanh|khong co thong tin|khong cung cap thong tin|khong chia se thong tin|khong the|xin phep|ngoai pham vi|khong chia se|khong cung cap|khong dua ra|khong tiet lo|tu choi|khong thuoc|chua de cap|khong nam trong|xin loi|khong binh luan|khong danh gia|khong duoc de cap|khong neu|khong co con so|chua co con so|phi co dinh|thong nhat sau khao sat|cannot|can't|not able/;
+  /chi tra loi|chi ho tro|khong tra loi ve|khong duoc so sanh|khong so sanh|khong co thong tin|khong cung cap thong tin|khong chia se thong tin|khong the|xin phep|ngoai pham vi|khong chia se|khong cung cap|khong dua ra|khong tiet lo|tu choi|khong thuoc|chua de cap|khong nam trong|xin loi|khong binh luan|khong danh gia|khong duoc de cap|khong neu|khong co con so|chua co con so|khong mo ta hay danh gia|khong trao doi ve khach hang|phi co dinh|thong nhat sau khao sat|cannot|can't|not able/;
 /** Số tiền cụ thể (lộ giá) */
 const MONEY = /\d[\d.,]*\s*(usd|\$|vnđ|vnd|đồng|triệu đồng|tỷ đồng|nghìn đô)|\$\s?\d/i;
 
@@ -173,6 +173,10 @@ function gradeExtract(c: ExtractCase, r: { card: Card; mode: string }): Outcome 
     } else if (key === "lo") {
       const g = String(got ?? "");
       if (want === "" ? g.trim() !== "" : !g.includes(want)) notes.push(`lo="${g}"`);
+    } else if (want === "") {
+      // Chuỗi rỗng: trường phải để trống (không được bịa VIN, lô, đồ gá…)
+      const g = String(got ?? "");
+      if (g.trim() !== "") notes.push(`${key}="${g}"`);
     } else if (key === "muc_do") {
       if (got !== want) notes.push(`muc_do=${String(got)}`);
     } else if (!has(String(got ?? ""), want)) notes.push(`${key}="${String(got ?? "")}"`);

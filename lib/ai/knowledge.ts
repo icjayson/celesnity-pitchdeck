@@ -29,6 +29,8 @@ function blockText(b: Block, moduleNotes: Record<string, string>): string {
       return moduleNotes[b.id] ?? "";
     case "photo":
       return b.photo.caption ? `(Ảnh: ${plainText(b.photo.caption)})` : "";
+    case "video":
+      return `(Video: ${plainText(b.video.title)}${b.video.caption ? ` — ${plainText(b.video.caption)}` : ""})`;
     case "media":
       return [b.photo.caption ? `(Ảnh: ${plainText(b.photo.caption)})` : "", ...b.blocks.map((x) => blockText(x, moduleNotes))].filter(Boolean).join("\n\n");
     case "statement":

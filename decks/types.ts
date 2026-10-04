@@ -16,7 +16,8 @@ export type ModuleId =
   | "M15"
   | "M16"
   | "M17"
-  | "M18";
+  | "M18"
+  | "M19";
 
 /** Nhãn trung thực (docs/implementation-plan.md, mục 1.4) */
 export type LabelVariant = "sim" | "ai" | "future" | "proposal";
@@ -56,8 +57,19 @@ export type Block =
   | { kind: "module"; id: ModuleId; variant?: string }
   /** Ảnh (public/decks/<slug>/...). `ratio` cắt ảnh theo tỉ lệ (ví dụ "21/9"); không có thì giữ tỉ lệ gốc. */
   | { kind: "photo"; photo: Photo }
+  /** Video demo (public/decks/<slug>/...): có điều khiển, không tự phát; bản in hiện ảnh poster */
+  | { kind: "video"; video: Video }
   /** Ảnh đặt cạnh một nhóm khối (ảnh nhỏ không bị phóng to quá kích thước gốc) */
   | { kind: "media"; photo: Photo; blocks: Block[]; side?: "left" | "right" };
+
+export type Video = {
+  src: string;
+  poster: string;
+  width: number;
+  height: number;
+  title: Rich;
+  caption?: Rich;
+};
 
 export type Photo = {
   src: string;
@@ -88,6 +100,10 @@ export type Section = {
   cover?: string;
   /** Ảnh nền độ phân giải thấp: làm mềm nhẹ và phủ đậm hơn để không lộ vỡ ảnh khi phóng to */
   coverSoft?: boolean;
+  /** "right": ảnh chỉ chiếm nửa phải (giữ được chủ thể ở mép trái ảnh, ví dụ biển hiệu); mặc định phủ toàn màn hình */
+  coverLayout?: "full" | "right";
+  /** object-position của ảnh bìa, ví dụ "20% 40%" */
+  coverPosition?: string;
   blocks: Block[];
   details?: Details[];
 };
@@ -222,6 +238,39 @@ export type CaseCard = {
   la_bao_loi: boolean;
 };
 
+/** Thẻ hồ sơ lỗi xe (M6, kiểu "defect"): lời báo lỗi trên chuyền lắp ráp xe → hồ sơ gắn VIN */
+export type DefectCard = {
+  vin: string;
+  model: string;
+  cong_doan: "BODY" | "PAINT" | "TRIM" | "CHASSIS" | "QC" | "";
+  tram: string;
+  linh_kien: string;
+  trieu_chung: string;
+  lo: string;
+  do_ga: string;
+  ca: string;
+  muc_do: "Thấp" | "Trung bình" | "Cao";
+  thong_tin_con_thieu: string[];
+  la_bao_loi: boolean;
+};
+
+/** Một kịch bản sau thẻ lỗi (M6 "defect"): ca tương tự → truy xuất ngược theo lô → phương án */
+export type DefectStory = {
+  similar: {
+    count: number;
+    pattern: { k: string; v: string }[];
+    rca: string;
+    ca: string;
+    hypotheses: { name: string; evidence: string; confidence: string; lead?: boolean }[];
+  };
+  trace: {
+    lot: string;
+    groups: { label: string; tone: "plant" | "dealer" | "customer"; vins: { vin: string; date: string; qc: string; location: string }[] }[];
+  };
+  options: { id: string; label: string; scope: string; check: string; recommended?: boolean }[];
+  approveNote: string;
+};
+
 /** Thẻ sự cố (M6, kiểu "incident") */
 export type IncidentCard = {
   khu_vuc: string;
@@ -280,7 +329,7 @@ export type IslandSpec = {
   id: string;
   label: string;
   /** Kiểu hình vẽ trong components/art/Islands.tsx */
-  art: "gia-dung" | "dien-lanh" | "thep" | "capsule-line" | "coffee-plant" | "network";
+  art: "gia-dung" | "dien-lanh" | "thep" | "capsule-line" | "coffee-plant" | "network" | "truck-line" | "truck-plant" | "dealer-network";
 };
 
 export type DeckLabels = {
@@ -357,6 +406,14 @@ export type DeckData = {
           impact: { label: string; value: string }[];
           options: { id: string; label: string; recovered: string; onTime: string; cost: string; check: string; recommended?: boolean }[];
         }
+      | {
+          kind: "defect";
+          samples: string[];
+          fallback: Record<string, DefectCard>;
+          /** Kịch bản theo câu mẫu (khóa = câu mẫu); câu khác dùng `defaultStory` */
+          stories: Record<string, DefectStory>;
+          defaultStory: string;
+        }
     ) & { copy: M6Copy };
     m10: {
       months: MonthRow[];
@@ -397,6 +454,8 @@ export type DeckData = {
         modelLabel: string;
         chain: [string, string, string];
         line: string;
+        /** Hình dây chuyền trong khung cảnh: viên nang (mặc định) hoặc xe tải */
+        lineArt?: "capsule" | "truck";
       };
     };
     /** Câu chuyện M1 (#sieu-thong-minh): mô tả cho trình đọc màn hình và chữ trong ba minh họa */
@@ -408,6 +467,8 @@ export type DeckData = {
       /** Hình "Nhân rộng": nguồn kinh nghiệm và bốn nơi nhận (nơi cuối là đích đến, màu orange) */
       replicate: { sourceTitle: string; sourceSub: string; targets: [string, string, string, string] };
     };
+    /** Gia phả số (M19): một lỗi → bối cảnh; xe → linh kiện; linh kiện → xe */
+    m19?: GenealogyData;
     m4?: { title: string; options: M4Option[]; score: { before: number; after: number; unit: string } };
     m12?: { defaults: CalcInputs; breakEvenGrid: { volumes: number[]; costs: number[] } };
   };
@@ -473,5 +534,36 @@ export type DeckAssistant = {
   /** Câu hỏi gợi ý chứa cụm này bị loại (ví dụ nhắc module đã tạm cất) */
   followupExcludePattern?: RegExp;
   /** Trích xuất của M6 */
-  extract: { kind: "case" | "incident"; system: string };
+  extract: { kind: "case" | "incident" | "defect"; system: string };
+};
+
+// ───────────────────────────── Gia phả số (M19) ─────────────────────────────
+
+export type GenealogyData = {
+  tabs: { defect: string; forward: string; backward: string };
+  /** Tab "Từ một lỗi": nút trung tâm và các nút bối cảnh */
+  defect: {
+    title: string;
+    sub: string;
+    nodes: { id: string; label: string; value: string; note?: string; group: "xe" | "quy-trinh" | "linh-kien" | "con-nguoi" | "lich-su" }[];
+    caption: string;
+  };
+  /** Tab "Xe → linh kiện": một VIN và các linh kiện chính */
+  vehicles: {
+    vin: string;
+    model: string;
+    built: string;
+    parts: { id: string; name: string; serial?: string; supplier?: string; lot?: string }[];
+  }[];
+  /** Tab "Linh kiện → xe": một lô và danh sách xe đã lắp lô đó */
+  lots: {
+    lot: string;
+    part: string;
+    supplier: string;
+    alert: string;
+    vins: { vin: string; model: string; date: string; qc: string; location: "plant" | "dealer" | "customer"; place: string }[];
+  }[];
+  locationLabels: { plant: string; dealer: string; customer: string };
+  chain: string[];
+  footnote: string;
 };

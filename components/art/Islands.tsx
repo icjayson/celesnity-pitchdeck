@@ -2,6 +2,8 @@
  * Ba đảo isometric của cảnh "Nhà máy sống" (SVG thuần, không trạng thái).
  * Gia dụng: dây chuyền lắp ráp, băng chuyền, bếp và tủ · Điện lạnh: tủ lạnh, ống, dàn nóng · Thép: lò, ống khói, cuộn thép.
  * Viên nang: máy chiết rót, băng tải viên nang, máy đóng hộp · Nhà máy cà phê: tháp sấy, silo · Mạng lưới: ba nhà máy nối về một điểm.
+ * Chuyền cabin: ba cabin xe tải trên xe đẩy, một đồ gá bao quanh · Nhà máy xe tải: năm khoang BODY · PAINT · TRIM · CHASSIS · QC, kiện CKD
+ * · Đại lý và hậu mãi: khoang dịch vụ có xe tải trên cầu nâng, đường ra hai đại lý.
  */
 import type { ReactNode } from "react";
 import type { IslandSpec } from "@/decks/types";
@@ -309,6 +311,179 @@ function Network({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
   );
 }
 
+/** Glass panel (kính lái, cửa kính): nền nhạt, viền mảnh */
+function Glass({ d, pal }: { d: string; pal: Pal }) {
+  return <path {...NS} d={d} fill={pal.detail} fillOpacity={0.16} stroke={pal.detail} strokeOpacity={0.6} strokeWidth={1} />;
+}
+
+/** Cabin xe tải đầu bằng (kiểu N/Q-Series): đầu xe quay về +x, kính lái ở mặt phải, cửa và kính cửa ở mặt trái */
+function Cab({ ox, oy, pal, x, y, z0 = 0, s = 1 }: { ox: number; oy: number; pal: Pal; x: number; y: number; z0?: number; s?: number }) {
+  const P = (px: number, py: number, pz: number) => iso(ox, oy, px, py, pz);
+  const w = 12 * s;
+  const d = 14 * s;
+  const h = 16 * s;
+  const x1 = x + w;
+  const y1 = y + d;
+  return (
+    <g>
+      <Box f={box(ox, oy, x, y, w, d, h, z0)} pal={pal} />
+      <Glass d={line([P(x1, y + 1.5 * s, z0 + h * 0.55), P(x1, y1 - 1.5 * s, z0 + h * 0.55), P(x1, y1 - 1.5 * s, z0 + h - 1.5 * s), P(x1, y + 1.5 * s, z0 + h - 1.5 * s)]) + "Z"} pal={pal} />
+      <Detail d={line([P(x1, y + 3 * s, z0 + h * 0.25), P(x1, y1 - 3 * s, z0 + h * 0.25)])} pal={pal} opacity={0.7} />
+      <Glass d={line([P(x + w * 0.4, y1, z0 + h * 0.55), P(x1 - 1.5 * s, y1, z0 + h * 0.55), P(x1 - 1.5 * s, y1, z0 + h - 2 * s), P(x + w * 0.4, y1, z0 + h - 2 * s)]) + "Z"} pal={pal} />
+      <Detail d={line([P(x + w * 0.4, y1, z0 + 2 * s), P(x + w * 0.4, y1, z0 + h - 2 * s)])} pal={pal} opacity={0.45} />
+    </g>
+  );
+}
+
+/** Xe tải hoàn chỉnh: khung gầm thấp, thùng hàng phía sau, cabin phía trước (+x) */
+function Truck({ ox, oy, pal, x, y, z0 = 0, s = 1 }: { ox: number; oy: number; pal: Pal; x: number; y: number; z0?: number; s?: number }) {
+  const bed = 20 * s;
+  return (
+    <g>
+      <Box f={box(ox, oy, x, y + 2 * s, bed + 13 * s, 10 * s, 3 * s, z0)} pal={pal} />
+      <Box f={box(ox, oy, x, y, bed, 14 * s, 15 * s, z0 + 3 * s)} pal={pal} />
+      <Cab ox={ox} oy={oy} pal={pal} x={x + bed + 1 * s} y={y} z0={z0 + 3 * s} s={s} />
+    </g>
+  );
+}
+
+/** Chuyền hàn cabin: giá tấm vỏ, robot hàn, tủ điều khiển, ray và ba cabin trên xe đẩy, đồ gá bao quanh cabin giữa */
+function TruckLine({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const panels: string[] = [];
+  for (let x = -46; x <= -26; x += 5) panels.push(line([P(x, -38, 3), P(x, -38, 19)]));
+  const robot = cyl(ox, oy, 4, -40, 6, 8);
+  const cabs = [-46, -10, 26];
+  const JZ = 30;
+  const post = (x: number, y: number) => <Box key={`${x}${y}`} f={box(ox, oy, x, y, 2, 2, JZ)} pal={pal} />;
+  return (
+    <g>
+      {/* Giá tấm vỏ cabin */}
+      <Box f={box(ox, oy, -50, -52, 28, 14, 22)} pal={pal} />
+      <Detail d={panels.join("")} pal={pal} opacity={0.45} />
+      {/* Robot hàn: đế và cánh tay vươn về đồ gá */}
+      <Cyl c={robot} pal={pal} />
+      <Pipe pts={[P(4, -40, 8), P(4, -40, 26), P(-2, -16, 34), P(-2, -10, 28)]} pal={pal} />
+      {/* Tủ điều khiển */}
+      <Box f={box(ox, oy, 30, -52, 14, 10, 26)} pal={pal} />
+      <Detail d={line([P(33, -42, 18), P(41, -42, 18)]) + line([P(33, -42, 12), P(41, -42, 12)])} pal={pal} opacity={0.7} />
+      {/* Ray dây chuyền */}
+      <Box f={box(ox, oy, -54, -6, 108, 20, 3)} pal={pal} />
+      <Detail d={line([P(-52, -1, 3), P(52, -1, 3)]) + line([P(-52, 9, 3), P(52, 9, 3)])} pal={pal} opacity={0.5} />
+      {/* Đồ gá: cột và dầm phía sau */}
+      {post(-15, -8)}
+      {post(7, -8)}
+      {post(-15, 12)}
+      <Box f={box(ox, oy, -15, -8, 24, 2, 2, JZ)} pal={pal} />
+      <Box f={box(ox, oy, -15, -6, 2, 18, 2, JZ)} pal={pal} />
+      {/* Ba cabin trên xe đẩy */}
+      {cabs.map((x) => (
+        <g key={x}>
+          <Box f={box(ox, oy, x - 2, -4, 16, 16, 4, 3)} pal={pal} />
+          <Cab ox={ox} oy={oy} pal={pal} x={x} y={-3} z0={7} />
+        </g>
+      ))}
+      {/* Đồ gá: cột và dầm phía trước */}
+      <Box f={box(ox, oy, 7, -6, 2, 18, 2, JZ)} pal={pal} />
+      <Box f={box(ox, oy, -13, 12, 22, 2, 2, JZ)} pal={pal} />
+      {post(7, 12)}
+      {/* Xe đẩy linh kiện */}
+      <Box f={box(ox, oy, -44, 26, 18, 12, 8)} pal={pal} />
+      <Box f={box(ox, oy, -42, 28, 14, 8, 5, 8)} pal={pal} />
+    </g>
+  );
+}
+
+/** Nhà máy xe tải: xưởng dài năm khoang BODY · PAINT · TRIM · CHASSIS · QC, kiện CKD và xe thành phẩm */
+function TruckPlant({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const bx = [-52, -30, -8, 14, 36];
+  const windows: string[] = [];
+  for (let x = -50; x <= 48; x += 8) windows.push(line([P(x, -48, 13), P(x + 5, -48, 13)]));
+  const bays: string[] = [];
+  for (let i = 1; i < 5; i++) bays.push(line([P(bx[i] - 2, -46, 2), P(bx[i] - 2, -16, 2)]));
+  const vents: string[] = [];
+  for (let z = 8; z <= 22; z += 5) vents.push(line([P(-12, -40, z), P(-12, -20, z)]));
+  return (
+    <g>
+      {/* Tường sau có cửa sổ mái */}
+      <Box f={box(ox, oy, -54, -52, 108, 4, 18)} pal={pal} />
+      <Detail d={windows.join("")} pal={pal} opacity={0.6} />
+      {/* Sàn xưởng chia khoang */}
+      <Box f={box(ox, oy, -54, -48, 108, 32, 2)} pal={pal} />
+      <Detail d={bays.join("")} pal={pal} opacity={0.4} />
+      {/* BODY: cabin trong đồ gá */}
+      <Box f={box(ox, oy, bx[0], -38, 2, 2, 24, 2)} pal={pal} />
+      <Cab ox={ox} oy={oy} pal={pal} x={bx[0] + 3} y={-38} z0={2} s={0.85} />
+      <Box f={box(ox, oy, bx[0], -38, 18, 2, 2, 26)} pal={pal} />
+      <Box f={box(ox, oy, bx[0] + 16, -38, 2, 2, 24, 2)} pal={pal} />
+      {/* PAINT: buồng sơn kín có khe hút */}
+      <Box f={box(ox, oy, bx[1], -44, 18, 24, 26, 2)} pal={pal} />
+      <Detail d={vents.join("")} pal={pal} opacity={0.5} />
+      <Detail d={line([P(bx[1] + 4, -20, 2), P(bx[1] + 4, -20, 20), P(bx[1] + 14, -20, 20), P(bx[1] + 14, -20, 2)])} pal={pal} />
+      {/* TRIM: cabin trên xe đẩy, giá linh kiện */}
+      <Box f={box(ox, oy, bx[2], -44, 18, 5, 12, 2)} pal={pal} />
+      <Box f={box(ox, oy, bx[2] + 1, -34, 14, 14, 3, 2)} pal={pal} />
+      <Cab ox={ox} oy={oy} pal={pal} x={bx[2] + 2} y={-33} z0={5} s={0.85} />
+      {/* CHASSIS: khung gầm hình thang trên giá đỡ */}
+      <Box f={box(ox, oy, bx[3] + 1, -42, 16, 2, 6, 2)} pal={pal} />
+      <Box f={box(ox, oy, bx[3] + 1, -24, 16, 2, 6, 2)} pal={pal} />
+      <Box f={box(ox, oy, bx[3] + 3, -45, 2, 28, 2.5, 8)} pal={pal} />
+      {[-40, -32, -24].map((y) => (
+        <Box key={y} f={box(ox, oy, bx[3] + 5, y, 8, 1.5, 1.5, 8.5)} pal={pal} />
+      ))}
+      <Box f={box(ox, oy, bx[3] + 13, -45, 2, 28, 2.5, 8)} pal={pal} />
+      {/* QC: làn kiểm tra có cổng */}
+      <Box f={box(ox, oy, bx[4], -44, 2, 2, 24, 2)} pal={pal} />
+      <Detail d={line([P(bx[4] + 4, -40, 2), P(bx[4] + 4, -20, 2)]) + line([P(bx[4] + 14, -40, 2), P(bx[4] + 14, -20, 2)])} pal={pal} opacity={0.7} />
+      <Box f={box(ox, oy, bx[4], -44, 18, 2, 2, 26)} pal={pal} />
+      <Box f={box(ox, oy, bx[4] + 16, -44, 2, 2, 24, 2)} pal={pal} />
+      <Box f={box(ox, oy, bx[4] + 6, -30, 6, 6, 1.5, 2)} pal={pal} />
+      {/* Kiện CKD xếp chồng */}
+      <Box f={box(ox, oy, -50, 6, 14, 12, 10)} pal={pal} />
+      <Box f={box(ox, oy, -34, 6, 14, 12, 10)} pal={pal} />
+      <Box f={box(ox, oy, -50, 20, 14, 12, 10)} pal={pal} />
+      <Box f={box(ox, oy, -46, 8, 14, 12, 8, 10)} pal={pal} />
+      <Detail d={line([P(-50, 32, 5), P(-36, 32, 5)]) + line([P(-43, 32, 0), P(-43, 32, 10)])} pal={pal} opacity={0.5} />
+      {/* Xe tải thành phẩm rời làn QC */}
+      <Truck ox={ox} oy={oy} pal={pal} x={8} y={14} s={0.95} />
+    </g>
+  );
+}
+
+/** Đại lý và hậu mãi: xưởng dịch vụ, xe tải trên cầu nâng, đường ra hai đại lý */
+function DealerNetwork({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const centre = line([P(-20, 0, 1), P(54, 0, 1)]) + line([P(23, 6, 1), P(23, 54, 1)]);
+  const sign = cyl(ox, oy, 24, -30, 1.6, 30);
+  return (
+    <g>
+      {/* Đường: ra từ xưởng dịch vụ, rẽ về đại lý phía trước */}
+      <Box f={box(ox, oy, -24, -6, 78, 12, 1)} pal={pal} />
+      <Box f={box(ox, oy, 17, 6, 12, 48, 1)} pal={pal} />
+      <path {...NS} d={centre} fill="none" stroke={pal.detail} strokeOpacity={0.55} strokeWidth={1} strokeDasharray="3 4" />
+      {/* Xưởng dịch vụ */}
+      <Box f={box(ox, oy, -52, -52, 34, 20, 26)} pal={pal} />
+      <Detail d={line([P(-46, -32, 0), P(-46, -32, 18), P(-26, -32, 18), P(-26, -32, 0)])} pal={pal} />
+      <Detail d={line([P(-46, -32, 9), P(-26, -32, 9)])} pal={pal} opacity={0.35} />
+      {/* Cầu nâng hai trụ, xe tải được nâng */}
+      <Box f={box(ox, oy, -42, -28, 3, 3, 24)} pal={pal} />
+      <Box f={box(ox, oy, -48, -24, 34, 14, 1.5, 9)} pal={pal} />
+      <Truck ox={ox} oy={oy} pal={pal} x={-50} y={-24} z0={10.5} s={0.85} />
+      <Box f={box(ox, oy, -42, -9, 3, 3, 24)} pal={pal} />
+      {/* Đại lý 1: phòng trưng bày phía sau và cột biển hiệu */}
+      <Box f={box(ox, oy, 30, -52, 22, 18, 16)} pal={pal} />
+      <Glass d={line([P(33, -34, 2), P(49, -34, 2), P(49, -34, 11), P(33, -34, 11)]) + "Z"} pal={pal} />
+      <Cyl c={sign} pal={pal} />
+      <Box f={box(ox, oy, 22, -32, 4, 2, 6, 30)} pal={pal} />
+      {/* Đại lý 2: phía trước bên phải */}
+      <Box f={box(ox, oy, 34, 16, 20, 18, 14)} pal={pal} />
+      <Glass d={line([P(37, 34, 2), P(51, 34, 2), P(51, 34, 9), P(37, 34, 9)]) + "Z"} pal={pal} />
+      <Glass d={line([P(54, 19, 2), P(54, 31, 2), P(54, 31, 9), P(54, 19, 9)]) + "Z"} pal={pal} />
+    </g>
+  );
+}
+
 type ArtKind = IslandSpec["art"];
 const ART: Record<ArtKind, (p: { ox: number; oy: number; pal: Pal }) => ReactNode> = {
   "gia-dung": GiaDung,
@@ -317,6 +492,9 @@ const ART: Record<ArtKind, (p: { ox: number; oy: number; pal: Pal }) => ReactNod
   "capsule-line": CapsuleLine,
   "coffee-plant": CoffeePlant,
   network: Network,
+  "truck-line": TruckLine,
+  "truck-plant": TruckPlant,
+  "dealer-network": DealerNetwork,
 };
 
 /** Vẽ một đảo: `id` là vị trí (trái · giữa · phải, quyết định bảng màu), `art` là kiểu hình vẽ của deck */

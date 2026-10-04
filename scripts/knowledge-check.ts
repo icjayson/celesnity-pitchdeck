@@ -7,6 +7,8 @@
 import { nestleBrief } from "../decks/nestle-vietnam/knowledge";
 import { faq as nestleFaq } from "../decks/nestle-vietnam/faq";
 import { hoaphatBrief } from "../decks/hoa-phat/knowledge/hoaphat-brief";
+import { isuzuBrief } from "../decks/isuzu-vietnam/knowledge";
+import { faq as isuzuFaq } from "../decks/isuzu-vietnam/faq";
 
 const problems: string[] = [];
 const lines = hoaphatBrief.split("\n");
@@ -56,6 +58,27 @@ for (const f of nestleFaq) {
   for (const [re, why] of INTERNAL) if (re.test(f.q) || re.test(f.a)) problems.push(`[nestle faq ${f.id}] ${why}`);
 }
 
+// ── Isuzu Việt Nam ──
+/** Ghi chú nội bộ của tài liệu khảo sát (cách Isuzu đang truy xuất, bảng "bài toán"): không bao giờ vào trợ lý hay trang */
+const ISUZU_INTERNAL: [RegExp, string][] = [
+  [/excel|bảng tính|spreadsheet/i, "công cụ Isuzu đang dùng (ghi chú nội bộ)"],
+  [/bài toán cần giải quyết|pain point/i, "bảng bài toán nội bộ"],
+];
+const ISUZU_PRICE: [RegExp, string][] = [[/(phí|giá)[^.\n]{0,40}\d[\d.,]*\s*(usd|\$|đồng|triệu|tỷ)/i, "số tiền gắn với phí/giá"]];
+const iLines = isuzuBrief.split("\n");
+let iFacts = 0;
+let iPublic = false;
+iLines.forEach((l, i) => {
+  if (l.startsWith("## ")) iPublic = /nguồn công khai/i.test(l);
+  if (!l.startsWith("- ")) return;
+  iFacts++;
+  if (iPublic && !/\[[^\]]+\]\s*$/.test(l)) problems.push(`[isuzu] dòng ${i + 1}: thiếu nguồn [..]: ${l.slice(0, 80)}`);
+  for (const [re, why] of [...ISUZU_INTERNAL, ...ISUZU_PRICE]) if (re.test(l)) problems.push(`[isuzu] dòng ${i + 1}: ${why}: ${l.slice(0, 100)}`);
+});
+for (const f of isuzuFaq) {
+  for (const [re, why] of [...ISUZU_INTERNAL, ...ISUZU_PRICE]) if (re.test(f.q) || re.test(f.a)) problems.push(`[isuzu faq ${f.id}] ${why}`);
+}
+
 if (problems.length) {
   console.error(`knowledge:check · ${problems.length} vấn đề / ${facts} dữ kiện`);
   problems.forEach((p) => console.error("  - " + p));
@@ -63,3 +86,4 @@ if (problems.length) {
 }
 console.log(`knowledge:check · Đạt: Hòa Phát ${facts} dữ kiện, đều có nguồn, không có giá hay tên gọi cũ.`);
 console.log(`knowledge:check · Đạt: Nestlé Trị An ${nFacts} dữ kiện, ${nestleFaq.length} câu hỏi; không có giá, không có ghi chú khảo sát nội bộ.`);
+console.log(`knowledge:check · Đạt: Isuzu Việt Nam ${iFacts} dữ kiện, ${isuzuFaq.length} câu hỏi; không có giá, không có ghi chú nội bộ.`);

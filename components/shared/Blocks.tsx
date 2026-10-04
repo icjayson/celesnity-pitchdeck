@@ -2,6 +2,7 @@ import type { Block } from "@/decks/types";
 import { RichText } from "./RichText";
 import { DataTable } from "./DataTable";
 import { Photo } from "./Photo";
+import { Video } from "./Video";
 import { Label } from "./Label";
 import { ModuleSlot } from "./ModuleSlot";
 import { ArrowRight, ChevronRight } from "lucide-react";
@@ -161,6 +162,8 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
       return skipModules ? null : <ModuleSlot id={b.id} variant={b.variant} />;
     case "photo":
       return <Photo photo={b.photo} />;
+    case "video":
+      return <Video video={b.video} />;
     case "media":
       return (
         <div

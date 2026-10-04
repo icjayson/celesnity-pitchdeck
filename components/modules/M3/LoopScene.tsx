@@ -31,6 +31,9 @@ export function LoopScene({ path, play, reduced }: { path: "A" | "B"; play: bool
   const tileCenter = (i: number) => TILES_X[i] + TILE_W / 2;
   const toCore = (i: number) => `M${tileCenter(i)} ${TILE_Y + TILE_H} C ${tileCenter(i)} ${TILE_Y + TILE_H + 50}, ${CORE.x} ${CORE.y - 60}, ${CORE.x} ${CORE.y - 16}`;
   const lineY = 340;
+  const lineArt = loop.lineArt ?? "capsule";
+  /** Xe tải: con đường A vẫn gọn gàng (viền liền), không trông như hỏng */
+  const tidyA = lineArt === "truck";
 
   return (
     <LoopSvg play={play} reduced={reduced} staticAt={1.2} viewBox="0 0 400 400" className="h-full max-h-[560px] w-full">
@@ -78,7 +81,7 @@ export function LoopScene({ path, play, reduced }: { path: "A" | "B"; play: bool
               fill={isB ? "rgba(47,123,246,0.12)" : "rgba(10,31,68,0.6)"}
               stroke={isB ? BLUE3 : INK}
               strokeWidth={isB ? 1.5 : 1.25}
-              strokeDasharray={isB ? undefined : "4 4"}
+              strokeDasharray={isB || tidyA ? undefined : "4 4"}
               style={{ transition: `stroke ${T}, fill ${T}` }}
             />
             <text x={x + 12} y={TILE_Y + 22} fontSize={11} fontWeight={600} fill="#fff">
@@ -172,17 +175,98 @@ export function LoopScene({ path, play, reduced }: { path: "A" | "B"; play: bool
         );
       })}
 
-      {/* Dây chuyền viên nang (cả hai con đường) */}
-      <g>
-        <rect x={22} y={lineY} width={356} height={22} rx={11} fill="rgba(10,31,68,0.7)" stroke={INK} strokeWidth={1} />
-        {Array.from({ length: 15 }).map((_, i) => (
-          <line key={i} x1={40 + i * 23} x2={40 + i * 23} y1={lineY + 4} y2={lineY + 18} stroke={INK} strokeOpacity={0.5} strokeWidth={1} />
-        ))}
-        <Stream d={`M30 ${lineY + 11} L370 ${lineY + 11}`} n={6} dur={5} fill={BLUE3} r={3.2} />
-        <text x={22} y={lineY + 40} fontSize={10} fill={BLUE3}>
-          {loop.line}
-        </text>
-      </g>
+      {/* Dây chuyền (cả hai con đường): viên nang hoặc xe tải theo deck */}
+      {lineArt === "truck" ? <TruckLine lineY={lineY} label={loop.line} isB={isB} /> : <CapsuleLine lineY={lineY} label={loop.line} />}
     </LoopSvg>
+  );
+}
+
+/** Dây chuyền viên nang (lineArt "capsule", mặc định) */
+function CapsuleLine({ lineY, label }: { lineY: number; label: string }) {
+  return (
+    <g>
+      <rect x={22} y={lineY} width={356} height={22} rx={11} fill="rgba(10,31,68,0.7)" stroke={INK} strokeWidth={1} />
+      {Array.from({ length: 15 }).map((_, i) => (
+        <line key={i} x1={40 + i * 23} x2={40 + i * 23} y1={lineY + 4} y2={lineY + 18} stroke={INK} strokeOpacity={0.5} strokeWidth={1} />
+      ))}
+      <Stream d={`M30 ${lineY + 11} L370 ${lineY + 11}`} n={6} dur={5} fill={BLUE3} r={3.2} />
+      <text x={22} y={lineY + 40} fontSize={10} fill={BLUE3}>
+        {label}
+      </text>
+    </g>
+  );
+}
+
+const STAGES = ["BODY", "PAINT", "TRIM", "CHASSIS", "QC"] as const;
+const SEG_X0 = 22;
+const SEG_W = 356 / STAGES.length;
+
+/**
+ * Chuyền lắp ráp xe tải: cabin chạy qua năm công đoạn, ghim cảnh báo ở BODY.
+ * A: các công đoạn đứng riêng, gọn gàng. B: các công đoạn nối với nhau, sáng lần lượt như chuỗi tác động.
+ */
+function TruckLine({ lineY, label, isB }: { lineY: number; label: string; isB: boolean }) {
+  const cy = lineY + 11;
+  const mid = (i: number) => SEG_X0 + SEG_W * (i + 0.5);
+  const pin = { x: mid(0) + 20, y: lineY - 9 };
+  const dur = 10;
+  return (
+    <g>
+      <rect x={22} y={lineY} width={356} height={22} rx={11} fill="rgba(10,31,68,0.7)" stroke={INK} strokeWidth={1} />
+      {/* Ranh giới công đoạn */}
+      {STAGES.slice(1).map((_, i) => (
+        <line key={i} x1={SEG_X0 + SEG_W * (i + 1)} x2={SEG_X0 + SEG_W * (i + 1)} y1={lineY + 4} y2={lineY + 18} stroke={INK} strokeOpacity={0.6} strokeWidth={1} />
+      ))}
+      {/* B: đường nối các công đoạn */}
+      <path
+        d={`M${mid(0)} ${lineY - 4} L${mid(STAGES.length - 1)} ${lineY - 4}`}
+        fill="none"
+        stroke={BLUE3}
+        strokeOpacity={0.55}
+        strokeWidth={1}
+        strokeDasharray="2 3"
+        style={{ opacity: isB ? 1 : 0, transition: `opacity ${T}` }}
+      />
+      {/* Năm công đoạn: nhãn và điểm mốc */}
+      {STAGES.map((st, i) => {
+        const delay = isB ? 150 + i * 120 : 0;
+        return (
+          <g key={st}>
+            <text x={mid(i)} y={lineY - 9} textAnchor="middle" fontSize={8.5} fontWeight={600} letterSpacing="0.04em" fill={isB ? BLUE3 : "#9AA8BF"} style={{ transition: `fill 450ms ease ${delay}ms` }}>
+              {st}
+            </text>
+            <circle cx={mid(i)} cy={lineY - 4} r={2} fill={isB ? BLUE3 : INK} style={{ transition: `fill 450ms ease ${delay}ms` }} />
+          </g>
+        );
+      })}
+      {/* Cabin chạy dọc chuyền */}
+      {[0, 1].map((k) => {
+        const begin = `${-(k * dur) / 2}s`;
+        return (
+          <g key={k} opacity={0}>
+            <g transform="translate(0 -1)">
+              <path d="M-8 5 L-8 -6 L3 -6 L7 -1.5 L7 5 Z" fill={NAVY} stroke={BLUE3} strokeWidth={1.25} strokeLinejoin="round" />
+              <path d="M3.6 -4.4 L5.8 -1.6 L3.6 -1.6 Z" fill={BLUE3} fillOpacity={0.7} />
+              <rect x={-3.5} y={-4.4} width={5} height={3} rx={0.6} fill={BLUE3} fillOpacity={0.45} />
+              <circle cx={2} cy={5.5} r={2} fill={NAVY} stroke={BLUE3} strokeWidth={1} />
+            </g>
+            <animateMotion path={`M34 ${cy} L366 ${cy}`} dur={`${dur}s`} begin={begin} repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.92;1" dur={`${dur}s`} begin={begin} repeatCount="indefinite" />
+          </g>
+        );
+      })}
+      {/* Ghim cảnh báo ở BODY */}
+      <g>
+        <circle cx={pin.x} cy={pin.y + 7} r={4} fill="none" stroke={ORANGE} strokeWidth={1}>
+          <animate attributeName="r" values="4;9;4" dur="2.4s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.8;0;0.8" dur="2.4s" repeatCount="indefinite" />
+        </circle>
+        <path d={`M${pin.x} ${pin.y + 9} C ${pin.x - 1.5} ${pin.y + 5}, ${pin.x - 4} ${pin.y + 3}, ${pin.x - 4} ${pin.y} A4 4 0 1 1 ${pin.x + 4} ${pin.y} C ${pin.x + 4} ${pin.y + 3}, ${pin.x + 1.5} ${pin.y + 5}, ${pin.x} ${pin.y + 9} Z`} fill={ORANGE} />
+        <circle cx={pin.x} cy={pin.y} r={1.5} fill={NAVY} />
+      </g>
+      <text x={22} y={lineY + 40} fontSize={10} fill={BLUE3}>
+        {label}
+      </text>
+    </g>
   );
 }

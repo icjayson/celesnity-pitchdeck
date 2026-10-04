@@ -16,6 +16,7 @@ import { CaseCardView } from "./M6/CaseCardView";
 import { LotRanking } from "./M6/LotRanking";
 import { InspectionPlan } from "./M6/InspectionPlan";
 import { IncidentFlow } from "./M6/IncidentFlow";
+import { DefectFlow } from "./M6/DefectFlow";
 
 type Result = { card: CaseCard; mode: ExtractMode };
 type Phase = "idle" | "loading" | "result" | "not-fault" | "error";
@@ -41,6 +42,7 @@ export default function M6({ variant }: { variant?: string }) {
   void variant;
   const { scenarios } = useDeck();
   if (scenarios.m6.kind === "incident") return <IncidentFlow />;
+  if (scenarios.m6.kind === "defect") return <DefectFlow />;
   return <CaseFlow fallback={scenarios.m6.fallback} />;
 }
 
