@@ -363,7 +363,7 @@ function Replicate({ on, reduced }: P) {
       })}
 
       <text x={40} y={388} fontSize="12" fill={BLUE3} className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1500ms" } : undefined}>
-        Thanh màu: kinh nghiệm mang sang, không bắt đầu lại từ 0
+        Thanh màu: kinh nghiệm được nhân rộng, không bắt đầu lại từ 0
       </text>
       {r.more ? (
         <text x={tx + 184} y={388} textAnchor="end" fontSize="13" fontWeight="600" fill="#fff" className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1500ms" } : undefined}>

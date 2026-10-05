@@ -447,6 +447,8 @@ export type DeckData = {
     /** Hai con đường (M3): chú thích cho trình đọc màn hình theo con đường */
     m3: {
       captions: { A: string; B: string };
+      /** Nhãn ngắn trên nút chuyển A/B; mặc định lấy phần sau dấu ":" của tiêu đề cột trong bảng */
+      toggle?: { A: string; B: string };
       /** Chữ trong khung cảnh variant "loop" */
       loop?: {
         tools: [string, string, string];

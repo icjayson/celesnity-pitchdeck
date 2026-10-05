@@ -28,7 +28,7 @@ export const nestleVietnamDeck: DeckData = {
   phaseLabels,
   expansionMap,
   beforeAfter,
-  party: { name: "Nestlé Trị An", short: "Trị An", team: "Đội Trị An", environment: "Môi trường Nestlé" },
+  party: { name: "Nhà máy Nestlé Trị An", short: "Nhà máy Trị An", team: "Đội ngũ IT của nhà máy Trị An", environment: "Môi trường Nestlé" },
   brand: { partnerLogo: "/decks/nestle-vietnam/logo-white.svg", partnerWordmark: "NESTLÉ TRỊ AN", partnerLogoHeight: 46 },
   islands: [
     { id: "dolce-gusto", label: "Dây chuyền Dolce Gusto", art: "capsule-line" },

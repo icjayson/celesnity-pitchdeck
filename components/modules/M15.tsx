@@ -241,7 +241,7 @@ function People({ count, text, tone, label }: { count: number; text?: string; to
     <div className="flex min-w-0 items-center justify-between gap-3">
       <div className="min-w-0">
         <p className={`text-[13px] font-semibold ${tone === "orange" ? "text-orange-500" : "text-white"}`}>{label}</p>
-        <p className="tabular text-[13px] text-blue-300">
+        <p className="tabular whitespace-nowrap text-[13px] text-blue-300">
           {tone === "orange" ? "" : "~"}
           {text ?? vnNumber(count, count % 1 ? 1 : 0)} người
         </p>

@@ -44,7 +44,7 @@ export function Cards({
       {rows.map((r, i) => {
         const filled = r.slice(1).filter(has).length;
         const showLabels = labelled && filled > 1;
-        const isPartner = tone === "blue" && !!partner && r[0].includes(partner) && !/Celesnity/.test(r[0]);
+        const isPartner = tone === "blue" && !!partner && r[0].toLowerCase().includes(partner.toLowerCase()) && !/Celesnity/.test(r[0]);
         return (
         <article
           key={i}

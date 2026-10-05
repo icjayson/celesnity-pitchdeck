@@ -19,8 +19,9 @@ const FADE_CSS = `@keyframes m3-in{from{opacity:0;transform:translateY(4px)}to{o
 .m3-in{animation:m3-in 450ms cubic-bezier(.22,1,.36,1) both}`;
 
 export default function M3({ variant }: { variant?: string }) {
-  const CAPTION = useDeck().scenarios.m3.captions;
-  const { head, rows } = useDetailTable("hai-con-duong", "Bảng hai con đường");
+  const { captions: CAPTION, toggle } = useDeck().scenarios.m3;
+  // Tiêu đề bảng tuỳ deck: "Bảng hai con đường" hoặc "Bảng hai phương án"
+  const { head, rows } = useDetailTable("hai-con-duong", /^Bảng hai (con đường|phương án)$/);
   const [path, setPath] = useState<Path>("A");
   const [touched, setTouched] = useState(false);
   const gate = useMotionGate<HTMLDivElement>();
@@ -48,8 +49,8 @@ export default function M3({ variant }: { variant?: string }) {
           onChange={choose}
           pulse={showHint && !gate.reduced ? "B" : null}
           options={[
-            { value: "A", label: `A · ${short(headA)}`, accent: "navy" },
-            { value: "B", label: `B · ${short(headB)}`, accent: "orange" },
+            { value: "A", label: `A · ${toggle?.A ?? short(headA)}`, accent: "navy" },
+            { value: "B", label: `B · ${toggle?.B ?? short(headB)}`, accent: "orange" },
           ]}
           className="w-full sm:w-auto sm:[&>button]:min-w-[160px]"
         />

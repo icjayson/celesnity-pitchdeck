@@ -81,7 +81,7 @@ export function Segmented<V extends string>({
             tabIndex={checked ? 0 : -1}
             onClick={() => onChange(o.value)}
             onKeyDown={onKey}
-            className={`relative flex min-w-0 flex-1 flex-col items-center justify-center rounded-[var(--radius-control)] px-3 py-2 text-center transition-colors duration-300 ease-[var(--ease-brand)] sm:px-4 ${
+            className={`relative flex min-w-0 flex-auto flex-col items-center justify-center rounded-[var(--radius-control)] px-3 py-2 text-center transition-colors duration-300 ease-[var(--ease-brand)] sm:px-4 ${
               checked ? selectedCls(o.accent) : idleCls
             } ${pulse === o.value && !checked ? "seg-pulse" : ""}`}
           >

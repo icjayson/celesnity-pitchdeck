@@ -553,29 +553,8 @@ export const sections: Section[] = [
     title: "Các giai đoạn triển khai",
     blocks: [
       { kind: "module", id: "M15" },
-      { kind: "h3", text: "Hòa Phát chỉ cần 3 việc" },
-      {
-        kind: "list",
-        ordered: true,
-        items: [
-          "**Mở dữ liệu đã có:** chỉ đọc, không thu thập bí quyết kinh doanh, không làm gián đoạn hệ thống hiện tại.",
-          "**Cử người:** 2 kỹ sư IT, và chuyên gia R&D/Chất lượng khoảng 4 giờ/tuần.",
-          "**Nhận xét và đánh giá.**",
-        ],
-      },
       { kind: "h3", text: "Chi tiết theo từng tháng" },
       { kind: "module", id: "M10" },
-      { kind: "h3", text: "Ai vận hành hệ thống" },
-      {
-        kind: "table",
-        head: ["Giai đoạn", "Celesnity", "Hòa Phát"],
-        rows: [
-          ["Thử nghiệm (T+1–T+4)", "90%", "10%"],
-          ["Dùng thật (T+5–T+8)", "50%", "50%"],
-          ["Nhân rộng (T+9–T+12)", "20%", "**80%**"],
-          ["Tháng 6 song song: thép", "Hỗ trợ", "**Dẫn dắt**"],
-        ],
-      },
       { kind: "h3", text: "Nhân sự theo giai đoạn" },
       { kind: "module", id: "M16" },
       { kind: "h3", text: "Thang năng lực của đội ngũ IT của Hòa Phát" },
@@ -692,6 +671,16 @@ export const sections: Section[] = [
               ],
             ],
           },
+          { kind: "p", text: "**Hòa Phát chỉ cần 3 việc:**" },
+          {
+            kind: "list",
+            ordered: true,
+            items: [
+              "**Mở dữ liệu đã có:** chỉ đọc, không thu thập bí quyết kinh doanh, không làm gián đoạn hệ thống hiện tại.",
+              "**Cử người:** 2 kỹ sư IT, và chuyên gia R&D/Chất lượng khoảng 4 giờ/tuần.",
+              "**Nhận xét và đánh giá.**",
+            ],
+          },
           {
             kind: "p",
             text: "**Năm thứ 2:** thử nghiệm thép **do đội ngũ IT của Hòa Phát dẫn dắt**, Celesnity hỗ trợ · Hòa Phát cùng huấn luyện mô hình nền.",
@@ -745,6 +734,22 @@ export const sections: Section[] = [
           {
             kind: "note",
             text: "\\*\\* Phụ thuộc tiến độ dự án; trình bày như một nghiên cứu chuyển giao, độ chính xác được kiểm chứng riêng.",
+          },
+        ],
+      },
+      {
+        title: "Đội Hòa Phát làm chủ: ai vận hành hệ thống",
+        printOnly: true,
+        blocks: [
+          {
+            kind: "table",
+            head: ["Giai đoạn", "Celesnity", "Hòa Phát"],
+            rows: [
+              ["Thử nghiệm (T+1–T+4)", "90%", "10%"],
+              ["Dùng thật (T+5–T+8)", "50%", "50%"],
+              ["Nhân rộng (T+9–T+12)", "20%", "**80%**"],
+              ["Tháng 6 song song: thép", "Hỗ trợ", "**Dẫn dắt**"],
+            ],
           },
         ],
       },
@@ -976,7 +981,7 @@ export const sections: Section[] = [
       },
       {
         kind: "p",
-        text: "Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ đọc hiểu ngôn ngữ sang thực sự thấu hiểu và có thể tương tác với thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài. Các công ty có thể ứng dụng các loại hình AI đại trà. Nhưng để đi trước, đón đầu xu thế công nghệ và công nghiệp tân tiến nhất của tương lai, một Mô hình AI Thế giới thực ***(từ nay gọi là Mô hình)*** là xu hướng tất yếu của con đường nghiên cứu AI trên toàn cầu. Hòa Phát sẽ dẫn dắt Việt Nam khi là nhà máy đầu tiên ứng dụng và làm chủ Mô hình này.",
+        text: "Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ đọc hiểu ngôn ngữ sang thực sự thấu hiểu và có thể tương tác với thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài. Các công ty có thể ứng dụng các loại hình AI đại trà. Nhưng để đi trước, đón đầu xu thế công nghệ và công nghiệp tân tiến nhất của tương lai, một Mô hình AI Thế giới thực **(từ nay gọi là Mô hình)** là xu hướng tất yếu của con đường nghiên cứu AI trên toàn cầu. Hòa Phát sẽ dẫn dắt Việt Nam khi là nhà máy đầu tiên ứng dụng và làm chủ Mô hình này.",
       },
       {
         kind: "p",

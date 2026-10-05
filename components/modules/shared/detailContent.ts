@@ -10,7 +10,7 @@ function useDetailBlocks(sectionId: string, title: string | RegExp): Block[] {
   return d?.blocks ?? [];
 }
 
-export function useDetailTable(sectionId: string, title: string): { head: string[]; rows: string[][] } {
+export function useDetailTable(sectionId: string, title: string | RegExp): { head: string[]; rows: string[][] } {
   const t = useDetailBlocks(sectionId, title).find((b) => b.kind === "table");
   return t && t.kind === "table" ? { head: t.head, rows: t.rows } : { head: [], rows: [] };
 }

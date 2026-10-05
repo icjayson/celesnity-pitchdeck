@@ -127,17 +127,18 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
     case "flow":
       return (
         <figure className="flex flex-col gap-4">
-          <ol className="flex flex-wrap items-center gap-2 text-[15px] font-semibold sm:gap-3 sm:text-[17px]">
+          {/* Điện thoại: tự xuống dòng. Từ md: luôn một dòng, chữ và khoảng cách co theo bề rộng, không cắt chữ */}
+          <ol className="flex flex-wrap items-center gap-2 text-[15px] font-semibold md:flex-nowrap md:gap-1 md:text-[12.5px] lg:gap-2 lg:text-[15px] xl:gap-2.5 xl:text-[16px]">
             {b.steps.map((s, i) => (
-              <li key={i} className="flex items-center gap-2 sm:gap-3">
+              <li key={i} className="flex shrink-0 items-center gap-2 md:gap-1 lg:gap-2 xl:gap-2.5">
                 <span
-                  className={`rounded-full px-4 py-2 ${
+                  className={`whitespace-nowrap rounded-full px-4 py-2 md:px-2 lg:px-3 xl:px-4 ${
                     i === b.steps.length - 1 ? "bg-orange-500 text-navy-900" : "bg-navy-900 text-white"
                   }`}
                 >
                   <RichText text={s} />
                 </span>
-                {i < b.steps.length - 1 ? <ChevronRight aria-hidden size={18} className="text-blue-500" /> : null}
+                {i < b.steps.length - 1 ? <ChevronRight aria-hidden size={18} className="shrink-0 text-blue-500 md:size-3.5 lg:size-4 xl:size-[18px]" /> : null}
               </li>
             ))}
           </ol>
