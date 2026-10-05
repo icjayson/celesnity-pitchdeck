@@ -100,7 +100,7 @@ export const faq: FaqItem[] = [
   {
     id: "ba-lop",
     q: "Ba lớp của hệ thống là gì?",
-    a: "Lớp ① Nền tảng dữ liệu tập trung là trí nhớ của nhà máy: ghi việc bằng giọng nói tiếng Việt, nối ERP, kiểm tra, bảo hành và lưu mọi quyết định. Lớp ② Mô hình AI Thế giới thực là bộ não hiểu nhà máy: dự báo kèm mức độ chắc chắn và nói \"không biết\" khi gặp tình huống chưa từng thấy. Lớp ③ Tác nhân AI lập hồ sơ, soạn kế hoạch kiểm tra và điều phối việc, mọi đề xuất đều được mô hình kiểm tra hệ quả trước. Con người có thẩm quyền phê duyệt mọi thay đổi.",
+    a: "Lớp ① Nền tảng dữ liệu tập trung là trí nhớ của nhà máy: ghi việc bằng giọng nói tiếng Việt, nối với nền tảng được xây dựng cho riêng nhà máy, hoặc nền tảng có sẵn và lưu mọi quyết định. Lớp ② Mô hình AI Thế giới thực là bộ não hiểu nhà máy: dự báo kèm mức độ chắc chắn và nói \"không biết\" khi gặp tình huống chưa từng thấy. Lớp ③ Tác nhân AI lập hồ sơ, soạn kế hoạch kiểm tra và điều phối việc, mọi đề xuất đều được mô hình kiểm tra hệ quả trước. Con người có thẩm quyền phê duyệt mọi thay đổi.",
     section: "ba-lop",
     keywords: ["ba lớp", "kiến trúc", "minder", "nền tảng", "tác nhân ai", "lớp"],
   },

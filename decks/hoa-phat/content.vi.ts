@@ -256,7 +256,7 @@ export const sections: Section[] = [
               [
                 "**① Nền tảng dữ liệu tập trung**: \"trí nhớ của nhà máy\"",
                 "Ghi lại",
-                "Ghi việc bằng giọng nói tiếng Việt · nối ERP, kiểm tra, bảo hành · phân quyền · lưu mọi quyết định",
+                "Ghi việc bằng giọng nói tiếng Việt · nối với nền tảng được xây dựng cho riêng nhà máy, hoặc nền tảng có sẵn · phân quyền · lưu mọi quyết định",
               ],
               [
                 "**Con người có thẩm quyền**",

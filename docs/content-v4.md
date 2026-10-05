@@ -164,7 +164,7 @@ Giống **buồng mô phỏng bay**: phi công tập thao tác trước khi bay 
 |---|---|---|
 | **③ Tác nhân AI**: "người trợ lý làm việc" | Hành động | Lập hồ sơ, soạn kế hoạch kiểm tra, điều phối việc. **Mọi đề xuất đều được mô hình kiểm tra hệ quả trước** |
 | **② Mô hình AI Thế giới thực**: "bộ não hiểu nhà máy" | Dự báo | Học cách sản phẩm và nhà máy phản ứng với quyết định; dự báo kèm mức độ chắc chắn; nói "không biết" khi gặp tình huống chưa từng thấy |
-| **① Nền tảng dữ liệu tập trung**: "trí nhớ của nhà máy" | Ghi lại | Ghi việc bằng giọng nói tiếng Việt · nối ERP, kiểm tra, bảo hành · phân quyền · lưu mọi quyết định |
+| **① Nền tảng dữ liệu tập trung**: "trí nhớ của nhà máy" | Ghi lại | Ghi việc bằng giọng nói tiếng Việt · nối với nền tảng được xây dựng cho riêng nhà máy, hoặc nền tảng có sẵn · phân quyền · lưu mọi quyết định |
 | 👤 **Con người có thẩm quyền** | Quyết định | Phê duyệt mọi thay đổi sản phẩm, thông số, quyết định xuất xưởng và vận hành thiết bị |
 
 ↻ **Vòng lặp cải thiện:** quyết định đã duyệt và kết quả thực tế quay lại lớp ①, mô hình học tiếp.
