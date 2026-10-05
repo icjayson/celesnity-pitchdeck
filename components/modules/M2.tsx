@@ -16,7 +16,9 @@ function splitTitle(cell: string) {
 const WAVE_ERAS = ["Những năm 2000", "Năm 2022", "Năm 2027"];
 
 export default function M2(_props: { variant?: string }) {
-  const { rows } = useDetailTable("ky-nguyen", "Bảng ba làn sóng");
+  const { head, rows } = useDetailTable("ky-nguyen", "Bảng ba làn sóng");
+  // tiêu đề cột thứ ba lấy từ bảng của deck ("Ai nắm lợi thế", "Người nắm lợi thế?"…)
+  const edgeLabel = plainText(head[2] ?? "").replace(/\?$/, "") || "Ai nắm lợi thế";
   const gate = useMotionGate<HTMLDivElement>();
   const arts = [RobotArmArt, ChatArt, WorldModelArt];
 
@@ -31,7 +33,7 @@ export default function M2(_props: { variant?: string }) {
     <figure ref={gate.ref} className="relative m-0">
       <figcaption className="sr-only">
         Ba làn sóng của AI trong sản xuất, theo thứ tự.{" "}
-        {waves.map((w, i) => `${WAVE_ERAS[i]}, ${w.name}: AI ${w.can.charAt(0).toLowerCase()}${w.can.slice(1)}. Ai nắm lợi thế: ${w.edge}.`).join(" ")}
+        {waves.map((w, i) => `${WAVE_ERAS[i]}, ${w.name}: AI ${w.can.charAt(0).toLowerCase()}${w.can.slice(1)}. ${edgeLabel}: ${w.edge}.`).join(" ")}
       </figcaption>
 
       <div className="grid grid-cols-1 items-stretch gap-3 lg:grid-cols-[minmax(0,1fr)_28px_minmax(0,1fr)_28px_minmax(0,1.14fr)] lg:gap-2">
@@ -89,7 +91,7 @@ export default function M2(_props: { variant?: string }) {
                     }
                   >
                     <dt className={`text-[12px] font-medium uppercase tracking-[0.1em] ${featured ? "text-blue-300" : "text-ink-500"}`}>
-                      Ai nắm lợi thế
+                      {edgeLabel}
                     </dt>
                     <dd className={`mt-1 ${featured ? "flex items-start gap-2.5 text-[17px] font-semibold leading-snug text-white" : ""}`}>
                       {featured ? <span aria-hidden className="mt-[0.45em] h-2 w-2 shrink-0 rounded-full bg-orange-500" /> : null}

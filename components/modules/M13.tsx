@@ -12,14 +12,16 @@ import { useDeck } from "@/components/deck/DeckProvider";
 const FADE_CSS = `@keyframes m13-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .m13-in{animation:m13-in 450ms cubic-bezier(.22,1,.36,1) both}`;
 
-/** Biểu tượng cho 7 cam kết, theo đúng thứ tự trong content */
+/** Biểu tượng cho các cam kết, theo đúng thứ tự trong content (deck có thể bỏ bớt cam kết lưu ký) */
 const COMMIT_ICONS: LucideIcon[] = [MapPin, ClipboardCheck, UserX, UserCheck, Ban, Vault, FileSignature];
+const commitIcon = (text: string, i: number): LucideIcon =>
+  /công bố/i.test(text) ? FileSignature : /lưu ký/i.test(text) ? Vault : (COMMIT_ICONS[i] ?? ClipboardCheck);
 
 const RECOMMENDED: Level = 3;
 
 /**
  * variant mặc định (#kiem-soat): bản đồ + so sánh nhanh ba mức.
- * "founding" (#hop-tac): thẻ đề xuất Mức 3 · "commitments" (#hop-tac): bảy cam kết.
+ * "founding" (#hop-tac): thẻ đề xuất Mức 3 · "commitments" (#hop-tac): các cam kết không thay đổi.
  */
 export default function M13({ variant }: { variant?: string }) {
   if (variant === "founding") return <Founding />;
@@ -28,7 +30,10 @@ export default function M13({ variant }: { variant?: string }) {
 }
 
 function useLevels() {
-  const { head, rows } = useDetailTable("hop-tac", "Ba mức tham gia");
+  // Deck có thể đã bỏ bảng khỏi #hop-tac và chỉ giữ ở #kiem-soat (tạm cất, hiển thị ở /v1)
+  const inHopTac = useDetailTable("hop-tac", "Ba mức tham gia");
+  const inKiemSoat = useDetailTable("kiem-soat", "Ba mức tham gia");
+  const { head, rows } = inHopTac.rows.length ? inHopTac : inKiemSoat;
   const levels = ([1, 2, 3] as Level[]).map((n) => {
     const h = plainText(head[n] ?? `Mức ${n}`);
     const [label, ...rest] = h.split(":");
@@ -177,13 +182,13 @@ function Founding() {
   );
 }
 
-/** Bảy cam kết không thay đổi, chia hai cột. */
+/** Các cam kết không thay đổi ("Bảy…", "Sáu…"), chia hai cột. */
 function Commitments() {
-  const commitments = useDetailList("hop-tac", "Bảy cam kết không thay đổi");
+  const commitments = useDetailList("hop-tac", /cam kết không thay đổi$/);
   return (
     <ol className="grid grid-cols-1 gap-3 md:grid-cols-2">
       {commitments.map((c, i) => {
-        const Icon = COMMIT_ICONS[i] ?? ClipboardCheck;
+        const Icon = commitIcon(c, i);
         return (
           <li key={i} className="flex items-start gap-3.5 rounded-[14px] border border-line-200 bg-white p-4 sm:p-5">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">

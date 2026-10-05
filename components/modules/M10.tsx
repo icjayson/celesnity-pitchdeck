@@ -26,7 +26,7 @@ const itStepsOf = (months: MonthRow[]) =>
   }, []);
 
 /** Biểu tượng người, có nửa người cho 0,5 */
-function People({ count, tone, label }: { count: number; tone: "blue" | "orange"; label: string }) {
+function People({ count, text, tone, label }: { count: number; text?: string; tone: "blue" | "orange"; label: string }) {
   const full = Math.floor(count);
   const half = count - full >= 0.5;
   const color = tone === "orange" ? "text-orange-500" : "text-blue-500";
@@ -36,7 +36,7 @@ function People({ count, tone, label }: { count: number; tone: "blue" | "orange"
         <p className={`text-[13px] font-semibold ${tone === "orange" ? "text-orange-700" : "text-navy-900"}`}>{label}</p>
         <p className="tabular text-[13px] text-ink-500">
           {tone === "orange" ? "" : "~"}
-          {vnNumber(count, count % 1 ? 1 : 0)} người
+          {text ?? vnNumber(count, count % 1 ? 1 : 0)} người
         </p>
       </div>
       <div className={`flex shrink-0 items-end ${color}`} aria-hidden>
@@ -256,7 +256,7 @@ export default function M10({ variant }: { variant?: string }) {
               </div>
 
               <div className="mt-5 flex flex-col gap-3 border-t border-line-200 pt-4">
-                <People count={row.people.celesnity} tone="blue" label="Celesnity" />
+                <People count={row.people.celesnity} text={row.people.celesnityText} tone="blue" label="Celesnity" />
                 <People count={row.people.partnerTeam} tone="orange" label={party.team} />
               </div>
             </div>

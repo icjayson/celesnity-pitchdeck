@@ -118,13 +118,13 @@ export const hoaPhatDeck: DeckData = {
     m1: {
       captions: [
         "Minh họa: ba đảo nhà máy Gia dụng, Điện lạnh và Thép, phía trên là lõi Mô hình AI Thế giới thực phát sáng, nối với từng đảo bằng đường mảnh.",
-        "Tự học: vòng quyết định, kết quả, học thêm quay quanh mô hình; độ chính xác dự báo tăng dần từ tháng thứ 1 đến tháng thứ 12.",
-        "Dự báo trước: từ hôm nay, mô hình vẽ ba nhánh tỉ lệ lỗi cho ba phương án (giữ nguyên, chỉnh firmware, đổi linh kiện) kèm dải độ chắc chắn; đổi linh kiện giảm lỗi nhiều nhất.",
-        "Nhân rộng: kinh nghiệm của dây chuyền bếp từ Hòa Mạc được mang sang dây chuyền mới, nhà cung cấp mới, model mới và nhà máy thép, không bắt đầu lại từ 0.",
+        "Tự học: vòng quyết định, kết quả, học thêm quay quanh mô hình; độ chính xác dự báo tăng theo cấp số nhân từ tháng thứ 1 đến tháng thứ 12.",
+        "Dự báo trước: từ hôm nay, mô hình vẽ ba nhánh tỉ lệ lỗi cho ba phương án (giữ nguyên, hiệu chỉnh máy móc, đổi linh kiện) kèm dải độ chắc chắn; đổi linh kiện giảm lỗi nhiều nhất.",
+        "Nhân rộng: kinh nghiệm của dây chuyền bếp từ Hòa Mạc được mang sang dây chuyền mới, nhà cung cấp mới, model mới, sang đến nhà máy thép và nhiều hơn nữa, không bắt đầu lại từ 0.",
       ],
       foresight: {
         axis: "TỈ LỆ LỖI",
-        options: ["Giữ nguyên", "Chỉnh firmware", "Đổi linh kiện"],
+        options: ["Giữ nguyên", "Hiệu chỉnh máy móc", "Đổi linh kiện"],
         pickTitle: "Giảm lỗi nhiều nhất",
         pickNote: "Độ chắc chắn: cao",
       },
@@ -132,6 +132,12 @@ export const hoaPhatDeck: DeckData = {
         sourceTitle: "Dây chuyền bếp từ",
         sourceSub: "Hòa Mạc",
         targets: ["Dây chuyền mới", "Nhà cung cấp mới", "Model mới", "Nhà máy thép"],
+        more: "… và nhiều hơn nữa",
+      },
+      learn: {
+        badge: "Thông minh hơn theo cấp số nhân",
+        // tăng nhanh dần, khớp "thông minh hơn theo cấp số nhân theo thời gian"
+        curve: [0.3, 0.31, 0.33, 0.35, 0.38, 0.42, 0.47, 0.53, 0.6, 0.68, 0.78, 0.9],
       },
     },
     m4: { title: "Buồng mô phỏng · bếp từ · bảo vệ nhiệt", options: m4Options, score: m4Score },

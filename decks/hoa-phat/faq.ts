@@ -13,7 +13,7 @@ export const faq: FaqItem[] = [
   {
     id: "du-lieu-roi-vn",
     q: "Dữ liệu của Hòa Phát có rời Việt Nam không?",
-    a: "Không. Dữ liệu thô lưu tại Việt Nam, dưới quyền Hòa Phát; bản vẽ, thiết kế, firmware, BOM và công thức quy trình không bao giờ rời Hòa Phát. Hòa Phát chọn mức đóng góp: ở Mức 1 không có gì rời môi trường Hòa Phát, ở Mức 2 chỉ bản cập nhật mô hình đã qua kiểm thử bảo mật. Celesnity nhận bản cập nhật mô hình, không bao giờ là dữ liệu thô.",
+    a: "Không. Dữ liệu thô lưu tại Việt Nam, dưới quyền Hòa Phát; bản vẽ, thiết kế, firmware, BOM và công thức quy trình không bao giờ rời Hòa Phát. Hòa Phát duyệt mục đích, người truy cập, thời hạn lưu và mọi phần được chia sẻ. Celesnity nhận bản cập nhật mô hình, không bao giờ là dữ liệu thô.",
     section: "hop-tac",
     keywords: ["dữ liệu", "rời", "việt nam", "nước ngoài", "lưu trữ", "chủ quyền", "ra ngoài"],
     suggested: true,
@@ -37,7 +37,7 @@ export const faq: FaqItem[] = [
   {
     id: "khi-nao-thep",
     q: "Khi nào mở rộng sang thép?",
-    a: "Thép là đích đến của chương trình. Cổng 3 (T+8) mở cửa sang khảo sát thép khi Ban chỉ đạo duyệt; T+10–T+12 khảo sát, đánh giá dữ liệu và chọn use case thép đầu tiên; T+12 có kế hoạch thử nghiệm thép năm thứ 2. Thử nghiệm thép ở năm thứ 2 do đội ngũ IT của Hòa Phát dẫn dắt, Celesnity hỗ trợ. Use case thép là hướng đề xuất, sẽ được xác định cùng Hòa Phát sau khi có kết quả ở gia dụng.",
+    a: "Thép là đích đến của chương trình. Từ tháng 6, phần thép có thể chạy song song: Hòa Phát dẫn dắt, Celesnity hỗ trợ. Cổng 3 (T+8) mở cửa sang khảo sát thép khi Ban chỉ đạo duyệt; T+10–T+12 khảo sát, đánh giá dữ liệu và chọn use case thép đầu tiên; T+12 có kế hoạch thử nghiệm thép năm thứ 2. Thử nghiệm thép ở năm thứ 2 do đội ngũ IT của Hòa Phát dẫn dắt, Celesnity hỗ trợ. Use case thép là hướng đề xuất, sẽ được xác định cùng Hòa Phát sau khi có kết quả ở gia dụng.",
     section: "ban-do",
     keywords: ["thép", "dung quất", "hải dương", "mở rộng", "năm 2", "năm thứ 2", "ống thép", "thử nghiệm thép", "dẫn dắt", "khi nào", "bắt đầu"],
     suggested: true,
@@ -61,7 +61,7 @@ export const faq: FaqItem[] = [
   {
     id: "so-huu-mo-hinh",
     q: "Hòa Phát có sở hữu mô hình không?",
-    a: "Có. Mô hình riêng và các kết quả về hoạt động Hòa Phát thuộc sở hữu Hòa Phát; Celesnity chỉ dùng để vận hành dịch vụ. Mô hình nền, mã huấn luyện và bộ công cụ đánh giá thuộc Celesnity, Hòa Phát có giấy phép nội bộ vĩnh viễn, miễn phí bản quyền theo mức tham gia. Mã nguồn và mô hình riêng được lưu ký tại bên thứ ba; khi chấm dứt hợp tác, Hòa Phát giữ mô hình và giấy phép.",
+    a: "Có. Mô hình riêng và các kết quả về hoạt động Hòa Phát thuộc sở hữu Hòa Phát; Celesnity chỉ dùng để vận hành dịch vụ. Mô hình nền, mã huấn luyện và bộ công cụ đánh giá thuộc Celesnity, Hòa Phát có giấy phép nội bộ vĩnh viễn, miễn phí bản quyền theo mức tham gia. Khi chấm dứt hợp tác, Hòa Phát giữ mô hình riêng và giấy phép.",
     section: "hop-tac",
     keywords: ["sở hữu", "mô hình riêng", "quyền", "sở hữu trí tuệ", "giấy phép", "của ai"],
     suggested: true,
@@ -69,7 +69,7 @@ export const faq: FaqItem[] = [
   {
     id: "sau-12-thang",
     q: "Sau 12 tháng Hòa Phát có gì?",
-    a: "Sau 12 tháng, Hòa Phát có 6 use case chạy thật trên 2–3 dòng sản phẩm, mở rộng sang điện lạnh Hưng Yên/Phú Mỹ. Đội ngũ IT của Hòa Phát tự vận hành và tự huấn luyện lại mô hình riêng, bắt đầu đồng huấn luyện mô hình nền. Hòa Phát cũng có kế hoạch thử nghiệm thép năm thứ 2 và giá trị đã được Tài chính xác nhận tại Cổng 4.",
+    a: "Sau 12 tháng, Hòa Phát có 6 use case chạy thật trên 2–3 dòng sản phẩm, mở rộng sang nhà máy điện lạnh hoặc luyện kim khác. Đội ngũ IT của Hòa Phát tự vận hành và phát triển, bắt đầu đồng huấn luyện mô hình nền, và cùng Celesnity xây dựng kế hoạch cụ thể để tiếp tục nhân rộng. Hòa Phát cũng có kế hoạch thử nghiệm thép năm thứ 2 và giá trị đã được Tài chính xác nhận tại Cổng 4.",
     section: "lo-trinh",
     keywords: ["12 tháng", "sau một năm", "cuối năm", "kết quả", "t12", "đạt được gì"],
     suggested: true,
@@ -79,7 +79,7 @@ export const faq: FaqItem[] = [
   {
     id: "nha-may-sieu-thong-minh",
     q: "Nhà máy siêu thông minh là gì?",
-    a: "Nhà máy siêu thông minh là một nhà máy có ba thuộc tính: Tự học · Dự báo trước · Nhân rộng. Mỗi quyết định và kết quả tự trở thành dữ liệu nên mỗi tháng thông minh hơn; mô hình dự báo hệ quả của một quyết định trước khi thực hiện; và kinh nghiệm của một dây chuyền được mang sang dây chuyền, nhà máy và mảng khác. Con người luôn là người quyết định.",
+    a: "Nhà máy siêu thông minh là một nhà máy có ba thuộc tính: Tự học · Dự báo trước · Nhân rộng. Mỗi quyết định và kết quả tự trở thành dữ liệu nên nhà máy thông minh hơn theo cấp số nhân theo thời gian; mô hình dự báo hệ quả của một quyết định trước khi thực hiện; và kinh nghiệm của một dây chuyền được nhân rộng sang dây chuyền, nhà máy và mảng khác. Con người luôn là người quyết định.",
     section: "sieu-thong-minh",
     keywords: ["siêu thông minh", "tự học", "dự báo trước", "nhân rộng", "chương trình"],
   },
@@ -93,14 +93,14 @@ export const faq: FaqItem[] = [
   {
     id: "ai-native",
     q: "AI-native khác AI-powered thế nào?",
-    a: "Ở nhà máy AI-powered, AI là một công cụ con người mở ra khi cần. Ở Nhà máy siêu thông minh (AI-native), AI nằm ngay trong quy trình: tự tạo hồ sơ, nối dữ liệu, kiểm tra mọi quyết định. Mọi việc làm, quyết định và kết quả tự trở thành dữ liệu học, nên hệ thống biết điều gì sẽ xảy ra nếu chọn phương án A hay B và mỗi tháng thông minh hơn.",
+    a: "Ở nhà máy AI-powered, AI là một công cụ con người mở ra khi cần. Ở Nhà máy siêu thông minh (AI-native), AI là chính quy trình: tự tạo hồ sơ, nối dữ liệu, kiểm tra mọi quyết định. Mọi việc làm, quyết định và kết quả tự trở thành dữ liệu học, nên hệ thống thể hiện điều gì đã, đang và sẽ xảy ra nếu chọn phương án A hay B, và thông minh hơn theo thời gian.",
     section: "sieu-thong-minh",
     keywords: ["ai native", "ai powered", "nhà máy thông minh", "khác biệt"],
   },
   {
     id: "ba-lop",
     q: "Ba lớp của hệ thống là gì?",
-    a: "Lớp ① Nền tảng dữ liệu tập trung là trí nhớ của nhà máy: ghi việc bằng giọng nói tiếng Việt, nối ERP, kiểm tra, bảo hành và lưu mọi quyết định. Lớp ② Mô hình AI Thế giới thực là bộ não hiểu nhà máy: dự báo kèm mức độ chắc chắn và nói \"không biết\" khi gặp tình huống chưa từng thấy. Lớp ③ Tác nhân AI lập hồ sơ, soạn kế hoạch kiểm tra và điều phối việc, mọi đề xuất đều được mô hình kiểm tra hệ quả trước. Con người có thẩm quyền phê duyệt mọi thay đổi.",
+    a: "Lớp ① Nền tảng dữ liệu tập trung là trí nhớ của nhà máy: ghi việc bằng giọng nói tiếng Việt, nối với nền tảng được xây dựng cho riêng nhà máy hoặc nền tảng có sẵn, và lưu trữ mọi quyết định. Lớp ② Mô hình AI Thế giới thực là bộ não hiểu nhà máy: dự báo kèm mức độ và dữ liệu chắc chắn, nói \"không biết\" khi gặp tình huống chưa có dữ liệu, không bịa ra kết quả. Lớp ③ Tác nhân AI lập hồ sơ, soạn kế hoạch kiểm tra và điều phối việc, mọi đề xuất đều được mô hình kiểm tra nguyên nhân và kết quả trước. Con người có thẩm quyền phê duyệt mọi thay đổi.",
     section: "ba-lop",
     keywords: ["ba lớp", "kiến trúc", "minder", "nền tảng", "tác nhân ai", "lớp"],
   },
@@ -144,7 +144,7 @@ export const faq: FaqItem[] = [
   {
     id: "hoa-phat-can-lam",
     q: "Hòa Phát cần chuẩn bị những gì?",
-    a: "Hòa Phát chỉ cần 3 việc. Mở dữ liệu đã có ở chế độ chỉ đọc, không lắp thêm cảm biến, không thay hệ thống hiện tại. Cử 2 kỹ sư IT và chuyên gia R&D/Chất lượng khoảng 4 giờ/tuần. Giữ đề thi và chấm điểm.",
+    a: "Hòa Phát chỉ cần 3 việc. Mở dữ liệu đã có ở chế độ chỉ đọc, không thu thập bí quyết kinh doanh, không làm gián đoạn hệ thống hiện tại. Cử 2 kỹ sư IT và chuyên gia R&D/Chất lượng khoảng 4 giờ/tuần. Nhận xét và đánh giá.",
     section: "lo-trinh",
     keywords: ["chuẩn bị", "cần làm", "đóng góp", "cảm biến", "thay hệ thống", "hòa phát cần"],
   },
@@ -172,7 +172,7 @@ export const faq: FaqItem[] = [
   {
     id: "chia-vai",
     q: "Celesnity và Hòa Phát chia việc vận hành thế nào theo thời gian?",
-    a: "Trong thử nghiệm (T+1–T+4), Celesnity làm khoảng 90%, Hòa Phát 10%. Khi dùng thật (T+5–T+8), hai bên chia 50–50. Khi nhân rộng (T+9–T+12), Hòa Phát làm 80%; ở năm thứ 2 với thép, Hòa Phát dẫn dắt và Celesnity hỗ trợ. Đội Celesnity giảm dần từ khoảng 5,5 người xuống khoảng 3 người.",
+    a: "Trong thử nghiệm (T+1–T+4), Celesnity làm khoảng 90%, Hòa Phát 10%. Khi dùng thật (T+5–T+8), hai bên chia 50–50. Khi nhân rộng (T+9–T+12), Hòa Phát làm 80%. Với thép (song song từ tháng 6), Hòa Phát dẫn dắt và Celesnity hỗ trợ. Đội Celesnity giảm dần từ khoảng 5–6 người xuống khoảng 3 người.",
     section: "lo-trinh",
     keywords: ["chia vai", "tỷ lệ", "chuyển giao", "ai vận hành", "90%", "80%"],
   },
@@ -283,13 +283,6 @@ export const faq: FaqItem[] = [
 
   // ───────────── Kiểm soát, pháp lý ─────────────
   {
-    id: "ba-muc",
-    q: "Ba mức tham gia khác nhau thế nào?",
-    a: "Mức 1 (Riêng): không có gì rời môi trường Hòa Phát. Mức 2 (Đóng góp): chỉ bản cập nhật mô hình đã qua kiểm thử bảo mật rời đi, Hòa Phát được dùng mọi phiên bản mô hình nền trong thời gian đóng góp. Mức 3 (Đối tác sáng lập): thêm tập kiểm chứng đã khử nhận diện, duyệt từng bản ghi; Hòa Phát chủ trì Ban chỉ đạo, tiếp cận tính năng mới sớm 6 tháng. Celesnity khuyến nghị Mức 3; trong thử nghiệm dữ liệu chạy ở chế độ Mức 2.",
-    section: "hop-tac",
-    keywords: ["mức", "mức 1", "mức 2", "mức 3", "tham gia", "đóng góp"],
-  },
-  {
     id: "nguoi-lao-dong",
     q: "Dữ liệu có được dùng để đánh giá công nhân không?",
     a: "Không. Dữ liệu người lao động không bao giờ được dùng để xếp hạng hay kỷ luật cá nhân. Chương trình tham vấn trước, khử nhận diện và không dùng dữ liệu để đánh giá cá nhân.",
@@ -306,7 +299,7 @@ export const faq: FaqItem[] = [
   {
     id: "dieu-khien-thiet-bi",
     q: "Mô hình có tự điều khiển máy móc không?",
-    a: "Không. Mô hình chỉ dự báo và so sánh; con người có thẩm quyền phê duyệt mọi thay đổi và mô hình không điều khiển thiết bị. Giống buồng mô phỏng bay: mô hình giúp con người thử và so sánh trước khi cam kết. Mọi bước lên mức tự chủ cao hơn là quyết định riêng của Hòa Phát, theo quy định pháp luật.",
+    a: "Không. Mô hình tập trung dự báo, so sánh và tối ưu hoá; con người có thẩm quyền phê duyệt mọi thay đổi. Tự động hoá bằng AI đi theo từng bước, đồng hành cùng Hòa Phát. Mọi bước lên mức tự chủ cao hơn là quyết định riêng của Hòa Phát, theo quy định pháp luật.",
     section: "ba-lop",
     keywords: ["điều khiển", "tự động", "thay con người", "máy móc", "thiết bị", "tự quyết"],
   },

@@ -69,6 +69,11 @@ const ACC = [0.4, 0.45, 0.49, 0.54, 0.58, 0.62, 0.66, 0.7, 0.74, 0.78, 0.82, 0.8
 
 function SelfLearning({ on, reduced }: P) {
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const learn = useDeck().scenarios.m1.learn;
+  const acc = learn?.curve?.length === 12 ? learn.curve : ACC;
+  const badge = learn?.badge ?? "Mỗi tháng thông minh hơn";
+  // độ rộng nhãn theo số ký tự (13px, đậm)
+  const badgeW = Math.round(badge.length * 6.6 + 16);
   const cx = 190;
   const cy = 210;
   const R = 98;
@@ -86,7 +91,7 @@ function SelfLearning({ on, reduced }: P) {
   const base = 330;
   const step = 21;
   const maxH = 200;
-  const tops = ACC.map((v, i) => ({ x: x0 + i * step + 3.5, y: base - v * maxH }));
+  const tops = acc.map((v, i) => ({ x: x0 + i * step + 3.5, y: base - v * maxH }));
   const last = tops[tops.length - 1];
 
   return (
@@ -141,8 +146,8 @@ function SelfLearning({ on, reduced }: P) {
         ĐỘ CHÍNH XÁC DỰ BÁO
       </text>
       <line x1={x0} x2={x0 + step * 12} y1={base} y2={base} stroke={BLUE3} strokeOpacity="0.35" />
-      {ACC.map((v, i) => {
-        const isLast = i === ACC.length - 1;
+      {acc.map((v, i) => {
+        const isLast = i === acc.length - 1;
         return (
           <rect
             key={i}
@@ -168,9 +173,9 @@ function SelfLearning({ on, reduced }: P) {
         style={on ? { animationDelay: "1100ms" } : undefined}
       />
       <g className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1200ms" } : undefined}>
-        <rect x={last.x - 168} y={last.y - 46} width="174" height="28" rx="14" fill={ORANGE} />
-        <text x={last.x - 81} y={last.y - 27} textAnchor="middle" fontSize="13" fontWeight="600" fill="#0A1F44">
-          Mỗi tháng thông minh hơn
+        <rect x={last.x + 6 - badgeW} y={last.y - 46} width={badgeW} height="28" rx="14" fill={ORANGE} />
+        <text x={last.x + 6 - badgeW / 2} y={last.y - 27} textAnchor="middle" fontSize="13" fontWeight="600" fill="#0A1F44">
+          {badge}
         </text>
       </g>
       <text x={x0} y={base + 22} fontSize="12" fill={BLUE3}>
@@ -360,6 +365,11 @@ function Replicate({ on, reduced }: P) {
       <text x={40} y={388} fontSize="12" fill={BLUE3} className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1500ms" } : undefined}>
         Thanh màu: kinh nghiệm mang sang, không bắt đầu lại từ 0
       </text>
+      {r.more ? (
+        <text x={tx + 184} y={388} textAnchor="end" fontSize="13" fontWeight="600" fill="#fff" className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1500ms" } : undefined}>
+          {r.more}
+        </text>
+      ) : null}
     </svg>
   );
 }

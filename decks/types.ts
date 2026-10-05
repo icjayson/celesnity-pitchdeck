@@ -162,7 +162,8 @@ export type MonthRow = {
   /** Use case đang "dùng thật" tính đến tháng này */
   live: string[];
   share: { celesnity: number; partner: number };
-  people: { celesnity: number; partnerTeam: number };
+  /** celesnityText: hiển thị thay cho số (ví dụ một khoảng "5–6") */
+  people: { celesnity: number; partnerTeam: number; celesnityText?: string };
   itLevel: string;
 };
 
@@ -180,8 +181,8 @@ export type RoadmapPhase = {
   ops: { celesnity: number; partner: number } | null;
   opsNote: string;
   team: { celesnity: string; partnerTeam: string };
-  /** số người (dùng cho biểu tượng người) */
-  people?: { celesnity: number; partnerTeam: number };
+  /** số người (dùng cho biểu tượng người); celesnityText hiển thị thay cho số (ví dụ "5–6") */
+  people?: { celesnity: number; partnerTeam: number; celesnityText?: string };
   outcomes: string[];
   /** Giai đoạn do khách hàng dẫn dắt */
   lead?: boolean;
@@ -191,6 +192,8 @@ export type StaffCell = {
   /** số người (null khi tính bằng giờ) */
   count: number | null;
   approx?: boolean;
+  /** hiển thị thay cho số (ví dụ một khoảng "5–6"); count vẫn dùng cho biểu tượng người */
+  text?: string;
   /** nhãn vai trò; "+" ở đầu = vai trò mới thêm */
   roles: string[];
 };
@@ -465,7 +468,9 @@ export type DeckData = {
       /** Hình "Dự báo trước": tên trục, ba phương án (phương án cuối là phương án được chọn), thẻ kết luận */
       foresight: { axis: string; options: [string, string, string]; pickTitle: string; pickNote: string };
       /** Hình "Nhân rộng": nguồn kinh nghiệm và bốn nơi nhận (nơi cuối là đích đến, màu orange) */
-      replicate: { sourceTitle: string; sourceSub: string; targets: [string, string, string, string] };
+      replicate: { sourceTitle: string; sourceSub: string; targets: [string, string, string, string]; more?: string };
+      /** Hình "Tự học": nhãn trên cột cuối (mặc định "Mỗi tháng thông minh hơn") và độ cao 12 cột (0–1) */
+      learn?: { badge: string; curve?: number[] };
     };
     /** Gia phả số (M19): một lỗi → bối cảnh; xe → linh kiện; linh kiện → xe */
     m19?: GenealogyData;

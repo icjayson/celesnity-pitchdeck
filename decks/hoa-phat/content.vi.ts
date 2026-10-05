@@ -6,9 +6,9 @@ import type { Act, AppendixSection, Section } from "../types";
 
 export const meta = {
   title: "Nhà máy siêu thông minh · Hòa Phát × Celesnity",
-  description: "Đề xuất hợp tác, Thử nghiệm và lộ trình use case. Tài liệu thảo luận, tháng 10/2026.",
+  description: "Đề xuất hợp tác, Thử nghiệm và lộ trình use case. Tháng 10/2026.",
   tagline: "Tự học · Dự báo trước · Nhân rộng",
-  footer: "NHÀ MÁY SIÊU THÔNG MINH · Hòa Phát × Celesnity · Tài liệu thảo luận",
+  footer: "NHÀ MÁY SIÊU THÔNG MINH · Hòa Phát × Celesnity · Tháng 10/2026",
 };
 
 export const acts: Act[] = [
@@ -42,11 +42,16 @@ export const sections: Section[] = [
     title: "NHÀ MÁY\nSIÊU THÔNG MINH",
     blocks: [
       { kind: "lead", text: "Hòa Phát làm chủ trí thông minh AI vận hành" },
-      { kind: "p", text: "**Tự học · Dự báo trước · Nhân rộng**" },
+      {
+        kind: "p",
+        text: "**Không chỉ đơn thuần là ứng dụng AI đại trà, Hòa Phát phải dẫn đầu thế giới về làm chủ Mô hình AI Thế giới thực tân tiến nhất**",
+      },
       {
         kind: "note",
-        text: "Đề xuất hợp tác, Thử nghiệm và lộ trình use case · Tài liệu thảo luận",
+        text: "Đề xuất hợp tác, Thử nghiệm và lộ trình use case · Tháng 10/2026",
       },
+      { kind: "note", text: "**Dẫn dắt:** Ông Phùng Tuấn Anh, Giám đốc AI Tập đoàn Hòa Phát" },
+      { kind: "note", text: "**Chịu trách nhiệm:** Nguyễn Duy Tân & Nguyễn Công Nam Anh, Giám đốc Celesnity" },
     ],
   },
   {
@@ -82,7 +87,7 @@ export const sections: Section[] = [
       { kind: "module", id: "M2" },
       {
         kind: "statement",
-        context: "Các tập đoàn công nghệ lớn đều đang dồn sức vào AI cho thế giới vật lý (ví dụ NVIDIA Cosmos, Meta V-JEPA 2).",
+        context: "Các tập đoàn công nghệ lớn đều đang dồn sức vào nghiên cứu AI cho thế giới vật lý (ví dụ NVIDIA Cosmos, Meta V-JEPA 2).",
         highlight: "Thứ làm nên sự khác biệt của chúng ta là **kinh nghiệm vận hành thực tế** của từng nhà máy.",
         conclusion: "Mô hình AI Thế giới thực cho công nghiệp của Celesnity sẽ đặt ra bộ quy chuẩn và nền móng đầu tiên mà cả ngành phải theo sau.",
       },
@@ -94,18 +99,18 @@ export const sections: Section[] = [
         blocks: [
           {
             kind: "table",
-            head: ["Làn sóng", "AI làm được gì", "Ai nắm lợi thế"],
+            head: ["Làn sóng", "AI làm được gì", "Người nắm lợi thế?"],
             rows: [
-              ["**Tự động hóa**", "Lặp lại một thao tác đã lập trình", "Ai có máy móc"],
+              ["**Tự động hóa**", "Lặp lại một thao tác đã lập trình", "Người có máy móc"],
               [
-                "**AI ngôn ngữ** (ChatGPT, trợ lý ảo)",
+                "**AI ngôn ngữ** lớn (ChatGPT, trợ lý ảo)",
                 "Đọc, viết, trả lời câu hỏi",
-                "Ai có mô hình ngôn ngữ; nay đang phổ biến và rẻ dần",
+                "Người có mô hình ngôn ngữ; nay đang phổ biến và rẻ dần",
               ],
               [
                 "**Mô hình AI Thế giới thực** *(World Model)*",
                 "**Hiểu một hệ thống vật lý phản ứng thế nào với quyết định, và dự báo trước**",
-                "**Ai có dữ liệu quyết định vận hành thật**",
+                "**Người có dữ liệu quyết định vận hành thật**",
               ],
             ],
           },
@@ -138,8 +143,8 @@ export const sections: Section[] = [
               ["**Mô hình**", "Thuộc nhà cung cấp", "**Mô hình AI Thế giới thực riêng của Hòa Phát**"],
               ["**Dữ liệu**", "Thường phải đưa ra hệ thống của nhà cung cấp", "**Bảo toàn, hoàn toàn kiểm soát bởi Hòa Phát**"],
               ["**Kinh nghiệm**", "Làm giàu mô hình của người khác", "**Được tích lũy thành tài sản vĩnh viễn của Hòa Phát**"],
-              ["**Đội ngũ**", "Phụ thuộc chuyên gia bên ngoài", "**Kỹ sư Hòa Phát toàn quyền vận hành và huấn luyện**"],
-              ["**Khi mở nhà máy mới**", "Mua thêm, tích hợp lại", "**Mang kinh nghiệm sang nhanh chóng**"],
+              ["**Đội ngũ**", "Phụ thuộc chuyên gia bên ngoài", "**Kỹ sư Hòa Phát toàn quyền vận hành và phát triển**"],
+              ["**Khi mở nhà máy mới**", "Mua thêm, tích hợp lại", "**Mang kinh nghiệm nhân rộng nhanh chóng**"],
             ],
           },
         ],
@@ -164,44 +169,40 @@ export const sections: Section[] = [
         rows: [
           [
             "**1. Tự học**",
-            "Mỗi quyết định và kết quả tự trở thành dữ liệu; **mỗi tháng thông minh hơn**",
+            "Mỗi quyết định và kết quả tự trở thành dữ liệu; **thông minh hơn theo cấp số nhân theo thời gian**",
             "Dự báo tháng sau chính xác hơn tháng trước, và kỹ sư thấy được vì sao",
           ],
           [
             "**2. Dự báo trước**",
             "Dự báo hệ quả của một quyết định **trước khi** thực hiện, kèm mức độ chắc chắn",
-            "Đổi linh kiện hay chỉnh firmware, cách nào giảm lỗi nhiều hơn?",
+            "Đổi linh kiện hay hiệu chỉnh máy móc, cách nào giảm lỗi nhiều hơn?",
           ],
           [
             "**3. Nhân rộng**",
-            "**Kinh nghiệm của một dây chuyền được mang sang dây chuyền, nhà máy và mảng khác**, không phụ thuộc vào một người hay một nơi",
-            "Mở dây chuyền mới, đổi nhà cung cấp, đổi model, bước từ gia dụng sang thép mà không bắt đầu lại từ đầu",
+            "**Kinh nghiệm của một dây chuyền được nhân rộng sang dây chuyền, nhà máy và mảng khác**, không phụ thuộc vào một người hay một nơi",
+            "Mở dây chuyền mới, đổi nhà cung cấp, đổi model, bước từ gia dụng sang đến thép và nhiều hơn nữa mà không bắt đầu lại từ đầu",
           ],
         ],
-      },
-      {
-        kind: "p",
-        text: "Giống **buồng mô phỏng bay**: phi công tập thao tác trước khi bay thật. Mô hình không lái máy bay; nó giúp con người thử và so sánh trước khi cam kết. **Con người luôn là người quyết định.**",
       },
       { kind: "h3", text: "Khác biệt không nằm ở việc có thêm AI, mà ở chỗ **AI là chính quy trình**." },
       {
         kind: "compare",
-        head: ["", "Nhà máy thông minh *(ứng dụng AI và tự động hóa)*", "**Nhà máy siêu thông minh** *(ứng dụng Mô hình AI Thế giới thực)*"],
+        head: ["", "Nhà máy thông minh *(ứng dụng phần mềm có AI và tự động hóa)*", "**Nhà máy siêu thông minh** *(ứng dụng Mô hình AI Thế giới thực)*"],
         rows: [
           [
             "**AI ở đâu**",
             "Một công cụ, con người mở ra khi cần",
-            "**Nằm ngay trong quy trình**: AI tạo hồ sơ, nối dữ liệu, kiểm tra mọi quyết định",
+            "**AI là quy trình**: AI tạo hồ sơ, nối dữ liệu, kiểm tra mọi quyết định",
           ],
           [
-            "**Dữ liệu**",
+            "**Ghi nhận dữ liệu**",
             "Cảm biến và dashboard; con người nhập tay",
             "Mọi việc làm, quyết định và kết quả **tự trở thành dữ liệu học**",
           ],
-          ["**Biết được gì**", "Điều gì **đã** xảy ra", "Điều gì **sẽ** xảy ra nếu chọn phương án A hay B"],
-          ["**Theo thời gian**", "Đứng yên, phải sửa quy tắc bằng tay", "**Mỗi tháng thông minh hơn**"],
-          ["**Khi mở dây chuyền mới**", "Bắt đầu lại từ đầu", "**Mang kinh nghiệm cũ sang**, rồi học tiếp"],
-          ["**Con người**", "Đi tìm dữ liệu, tổng hợp báo cáo", "Chỉ làm phần cần phán đoán và phê duyệt"],
+          ["**Dữ liệu được thể hiện**", "Điều gì **đã** xảy ra", "Điều gì đã, đang và **sẽ** xảy ra nếu chọn phương án A hay B"],
+          ["**Năng suất và hiệu quả theo thời gian**", "Không đổi về tính ứng dụng, hiệu năng và trí tuệ", "**Thông minh hơn theo thời gian**"],
+          ["**Khả năng nhân rộng khi mở dây chuyền mới**", "Bắt đầu lại từ đầu", "**Mang kinh nghiệm cũ sang**, và tiếp tục nhân rộng"],
+          ["**Hoạt động của con người**", "Đi tìm dữ liệu, tổng hợp báo cáo, nhập liệu và xử lý thủ công", "Chỉ làm phần cần phán đoán và phê duyệt"],
         ],
       },
     ],
@@ -222,13 +223,15 @@ export const sections: Section[] = [
       {
         kind: "p",
         wide: true,
-        text: "**Điều chỉ Mô hình AI Thế giới thực làm được:** máy móc ghi lại điều đã xảy ra. Nền tảng dữ liệu tập trung ghi thêm **ai quyết định gì, vì sao, và điều gì xảy ra sau đó**. Học từ hàng nghìn chuỗi \"quyết định → hệ quả\", mô hình hiểu được **hệ quả**, không chỉ thấy **tương quan**.",
+        text: "**Điều chỉ Mô hình AI Thế giới thực làm được:** máy móc, cảm biến, quy trình ghi lại điều đã xảy ra trong một ngữ cảnh nhất định. Nền tảng dữ liệu tập trung ghi thêm **ai quyết định gì, vì sao, và điều gì xảy ra sau đó**. Học từ hàng nghìn chuỗi \"quyết định → hệ quả\", mô hình hiểu được **hệ quả**, như con người đi học và vận dụng tri thức đã học được ở trên diện rộng.",
       },
       { kind: "p", text: "**Mô hình AI Thế giới thực không phải là:**" },
       {
         kind: "chips", tone: "negative", items: [
           "Chatbot",
+          "Phần mềm ERP",
           "Mô hình tạo video",
+          "Mô hình ngôn ngữ video",
           "Hệ thống tự điều khiển thiết bị",
           "Thay thế mô phỏng kỹ thuật (mô phỏng nhiệt, dòng chảy, mạch vẫn do kỹ sư thực hiện, và kết quả của chúng là đầu vào cho mô hình)",
         ]
@@ -246,17 +249,17 @@ export const sections: Section[] = [
               [
                 "**③ Tác nhân AI**: \"người trợ lý làm việc\"",
                 "Hành động",
-                "Lập hồ sơ, soạn kế hoạch kiểm tra, điều phối việc. **Mọi đề xuất đều được mô hình kiểm tra hệ quả trước**",
+                "Lập hồ sơ, soạn kế hoạch kiểm tra, điều phối việc. **Mọi đề xuất đều được mô hình kiểm tra nguyên nhân và kết quả trước**",
               ],
               [
                 "**② Mô hình AI Thế giới thực**: \"bộ não hiểu nhà máy\"",
                 "Dự báo",
-                "Học cách sản phẩm và nhà máy phản ứng với quyết định; dự báo kèm mức độ chắc chắn; nói \"không biết\" khi gặp tình huống chưa từng thấy",
+                "Học cách sản phẩm và nhà máy phản ứng với quyết định; dự báo kèm mức độ và dữ liệu chắc chắn; nói \"không biết\" khi gặp tình huống chưa có dữ liệu, không bịa ra kết quả",
               ],
               [
                 "**① Nền tảng dữ liệu tập trung**: \"trí nhớ của nhà máy\"",
-                "Ghi lại",
-                "Ghi việc bằng giọng nói tiếng Việt · nối ERP, kiểm tra, bảo hành · phân quyền · lưu mọi quyết định",
+                "Ghi nhận lại",
+                "Ghi việc bằng giọng nói tiếng Việt · nối với nền tảng được xây dựng cho riêng nhà máy, hoặc nền tảng có sẵn · phân quyền · lưu trữ mọi quyết định",
               ],
               [
                 "**Con người có thẩm quyền**",
@@ -332,7 +335,7 @@ export const sections: Section[] = [
       { kind: "module", id: "M8" },
       {
         kind: "p",
-        text: "**Cùng một nền tảng · cùng một họ mô hình · cùng một đội ngũ IT của Hòa Phát.** Ở cấp Tập đoàn, các tác nhân AI có một mô hình của nhà máy để kiểm tra hệ quả trước khi đề xuất.",
+        text: "**Cùng một nền tảng · cùng một họ mô hình · cùng một đội ngũ IT của Hòa Phát.** Ở cấp Tập đoàn, AI có một mô hình của nhà máy để kiểm tra hệ quả trước khi đề xuất.",
       },
       {
         kind: "label",
@@ -354,7 +357,7 @@ export const sections: Section[] = [
       {
         kind: "pillars",
         items: [
-          "Mô hình AI được triển khai thực tế",
+          "Mô hình AI Thế giới thực được triển khai thực tế",
           "Phương pháp và bộ quy chuẩn được kiểm chứng",
           "Đội ngũ IT ở Hòa Phát tự chủ vận hành mô hình AI",
           "Quy trình quản trị dữ liệu đã được Hòa Phát duyệt",
@@ -550,8 +553,29 @@ export const sections: Section[] = [
     title: "Các giai đoạn triển khai",
     blocks: [
       { kind: "module", id: "M15" },
+      { kind: "h3", text: "Hòa Phát chỉ cần 3 việc" },
+      {
+        kind: "list",
+        ordered: true,
+        items: [
+          "**Mở dữ liệu đã có:** chỉ đọc, không thu thập bí quyết kinh doanh, không làm gián đoạn hệ thống hiện tại.",
+          "**Cử người:** 2 kỹ sư IT, và chuyên gia R&D/Chất lượng khoảng 4 giờ/tuần.",
+          "**Nhận xét và đánh giá.**",
+        ],
+      },
       { kind: "h3", text: "Chi tiết theo từng tháng" },
       { kind: "module", id: "M10" },
+      { kind: "h3", text: "Ai vận hành hệ thống" },
+      {
+        kind: "table",
+        head: ["Giai đoạn", "Celesnity", "Hòa Phát"],
+        rows: [
+          ["Thử nghiệm (T+1–T+4)", "90%", "10%"],
+          ["Dùng thật (T+5–T+8)", "50%", "50%"],
+          ["Nhân rộng (T+9–T+12)", "20%", "**80%**"],
+          ["Tháng 6 song song: thép", "Hỗ trợ", "**Dẫn dắt**"],
+        ],
+      },
       { kind: "h3", text: "Nhân sự theo giai đoạn" },
       { kind: "module", id: "M16" },
       { kind: "h3", text: "Thang năng lực của đội ngũ IT của Hòa Phát" },
@@ -602,8 +626,8 @@ export const sections: Section[] = [
             rows: [
               [
                 "**Celesnity**",
-                "**~5,5 người**: quản lý triển khai 1 · kỹ sư hiện trường (FDE) tại Hòa Mạc 2 · kỹ sư AI 1 · kỹ sư dữ liệu 1 · trưởng nhóm nghiên cứu ½",
-                "**~4,5 người**: quản lý 1 · FDE 1,5 · kỹ sư AI 1 · kỹ sư dữ liệu ½ · nghiên cứu ½",
+                "**~5–6 người**: quản lý triển khai 1 · kỹ sư hiện trường (FDE) tại Hòa Mạc 2 · kỹ sư AI 1 · kỹ sư dữ liệu 1 · trưởng nhóm nghiên cứu ½",
+                "**~4–5 người**: quản lý 1 · FDE 1,5 · kỹ sư AI 1 · kỹ sư dữ liệu ½ · nghiên cứu ½",
                 "**~3 người**: quản lý ½ · FDE 1 · kỹ sư AI 1 · nghiên cứu ½",
               ],
               [
@@ -668,16 +692,6 @@ export const sections: Section[] = [
               ],
             ],
           },
-          { kind: "p", text: "**Hòa Phát chỉ cần 3 việc:**" },
-          {
-            kind: "list",
-            ordered: true,
-            items: [
-              "**Mở dữ liệu đã có:** chỉ đọc, không lắp thêm cảm biến, không thay hệ thống hiện tại.",
-              "**Cử người:** 2 kỹ sư IT, và chuyên gia R&D/Chất lượng khoảng 4 giờ/tuần.",
-              "**Giữ đề thi và chấm điểm.**",
-            ],
-          },
           {
             kind: "p",
             text: "**Năm thứ 2:** thử nghiệm thép **do đội ngũ IT của Hòa Phát dẫn dắt**, Celesnity hỗ trợ · Hòa Phát cùng huấn luyện mô hình nền.",
@@ -731,22 +745,6 @@ export const sections: Section[] = [
           {
             kind: "note",
             text: "\\*\\* Phụ thuộc tiến độ dự án; trình bày như một nghiên cứu chuyển giao, độ chính xác được kiểm chứng riêng.",
-          },
-        ],
-      },
-      {
-        title: "Đội Hòa Phát làm chủ: ai vận hành hệ thống",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "table",
-            head: ["Giai đoạn", "Celesnity", "Hòa Phát"],
-            rows: [
-              ["Thử nghiệm (T+1–T+4)", "90%", "10%"],
-              ["Dùng thật (T+5–T+8)", "50%", "50%"],
-              ["Nhân rộng (T+9–T+12)", "20%", "**80%**"],
-              ["Năm thứ 2: thép", "Hỗ trợ", "**Dẫn dắt**"],
-            ],
           },
         ],
       },
@@ -833,7 +831,6 @@ export const sections: Section[] = [
     eyebrow: "Hình thức hợp tác",
     title: "Hòa Phát đang đầu tư vào năng lực tự triển khai trong tương lai, không mua một phần mềm riêng lẻ",
     blocks: [
-      { kind: "module", id: "M13", variant: "founding" },
       { kind: "h3", text: "Ba hạng mục triển khai chính" },
       { kind: "module", id: "M14", variant: "package" },
       {
@@ -845,7 +842,7 @@ export const sections: Section[] = [
           "**Nguồn tài trợ mô hình nền:** Celesnity tự tài trợ. Hai bên có thể cùng nộp hồ sơ xin quỹ khoa học và công nghệ của Việt Nam.",
         ],
       },
-      { kind: "h3", text: "Bảy cam kết không thay đổi" },
+      { kind: "h3", text: "Sáu cam kết không thay đổi" },
       { kind: "module", id: "M13", variant: "commitments" },
       { kind: "h3", text: "Sở hữu trí tuệ" },
       {
@@ -880,7 +877,7 @@ export const sections: Section[] = [
     ],
     details: [
       {
-        title: "Bảy cam kết không thay đổi",
+        title: "Sáu cam kết không thay đổi",
         printOnly: true,
         blocks: [
           {
@@ -890,43 +887,9 @@ export const sections: Section[] = [
               "Dữ liệu thô lưu tại Việt Nam. **Bản vẽ, thiết kế, firmware, BOM, công thức quy trình không bao giờ rời Hòa Phát.**",
               "Hòa Phát duyệt mục đích, người truy cập, thời hạn lưu và mọi phần được chia sẻ.",
               "Dữ liệu người lao động **không bao giờ** được dùng để xếp hạng hay kỷ luật cá nhân.",
-              "Mô hình chỉ dự báo và so sánh. **Con người có thẩm quyền phê duyệt mọi thay đổi**; mô hình không điều khiển thiết bị.",
+              "Mô hình tập trung dự báo, so sánh và tối ưu hoá. **Con người có thẩm quyền phê duyệt mọi thay đổi**. Tự động hoá bằng AI theo từng bước đồng hành cùng Hòa Phát.",
               "Dữ liệu Hòa Phát không được dùng cho mô hình của đối thủ trực tiếp.",
-              "Mã nguồn và mô hình riêng được lưu ký tại bên thứ ba. Khi chấm dứt hợp tác, Hòa Phát giữ mô hình và giấy phép.",
               "Mọi công bố cần Hòa Phát đồng ý bằng văn bản (xem trước ít nhất 30 ngày).",
-            ],
-          },
-        ],
-      },
-      {
-        title: "Ba mức tham gia",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "table",
-            head: ["", "**Mức 1: Riêng**", "**Mức 2: Đóng góp**", "**Mức 3: Đối tác sáng lập**"],
-            rows: [
-              [
-                "**Điều gì rời môi trường Hòa Phát**",
-                "Không có gì",
-                "Chỉ bản cập nhật mô hình đã qua kiểm thử bảo mật",
-                "Bản cập nhật mô hình và một bộ dữ liệu mẫu để kiểm chứng; dữ liệu đã xoá thông tin nhận diện, Hòa Phát duyệt từng dòng trước khi gửi",
-              ],
-              [
-                "**Hòa Phát đóng góp**",
-                "Dữ liệu cho mô hình riêng",
-                "Dữ liệu, chuyên gia, hạ tầng tính toán tại Việt Nam",
-                "Như Mức 2, cộng đồng đầu tư hạ tầng (thuộc sở hữu Hòa Phát) và đội ngũ IT tham gia đồng huấn luyện",
-              ],
-              [
-                "**Quyền dùng mô hình nền**",
-                "Phiên bản tại thời điểm ký",
-                "Mọi phiên bản trong thời gian đóng góp",
-                "Như Mức 2, cộng **3 năm** sau khi ngừng đóng góp",
-              ],
-              ["**Tiếp cận tính năng mới**", "—", "—", "Sớm **6 tháng**"],
-              ["**Ban chỉ đạo**", "—", "Thành viên", "**Chủ trì**"],
-              ["**Phí sử dụng sau chương trình**", "Giá tiêu chuẩn", "Giá ưu đãi", "Giá ưu đãi, **cố định 3 năm**"],
             ],
           },
         ],
@@ -992,7 +955,7 @@ export const sections: Section[] = [
               [
                 "**Góp**",
                 "Dữ liệu (theo mức Hòa Phát chọn) · chuyên gia nghiệp vụ · hạ tầng tính toán tại Việt Nam · đội ngũ IT 2→4 người",
-                "Mô hình nền · nền tảng dữ liệu tập trung · đội FDE 5,5→3 người · chi phí nghiên cứu mô hình nền",
+                "Mô hình nền · nền tảng dữ liệu tập trung · đội FDE 3→5 người · chi phí nghiên cứu mô hình nền",
               ],
             ],
           },
@@ -1013,16 +976,15 @@ export const sections: Section[] = [
       },
       {
         kind: "p",
-        text: "Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ ngôn ngữ sang thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài.",
+        text: "Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ đọc hiểu ngôn ngữ sang thực sự thấu hiểu và có thể tương tác với thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài. Các công ty có thể ứng dụng các loại hình AI đại trà. Nhưng để đi trước, đón đầu xu thế công nghệ và công nghiệp tân tiến nhất của tương lai, một Mô hình AI Thế giới thực ***(từ nay gọi là Mô hình)*** là xu hướng tất yếu của con đường nghiên cứu AI trên toàn cầu. Hòa Phát sẽ dẫn dắt Việt Nam khi là nhà máy đầu tiên ứng dụng và làm chủ Mô hình này.",
       },
       {
         kind: "p",
         text: "Vì vậy, Celesnity trân trọng đề xuất Hòa Phát trở thành **Đối tác công nghiệp sáng lập** của chương trình **Nhà máy siêu thông minh**. Chương trình xây dựng một Mô hình AI Thế giới thực hiểu cách các nhà máy của Hòa Phát vận hành. Mô hình chạy tại Việt Nam, trên dữ liệu của Hòa Phát, và **do chính đội ngũ Hòa Phát làm chủ**.",
       },
       { kind: "p", text: "**Tầm nhìn**\nMỗi nhà máy của Hòa Phát, từ gia dụng đến thép, đều có thể **tự học** từ mỗi quyết định và kết quả thực tế, **dự báo trước** hệ quả của quyết định tiếp theo, và **nhân rộng** kinh nghiệm sang mọi dây chuyền, mọi nhà máy trong Tập đoàn." },
-      { kind: "p", text: "**Cách làm**\nChương trình bắt đầu nhỏ và chắc: một dòng bếp từ tại Hòa Mạc, sáu ứng dụng mở dần theo bằng chứng. Ngay từ tháng thứ 1, đội ngũ IT của Hòa Phát làm việc cùng kỹ sư Celesnity tại nhà máy, để năng lực ở lại Hòa Phát chứ không nằm ở nhà cung cấp." },
-      { kind: "p", text: "**Kết quả dự kiến sau 12 tháng**\n6 ứng dụng chạy thật trên 2–3 dòng sản phẩm, mở rộng sang nhà máy điện lạnh Hưng Yên và Phú Mỹ. **Đội ngũ IT của Hòa Phát tự vận hành và tự huấn luyện lại mô hình**, và có kế hoạch cụ thể để bước sang nhà máy thép." },
-      { kind: "p", text: "**Cách chứng minh**\n**Hòa Phát giữ bộ đề thi kín** cho Mô hình AI Thế giới thực. Mô hình phải thi đạt trên dữ liệu của chính Hòa Phát, do Hòa Phát chấm, trước khi được dùng thật. Giai đoạn nào chưa đạt thì chương trình không chuyển sang giai đoạn có phí tiếp theo." },
+      { kind: "p", text: "**Cách làm**\nChương trình bắt đầu nhỏ và chắc: một dòng bếp từ tại Hòa Mạc, hoặc một khâu xử lý tại nhà máy thép tuỳ chọn. Ngay từ tháng thứ 1, đội ngũ IT của Hòa Phát làm việc cùng kỹ sư Celesnity tại nhà máy, tiếp tục đào tạo năng lực tại Hòa Phát." },
+      { kind: "p", text: "**Kết quả dự kiến sau 12 tháng**\n6 ứng dụng chạy thật trên 2–3 dòng sản phẩm, mở rộng sang nhà máy điện lạnh hoặc luyện kim khác. Đội ngũ IT của Hòa Phát **tự vận hành và phát triển**, và cùng Celesnity xây dựng kế hoạch cụ thể để tiếp tục nhân rộng." },
       { kind: "p", text: "**Cam kết của Celesnity**\nDữ liệu thô lưu tại Việt Nam và dưới quyền Hòa Phát; bản vẽ, thiết kế và công thức quy trình không bao giờ rời Hòa Phát. Mô hình chỉ dự báo và so sánh; **con người có thẩm quyền phê duyệt mọi thay đổi**." },
       { kind: "p", text: "**Kính đề nghị Ban Lãnh đạo**" },
       {
@@ -1036,9 +998,9 @@ export const sections: Section[] = [
       },
       {
         kind: "p",
-        text: "Chúng tôi tin rằng Nhà máy siêu thông minh do một tập đoàn Việt Nam làm chủ, trên dữ liệu Việt Nam, có thể trở thành chuẩn mực mới cho sản xuất trong khu vực. Celesnity mong được đồng hành cùng Hòa Phát trên chặng đường đó.",
+        text: "Chúng tôi tin rằng Nhà máy siêu thông minh do một tập đoàn Việt Nam làm chủ, trên dữ liệu Việt Nam, có thể trở thành chuẩn mực mới cho sản xuất không những trong khu vực mà còn trên cả thế giới. Celesnity mong được đồng hành cùng Hòa Phát trên chặng đường đó.",
       },
-      { kind: "signature", lines: ["Trân trọng,", "**Celesnity**, đơn vị phát triển nền tảng Minder"] },
+      { kind: "signature", lines: ["Trân trọng,", "**Celesnity**, đơn vị phát triển nền tảng Minder AI"] },
     ],
   },
 ];
@@ -1104,7 +1066,40 @@ export const parkedSections: Section[] = [
       },
     ],
     details: [
-
+      // Đã bỏ khỏi #hop-tac theo bản nội dung 05/10/2026; giữ ở đây cho bản cũ (/v1).
+      {
+        title: "Ba mức tham gia",
+        printOnly: true,
+        blocks: [
+          {
+            kind: "table",
+            head: ["", "**Mức 1: Riêng**", "**Mức 2: Đóng góp**", "**Mức 3: Đối tác sáng lập**"],
+            rows: [
+              [
+                "**Điều gì rời môi trường Hòa Phát**",
+                "Không có gì",
+                "Chỉ bản cập nhật mô hình đã qua kiểm thử bảo mật",
+                "Bản cập nhật mô hình và một bộ dữ liệu mẫu để kiểm chứng; dữ liệu đã xoá thông tin nhận diện, Hòa Phát duyệt từng dòng trước khi gửi",
+              ],
+              [
+                "**Hòa Phát đóng góp**",
+                "Dữ liệu cho mô hình riêng",
+                "Dữ liệu, chuyên gia, hạ tầng tính toán tại Việt Nam",
+                "Như Mức 2, cộng đồng đầu tư hạ tầng (thuộc sở hữu Hòa Phát) và đội ngũ IT tham gia đồng huấn luyện",
+              ],
+              [
+                "**Quyền dùng mô hình nền**",
+                "Phiên bản tại thời điểm ký",
+                "Mọi phiên bản trong thời gian đóng góp",
+                "Như Mức 2, cộng **3 năm** sau khi ngừng đóng góp",
+              ],
+              ["**Tiếp cận tính năng mới**", "—", "—", "Sớm **6 tháng**"],
+              ["**Ban chỉ đạo**", "—", "Thành viên", "**Chủ trì**"],
+              ["**Phí sử dụng sau chương trình**", "Giá tiêu chuẩn", "Giá ưu đãi", "Giá ưu đãi, **cố định 3 năm**"],
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -1347,7 +1342,7 @@ export const benefits = {
       "Bộ đề thi làm chung",
       "Doanh thu",
     ],
-    give: ["Mô hình nền", "Nền tảng dữ liệu tập trung", "Đội FDE 5,5→3 người", "Chi phí nghiên cứu mô hình nền"],
+    give: ["Mô hình nền", "Nền tảng dữ liệu tập trung", "Đội FDE 3→5 người", "Chi phí nghiên cứu mô hình nền"],
   },
 };
 

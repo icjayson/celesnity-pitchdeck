@@ -77,10 +77,10 @@ function Cell({ cell, tone, phase }: { cell: StaffCell; tone: StaffRow["tone"]; 
         {phase.name} · {phase.months}
       </p>
       {cell.count !== null ? (
-        <div className="flex items-end justify-between gap-3">
-          <p className={`tabular text-[30px] font-semibold leading-none tracking-[-0.02em] ${t.text}`}>
+        <div className="flex flex-wrap items-end justify-between gap-x-3 gap-y-2">
+          <p className={`tabular whitespace-nowrap text-[30px] font-semibold leading-none tracking-[-0.02em] ${t.text}`}>
             {cell.approx ? "~" : ""}
-            {vnNumber(cell.count, cell.count % 1 ? 1 : 0)}
+            {cell.text ?? vnNumber(cell.count, cell.count % 1 ? 1 : 0)}
             <span className="ml-1 text-[14px] font-medium text-ink-500">người</span>
           </p>
           <PeopleIcons count={cell.count} cls={t.icon} />

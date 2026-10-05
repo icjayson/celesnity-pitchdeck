@@ -17,9 +17,10 @@ export const staffingRows: StaffRow[] = [
       {
         count: 5.5,
         approx: true,
+        text: "5–6",
         roles: ["Quản lý triển khai 1", "FDE tại Hòa Mạc 2", "Kỹ sư AI 1", "Kỹ sư dữ liệu 1", "Trưởng nhóm nghiên cứu ½"],
       },
-      { count: 4.5, approx: true, roles: ["Quản lý 1", "FDE 1,5", "Kỹ sư AI 1", "Kỹ sư dữ liệu ½", "Nghiên cứu ½"] },
+      { count: 4.5, approx: true, text: "4–5", roles: ["Quản lý 1", "FDE 1,5", "Kỹ sư AI 1", "Kỹ sư dữ liệu ½", "Nghiên cứu ½"] },
       { count: 3, approx: true, roles: ["Quản lý ½", "FDE 1", "Kỹ sư AI 1", "Nghiên cứu ½"] },
     ],
   },

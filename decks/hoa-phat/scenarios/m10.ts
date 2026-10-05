@@ -5,7 +5,11 @@ export type { MonthRow };
 const shareFor = (m: number) =>
   m <= 4 ? { celesnity: 90, partner: 10 } : m <= 8 ? { celesnity: 50, partner: 50 } : { celesnity: 20, partner: 80 };
 const peopleFor = (m: number) =>
-  m <= 4 ? { celesnity: 5.5, partnerTeam: 2 } : m <= 8 ? { celesnity: 4.5, partnerTeam: 3 } : { celesnity: 3, partnerTeam: 4 };
+  m <= 4
+    ? { celesnity: 5.5, partnerTeam: 2, celesnityText: "5–6" }
+    : m <= 8
+      ? { celesnity: 4.5, partnerTeam: 3, celesnityText: "4–5" }
+      : { celesnity: 3, partnerTeam: 4 };
 
 const raw: Omit<MonthRow, "share" | "people">[] = [
   { m: 1, phase: "Thử nghiệm: Học", useCase: "Ứng dụng 01 dùng thật", expansion: "", data: "Môi trường tại Việt Nam · từ điển sản phẩm · nối dữ liệu", it: "Học việc", gate: "Cổng 1", live: ["UC0"], itLevel: "Học việc" },

@@ -197,7 +197,7 @@ function PhaseCard({ p }: { p: RoadmapPhase }) {
                 <span className="h-full border-l-2 border-navy-800 bg-orange-500" style={{ width: `${p.ops.partner}%` }} />
               </div>
               <div className="mt-4 flex flex-col gap-3 border-t border-navy-700 pt-4">
-                <People count={p.people.celesnity} tone="blue" label="Celesnity" />
+                <People count={p.people.celesnity} text={p.people.celesnityText} tone="blue" label="Celesnity" />
                 <People count={p.people.partnerTeam} tone="orange" label={party.team} />
               </div>
             </div>
@@ -233,7 +233,7 @@ function Box({ title, icon, dark, children }: { title: string; icon: React.React
 }
 
 /** Biểu tượng người (có nửa người cho 0,5), trên nền tối */
-function People({ count, tone, label }: { count: number; tone: "blue" | "orange"; label: string }) {
+function People({ count, text, tone, label }: { count: number; text?: string; tone: "blue" | "orange"; label: string }) {
   const full = Math.floor(count);
   const half = count - full >= 0.5;
   const color = tone === "orange" ? "text-orange-500" : "text-blue-300";
@@ -243,7 +243,7 @@ function People({ count, tone, label }: { count: number; tone: "blue" | "orange"
         <p className={`text-[13px] font-semibold ${tone === "orange" ? "text-orange-500" : "text-white"}`}>{label}</p>
         <p className="tabular text-[13px] text-blue-300">
           {tone === "orange" ? "" : "~"}
-          {vnNumber(count, count % 1 ? 1 : 0)} người
+          {text ?? vnNumber(count, count % 1 ? 1 : 0)} người
         </p>
       </div>
       <div className={`flex shrink-0 items-end ${color}`} aria-hidden>
