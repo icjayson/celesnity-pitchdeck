@@ -176,7 +176,8 @@ function RecordSurface({ on }: { on: boolean }) {
       {tiles.map((t, i) => (
         <g key={t.glyph}>
           <rect x={t.u} y={t.v} width={S} height={S} rx={8} fill="rgba(47,123,246,0.28)" stroke={BLUE3} strokeOpacity={0.6} {...ns} />
-          <g transform={`translate(${t.u + S / 2} ${t.v + S / 2})`} stroke="#fff" strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" {...ns}>
+          {/* phép chiếu mặt trên là phép lật gương: lật lại glyph để icon đứng đúng chiều */}
+          <g transform={`translate(${t.u + S / 2} ${t.v + S / 2}) scale(1 -1)`} stroke="#fff" strokeWidth={1.8} fill="none" strokeLinecap="round" strokeLinejoin="round" {...ns}>
             {t.glyph === "voice" ? (
               <>
                 <rect x={-5} y={-12} width={10} height={16} rx={5} {...ns} />
