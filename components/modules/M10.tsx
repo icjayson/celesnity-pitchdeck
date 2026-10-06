@@ -15,7 +15,8 @@ import { Timeline } from "./M10/Timeline";
 const STEP_MS = 1200;
 const liveMonth = (useCases: UseCase[], id: string) => {
   const uc = useCases.find((u) => u.id === id);
-  const m = uc?.liveFrom.match(/T\+?(\d+)/);
+  // "… dùng thật từ T+6" được ưu tiên hơn mốc thi trên lịch sử đứng trước
+  const m = uc?.liveFrom.match(/dùng thật từ T\+?(\d+)/i) ?? uc?.liveFrom.match(/T\+?(\d+)/);
   return m ? Number(m[1]) : 12;
 };
 /** Các bậc của đội vận hành theo đúng thứ tự xuất hiện trong bảng 12 tháng */
@@ -56,7 +57,7 @@ function People({ count, text, tone, label }: { count: number; text?: string; to
 export default function M10({ variant }: { variant?: string }) {
   void variant;
   const { labels, useCases, party, scenarios } = useDeck();
-  const { months: m10Months, finale: m10Finale, chips, lane, partnerShareNote } = scenarios.m10;
+  const { months: m10Months, finale: m10Finale, chips, chipsTitle, lane, partnerShareNote } = scenarios.m10;
   const itSteps = itStepsOf(m10Months);
   const laneRows = m10Months.filter((r) => r.expansion);
   const [month, setMonth] = useState(1);
@@ -174,9 +175,9 @@ export default function M10({ variant }: { variant?: string }) {
 
             {/* Chip use case */}
             <div className="mt-5">
-              <p className="mb-2.5 text-[13px] font-semibold text-navy-900">Use case đang dùng thật</p>
+              <p className="mb-2.5 text-[13px] font-semibold text-navy-900">{chipsTitle ?? "Use case đang dùng thật"}</p>
               <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {chips.map(({ id, short }) => {
+                {chips.map(({ id, short, label }) => {
                   const on = row.live.includes(id);
                   return (
                     <li
@@ -189,7 +190,7 @@ export default function M10({ variant }: { variant?: string }) {
                         {on ? <Check size={12} strokeWidth={2} aria-hidden /> : null}
                       </span>
                       <span className="min-w-0 leading-tight">
-                        <span className="tabular block text-[13px] font-semibold">Ứng dụng {String(Number(id.slice(2)) + 1).padStart(2, "0")}</span>
+                        <span className="tabular block text-[13px] font-semibold">{label ?? `Ứng dụng ${String(Number(id.slice(2)) + 1).padStart(2, "0")}`}</span>
                         <span className={`block truncate text-[12px] ${on ? "text-white/85" : ""}`}>{short}</span>
                       </span>
                       <span className="sr-only">{on ? ": dùng thật" : `: từ T+${liveMonth(useCases, id)}`}</span>

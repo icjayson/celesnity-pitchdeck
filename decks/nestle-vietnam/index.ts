@@ -22,7 +22,7 @@ export const nestleVietnamDeck: DeckData = {
   packageParts,
   costShift,
   faq,
-  quickFaqIds: ["vi-sao-dolce-gusto", "thay-the-he-thong", "du-lieu-roi-vn", "bo-de-thi"],
+  quickFaqIds: ["ba-use-case", "du-lieu-can", "khong-lam", "gia-tri-do"],
   useCases,
   sectorLabels,
   phaseLabels,

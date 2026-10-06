@@ -25,7 +25,7 @@ export const allAssistants: Record<string, DeckAssistant> = {
 /** Tệp nội dung gốc (markdown) của mỗi deck, dùng cho npm run content:check */
 export const deckSources: Record<string, string> = {
   "hoa-phat": "docs/content-v4.md",
-  "nestle-vietnam": "docs/nestle-content-v3.md",
+  "nestle-vietnam": "docs/nestle-content-v4.md",
   "isuzu-vietnam": "docs/isuzu-content-v1.md",
 };
 

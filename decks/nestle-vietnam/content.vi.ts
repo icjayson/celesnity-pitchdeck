@@ -1,12 +1,13 @@
 /**
- * Câu chữ của deck Nestlé Trị An (/nestle-vietnam), chuyển từ docs/nestle-content-v3.md.
+ * Câu chữ của deck Nestlé Trị An (/nestle-vietnam). Nguồn đối chiếu: docs/nestle-content-v4.md.
  * Không viết cứng câu chữ trong component; sửa ở đây rồi chạy `npm run content:check`.
  */
-import type { Act, AppendixSection, BenefitSide, Closing, CostShiftRow, DeckLabels, PackagePart, Section } from "../types";
+import type { Act, AppendixSection, BenefitSide, Block, Closing, CostShiftRow, DeckLabels, PackagePart, Section } from "../types";
+import { beforeAfter, expansionMap, useCases } from "./usecases";
 
 export const meta = {
   title: "Nhà máy siêu thông minh · Nestlé Trị An × Celesnity",
-  description: "Đề xuất hợp tác, Thử nghiệm và lộ trình use case. Tháng 10/2026.",
+  description: "Đề xuất hợp tác: ba ứng dụng giai đoạn đầu trên dây chuyền NESCAFÉ Dolce Gusto và lộ trình triển khai. Tháng 10/2026.",
   tagline: "Tự học · Dự báo trước · Nhân rộng",
   footer: "NHÀ MÁY SIÊU THÔNG MINH · Nestlé Trị An × Celesnity · Tháng 10/2026",
 };
@@ -14,7 +15,7 @@ export const meta = {
 export const acts: Act[] = [
   { n: 1, label: "I.", title: "Một kỷ nguyên mới" },
   { n: 2, label: "II.", title: "Nhà máy siêu thông minh" },
-  { n: 3, label: "III.", title: "Lộ trình: từ một dây chuyền đến các nhà máy Nestlé Việt Nam" },
+  { n: 3, label: "III.", title: "Giai đoạn đầu: ba ứng dụng trên dây chuyền Dolce Gusto" },
 ];
 
 export const labels: DeckLabels = {
@@ -31,6 +32,35 @@ export const labels: DeckLabels = {
 };
 
 const PHOTO_CREDIT = "Ảnh: Nestlé Việt Nam";
+
+/** Bản in của thẻ ứng dụng (M18 "detail"): mỗi ứng dụng một bảng nhãn → nội dung */
+const join = (xs?: string[]) => (xs ?? []).join(" · ");
+const useCasePrintBlocks: Block[] = useCases
+  .filter((u) => u.card?.worldModel && beforeAfter[u.id])
+  .flatMap((u): Block[] => {
+    const c = u.card!;
+    return [
+      { kind: "h3", text: `${u.code} · ${u.name}` },
+      {
+        kind: "kv",
+        rows: [
+          ["Khâu", c.stage ?? ""],
+          ["Thời điểm", u.liveFrom],
+          ["Bài toán", beforeAfter[u.id].before],
+          ["Cách làm với Minder AI", beforeAfter[u.id].after],
+          ["Mô hình AI Thế giới thực", c.worldModel ?? ""],
+          ["Nhà máy cung cấp", join(c.needs)],
+          ["Không làm", join(c.notDo)],
+          ["Sản phẩm bàn giao", join(c.deliverables)],
+          ["Chỉ số đo", join(c.kpis)],
+          ["Quy ra tiền", c.value ?? ""],
+          ["Người quyết định", c.decides],
+          ["Đạt khi", c.pass],
+          ...(c.caveat ? [["Lưu ý", c.caveat]] : []),
+        ],
+      },
+    ];
+  });
 
 export const sections: Section[] = [
   // ───────────────────────────── MỞ ĐẦU ─────────────────────────────
@@ -52,7 +82,11 @@ export const sections: Section[] = [
         kind: "p",
         text: "**Không chỉ ứng dụng các công cụ AI phổ biến: nhà máy Nestlé Trị An có thể là một trong những nhà máy đầu tiên của Nestlé vận hành bằng Mô hình AI Thế giới thực**",
       },
-      { kind: "note", text: "Đề xuất hợp tác, Thử nghiệm và lộ trình use case · Tháng 10/2026" },
+      {
+        kind: "p",
+        text: "**Giai đoạn đầu: ba ứng dụng trên dây chuyền NESCAFÉ Dolce Gusto:** kế hoạch sản xuất tuần · hao hụt bột tính tự động từ dữ liệu máy · dự báo trước rủi ro môi trường phòng chiết rót để không phải dừng chuyền.",
+      },
+      { kind: "note", text: "Đề xuất hợp tác, ba ứng dụng giai đoạn đầu và lộ trình triển khai · Tháng 10/2026" },
       { kind: "note", text: "**Dẫn dắt:** Trương Hoàng Phương, Giám đốc nhà máy Nestlé Trị An" },
       { kind: "note", text: "**Chịu trách nhiệm:** Nguyễn Duy Tân & Nguyễn Công Nam Anh, Giám đốc Celesnity" },
     ],
@@ -161,8 +195,8 @@ export const sections: Section[] = [
               ],
               [
                 "**Khi có sự cố**",
-                "Chỉ nhận được cảnh báo: \"Độ ẩm vượt 65%\"",
-                "**Biết ngay tác động: \"Lô P102 cần QA xem xét; mục tiêu ngày thiếu 31.400 viên nén; có 4 phương án phục hồi\"**",
+                "Chỉ nhận được cảnh báo khi độ ẩm đã vượt ngưỡng",
+                "**Dự báo trước khi vượt ngưỡng: \"AHU-02 suy giảm, Vùng L2 có nguy cơ vượt ngưỡng sau 6 giờ; lô và kế hoạch L2 bị ảnh hưởng; có 3 phương án xử lý trước\"**",
               ],
               ["**Kinh nghiệm**", "Phân tán ở nhiều công cụ và ở kinh nghiệm của từng cá nhân", "**Được tích lũy thành tài sản lâu dài của nhà máy**"],
               ["**Theo thời gian**", "Từng công cụ phải được cập nhật và hiệu chỉnh riêng", "**Sau mỗi lần vận hành, mô hình học thêm và chính xác hơn**"],
@@ -229,21 +263,18 @@ export const sections: Section[] = [
     title: "Nền tảng ghi lại, Mô hình AI Thế giới thực dự báo, Tác nhân AI hành động; con người phê duyệt",
     blocks: [
       { kind: "module", id: "M7" },
-      {
-        kind: "p",
-        wide: true,
-        text: "**Vòng lặp cải thiện:** quyết định đã duyệt và kết quả thực tế quay lại lớp ①, mô hình học tiếp.",
-      },
-      {
-        kind: "p",
-        wide: true,
-        text: "**Điều chỉ Mô hình AI Thế giới thực làm được:** máy móc, cảm biến, quy trình ghi lại điều đã xảy ra trong một ngữ cảnh nhất định. Nền tảng dữ liệu nối toàn bộ trạng thái sản xuất thành một bản đồ liên kết sản xuất: nhu cầu → lệnh sản xuất → SKU và công thức → dây chuyền và máy → lô bột, lô vỏ viên nén, lô hộp → môi trường phòng kiểm soát → kết quả chất lượng → sản lượng → đơn hàng. Nền tảng cũng ghi lại **ai quyết định gì, vì sao, và điều gì xảy ra sau đó**. Học từ hàng nghìn chuỗi \"quyết định → hệ quả\", mô hình hiểu được **hệ quả**, như con người đi học và vận dụng tri thức đã học được ở trên diện rộng.",
-      },
       { kind: "p", text: "**Mô hình AI Thế giới thực không phải là:**" },
       {
         kind: "chips",
         tone: "negative",
-        items: ["Chatbot", "Dashboard hay mô hình 3D", "Hệ thống thay thế MES, SAP hay SCADA", "Hệ thống tự điều khiển thiết bị"],
+        items: [
+          "Chatbot",
+          "Phần mềm ERP",
+          "Mô hình tạo video",
+          "Mô hình ngôn ngữ video",
+          "Hệ thống tự điều khiển thiết bị",
+          "Thay thế mô phỏng kỹ thuật (mô phỏng nhiệt, dòng chảy, mạch vẫn do kỹ sư thực hiện, và kết quả của chúng là đầu vào cho mô hình)",
+        ],
       },
     ],
     details: [
@@ -258,7 +289,7 @@ export const sections: Section[] = [
               [
                 "**③ Tác nhân AI**: \"người trợ lý làm việc\"",
                 "Hành động",
-                "Năm tác nhân: Lập kế hoạch, Điều hành ca, Chất lượng và Môi trường, Tổn thất và Sản lượng, Phục hồi. **Mọi đề xuất đều được mô hình kiểm tra nguyên nhân và kết quả trước**",
+                "Bốn Tác nhân AI của giai đoạn đầu: Báo cáo ca, Kế hoạch tuần, Hao hụt bột, Môi trường phòng chiết rót. **Mọi đề xuất đều được mô hình kiểm tra nguyên nhân và kết quả trước**",
               ],
               [
                 "**② Mô hình AI Thế giới thực**: \"bộ não hiểu nhà máy\"",
@@ -282,65 +313,9 @@ export const sections: Section[] = [
     ],
   },
   {
-    id: "mot-ngay",
-    act: 2,
-    theme: "navy",
-    layout: "wide",
-    eyebrow: "Một ngày trong Nhà máy siêu thông minh",
-    title: "Cùng một bộ não, từ một dây chuyền đến mọi nhà máy Nestlé Việt Nam",
-    blocks: [
-      { kind: "label", variant: "future", text: "Hình dung tương lai, minh họa cách hệ thống làm việc." },
-      { kind: "module", id: "M5" },
-    ],
-    details: [
-      {
-        title: "Toàn bộ một ngày",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "table",
-            head: ["Giờ", "Nơi", "Điều xảy ra"],
-            rows: [
-              [
-                "**06:00**",
-                "**Dây chuyền NESCAFÉ Dolce Gusto, nhà máy Nestlé Trị An**",
-                "Kiểm tra sẵn sàng trước ca: công thức, lô bột, lô vỏ viên nén, lô hộp, QA release, vệ sinh. Một lô hộp chưa được nhập kho được phát hiện và đánh dấu trước khi chạy. Trưởng ca xử lý",
-              ],
-              [
-                "**09:30**",
-                "**Jar Line, nhà máy Nestlé Trị An**",
-                "Jar Line tăng tốc theo kế hoạch. Mô hình dự báo điểm nghẽn sẽ dịch chuyển sang khâu cấp bột sau 3 giờ và đề xuất điều chỉnh. Trưởng ca quyết định với đầy đủ dự báo",
-              ],
-              [
-                "**11:00**",
-                "**Khu sấy, nhà máy Nestlé Trị An**",
-                "Dây chuyền viên nén và Jar Line cùng cần bột. Tác nhân AI đề xuất thứ tự mẻ sấy để cả hai dây chuyền đủ bột mà không phải dừng chờ. Bộ phận Kế hoạch chọn phương án",
-              ],
-              [
-                "**14:00**",
-                "**Nhà máy Nestlé Bình An**",
-                "Hai bồn cùng cần vệ sinh CIP. Mô hình dự báo thời điểm mỗi bồn sẵn sàng và tác động lên máy chiết rót. Kế hoạch viên chọn thứ tự",
-              ],
-              [
-                "**16:30**",
-                "**Nhà máy Nestlé Đồng Nai**",
-                "Độ ẩm khu đóng gói bột tăng. Mô hình nhân rộng kinh nghiệm truy vết đã ghi nhận tại nhà máy Trị An để chỉ ra các lô cần theo dõi. QA quyết định",
-              ],
-              [
-                "**Cuối ngày**",
-                "**Nestlé Việt Nam**",
-                "Mọi quyết định trong ngày và kết quả của chúng quay về mô hình. **Ngày mai, mọi nhà máy thông minh hơn hôm nay**",
-              ],
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
     id: "ban-do",
     act: 2,
-    theme: "light",
+    theme: "mist",
     layout: "wide",
     eyebrow: "Bản đồ Nhà máy siêu thông minh của Nestlé Việt Nam",
     title: "Bắt đầu từ dây chuyền NESCAFÉ Dolce Gusto, mở rộng ra toàn nhà máy Nestlé Trị An, rồi các nhà máy Nestlé Việt Nam",
@@ -366,16 +341,6 @@ export const sections: Section[] = [
           ["**Hiệu quả chi phí là ưu tiên của Tập đoàn:** mục tiêu tiết kiệm 3 tỷ CHF qua chương trình Fuel for Growth đến cuối 2027"],
         ],
       },
-      { kind: "h3", text: "Những gì các nhà máy Nestlé khác kế thừa từ nhà máy Trị An" },
-      {
-        kind: "pillars",
-        items: [
-          "Mô hình AI Thế giới thực được triển khai thực tế trên một dây chuyền thực phẩm",
-          "Phương pháp đánh giá và bộ đề thi được kiểm chứng",
-          "Đội ngũ IT của nhà máy Trị An tự vận hành hệ thống",
-          "Kiến trúc dữ liệu và an ninh đã được IT/OT Nestlé duyệt",
-        ],
-      },
     ],
     details: [
       {
@@ -391,7 +356,7 @@ export const sections: Section[] = [
               ["**Thời gian**", "Tháng thứ 1–8", "Tháng thứ 9–12", "Năm thứ 2"],
               [
                 "**Câu hỏi mô hình trả lời** *(ví dụ)*",
-                "Sự cố này ảnh hưởng lô và đơn hàng nào? Phục hồi bằng cách nào? Lịch tuần nào khả thi và tốt hơn?",
+                "Lịch tuần nào khả thi và cho kết quả tốt nhất? Ca này hao hụt ở đâu, vì sao? Khi nào phòng chiết rót có nguy cơ vượt ngưỡng, xử lý trước thế nào?",
                 "Khu sấy nên chạy mẻ nào trước để đủ bột cho mọi dây chuyền? Jar Line tăng tốc thì điểm nghẽn dịch chuyển đến đâu?",
                 "Ở dòng bột, định lượng và độ ẩm ảnh hưởng thế nào đến sản lượng? Ở dòng chất lỏng, lịch CIP nào ít thời gian chờ nhất? Một lần dừng ảnh hưởng thế nào đến kế hoạch của cả mạng lưới?",
               ],
@@ -406,32 +371,80 @@ export const sections: Section[] = [
   {
     id: "use-case",
     act: 3,
-    theme: "mist",
+    theme: "light",
     layout: "wide",
-    eyebrow: "Danh mục các ứng dụng",
-    title: "Triển khai qua 6 ứng dụng thực tế, mở rộng từ dây chuyền Dolce Gusto đến các nhà máy Nestlé Việt Nam",
-    blocks: [{ kind: "module", id: "M18" }],
-    details: [
+    eyebrow: "Ba ứng dụng của giai đoạn đầu",
+    title: "Ba ứng dụng cụ thể cho dây chuyền NESCAFÉ Dolce Gusto",
+    blocks: [
       {
-        title: "Bảng danh mục use case",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "table",
-            head: ["#", "Use case", "Câu hỏi được trả lời", "Dùng thật từ"],
-            rows: [
-              ["**Ứng dụng 01**", "**Báo cáo ca tự động**", "Ca này dùng bao nhiêu nguyên liệu, ra bao nhiêu sản phẩm đạt, hao hụt ở đâu?", "**T+1**"],
-              ["**Ứng dụng 02**", "**Truy vết sự cố môi trường**", "Độ ẩm hoặc nhiệt độ vượt giới hạn thì lô, mẻ và đơn hàng nào bị ảnh hưởng?", "**T+5** (thi trên dữ liệu lịch sử từ T+2)"],
-              ["**Ứng dụng 03**", "**Kế hoạch sản xuất và phục hồi**", "Lịch nào khả thi và tốt nhất? Khi mất giờ sản xuất, phục hồi bằng cách nào?", "**T+6** (thi trên dữ liệu lịch sử từ T+3)"],
-              ["Ứng dụng 04", "Định lượng chiết rót", "Định lượng đang lệch về đâu, điều chỉnh thế nào trong giới hạn QA và khối lượng tịnh?", "T+7"],
-              ["Ứng dụng 05", "Dừng máy, điểm nghẽn và chuyển đổi", "Máy nào dừng, nguyên nhân thật nằm ở đâu, và thứ tự SKU nào ít giờ chuyển đổi nhất?", "T+8"],
-              ["Ứng dụng 06", "Sẵn sàng sản xuất và cửa sổ bảo trì", "Lượt chạy tiếp theo đã đủ điều kiện chưa? Bảo trì lúc nào ít ảnh hưởng nhất?", "T+9"],
-              ["→", "**Toàn nhà máy Trị An**", "Jar Line (T+9) → các dây chuyền viên nén và túi khác (T+10) → khu chiết xuất và sấy, kế hoạch chung toàn nhà máy (T+11)", ""],
-              ["→", "**Nestlé Việt Nam**", "Chọn nhà máy Nestlé thứ hai (T+12) → thử nghiệm do Đội ngũ IT của nhà máy Trị An dẫn dắt (năm thứ 2)", ""],
-            ],
-          },
+        kind: "lead",
+        text: "Mỗi ứng dụng đại diện cho một mắt xích thiết yếu trong quy trình vận hành liên kết toàn diện: **Kế hoạch → Vận hành → Dự báo trước & Phục hồi**. Cả ba ứng dụng đều được chuẩn hóa trên một nền tảng dữ liệu tập trung và cùng học trên một mô hình AI duy nhất.",
+      },
+      { kind: "module", id: "M18", variant: "detail" },
+      { kind: "h3", text: "Kiến trúc triển khai trên dây chuyền Dolce Gusto" },
+      {
+        kind: "table",
+        head: ["Tầng", "Trên dây chuyền Dolce Gusto", "Nguyên tắc"],
+        rows: [
+          [
+            "**Nguồn dữ liệu**",
+            "PLC của L1, L2 (vít định lượng, hàn màng, cân kiểm, đóng hộp, robot xếp pallet) · cảm biến độ ẩm, nhiệt độ phòng chiết rót · AHU-01, AHU-02, chiller · SAP/MES (lệnh sản xuất, cấp bột) · nhu cầu tuần, kế hoạch tuần · sổ ca, nhật ký dừng máy",
+            "Chỉ đọc; không thu thập công thức",
+          ],
+          ["**Kết nối**", "Historian replica hoặc OPC UA qua gateway trong mạng OT · API hoặc file định kỳ cho SAP/MES và bảng tính", "Không truy cập trực tiếp bộ điều khiển"],
+          ["**① Nền tảng dữ liệu**", "Bản đồ dây chuyền (công đoạn, thiết bị, phòng, tiện ích) · kho chuỗi thời gian · kho sự kiện: dừng máy, chuyển đổi, cảnh báo, quyết định", "Đồng bộ mã lô, mã máy, thời gian"],
+          [
+            "**② Mô hình AI Thế giới thực**",
+            "Dự báo độ ẩm và AHU (Ứng dụng 3) · hao hụt kỳ vọng và định lượng (Ứng dụng 2) · năng lực, chuyển đổi và kết quả của kế hoạch (Ứng dụng 1)",
+            "Dự báo kèm mức độ chắc chắn; nói \"chưa đủ dữ liệu\" khi cần",
+          ],
+          ["**Tính toán và tối ưu**", "Cân bằng vật chất (Ứng dụng 2) · bộ giải tối ưu có ràng buộc tạo kế hoạch (Ứng dụng 1)", "Mọi con số truy được về dữ liệu gốc"],
+          ["**③ Tác nhân AI**", "Báo cáo ca, ngày, tuần · cảnh báo kèm checklist · hồ sơ sự cố · kế hoạch tuần nháp · trả lời câu hỏi bằng tiếng Việt", "Mô hình ngôn ngữ chỉ đọc đầu vào và giải thích"],
+          ["**Người duyệt**", "Trưởng ca · Bảo trì · QA · Bộ phận Kế hoạch · Trưởng phòng Sản xuất", "Con người phê duyệt mọi thay đổi"],
+          ["**Hạ tầng**", "Máy chủ tại nhà máy hoặc vùng cloud Nestlé duyệt", "Mất kết nối thì dây chuyền vẫn chạy bình thường"],
         ],
       },
+      {
+        kind: "quote",
+        lines: true,
+        text: "**Tối ưu tốc độ** lập kế hoạch và báo cáo\n**Giải phóng công sức** nhờ tự động hóa thu thập dữ liệu\n**Kiểm soát chặt chẽ** rủi ro môi trường và hao hụt\n**Con người giữ toàn quyền** ra quyết định",
+      },
+      { kind: "p", text: "**Mở rộng sau giai đoạn 1:**" },
+      {
+        kind: "list",
+        items: [
+          "Tận dụng kiến trúc mô hình sẵn có để tối ưu bài toán dừng ngắn, điểm nghẽn và sẵn sàng vận hành",
+          "Dễ dàng nhân rộng xuyên suốt chuỗi sản xuất từ khu chiết xuất, sấy, dây chuyền đóng lọ (Jar Line) cho đến toàn bộ hệ sinh thái Nestlé Việt Nam.",
+        ],
+      },
+      { kind: "h3", text: "Demo trên nền tảng Minder AI" },
+      { kind: "label", variant: "sim", text: "Dữ liệu mô phỏng phục vụ demo, không phải số liệu thật của Nestlé Việt Nam." },
+      {
+        kind: "video",
+        video: {
+          src: "/decks/nestle-vietnam/demo-nen-tang.mp4",
+          poster: "/decks/nestle-vietnam/demo-nen-tang.jpg",
+          width: 1920,
+          height: 1004,
+          title: "Không gian vận hành dây chuyền Dolce Gusto trên Minder AI",
+          caption:
+            "Tổng quan Site Manager · mô hình dây chuyền L1, L2 · phát hiện lỗi kèm nguyên nhân chính và cách xử lý lần trước · bảng hao hụt nguyên liệu và tổn thất thời gian",
+        },
+      },
+      {
+        kind: "video",
+        video: {
+          src: "/decks/nestle-vietnam/demo-hoi-minder.mp4",
+          poster: "/decks/nestle-vietnam/demo-hoi-minder.jpg",
+          width: 1920,
+          height: 1004,
+          title: "Hỏi đáp với Trợ lý Minder AI",
+          caption: "Một câu hỏi bằng tiếng Việt → Minder kiểm tra dữ liệu dây chuyền, dựng biểu đồ OEE theo ca và tóm tắt kết luận",
+        },
+      },
+    ],
+    details: [
+      { title: "Chi tiết ba ứng dụng và nền dữ liệu", printOnly: true, blocks: useCasePrintBlocks },
       {
         title: "Bản đồ mở rộng trong nhà máy Nestlé Trị An",
         printOnly: true,
@@ -439,15 +452,65 @@ export const sections: Section[] = [
           {
             kind: "table",
             head: ["Khu vực", "Mô hình hỗ trợ"],
-            rows: [
-              ["Chiết xuất, cô đặc", "Liên kết lô cà phê nhân với hiệu suất chiết xuất và tải của khâu sau"],
-              ["Sấy", "Liên kết điều kiện vận hành, độ ẩm và mật độ bột với khâu chiết rót"],
-              ["Jar Line", "Dừng ngắn giữa chiết rót, hàn màng và đóng gói; liên kết kết quả kiểm tra với lô"],
-              ["Viên nén", "Định lượng, chuyển đổi SKU, môi trường phòng kiểm soát"],
-              ["Túi", "Chuyển đổi định dạng, hao hụt bao bì"],
-              ["Kế hoạch chung", "Một lịch cho mọi dây chuyền dùng chung nguồn bột"],
-            ],
+            rows: expansionMap.map(([a, b]) => [a, b]),
           },
+        ],
+      },
+    ],
+  },
+  {
+    id: "do-luong",
+    act: 3,
+    theme: "light",
+    layout: "wide",
+    eyebrow: "Giá trị kinh doanh đo được",
+    title: "Mỗi ứng dụng có số liệu nền, mục tiêu, cách quy ra tiền và người xác nhận",
+    blocks: [
+      {
+        kind: "table",
+        head: ["Ứng dụng", "Chỉ số chính", "Số liệu nền", "Mục tiêu đề xuất", "Quy ra tiền", "Người xác nhận"],
+        rows: [
+          [
+            "**Nền tảng dữ liệu · Báo cáo ca, ngày, tuần**",
+            "Giờ tổng hợp báo cáo mỗi tuần; tỷ lệ chỉ số tự động",
+            "Đo trong khảo sát",
+            "≥90% chỉ số tự động; báo cáo có ngay cuối ca",
+            "Giờ công tiết kiệm",
+            "Trưởng phòng Sản xuất",
+          ],
+          [
+            "**Ứng dụng 1 · Tự động lập báo cáo và kế hoạch**",
+            "Thời gian lập kế hoạch; giờ chuyển đổi; sản lượng so với kế hoạch",
+            "Khoảng 3 ngày công mỗi tuần",
+            "≤ ½ ngày; 100% đáp ứng ràng buộc; ≥70% dòng được giữ nguyên",
+            "Ngày công tiết kiệm + giờ chuyển đổi giảm × sản lượng mỗi giờ",
+            "Bộ phận Kế hoạch",
+          ],
+          [
+            "**Ứng dụng 2 · Đo lường hao hụt tự động**",
+            "kg bột hao hụt mỗi ca theo nguyên nhân; gram dư trên mỗi viên",
+            "Số liệu đã ghi 3–6 tháng gần nhất",
+            "≥90% số ca có số tự động; gram dư giảm; 0 vi phạm khối lượng tịnh",
+            "kg bột tiết kiệm × giá bột mỗi kg",
+            "Sản xuất, QA",
+          ],
+          [
+            "**Ứng dụng 3 · Cảnh báo sớm rủi ro môi trường sản xuất**",
+            "Giờ dừng vì môi trường; thời gian báo trước",
+            "Nhật ký dừng máy 6–12 tháng",
+            "Báo trước ≥2 giờ cho ≥80% lần vượt hoặc tiến sát ngưỡng",
+            "Giờ dừng tránh được × sản lượng mỗi giờ × biên đóng góp",
+            "Bảo trì, Sản xuất",
+          ],
+        ],
+      },
+      {
+        kind: "list",
+        items: [
+          "**Mục tiêu là đề xuất**, chốt cùng Sản xuất, Kế hoạch, QA và Tài chính sau khảo sát. Celesnity không đưa con số tiết kiệm trước khi có số liệu nền.",
+          "**Đo bằng đơn vị vật lý trước** (giờ, kg, gram trên mỗi viên, số ca), quy ra tiền sau theo đơn giá do bộ phận Tài chính Nestlé cung cấp.",
+          "**Không tính vào lợi ích:** sản lượng tăng do nhu cầu, kết quả của chương trình khác, hay coi mỗi cảnh báo là một lần dừng tránh được.",
+          "**Không đạt Cổng 2 thì không chuyển sang giai đoạn có phí tiếp theo.**",
         ],
       },
     ],
@@ -455,19 +518,31 @@ export const sections: Section[] = [
   {
     id: "lo-trinh",
     act: 3,
-    theme: "light",
+    theme: "mist",
     layout: "wide",
     eyebrow: "Lộ trình 12 tháng và Đội ngũ IT của nhà máy Trị An làm chủ hệ thống",
     title: "Các giai đoạn triển khai",
     blocks: [
       { kind: "module", id: "M15" },
+      { kind: "h3", text: "Sản phẩm bàn giao và nghiệm thu" },
+      {
+        kind: "table",
+        head: ["Thời điểm", "Sản phẩm bàn giao", "Nghiệm thu"],
+        rows: [
+          ["**T+1** · Cổng 1", "Bản đồ dây chuyền L1, L2 · danh mục dữ liệu được ký · báo cáo ca, ngày, tuần chạy tự động", "IT/OT, Trưởng phòng Sản xuất"],
+          ["**T+2–T+3**", "Báo cáo thi trên lịch sử của Ứng dụng 3 và Ứng dụng 1 · bảng đối chiếu hao hụt của Ứng dụng 2", "Bảo trì, Kế hoạch, Sản xuất"],
+          ["**T+4** · Cổng 2", "Kết quả thi trên bộ đề thi kín · đề xuất ngưỡng cảnh báo · Đội ngũ IT của nhà máy Trị An tự vận hành 1 vòng dữ liệu", "Ban Giám đốc nhà máy"],
+          ["**T+5–T+6**", "Cảnh báo sớm môi trường dùng thật · tác nhân lập kế hoạch tuần · hao hụt tự điền báo cáo ca", "Bảo trì, Kế hoạch, Sản xuất, QA"],
+          ["**T+8** · Cổng 3", "Ba ứng dụng nối thành một quy trình: sự cố → tác động → điều chỉnh kế hoạch · báo cáo giá trị so với số liệu nền", "Ban Giám đốc nhà máy, bộ phận Tài chính"],
+        ],
+      },
       { kind: "h3", text: "Nhà máy Nestlé Trị An chỉ cần 3 việc" },
       {
         kind: "list",
         ordered: true,
         items: [
           "**Mở dữ liệu đã có:** chỉ đọc, không thu thập công thức hay bí quyết sản xuất, không làm gián đoạn hệ thống hiện tại.",
-          "**Cử người:** 1 đầu mối IT/OT cho Đội ngũ IT của nhà máy Trị An, và chuyên gia Kế hoạch, Sản xuất khoảng 4 giờ/tuần.",
+          "**Cử người:** 1 đầu mối IT/OT cho Đội ngũ IT của nhà máy Trị An; chuyên gia Kế hoạch ~4 giờ/tuần, Sản xuất và Bảo trì ~2 giờ/tuần, QA ~1 giờ/tuần.",
           "**Nhận xét, đánh giá và chấm điểm trên bộ đề thi kín.**",
         ],
       },
@@ -562,8 +637,8 @@ export const sections: Section[] = [
               ],
               [
                 "**Chuyên gia nghiệp vụ tại nhà máy Trị An**",
-                "Kế hoạch, Sản xuất ~4 giờ/tuần mỗi người · QA, đầu mối dữ liệu ~2 giờ/tuần",
-                "Như trên · + Bảo trì ~2 giờ/tuần",
+                "Kế hoạch ~4 giờ/tuần · Sản xuất, Bảo trì ~2 giờ/tuần mỗi người · QA, đầu mối dữ liệu ~1–2 giờ/tuần",
+                "Như trên",
                 "Như trên · + đầu mối các dây chuyền mới",
               ],
               ["**Lãnh đạo của nhà máy Trị An**", "Giám đốc nhà máy: họp định kỳ hằng tháng và tham dự đánh giá tại mỗi cổng nghiệm thu · Bộ phận Tài chính: tham dự đánh giá tại mỗi cổng nghiệm thu", "", ""],
@@ -581,18 +656,18 @@ export const sections: Section[] = [
             rows: [
               [
                 "**1–2**",
-                "Khảo sát dây chuyền Dolce Gusto. Các bộ phận Sản xuất, Kế hoạch, QA và Tài chính chọn bài toán và chỉ tiêu. Ký thỏa thuận dữ liệu",
+                "Khảo sát dây chuyền Dolce Gusto. Các bộ phận Sản xuất, Kế hoạch, QA và Tài chính chốt chỉ số, số liệu nền và mục tiêu của ba ứng dụng. Ký thỏa thuận dữ liệu",
                 "Phạm vi và số liệu nền được thống nhất",
               ],
               [
                 "**3–4**",
-                "Dựng môi trường được IT/OT duyệt. Kết nối chỉ đọc với MES, historian, hệ thống QA. Đồng bộ mã lô, mã máy, thời gian. **Bật Ứng dụng 01**",
-                "**Cổng 1** · Ứng dụng 01 chạy trên chuyền",
+                "Dựng môi trường được IT/OT duyệt. Kết nối chỉ đọc với PLC, historian, SAP/MES, cảm biến môi trường. Đồng bộ mã lô, mã máy, thời gian. **Bật nền dữ liệu và báo cáo ca**",
+                "**Cổng 1** · báo cáo ca chạy trên chuyền",
               ],
               ["**5–8**", "Nối dữ liệu lịch sử. Nestlé dựng **bộ đề thi kín**. Xây bản đồ liên kết sản xuất và mô hình phiên bản đầu", "Mô hình v0.1"],
               [
                 "**9–12**",
-                "**Thi trên dữ liệu lịch sử của nhà máy Trị An:** Ứng dụng 02 với các sự cố môi trường đã xảy ra; Ứng dụng 03 với các kế hoạch tuần và các lần phục hồi trước đây. So với cách làm hiện tại và với một phương án tối ưu thông thường. Chuyên gia Kế hoạch, Sản xuất, QA chấm mẫu",
+                "**Thi trên dữ liệu lịch sử của nhà máy Trị An:** Ứng dụng 3 với mọi lần độ ẩm vượt hoặc tiến sát ngưỡng; Ứng dụng 1 với các kế hoạch tuần đã chạy; Ứng dụng 2 đối chiếu với số hao hụt đã cân. So với cách làm hiện tại và với một phương án tối ưu thông thường. Chuyên gia Kế hoạch, Sản xuất, Bảo trì, QA chấm mẫu",
                 "Kết quả thi",
               ],
               ["**13–14**", "Chạy song song trên ca thật. Đội ngũ IT của nhà máy Trị An tự vận hành một vòng dữ liệu và chấm điểm", "Bằng chứng chuyển giao"],
@@ -606,7 +681,7 @@ export const sections: Section[] = [
         ],
       },
       {
-        title: "Mười hai tháng: mỗi use case là một chương",
+        title: "Mười hai tháng: mỗi ứng dụng là một chương",
         printOnly: true,
         blocks: [
           { kind: "note", text: "T+1 là tháng đầu tiên sau khi Nestlé duyệt quyền truy cập dữ liệu và môi trường triển khai." },
@@ -614,15 +689,15 @@ export const sections: Section[] = [
             kind: "table",
             head: ["Tháng", "Giai đoạn", "Ứng dụng trên dây chuyền Dolce Gusto", "Nhân rộng", "Dữ liệu và nền tảng", "Đội ngũ IT của nhà máy Trị An", "Cổng nghiệm thu"],
             rows: [
-              ["**T+1**", "Thử nghiệm: Học", "**Ứng dụng 01 dùng thật**", "", "Môi trường được IT/OT duyệt · kết nối chỉ đọc · bản đồ liên kết sản xuất của dây chuyền", "Học việc cùng Celesnity", "**Cổng 1**"],
-              ["**T+2**", "Thử nghiệm: Học", "Ứng dụng 02 thi trên dữ liệu lịch sử", "", "Bộ đề thi kín", "Học việc cùng Celesnity", ""],
-              ["**T+3**", "Thử nghiệm: Học", "Ứng dụng 03 thi trên dữ liệu lịch sử", "", "Nối dữ liệu kế hoạch và đơn hàng", "Học việc cùng Celesnity", ""],
-              ["**T+4**", "Thử nghiệm: Học", "Kết quả thi", "", "", "**Tự vận hành trọn 1 vòng dữ liệu**", "**Cổng 2**"],
-              ["**T+5**", "Dùng thật", "**Ứng dụng 02 dùng thật**", "", "Mở cho QA và trưởng ca", "Cùng vận hành", ""],
-              ["**T+6**", "Dùng thật", "**Ứng dụng 03 dùng thật**", "", "Mở cho bộ phận Kế hoạch", "Cùng vận hành", ""],
-              ["**T+7**", "Dùng thật", "**Ứng dụng 04** định lượng", "", "Nối dữ liệu cân kiểm tra", "Cùng vận hành", ""],
-              ["**T+8**", "Dùng thật", "**Ứng dụng 05** dừng ngắn, chuyển đổi", "Khảo sát Jar Line và các dây chuyền khác", "", "**Tự vận hành liên tục 4 tuần**", "**Cổng 3**"],
-              ["**T+9**", "Nhân rộng", "**Ứng dụng 06** sẵn sàng, bảo trì", "**Jar Line**", "Dữ liệu dây chuyền mới", "Tự vận hành", ""],
+              ["**T+1**", "Thử nghiệm: Học", "**Nền dữ liệu, báo cáo ca dùng thật**", "", "Môi trường được IT/OT duyệt · kết nối chỉ đọc · bản đồ dây chuyền L1, L2", "Học việc cùng Celesnity", "**Cổng 1**"],
+              ["**T+2**", "Thử nghiệm: Học", "Ứng dụng 3 thi trên lịch sử · Ứng dụng 2 đối chiếu với số cân", "", "Bộ đề thi kín · lịch sử môi trường, AHU, cân kiểm", "Học việc cùng Celesnity", ""],
+              ["**T+3**", "Thử nghiệm: Học", "Ứng dụng 1 thi trên lịch sử", "", "Nối dữ liệu kế hoạch, nhu cầu và đơn hàng", "Học việc cùng Celesnity", ""],
+              ["**T+4**", "Thử nghiệm: Học", "Kết quả thi của ba ứng dụng", "", "", "**Tự vận hành trọn 1 vòng dữ liệu**", "**Cổng 2**"],
+              ["**T+5**", "Dùng thật", "**Ứng dụng 3 dùng thật**", "", "Mở cho Bảo trì, QA và trưởng ca", "Cùng vận hành", ""],
+              ["**T+6**", "Dùng thật", "**Ứng dụng 1 và Ứng dụng 2 dùng thật**", "", "Mở cho bộ phận Kế hoạch và Sản xuất", "Cùng vận hành", ""],
+              ["**T+7**", "Dùng thật", "Nối ba ứng dụng: sự cố → tác động → điều chỉnh kế hoạch", "", "Nối sự cố với kế hoạch tuần", "Cùng vận hành", ""],
+              ["**T+8**", "Dùng thật", "Đánh giá trên ca thật · báo cáo giá trị", "Khảo sát Jar Line và các dây chuyền khác", "", "**Tự vận hành liên tục 4 tuần**", "**Cổng 3**"],
+              ["**T+9**", "Nhân rộng", "Ứng dụng 2 đề xuất điều chỉnh định lượng", "**Jar Line**", "Dữ liệu dây chuyền mới", "Tự vận hành", ""],
               ["**T+10**", "Nhân rộng", "", "Các dây chuyền viên nén và túi khác", "", "Tự vận hành", ""],
               ["**T+11**", "Nhân rộng", "", "Khu chiết xuất và sấy · kế hoạch chung", "Dữ liệu khu bột", "**Tự huấn luyện lại mô hình**", ""],
               ["**T+12**", "Nhân rộng", "Báo cáo kỹ thuật chung", "**Kế hoạch cho nhà máy Nestlé thứ hai**", "", "**Dẫn dắt khảo sát nhà máy Nestlé thứ hai**", "**Cổng 4**"],
@@ -630,82 +705,6 @@ export const sections: Section[] = [
           },
         ],
       },
-    ],
-  },
-  {
-    id: "thu-ngay",
-    act: 3,
-    theme: "mist",
-    layout: "wide",
-    eyebrow: "Use case đầu tiên: dây chuyền NESCAFÉ Dolce Gusto tại nhà máy Nestlé Trị An",
-    title: "Từ một cảnh báo độ ẩm đến một kế hoạch phục hồi được duyệt, AI nằm trong từng bước của nhà máy",
-    blocks: [
-      {
-        kind: "note",
-        text: "Tình huống minh họa cách hệ thống làm việc. Bài toán cụ thể do các bộ phận Sản xuất, Kế hoạch, QA và Tài chính chọn trong khảo sát. Phương án dự phòng là định lượng chiết rót trên cùng dây chuyền.",
-      },
-      {
-        kind: "timeline",
-        head: ["Giờ", "Điều xảy ra", "AI làm gì *(không ai phải \"mở công cụ AI\")*", "Con người làm gì"],
-        rows: [
-          [
-            "**10:15**",
-            "Độ ẩm Phòng kiểm soát 2 vượt giới hạn cấu hình",
-            "AI **tự mở hồ sơ sự cố**, gắn phòng, khoảng thời gian, lô bột P102, mẻ B042–B043, SKU Latte",
-            "Không cần nhập liệu",
-          ],
-          ["**10:20**", "", "**Mô hình** đối chiếu quy tắc chất lượng của nhà máy: lô cần QA xem xét trước khi tiếp tục chiết rót", "QA **quyết định** về lô"],
-          [
-            "**10:50**",
-            "Sự cố kết thúc sau 32 phút",
-            "**Mô hình** tính tác động: 5,7 giờ không sản xuất được · thiếu 31.400 viên so với mục tiêu ngày · chuyển đổi sang SKU Espresso trễ 4,2 giờ · 2 đơn xuất khẩu có thể bị ảnh hưởng",
-            "",
-          ],
-          ["**11:00**", "", "**Tác nhân AI** soạn 4 phương án phục hồi; mô hình dự báo kết quả từng phương án", "Trưởng phòng Sản xuất **duyệt**"],
-          ["**Cuối ca**", "Phương án được thực hiện", "Báo cáo ca ghi lại sự cố, phương án đã chọn, sản lượng thực tế", "Trưởng ca **xác nhận**"],
-          ["**Cuối tuần**", "Có sản lượng thực tế của cả tuần", "Dự báo được **chấm điểm so với thực tế**; mô hình tự học", "Xem trên bảng chỉ tiêu"],
-        ],
-      },
-      {
-        kind: "table",
-        caption: "Bốn phương án phục hồi *(Mô phỏng minh họa)*",
-        head: ["Phương án", "Sản lượng bù", "Đơn hàng đúng hạn", "Chi phí thêm", "Cần kiểm tra"],
-        rows: [
-          ["**A. Tăng ca Line 2**", "~28.000 viên", "1/2", "4 giờ tăng ca", "Lịch vệ sinh Line 2 bị dời"],
-          ["**B. Chuyển SKU Espresso sang Line 3**", "~31.000 viên", "2/2", "1 lần chuyển đổi thêm", "Line 3 tương thích công thức"],
-          ["**C. Sắp xếp lại SKU ngày mai**", "~19.000 viên", "1/2", "Không", "Lô vỏ viên nén cho SKU được dời lên"],
-          ["**D. Giữ kế hoạch**", "0", "0/2", "Không", "—"],
-        ],
-      },
-      {
-        kind: "media",
-        side: "right",
-        photo: {
-          src: "/decks/nestle-vietnam/dolce-gusto-bang-tai.jpg",
-          alt: "Hộp NESCAFÉ Dolce Gusto trên băng tải",
-          width: 547,
-          height: 365,
-          caption: "Dây chuyền NESCAFÉ Dolce Gusto, nhà máy Nestlé Trị An",
-          credit: PHOTO_CREDIT,
-        },
-        blocks: [
-          { kind: "p", text: "**Ba câu hỏi mô hình giúp trả lời:**" },
-          {
-            kind: "list",
-            ordered: true,
-            items: [
-              "Sự cố này ảnh hưởng những lô và đơn hàng nào?",
-              "Phục hồi bằng cách nào thì tốt nhất?",
-              "Sau khi thực hiện, kết quả có đúng như dự báo không?",
-            ],
-          },
-          {
-            kind: "p",
-            text: "Ngưỡng độ ẩm và cách xử lý lô lấy từ tiêu chuẩn của nhà máy, không do AI đặt. Khi gặp SKU chưa từng chạy trên Line 3, mô hình trả lời *\"Chưa đủ dữ liệu chuyển đổi để dự báo đáng tin cậy.\"* Một mô hình tốt phải biết khi nào nó không biết.",
-          },
-        ],
-      },
-      // "Thử làm trưởng ca" (M6) tạm ẩn từ 06/10/2026; dữ liệu M6 vẫn ở scenarios.ts để bật lại.
     ],
   },
   {
@@ -793,7 +792,7 @@ export const sections: Section[] = [
               ["**① Mô hình AI Thế giới thực**", "Bản riêng của nhà máy Trị An, chạy trong môi trường Nestlé duyệt; nhận các phiên bản mô hình nền mới"],
               [
                 "**② Bộ ứng dụng AI-native**",
-                "Báo cáo ca tự động · truy vết sự cố · kế hoạch và phục hồi trong không gian làm việc của kế hoạch viên và trưởng ca · bảng chỉ tiêu",
+                "Báo cáo ca, ngày, tuần · kế hoạch sản xuất tuần · cân bằng hao hụt bột · dự báo và cảnh báo môi trường phòng chiết rót, trong không gian làm việc của Kế hoạch, Sản xuất, Bảo trì, QA · bảng chỉ tiêu",
               ],
               [
                 "**③ Triển khai và nghiệm thu (kỹ sư thực địa)**",
@@ -871,11 +870,11 @@ export const sections: Section[] = [
       },
       {
         kind: "p",
-        text: "**Cách làm**\nChương trình bắt đầu nhỏ và chắc: một dây chuyền NESCAFÉ Dolce Gusto, sáu ứng dụng mở dần theo kết quả đã kiểm chứng. Dữ liệu chỉ đọc, không làm gián đoạn hệ thống hiện tại. Ngay từ tháng thứ 1, Đội ngũ IT của nhà máy Trị An làm việc cùng kỹ sư Celesnity tại nhà máy, để năng lực được đào tạo và ở lại nhà máy Trị An.",
+        text: "**Cách làm**\nChương trình bắt đầu nhỏ và chắc: một dây chuyền NESCAFÉ Dolce Gusto, ba ứng dụng (kế hoạch sản xuất tuần, hao hụt bột, môi trường phòng chiết rót) trên một nền dữ liệu chung, mở dần theo kết quả đã kiểm chứng. Mỗi ứng dụng có bài toán, phạm vi, dữ liệu cần, sản phẩm bàn giao và chỉ số đo rõ ràng. Dữ liệu chỉ đọc, không làm gián đoạn hệ thống hiện tại. Ngay từ tháng thứ 1, Đội ngũ IT của nhà máy Trị An làm việc cùng kỹ sư Celesnity tại nhà máy, để năng lực được đào tạo và ở lại nhà máy Trị An.",
       },
       {
         kind: "p",
-        text: "**Kết quả dự kiến sau 12 tháng**\n6 ứng dụng chạy thật trên dây chuyền Dolce Gusto, mở rộng sang Jar Line, các dây chuyền khác và khu chiết xuất, sấy, với một kế hoạch chung cho toàn nhà máy. Đội ngũ IT của nhà máy Trị An **tự vận hành, tự huấn luyện lại và phát triển hệ thống**, và cùng Celesnity xây dựng kế hoạch cụ thể để nhân rộng sang nhà máy Nestlé thứ hai tại Việt Nam.",
+        text: "**Kết quả dự kiến sau 12 tháng**\nBa ứng dụng chạy thật trên dây chuyền Dolce Gusto và được nối thành một quy trình Kế hoạch → Vận hành → Phục hồi; mở rộng sang Jar Line, các dây chuyền khác và khu chiết xuất, sấy, với một kế hoạch chung cho toàn nhà máy. Đội ngũ IT của nhà máy Trị An **tự vận hành, tự huấn luyện lại và phát triển hệ thống**, và cùng Celesnity xây dựng kế hoạch cụ thể để nhân rộng sang nhà máy Nestlé thứ hai tại Việt Nam.",
       },
       {
         kind: "p",
@@ -888,8 +887,12 @@ export const sections: Section[] = [
         items: [
           "**Thống nhất định hướng:** nhà máy Nestlé Trị An tham gia với vai trò Đối tác công nghiệp sáng lập. Dây chuyền NESCAFÉ Dolce Gusto là điểm khởi đầu; toàn nhà máy và các nhà máy Nestlé Việt Nam là bước tiếp theo.",
           "**Cử đầu mối:** người phụ trách bài toán ở bộ phận Sản xuất, đầu mối Kế hoạch, QA, IT/OT, Tài chính, và 1 đầu mối IT/OT cho Đội ngũ IT vận hành hệ thống.",
-          "**Cho phép khảo sát dây chuyền Dolce Gusto** để chốt bài toán, số liệu nền và phí thử nghiệm.",
+          "**Cho phép khảo sát dây chuyền Dolce Gusto** để chốt danh sách dữ liệu, số liệu nền, mục tiêu của từng ứng dụng và phí thử nghiệm.",
         ],
+      },
+      {
+        kind: "p",
+        text: "**Tại buổi làm việc ở nhà máy**, Celesnity đề xuất: đi qua ba ứng dụng trên dây chuyền thật; rà danh sách dữ liệu cùng IT/OT; thống nhất cách đo số liệu nền và người xác nhận cho từng chỉ số.",
       },
       {
         kind: "p",
@@ -900,7 +903,7 @@ export const sections: Section[] = [
   },
 ];
 
-/** Không có section tạm cất */
+/** Không có section tạm cất (#mot-ngay và #pham-vi đã xoá ngày 07/10/2026) */
 export const parkedSections: Section[] = [];
 
 /** Đoạn kết (chỉ dùng ở bản in) */
@@ -959,7 +962,7 @@ export const packageParts: PackagePart[] = [
   {
     n: "②",
     name: "Bộ ứng dụng AI-native",
-    body: "Báo cáo ca tự động · truy vết sự cố · kế hoạch và phục hồi trong không gian làm việc của kế hoạch viên và trưởng ca · bảng chỉ tiêu",
+    body: "Báo cáo ca, ngày, tuần · kế hoạch sản xuất tuần · cân bằng hao hụt bột · dự báo và cảnh báo môi trường phòng chiết rót, trong không gian làm việc của Kế hoạch, Sản xuất, Bảo trì, QA · bảng chỉ tiêu",
   },
   {
     n: "③",

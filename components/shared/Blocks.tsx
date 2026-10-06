@@ -84,7 +84,7 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
           </blockquote>
         );
       return (
-        <blockquote className="border-l-0 text-[22px] leading-snug sm:text-[28px]">
+        <blockquote className={`border-l-0 text-[22px] leading-snug sm:text-[28px] ${b.lines ? "whitespace-pre-line" : ""}`}>
           <span aria-hidden className="mb-3 block h-1 w-12 rounded-full bg-orange-500" />
           <RichText
             text={b.text}

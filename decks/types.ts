@@ -47,7 +47,8 @@ export type Block =
   /** Nhãn ngắn dạng viên */
   | { kind: "chips"; items: Rich[]; tone?: "negative" | "neutral" }
   /** emphasis: khối nhấn lớn nền navy (câu chốt quan trọng) */
-  | { kind: "quote"; text: Rich; emphasis?: boolean }
+  /** lines: giữ xuống dòng trong text (mỗi ý một dòng); không đặt thì hiển thị như cũ */
+  | { kind: "quote"; text: Rich; emphasis?: boolean; lines?: boolean }
   /** Câu nhấn lớn kèm bối cảnh và kết luận (bố cục biên tập hai cột) */
   | { kind: "statement"; context: Rich; highlight: Rich; conclusion: Rich }
   | { kind: "note"; text: Rich }
@@ -145,6 +146,25 @@ export type UseCase = {
     decides: string;
     measure?: string;
     pass: string;
+    /** Các trường dưới chỉ hiện ở M18 variant "detail" (thẻ use case đầy đủ) */
+    /** Khâu trong quy trình, ví dụ "Khâu Kế hoạch" */
+    stage?: string;
+    /** Mô hình AI Thế giới thực học gì, dự báo gì trong use case này */
+    worldModel?: string;
+    /** Nhà máy cần cung cấp */
+    needs?: string[];
+    /** Không làm */
+    notDo?: string[];
+    /** Sản phẩm bàn giao */
+    deliverables?: string[];
+    /** Chỉ số đo */
+    kpis?: string[];
+    /** Giá trị quy ra tiền (công thức) */
+    value?: string;
+    /** Điều kiện hoặc giới hạn cần nói trước */
+    caveat?: string;
+    /** Ảnh minh hoạ trong M18 variant "detail" (ảnh chụp Minder) */
+    images?: Photo[];
   };
   note?: string;
 };
@@ -422,8 +442,10 @@ export type DeckData = {
       months: MonthRow[];
       gates: { m: number; name: string }[];
       finale: { headline: string; next: string };
-      /** Chip "Use case đang dùng thật": id use case + tên ngắn */
-      chips: { id: string; short: string }[];
+      /** Chip "Use case đang dùng thật": id use case + tên ngắn; `label` thay cho nhãn mặc định "Ứng dụng 0N" */
+      chips: { id: string; short: string; label?: string }[];
+      /** Tiêu đề nhóm chip; mặc định "Use case đang dùng thật" */
+      chipsTitle?: string;
       /** Làn mở rộng (HP: thép), hiện từ tháng `opensAt` */
       lane: { title: string; opensAt: number; openNote: string; closedNote: string; pending: string };
       /** Nhãn dưới con số phần vận hành của khách hàng ở T12 */

@@ -1,6 +1,6 @@
 /**
  * Dữ liệu module của deck Nestlé Trị An (M1, M3, M5, M6, M10, M13, M15, M16, M17).
- * Khớp docs/nestle-content-v3.md. Số nhân sự và ngưỡng là đề xuất, chốt sau khảo sát; mọi kịch bản là minh họa.
+ * Khớp docs/nestle-content-v4.md. Số nhân sự và ngưỡng là đề xuất, chốt sau khảo sát; mọi kịch bản là minh họa.
  */
 import type { DeckData, IncidentCard, MonthRow, RoadmapPhase, StaffRow } from "../types";
 
@@ -13,8 +13,8 @@ export const m5: Scenarios["m5"] = {
       time: "06:00",
       place: "Dây chuyền NESCAFÉ Dolce Gusto, nhà máy Nestlé Trị An",
       island: "dolce-gusto",
-      text: "Kiểm tra sẵn sàng trước ca: công thức, lô bột, lô vỏ viên nén, lô hộp, QA release, vệ sinh. Một lô hộp chưa được nhập kho được phát hiện và đánh dấu trước khi chạy. Trưởng ca xử lý",
-      approve: "Xác nhận sẵn sàng",
+      text: "Mô hình dự báo AHU-02 sẽ suy giảm tới ngưỡng sau khoảng 5 ngày, rủi ro độ ẩm phòng chiết rót Vùng L2 tăng từ thứ Sáu. Tác nhân AI đề xuất bảo trì trong cửa sổ dừng thứ Năm và điều chỉnh kế hoạch tuần tương ứng. Bảo trì và Trưởng phòng Sản xuất duyệt",
+      approve: "Duyệt cửa sổ bảo trì",
     },
     {
       time: "09:30",
@@ -55,17 +55,17 @@ export const m5: Scenarios["m5"] = {
 
 // ───────────── M6: Thử làm trưởng ca ─────────────
 const samples = [
-  "Phòng 2 độ ẩm lại vượt, line 2 dừng từ 10 giờ 15, đang chạy lô P102.",
-  "Line 2 định lượng viên Latte lệch nặng, cân kiểm tra ba lần liền vượt mục tiêu, lô P104.",
-  "Máy đóng hộp line 3 dừng ngắn liên tục từ đầu ca, kẹt hộp ở cửa vào.",
+  "Vùng L2 độ ẩm lại vượt, L2 dừng từ 10 giờ 15, đang chạy lô P102.",
+  "L2 định lượng viên Latte lệch nặng, cân kiểm tra ba lần liền vượt mục tiêu, lô P104.",
+  "Máy đóng hộp L1 dừng ngắn liên tục từ đầu ca, kẹt hộp ở cửa vào.",
 ];
 
 const fallback: Record<string, IncidentCard> = {
   [samples[0]]: {
-    khu_vuc: "Phòng kiểm soát 2",
+    khu_vuc: "Phòng chiết rót Vùng L2",
     su_co: "Độ ẩm vượt giới hạn, lặp lại",
     thoi_gian: "10:15",
-    day_chuyen: "Line 2",
+    day_chuyen: "L2",
     lo: "P102",
     muc_do: "Cao",
     thong_tin_con_thieu: ["Thời gian kết thúc sự cố", "Mẻ đang chiết rót", "Độ ẩm đo được cao nhất"],
@@ -75,7 +75,7 @@ const fallback: Record<string, IncidentCard> = {
     khu_vuc: "Khu chiết rót",
     su_co: "Định lượng lệch mục tiêu, lặp lại",
     thoi_gian: "",
-    day_chuyen: "Line 2",
+    day_chuyen: "L2",
     lo: "P104",
     muc_do: "Trung bình",
     thong_tin_con_thieu: ["Kết quả cân kiểm tra", "Thời điểm bắt đầu lệch", "Đầu chiết rót liên quan"],
@@ -85,7 +85,7 @@ const fallback: Record<string, IncidentCard> = {
     khu_vuc: "Khu đóng gói",
     su_co: "Dừng ngắn lặp lại do kẹt hộp",
     thoi_gian: "",
-    day_chuyen: "Line 3",
+    day_chuyen: "L1",
     lo: "",
     muc_do: "Cao",
     thong_tin_con_thieu: ["Số lô đang chạy", "Lô hộp đang dùng", "Số lần dừng trong ca"],
@@ -101,7 +101,7 @@ export const m6: Scenarios["m6"] = {
     channel: "Kênh báo sự cố · dây chuyền viên nén",
     prompt: "Nói vào bộ đàm hoặc gõ lời báo sự cố",
     promptNoSpeech: "Gõ lời báo sự cố như trưởng ca nói",
-    placeholder: "Ví dụ: Phòng 2 độ ẩm lại vượt, line 2 dừng từ 10 giờ 15…",
+    placeholder: "Ví dụ: Vùng L2 độ ẩm lại vượt, L2 dừng từ 10 giờ 15…",
     submit: "Lập thẻ sự cố",
     micLabel: "Bấm để nói lời báo sự cố",
     steps: ["Nói hoặc gõ lời báo sự cố", "AI lập thẻ sự cố", "Mô hình tính tác động lên kế hoạch", "Trưởng phòng Sản xuất duyệt phương án"],
@@ -113,19 +113,19 @@ export const m6: Scenarios["m6"] = {
   },
   impact: [
     { label: "Thời gian không sản xuất được", value: "5,7 giờ" },
-    { label: "Mục tiêu SKU Latte hôm nay", value: "Thiếu 31.400 viên" },
-    { label: "Chuyển đổi sang SKU Espresso", value: "Trễ 4,2 giờ" },
+    { label: "Mục tiêu SKU Latte hôm nay", value: "Thiếu khoảng 31.000 viên" },
+    { label: "Lần chuyển đổi SKU kế tiếp", value: "Trễ 4,2 giờ" },
     { label: "Đơn hàng", value: "2 đơn xuất khẩu có thể bị ảnh hưởng" },
   ],
   options: [
-    { id: "A", label: "Tăng ca Line 2", recovered: "~28.000 viên", onTime: "1/2", cost: "4 giờ tăng ca", check: "Lịch vệ sinh Line 2 bị dời" },
+    { id: "A", label: "Tăng ca L2", recovered: "~28.000 viên", onTime: "1/2", cost: "4 giờ tăng ca", check: "Lịch vệ sinh L2 bị dời" },
     {
       id: "B",
-      label: "Chuyển SKU Espresso sang Line 3",
+      label: "Chuyển SKU kế tiếp sang L1",
       recovered: "~31.000 viên",
       onTime: "2/2",
       cost: "1 lần chuyển đổi thêm",
-      check: "Line 3 tương thích công thức",
+      check: "Lô vỏ viên nén đủ cho L1",
       recommended: true,
     },
     { id: "C", label: "Sắp xếp lại SKU ngày mai", recovered: "~19.000 viên", onTime: "1/2", cost: "Không", check: "Lô vỏ viên nén cho SKU được dời lên" },
@@ -147,18 +147,18 @@ const P1 = "Thử nghiệm: Học";
 const P2 = "Dùng thật";
 const P3 = "Nhân rộng";
 const rawMonths: Omit<MonthRow, "share" | "people">[] = [
-  { m: 1, phase: P1, useCase: "Ứng dụng 01 dùng thật", expansion: "", data: "Môi trường được IT/OT duyệt · kết nối chỉ đọc · bản đồ liên kết sản xuất của dây chuyền", it: "Học việc cùng Celesnity", gate: "Cổng 1", live: ["UC0"], itLevel: "Học việc cùng Celesnity" },
-  { m: 2, phase: P1, useCase: "Ứng dụng 02 thi trên dữ liệu lịch sử", expansion: "", data: "Bộ đề thi kín", it: "Học việc cùng Celesnity", gate: "", live: ["UC0"], itLevel: "Học việc cùng Celesnity" },
-  { m: 3, phase: P1, useCase: "Ứng dụng 03 thi trên dữ liệu lịch sử", expansion: "", data: "Nối dữ liệu kế hoạch và đơn hàng", it: "Học việc cùng Celesnity", gate: "", live: ["UC0"], itLevel: "Học việc cùng Celesnity" },
-  { m: 4, phase: P1, useCase: "Kết quả thi", expansion: "", data: "", it: "Tự vận hành trọn 1 vòng dữ liệu", gate: "Cổng 2", live: ["UC0"], itLevel: "Bậc 1: tự vận hành trọn 1 vòng dữ liệu" },
-  { m: 5, phase: P2, useCase: "Ứng dụng 02 dùng thật", expansion: "", data: "Mở cho QA và trưởng ca", it: "Cùng vận hành", gate: "", live: ["UC0", "UC1"], itLevel: "Cùng vận hành" },
-  { m: 6, phase: P2, useCase: "Ứng dụng 03 dùng thật", expansion: "", data: "Mở cho bộ phận Kế hoạch", it: "Cùng vận hành", gate: "", live: ["UC0", "UC1", "UC2"], itLevel: "Cùng vận hành" },
-  { m: 7, phase: P2, useCase: "Ứng dụng 04 định lượng", expansion: "", data: "Nối dữ liệu cân kiểm tra", it: "Cùng vận hành", gate: "", live: ["UC0", "UC1", "UC2", "UC3"], itLevel: "Cùng vận hành" },
-  { m: 8, phase: P2, useCase: "Ứng dụng 05 dừng ngắn, chuyển đổi", expansion: "Khảo sát Jar Line và các dây chuyền khác", data: "", it: "Tự vận hành liên tục 4 tuần", gate: "Cổng 3", live: ["UC0", "UC1", "UC2", "UC3", "UC4"], itLevel: "Bậc 1: tự vận hành liên tục 4 tuần" },
-  { m: 9, phase: P3, useCase: "Ứng dụng 06 sẵn sàng, bảo trì", expansion: "Jar Line", data: "Dữ liệu dây chuyền mới", it: "Tự vận hành", gate: "", live: ["UC0", "UC1", "UC2", "UC3", "UC4", "UC5"], itLevel: "Tự vận hành" },
-  { m: 10, phase: P3, useCase: "Các dây chuyền viên nén và túi khác", expansion: "Các dây chuyền viên nén và túi khác", data: "", it: "Tự vận hành", gate: "", live: ["UC0", "UC1", "UC2", "UC3", "UC4", "UC5"], itLevel: "Tự vận hành" },
-  { m: 11, phase: P3, useCase: "Khu chiết xuất và sấy · kế hoạch chung", expansion: "Khu chiết xuất và sấy · kế hoạch chung", data: "Dữ liệu khu bột", it: "Tự huấn luyện lại mô hình", gate: "", live: ["UC0", "UC1", "UC2", "UC3", "UC4", "UC5"], itLevel: "Bậc 2: tự huấn luyện lại mô hình" },
-  { m: 12, phase: P3, useCase: "Báo cáo kỹ thuật chung", expansion: "Kế hoạch cho nhà máy Nestlé thứ hai", data: "", it: "Dẫn dắt khảo sát nhà máy Nestlé thứ hai", gate: "Cổng 4", live: ["UC0", "UC1", "UC2", "UC3", "UC4", "UC5"], itLevel: "Bậc 3: dẫn dắt khảo sát nhà máy Nestlé thứ hai" },
+  { m: 1, phase: P1, useCase: "Nền dữ liệu: báo cáo ca, ngày, tuần dùng thật", expansion: "", data: "Môi trường được IT/OT duyệt · kết nối chỉ đọc · bản đồ dây chuyền L1, L2", it: "Học việc cùng Celesnity", gate: "Cổng 1", live: ["UC0"], itLevel: "Học việc cùng Celesnity" },
+  { m: 2, phase: P1, useCase: "Ứng dụng 3 thi trên lịch sử · Ứng dụng 2 đối chiếu với số cân", expansion: "", data: "Bộ đề thi kín · lịch sử môi trường, AHU, cân kiểm", it: "Học việc cùng Celesnity", gate: "", live: ["UC0"], itLevel: "Học việc cùng Celesnity" },
+  { m: 3, phase: P1, useCase: "Ứng dụng 1 thi trên lịch sử", expansion: "", data: "Nối dữ liệu kế hoạch, nhu cầu và đơn hàng", it: "Học việc cùng Celesnity", gate: "", live: ["UC0"], itLevel: "Học việc cùng Celesnity" },
+  { m: 4, phase: P1, useCase: "Kết quả thi của ba ứng dụng", expansion: "", data: "", it: "Tự vận hành trọn 1 vòng dữ liệu", gate: "Cổng 2", live: ["UC0"], itLevel: "Bậc 1: tự vận hành trọn 1 vòng dữ liệu" },
+  { m: 5, phase: P2, useCase: "Ứng dụng 3 dùng thật: cảnh báo sớm môi trường", expansion: "", data: "Mở cho Bảo trì, QA và trưởng ca", it: "Cùng vận hành", gate: "", live: ["UC0", "UC3"], itLevel: "Cùng vận hành" },
+  { m: 6, phase: P2, useCase: "Ứng dụng 1 và Ứng dụng 2 dùng thật", expansion: "", data: "Mở cho bộ phận Kế hoạch và Sản xuất", it: "Cùng vận hành", gate: "", live: ["UC0", "UC3", "UC1", "UC2"], itLevel: "Cùng vận hành" },
+  { m: 7, phase: P2, useCase: "Nối ba ứng dụng: sự cố môi trường → tác động → điều chỉnh kế hoạch trong tuần", expansion: "", data: "Nối sự cố với kế hoạch tuần", it: "Cùng vận hành", gate: "", live: ["UC0", "UC3", "UC1", "UC2"], itLevel: "Cùng vận hành" },
+  { m: 8, phase: P2, useCase: "Đánh giá trên ca thật · báo cáo giá trị so với số liệu nền", expansion: "Khảo sát Jar Line và các dây chuyền khác", data: "", it: "Tự vận hành liên tục 4 tuần", gate: "Cổng 3", live: ["UC0", "UC3", "UC1", "UC2"], itLevel: "Bậc 1: tự vận hành liên tục 4 tuần" },
+  { m: 9, phase: P3, useCase: "Ứng dụng 2 đề xuất điều chỉnh định lượng", expansion: "Jar Line", data: "Dữ liệu dây chuyền mới", it: "Tự vận hành", gate: "", live: ["UC0", "UC3", "UC1", "UC2"], itLevel: "Tự vận hành" },
+  { m: 10, phase: P3, useCase: "Các dây chuyền viên nén và túi khác", expansion: "Các dây chuyền viên nén và túi khác", data: "", it: "Tự vận hành", gate: "", live: ["UC0", "UC3", "UC1", "UC2"], itLevel: "Tự vận hành" },
+  { m: 11, phase: P3, useCase: "Khu chiết xuất và sấy · kế hoạch chung", expansion: "Khu chiết xuất và sấy · kế hoạch chung", data: "Dữ liệu khu bột", it: "Tự huấn luyện lại mô hình", gate: "", live: ["UC0", "UC3", "UC1", "UC2"], itLevel: "Bậc 2: tự huấn luyện lại mô hình" },
+  { m: 12, phase: P3, useCase: "Báo cáo kỹ thuật chung", expansion: "Kế hoạch cho nhà máy Nestlé thứ hai", data: "", it: "Dẫn dắt khảo sát nhà máy Nestlé thứ hai", gate: "Cổng 4", live: ["UC0", "UC3", "UC1", "UC2"], itLevel: "Bậc 3: dẫn dắt khảo sát nhà máy Nestlé thứ hai" },
 ];
 
 export const m10: Scenarios["m10"] = {
@@ -173,13 +173,12 @@ export const m10: Scenarios["m10"] = {
     headline: "Đội ngũ IT của nhà máy Trị An tự vận hành; một kế hoạch chung cho toàn nhà máy",
     next: "Năm thứ 2: Đội ngũ IT của nhà máy Trị An dẫn dắt nhân rộng sang nhà máy Nestlé thứ hai",
   },
+  chipsTitle: "Ứng dụng đang dùng thật",
   chips: [
-    { id: "UC0", short: "Báo cáo ca" },
-    { id: "UC1", short: "Truy vết sự cố" },
-    { id: "UC2", short: "Kế hoạch, phục hồi" },
-    { id: "UC3", short: "Định lượng" },
-    { id: "UC4", short: "Dừng ngắn, chuyển đổi" },
-    { id: "UC5", short: "Sẵn sàng, bảo trì" },
+    { id: "UC0", label: "Nền dữ liệu", short: "Báo cáo ca, ngày, tuần" },
+    { id: "UC3", label: "Ứng dụng 3", short: "Môi trường" },
+    { id: "UC1", label: "Ứng dụng 1", short: "Kế hoạch tuần" },
+    { id: "UC2", label: "Ứng dụng 2", short: "Hao hụt bột" },
   ],
   lane: {
     title: "Làn nhân rộng",
@@ -201,19 +200,24 @@ const phases: RoadmapPhase[] = [
     span: 4,
     goal: "Chứng minh trên dữ liệu của chính nhà máy Trị An, với bộ đề thi kín do Nestlé giữ",
     apps: [
-      { name: "Báo cáo ca tự động", when: "Dùng thật từ T+1" },
-      { name: "Truy vết sự cố môi trường", when: "Thi trên dữ liệu lịch sử từ T+2" },
-      { name: "Kế hoạch sản xuất và phục hồi", when: "Thi trên dữ liệu lịch sử từ T+3" },
+      { name: "Nền tảng dữ liệu · Báo cáo ca, ngày, tuần", when: "Dùng thật từ T+1" },
+      { name: "Ứng dụng 3 · Cảnh báo sớm rủi ro môi trường sản xuất", when: "Thi trên dữ liệu lịch sử từ T+2" },
+      { name: "Ứng dụng 2 · Đo lường hao hụt tự động", when: "Đối chiếu với số cân từ T+2" },
+      { name: "Ứng dụng 1 · Tự động lập báo cáo và kế hoạch", when: "Thi trên dữ liệu lịch sử từ T+3" },
     ],
     gates: [
       { name: "Cổng 1", when: "T+1", pass: "Dữ liệu đủ điều kiện để triển khai; thỏa thuận dữ liệu đã ký" },
-      { name: "Cổng 2", when: "T+4", pass: "Truy vết đúng lô ở ≥95% sự cố đã xảy ra; lịch đề xuất đáp ứng 100% ràng buộc bắt buộc và không kém kế hoạch đã áp dụng" },
+      {
+        name: "Cổng 2",
+        when: "T+4",
+        pass: "Ứng dụng 3 báo trước ≥2 giờ cho ≥80% lần vượt hoặc tiến sát ngưỡng; Ứng dụng 1 đáp ứng 100% ràng buộc và không kém kế hoạch đã chạy; Ứng dụng 2 sai lệch trong ngưỡng đã chốt",
+      },
     ],
     ops: { celesnity: 90, partner: 10 },
     opsNote: "Đội ngũ IT của nhà máy Trị An học việc cùng Celesnity, tự vận hành trọn 1 vòng dữ liệu ở T+4",
     team: { celesnity: "~5–6 người", partnerTeam: "1 người" },
     people: { celesnity: 5.5, partnerTeam: 1, celesnityText: "5–6" },
-    outcomes: ["Mô hình v0.1", "Kết quả thi trên lịch sử", "Bằng chứng chuyển giao"],
+    outcomes: ["Bản đồ dây chuyền và báo cáo tự động", "Báo cáo thi của ba ứng dụng", "Bằng chứng chuyển giao"],
   },
   {
     id: "trien-khai",
@@ -221,19 +225,19 @@ const phases: RoadmapPhase[] = [
     name: "Triển khai",
     months: "T+5–T+8",
     span: 4,
-    goal: "Dùng dự báo cho quyết định thật trên dây chuyền Dolce Gusto; mở thêm định lượng, dừng ngắn và chuyển đổi",
+    goal: "Dùng dự báo cho quyết định thật trên dây chuyền Dolce Gusto; nối ba ứng dụng thành một quy trình Kế hoạch → Vận hành → Phục hồi",
     apps: [
-      { name: "Truy vết sự cố môi trường", when: "Triển khai từ T+5" },
-      { name: "Kế hoạch sản xuất và phục hồi", when: "Triển khai từ T+6" },
-      { name: "Định lượng chiết rót", when: "Triển khai từ T+7" },
-      { name: "Dừng máy, điểm nghẽn và chuyển đổi", when: "Triển khai từ T+8" },
+      { name: "Ứng dụng 3 · Cảnh báo sớm rủi ro môi trường sản xuất", when: "Triển khai từ T+5" },
+      { name: "Ứng dụng 1 · Tự động lập báo cáo và kế hoạch", when: "Triển khai từ T+6" },
+      { name: "Ứng dụng 2 · Đo lường hao hụt tự động: tự điền báo cáo ca", when: "Triển khai từ T+6" },
+      { name: "Nối ba ứng dụng: sự cố → tác động → điều chỉnh kế hoạch", when: "T+7–T+8" },
     ],
     gates: [{ name: "Cổng 3", when: "T+8", pass: "≥20 ca sản xuất thật có dùng dự báo; Đội ngũ IT của nhà máy Trị An tự vận hành liên tục 4 tuần" }],
     ops: { celesnity: 50, partner: 50 },
     opsNote: "Hai bên cùng vận hành",
     team: { celesnity: "~4–5 người", partnerTeam: "2 người" },
     people: { celesnity: 4.5, partnerTeam: 2, celesnityText: "4–5" },
-    outcomes: ["Dự báo dùng trên ca thật", "Đội ngũ IT của nhà máy Trị An tự vận hành 4 tuần", "Duyệt mở rộng toàn nhà máy"],
+    outcomes: ["Ba ứng dụng dùng trên ca thật", "Báo cáo giá trị so với số liệu nền", "Đội ngũ IT của nhà máy Trị An tự vận hành 4 tuần"],
   },
   {
     id: "nhan-rong",
@@ -243,7 +247,7 @@ const phases: RoadmapPhase[] = [
     span: 4,
     goal: "Mở rộng ra toàn nhà máy Trị An; một kế hoạch chung cho mọi dây chuyền dùng chung nguồn bột",
     apps: [
-      { name: "Sẵn sàng sản xuất và cửa sổ bảo trì", when: "Triển khai từ T+9" },
+      { name: "Ứng dụng 2 · Đo lường hao hụt tự động: đề xuất điều chỉnh định lượng", when: "T+9" },
       { name: "Jar Line", when: "T+9" },
       { name: "Các dây chuyền viên nén và túi khác", when: "T+10" },
       { name: "Khu chiết xuất và sấy", when: "T+11" },
@@ -321,8 +325,8 @@ const staffRows: StaffRow[] = [
     team: "Chuyên gia nghiệp vụ tại nhà máy Trị An",
     tone: "orange",
     cells: [
-      { count: null, roles: ["Kế hoạch, Sản xuất ~4 giờ/tuần mỗi người", "QA, đầu mối dữ liệu ~2 giờ/tuần"] },
-      { count: null, roles: ["Như trên", "+ Bảo trì ~2 giờ/tuần"] },
+      { count: null, roles: ["Kế hoạch ~4 giờ/tuần", "Sản xuất, Bảo trì ~2 giờ/tuần mỗi người", "QA, đầu mối dữ liệu ~1–2 giờ/tuần"] },
+      { count: null, roles: ["Như trên"] },
       { count: null, roles: ["Như trên", "+ Đầu mối các dây chuyền mới"] },
     ],
   },
@@ -371,17 +375,17 @@ export const m13: Scenarios["m13"] = {
 export const m3: Scenarios["m3"] = {
   toggle: { A: "Bổ sung từng công cụ AI", B: "Quy trình vận hành liên kết toàn diện" },
   captions: {
-    A: "Mỗi bài toán dùng một công cụ riêng, mỗi công cụ chỉ thấy một phần của nhà máy. Cảnh báo độ ẩm chỉ dừng lại trong công cụ cảnh báo.",
-    B: "Một mô hình thấy toàn bộ bức tranh sản xuất, từ kế hoạch đến đơn hàng. Cảnh báo độ ẩm được truy vết tới từng lô, tính được tác động và có sẵn bốn phương án phục hồi.",
+    A: "Mỗi bài toán dùng một công cụ riêng, mỗi công cụ chỉ thấy một phần của nhà máy. Cảnh báo độ ẩm chỉ đến khi đã vượt ngưỡng và dừng lại trong công cụ cảnh báo.",
+    B: "Một mô hình thấy toàn bộ bức tranh sản xuất, từ AHU đến kế hoạch và đơn hàng. Độ ẩm được dự báo trước khi vượt ngưỡng, tác động lên lô và kế hoạch được tính sẵn, và có các phương án xử lý trước.",
   },
   loop: {
     tools: ["Kế hoạch", "Môi trường", "Chiết rót"],
     toolNote: "Công cụ riêng",
     connectedNote: "Kết nối vào mô hình",
-    alert: "Độ ẩm vượt 65%",
+    alert: "Độ ẩm Vùng L2 đang tăng",
     isolatedNote: "Cảnh báo chỉ nằm trong một công cụ",
     modelLabel: "Mô hình AI Thế giới thực",
-    chain: ["Lô P102 · mẻ B042 cần QA xem xét", "Thiếu 31.400 viên nén, 2 đơn hàng", "4 phương án phục hồi"],
+    chain: ["Dự báo vượt ngưỡng sau 6 giờ", "Lô và kế hoạch L2 bị ảnh hưởng", "3 phương án xử lý trước"],
     line: "Dây chuyền viên nén",
   },
 };
@@ -390,12 +394,12 @@ export const m1: Scenarios["m1"] = {
   captions: [
     "Minh họa: ba đảo Dây chuyền Dolce Gusto, Toàn nhà máy Trị An và Nestlé Việt Nam, phía trên là lõi Mô hình AI Thế giới thực phát sáng, nối với từng đảo bằng đường mảnh.",
     "Tự học: vòng quyết định, kết quả, học thêm quay quanh mô hình; độ chính xác dự báo tăng theo cấp số nhân từ tháng thứ 1 đến tháng thứ 12.",
-    "Dự báo trước: sau một sự cố, mô hình vẽ ba nhánh sản lượng còn thiếu cho ba phương án (giữ kế hoạch, tăng ca, chuyển sang Line 3) kèm dải độ chắc chắn; chuyển sang Line 3 bù được nhiều nhất.",
+    "Dự báo trước: sau một sự cố, mô hình vẽ ba nhánh sản lượng còn thiếu cho ba phương án (giữ kế hoạch, tăng ca L2, chuyển SKU sang L1) kèm dải độ chắc chắn; chuyển SKU sang L1 bù được nhiều nhất.",
     "Nhân rộng: kinh nghiệm đã ghi nhận ở dây chuyền Dolce Gusto tại nhà máy Trị An được nhân rộng sang Jar Line, dây chuyền túi, khu chiết xuất và sấy, các nhà máy Nestlé khác và nhiều hơn nữa, không bắt đầu lại từ 0.",
   ],
   foresight: {
     axis: "SẢN LƯỢNG CÒN THIẾU",
-    options: ["Giữ kế hoạch", "Tăng ca Line 2", "Chuyển sang Line 3"],
+    options: ["Giữ kế hoạch", "Tăng ca L2", "Chuyển SKU sang L1"],
     pickTitle: "Bù sản lượng nhiều nhất",
     pickNote: "Độ chắc chắn: cao",
   },

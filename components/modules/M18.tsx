@@ -1,19 +1,27 @@
 "use client";
 /**
  * M18 — Danh mục ứng dụng dạng carousel trước/sau, tự chuyển khi cuộn.
+ * Variant "detail": thẻ use case gồm bài toán, giải pháp, chỉ số đo lường và ảnh minh hoạ,
+ * chọn bằng tab, không ghim khi cuộn vì thẻ cao hơn màn hình.
  * Dữ liệu: deck.useCases + deck.beforeAfter.
  */
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
-import { ArrowRight, BadgeCheck, Hand, Sparkles, UserRound } from "lucide-react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from "react";
+import { ArrowRight, BadgeCheck, Gauge, Hand, ImageIcon, Sparkles, UserRound } from "lucide-react";
 import type { UseCase } from "@/decks/types";
 import { useDeck } from "@/components/deck/DeckProvider";
+import { Photo } from "@/components/shared/Photo";
 import { RichText } from "@/components/shared/RichText";
 import { ScrollSteps } from "@/components/shared/ScrollSteps";
 import { onAction } from "@/lib/actions";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 
-export default function M18(_props: { variant?: string }) {
+export default function M18({ variant }: { variant?: string }) {
+  if (variant === "detail") return <Detail />;
+  return <Carousel />;
+}
+
+function Carousel() {
   const { useCases, beforeAfter } = useDeck();
   const items = useMemo(() => useCases.filter((u) => beforeAfter[u.id] && u.card), [useCases, beforeAfter]);
   const [idx, setIdx] = useState(0);
@@ -161,5 +169,138 @@ function Slide({ u, n, total }: { u: UseCase; n: number; total: number }) {
         </p>
       </footer>
     </article>
+  );
+}
+
+// ───────────────────────────── Variant "detail" ─────────────────────────────
+
+function Detail() {
+  const { useCases, beforeAfter } = useDeck();
+  const items = useMemo(() => useCases.filter((u) => beforeAfter[u.id] && u.card), [useCases, beforeAfter]);
+  const [idx, setIdx] = useState(0);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const total = items.length;
+
+  useEffect(
+    () =>
+      onAction("open_use_case", ({ uc }) => {
+        const i = items.findIndex((u) => u.id === uc);
+        if (i >= 0) setIdx(i);
+      }),
+    [items],
+  );
+
+  const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (!step) return;
+    e.preventDefault();
+    const i = (idx + step + total) % total;
+    setIdx(i);
+    tabs.current[i]?.focus();
+  };
+
+  const u = items[idx];
+  return (
+    <div className="flex flex-col gap-4">
+      <div role="tablist" aria-label="Các ứng dụng" onKeyDown={onKey} className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        {items.map((it, i) => {
+          const on = i === idx;
+          return (
+            <button
+              key={it.id}
+              ref={(el) => {
+                tabs.current[i] = el;
+              }}
+              role="tab"
+              type="button"
+              id={`m18d-tab-${it.id}`}
+              aria-selected={on}
+              aria-controls="m18d-panel"
+              tabIndex={on ? 0 : -1}
+              onClick={() => setIdx(i)}
+              className={`flex min-w-0 flex-col gap-1 rounded-[12px] border px-4 py-3 text-left transition-colors duration-300 ease-[var(--ease-brand)] ${
+                on
+                  ? "border-navy-900 bg-navy-900 text-white shadow-[0_14px_30px_-18px_rgba(10,31,68,0.7)]"
+                  : "border-line-200 bg-white text-navy-900 hover:border-blue-300 hover:bg-blue-100/60"
+              }`}
+            >
+              <span className={`text-[12px] font-semibold uppercase tracking-[0.08em] ${on ? "text-blue-300" : "text-ink-500"}`}>{it.code}</span>
+              <span className="text-[15px] font-semibold leading-snug">{it.name}</span>
+              {it.card?.stage && <span className={`text-[13px] ${on ? "text-white/70" : "text-ink-500"}`}>{it.card.stage}</span>}
+            </button>
+          );
+        })}
+      </div>
+      <div id="m18d-panel" role="tabpanel" aria-labelledby={`m18d-tab-${u.id}`} tabIndex={0} className="outline-offset-4">
+        <DetailCard key={u.id} u={u} />
+      </div>
+    </div>
+  );
+}
+
+function DetailCard({ u }: { u: UseCase }) {
+  const ba = useDeck().beforeAfter[u.id];
+  const c = u.card!;
+  // Một ảnh dọc (bảng điều khiển dài) không được chiếm hết bề ngang thẻ.
+  const narrow = (w: number, h: number) => h > w;
+  return (
+    <article className="flex flex-col gap-4 rounded-[var(--radius-card)] border border-line-200 bg-white p-5 shadow-[0_24px_60px_-40px_rgba(10,31,68,0.45)] sm:p-8">
+      <header className="flex flex-col gap-2">
+        <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-blue-600">{u.code}</p>
+        <h4 className="text-[24px] font-semibold leading-tight tracking-[-0.02em] text-navy-900 sm:text-[30px]">{u.name}</h4>
+      </header>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <section className="flex flex-col gap-3 rounded-[14px] border border-dashed border-line-200 bg-mist-50 p-5">
+          <p className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-500">
+            <Hand aria-hidden size={15} strokeWidth={1.5} /> Bài toán
+          </p>
+          <p className="text-[16px] leading-relaxed text-navy-900/80">
+            <RichText text={ba.before} />
+          </p>
+        </section>
+        <section className="relative flex flex-col gap-3 overflow-hidden rounded-[14px] bg-navy-900 p-5 text-white">
+          <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-blue-500/30 blur-3xl" />
+          <p className="relative flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-blue-300">
+            <Sparkles aria-hidden size={15} strokeWidth={1.5} /> Giải pháp
+          </p>
+          <p className="relative text-[16px] leading-relaxed">
+            <RichText text={ba.after} />
+          </p>
+        </section>
+      </div>
+
+      {c.kpis && <ListBox icon={<Gauge aria-hidden size={15} strokeWidth={1.5} />} title="Chỉ số đo lường (mục tiêu đề xuất, chốt sau khảo sát)" items={c.kpis} />}
+
+      {c.images && c.images.length > 0 && (
+        <section className="flex flex-col gap-4 rounded-[14px] border border-line-200 bg-mist-50 p-5">
+          <p className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-500">
+            <ImageIcon aria-hidden size={15} strokeWidth={1.5} /> Ảnh thực tế trên sản phẩm, sử dụng số liệu minh hoạ
+          </p>
+          {c.images.map((img) => (
+            <div key={img.src} className={`mx-auto w-full ${narrow(img.width, img.height) ? "max-w-[620px]" : ""}`}>
+              <Photo photo={img} />
+            </div>
+          ))}
+        </section>
+      )}
+    </article>
+  );
+}
+
+function ListBox({ icon, title, items, tone }: { icon: ReactNode; title: string; items: string[]; tone?: "negative" }) {
+  return (
+    <section className="flex flex-col gap-2.5 rounded-[14px] border border-line-200 p-5">
+      <p className={`flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] ${tone === "negative" ? "text-orange-700" : "text-ink-500"}`}>
+        {icon} {title}
+      </p>
+      <ul className={`flex flex-col gap-1.5 pl-5 text-[15px] leading-relaxed text-navy-900 ${tone === "negative" ? "list-[square] marker:text-orange-500" : "list-disc marker:text-blue-500"}`}>
+        {items.map((t, i) => (
+          <li key={i}>
+            <RichText text={t} />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
