@@ -1009,6 +1009,130 @@ export const appendix: AppendixSection[] = [
     ],
   },
   {
+    id: "ket-noi",
+    title: "Kiến trúc kết nối dữ liệu tại nhà máy",
+    blocks: [
+      {
+        kind: "p",
+        text: "Dữ liệu đi lên nền tảng theo **hai đường, đều một chiều**. **Đường chính** đọc từ hệ thống sẵn có của nhà máy. **Đường phụ** gắn thêm mô-đun cho thiết bị chưa xuất được dữ liệu, chỉ dùng khi IT/OT duyệt.",
+      },
+      { kind: "h3", text: "Toàn nhà máy: mỗi dây chuyền một máy tính biên" },
+      {
+        kind: "diagram",
+        nodeWidth: 152,
+        flow: {
+          branches: [
+            {
+              group: "Nhà máy Nestlé Trị An",
+              branches: [
+                {
+                  group: "Dây chuyền L1",
+                  branches: [
+                    { nodes: [{ label: "Vít định lượng" }, { label: "Mô-đun", tone: "edge" }] },
+                    { nodes: [{ label: "Hàn màng" }, { label: "Mô-đun", tone: "edge" }] },
+                    { nodes: [{ label: "Cân kiểm, đóng hộp" }, { label: "Mô-đun", tone: "edge" }] },
+                    { nodes: [{ label: "Robot xếp pallet" }, { label: "Mô-đun", tone: "edge" }] },
+                  ],
+                  then: [{ label: "Máy tính biên L1", sub: "Raspberry Pi", tone: "edge" }],
+                },
+                {
+                  group: "Dây chuyền L2",
+                  branches: [
+                    { nodes: [{ label: "Vít định lượng" }, { label: "Mô-đun", tone: "edge" }] },
+                    { nodes: [{ label: "Hàn màng" }, { label: "Mô-đun", tone: "edge" }] },
+                    { nodes: [{ label: "Cân kiểm, đóng hộp" }, { label: "Mô-đun", tone: "edge" }] },
+                    { nodes: [{ label: "Robot xếp pallet" }, { label: "Mô-đun", tone: "edge" }] },
+                  ],
+                  then: [{ label: "Máy tính biên L2", sub: "Raspberry Pi", tone: "edge" }],
+                },
+                {
+                  nodes: [
+                    { label: "Historian, SAP/MES", sub: "hệ thống sẵn có" },
+                    { label: "Gateway mạng OT", sub: "OPC UA, API" },
+                  ],
+                  via: ["chỉ đọc"],
+                },
+              ],
+              then: [],
+            },
+          ],
+          via: "chỉ đọc",
+          then: [{ label: "Nền tảng Celesnity", sub: "trong môi trường Nestlé duyệt", tone: "platform" }],
+        },
+        legend: [
+          { tone: "plain", label: "Thiết bị và hệ thống của nhà máy" },
+          { tone: "edge", label: "Celesnity lắp đặt" },
+          { tone: "platform", label: "Nền tảng" },
+        ],
+      },
+      { kind: "h3", text: "Từng thiết bị: nối theo loại tín hiệu" },
+      {
+        kind: "diagram",
+        flow: {
+          branches: [
+            {
+              group: "Đường chính: hệ thống sẵn có",
+              branches: [
+                {
+                  nodes: [{ label: "PLC L1, L2" }, { label: "Historian replica", sub: "hoặc OPC UA" }],
+                },
+                {
+                  nodes: [{ label: "SAP/MES", sub: "bảng tính kế hoạch" }, { label: "API", sub: "hoặc file định kỳ" }],
+                },
+              ],
+              then: [{ label: "Gateway mạng OT" }],
+            },
+            {
+              group: "Đường phụ: gắn thêm mô-đun",
+              branches: [
+                {
+                  nodes: [{ label: "Cảm biến", sub: "độ ẩm, nhiệt độ phòng chiết rót" }, { label: "MCU + LoRa", tone: "edge" }],
+                  via: ["I/O"],
+                },
+                {
+                  nodes: [{ label: "Máy, đèn báo", sub: "chưa nối mạng" }, { label: "MCU + LoRa", tone: "edge" }],
+                  via: ["I/O"],
+                },
+                {
+                  nodes: [{ label: "PLC", sub: "vít định lượng, hàn màng, động cơ" }, { label: "MCU + LoRa", tone: "edge" }],
+                  via: ["RS485 · CAN · Ethernet"],
+                },
+                {
+                  nodes: [{ label: "Robot xếp pallet" }, { label: "MCU + LoRa", tone: "edge" }],
+                  via: ["Ethernet"],
+                },
+              ],
+              via: "LoRa",
+              then: [
+                { label: "Gateway", sub: "ESP32 + LoRa", tone: "edge" },
+                { label: "Raspberry Pi", sub: "mô hình tại biên", tone: "edge" },
+              ],
+            },
+          ],
+          via: "chỉ đọc",
+          then: [{ label: "Nền tảng Celesnity", sub: "trong môi trường Nestlé duyệt", tone: "platform" }],
+        },
+        legend: [
+          { tone: "plain", label: "Thiết bị và hệ thống của nhà máy" },
+          { tone: "edge", label: "Celesnity lắp đặt" },
+          { tone: "platform", label: "Nền tảng" },
+        ],
+      },
+      {
+        kind: "list",
+        items: [
+          "**Mọi mũi tên một chiều:** không ghi ngược vào PLC, robot hay thiết bị; mô-đun không gửi lệnh xuống.",
+          "**Đọc PLC qua RS485, CAN hay Ethernet** chỉ dùng cho PLC chưa có historian hay OPC UA, ở chế độ chỉ đọc và khi IT/OT duyệt.",
+          "**Máy tính biên** lọc và đệm dữ liệu khi mất kết nối, chạy mô hình cho cảnh báo cần phản hồi nhanh. Mất kết nối thì dây chuyền vẫn chạy bình thường.",
+        ],
+      },
+      {
+        kind: "note",
+        text: "Sơ đồ minh họa. Số thiết bị, loại kết nối, vị trí lắp đặt và phần cứng được chốt cùng IT/OT trong khảo sát.",
+      },
+    ],
+  },
+  {
     id: "huong-nha-may",
     title: "Hướng ứng dụng tại các nhà máy Nestlé Việt Nam (đề xuất, xác định cùng Nestlé sau Cổng 4)",
     blocks: [

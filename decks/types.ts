@@ -61,7 +61,29 @@ export type Block =
   /** Video demo (public/decks/<slug>/...): có điều khiển, không tự phát; bản in hiện ảnh poster */
   | { kind: "video"; video: Video }
   /** Ảnh đặt cạnh một nhóm khối (ảnh nhỏ không bị phóng to quá kích thước gốc) */
-  | { kind: "media"; photo: Photo; blocks: Block[]; side?: "left" | "right" };
+  | { kind: "media"; photo: Photo; blocks: Block[]; side?: "left" | "right" }
+  /** Sơ đồ kiến trúc: các nhánh hội tụ sang phải, mũi tên một chiều (components/shared/Diagram.tsx) */
+  | { kind: "diagram"; flow: DiagramFlow; legend?: { tone: DiagramTone; label: Rich }[]; caption?: Rich; /** px, mặc định 120 */ nodeWidth?: number };
+
+/** plain: thiết bị, hệ thống của khách hàng · edge: phần Celesnity lắp đặt · platform: nền tảng */
+export type DiagramTone = "plain" | "edge" | "platform";
+
+export type DiagramNode = { label: Rich; sub?: Rich; tone?: DiagramTone };
+
+/** Chuỗi ô nối tiếp từ trái sang phải; `via[i]` là nhãn mũi tên trước ô thứ i + 1 */
+export type DiagramBranch = { nodes: DiagramNode[]; via?: Rich[] };
+
+/**
+ * Các nhánh (hoặc nhóm con) xếp dọc, gộp lại rồi đi tiếp qua chuỗi `then`.
+ * `group`: khung nét đứt có nhãn. `then` rỗng: đường gộp đi thẳng ra mép khung.
+ */
+export type DiagramFlow = {
+  group?: Rich;
+  branches: (DiagramBranch | DiagramFlow)[];
+  /** Nhãn mũi tên từ điểm gộp tới ô đầu của `then` */
+  via?: Rich;
+  then: DiagramNode[];
+};
 
 export type Video = {
   src: string;

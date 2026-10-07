@@ -4,6 +4,7 @@
  */
 import type { Block, DeckAssistant, DeckData } from "@/decks/types";
 import { plainText } from "@/components/shared/RichText";
+import { diagramPaths } from "@/components/shared/Diagram";
 
 function rowsText(head: string[] | undefined, rows: string[][], caption?: string): string {
   const all = [...(head ? [head] : []), ...rows].filter((r) => r.some((c) => c.trim()));
@@ -33,6 +34,8 @@ function blockText(b: Block, moduleNotes: Record<string, string>): string {
       return `(Video: ${plainText(b.video.title)}${b.video.caption ? ` — ${plainText(b.video.caption)}` : ""})`;
     case "media":
       return [b.photo.caption ? `(Ảnh: ${plainText(b.photo.caption)})` : "", ...b.blocks.map((x) => blockText(x, moduleNotes))].filter(Boolean).join("\n\n");
+    case "diagram":
+      return ["(Sơ đồ)", ...diagramPaths(b.flow, plainText).map((p) => `- ${p}`), b.caption ? plainText(b.caption) : ""].filter(Boolean).join("\n");
     case "statement":
       return [b.context, b.highlight, b.conclusion].map(plainText).join(" ");
   }

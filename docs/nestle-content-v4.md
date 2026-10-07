@@ -766,6 +766,28 @@ Trân trọng,
 - Huấn luyện và kiểm tra tách theo thời gian; có tập thi riêng cho các lần chuyển đổi và chế độ vận hành hiếm.
 - Kết nối qua giao diện đọc đã duyệt (historian replica, OPC UA, API của MES và ERP); không cần truy cập trực tiếp bộ điều khiển.
 
+## Kiến trúc kết nối dữ liệu tại nhà máy
+
+Dữ liệu đi lên nền tảng theo **hai đường, đều một chiều**. **Đường chính** đọc từ hệ thống sẵn có của nhà máy. **Đường phụ** gắn thêm mô-đun cho thiết bị chưa xuất được dữ liệu, chỉ dùng khi IT/OT duyệt.
+
+### Toàn nhà máy: mỗi dây chuyền một máy tính biên
+
+*Sơ đồ (khối `diagram`):* trong nhà máy Nestlé Trị An, mỗi dây chuyền L1, L2 có bốn thiết bị (vít định lượng · hàn màng · cân kiểm, đóng hộp · robot xếp pallet), mỗi thiết bị một mô-đun, cùng về máy tính biên của dây chuyền (Raspberry Pi). Historian và SAP/MES đi qua gateway mạng OT (OPC UA, API), chỉ đọc. Tất cả gộp thành một đường chỉ đọc lên Nền tảng Celesnity, trong môi trường Nestlé duyệt.
+
+### Từng thiết bị: nối theo loại tín hiệu
+
+*Sơ đồ (khối `diagram`):*
+
+- **Đường phụ, gắn thêm mô-đun:** cảm biến độ ẩm, nhiệt độ phòng chiết rót (I/O) · máy, đèn báo chưa nối mạng (I/O) · PLC của vít định lượng, hàn màng, động cơ (RS485 · CAN · Ethernet) · robot xếp pallet (Ethernet) → MCU + LoRa → gateway ESP32 + LoRa → Raspberry Pi, mô hình tại biên.
+- **Đường chính, hệ thống sẵn có:** PLC L1, L2 → historian replica hoặc OPC UA · SAP/MES, bảng tính kế hoạch → API hoặc file định kỳ → gateway mạng OT.
+- Hai đường gộp lại, chỉ đọc, lên Nền tảng Celesnity trong môi trường Nestlé duyệt.
+
+- **Mọi mũi tên một chiều:** không ghi ngược vào PLC, robot hay thiết bị; mô-đun không gửi lệnh xuống.
+- **Đọc PLC qua RS485, CAN hay Ethernet** chỉ dùng cho PLC chưa có historian hay OPC UA, ở chế độ chỉ đọc và khi IT/OT duyệt.
+- **Máy tính biên** lọc và đệm dữ liệu khi mất kết nối, chạy mô hình cho cảnh báo cần phản hồi nhanh. Mất kết nối thì dây chuyền vẫn chạy bình thường.
+
+*Sơ đồ minh họa. Số thiết bị, loại kết nối, vị trí lắp đặt và phần cứng được chốt cùng IT/OT trong khảo sát.*
+
 ## Hướng ứng dụng tại các nhà máy Nestlé Việt Nam (đề xuất, xác định cùng Nestlé sau Cổng 4)
 
 | Nhà máy | Câu hỏi mô hình trả lời | Dữ liệu cần |

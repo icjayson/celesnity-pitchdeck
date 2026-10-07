@@ -7,6 +7,7 @@ import { Label } from "./Label";
 import { ModuleSlot } from "./ModuleSlot";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { KeyValue, Cards, Steps, Timeline, Compare, Chips, Pillars } from "./Visuals";
+import { Diagram } from "./Diagram";
 
 /**
  * Hiển thị một dãy khối nội dung. `skipModules` dùng cho bản in.
@@ -165,6 +166,8 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
       return <Photo photo={b.photo} />;
     case "video":
       return <Video video={b.video} />;
+    case "diagram":
+      return <Diagram flow={b.flow} legend={b.legend} caption={b.caption} nodeWidth={b.nodeWidth} />;
     case "media":
       return (
         <div

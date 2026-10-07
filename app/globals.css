@@ -284,6 +284,13 @@ html[data-presenter="on"] [data-hide-in-presenter] {
   [data-section] {
     break-inside: avoid-page;
   }
+  /* Sơ đồ rộng hơn khổ A4: thu nhỏ thay vì bị cắt */
+  .diagram-scroll {
+    overflow: visible;
+  }
+  .diagram-scroll > div {
+    zoom: 0.72;
+  }
 }
 
 /* Vệt sáng lướt qua chữ (thẻ "Đang suy nghĩ…", chuyển từ minder-platform). Màu đặt qua --shimmer-base / --shimmer-band. */
