@@ -768,18 +768,25 @@ Trân trọng,
 
 ## Kiến trúc kết nối dữ liệu tại nhà máy
 
-Mỗi dây chuyền có một bộ **Celesnity Interface Module** nối với thiết bị và một **Line PC** gom dữ liệu của dây chuyền, rồi gửi lên **Celesnity Platform** qua API. Dữ liệu đi **một chiều, chỉ đọc**.
+Dữ liệu đi lên nền tảng **một chiều, chỉ đọc**: từ hệ thống sẵn có của nhà máy, và từ mô-đun IoT gắn thêm cho thiết bị chưa xuất được dữ liệu khi IT/OT duyệt.
 
 ### Kiến trúc hệ thống tổng thể
 
-![Sơ đồ kiến trúc hệ thống tổng thể](../public/decks/nestle-vietnam/kien-truc-he-thong-tong-the.png)
+*Sơ đồ (khối `diagram`):* trong nhà máy Nestlé Trị An, mỗi dây chuyền L1, L2 có bốn thiết bị (vít định lượng · hàn màng · cân kiểm, đóng hộp · robot xếp pallet), mỗi thiết bị một mô-đun, cùng về máy tính biên của dây chuyền (Raspberry Pi). Historian và SAP/MES đi qua gateway mạng OT (OPC UA, API), chỉ đọc. Tất cả gộp thành một đường chỉ đọc lên Nền tảng Celesnity, trong môi trường Nestlé duyệt.
 
-- **Mọi kết nối một chiều, chỉ đọc:** không ghi ngược vào PLC, bộ điều khiển robot hay thiết bị.
-- **Đọc PLC qua RS485/Modbus** chỉ dùng cho PLC chưa có historian hay OPC UA, khi IT/OT duyệt.
-- **Line PC** thu dữ liệu từ các module, quản lý thiết bị, xử lý và đệm dữ liệu, giám sát dây chuyền. Mất kết nối thì dây chuyền vẫn chạy bình thường.
-- **LoRaWAN là kênh dự phòng**, cho thiết bị không dây, thiết bị ở xa hoặc nơi khó đi dây Ethernet; không phải đường truyền chính của dây chuyền.
+### Kiến trúc kết nối thiết bị IoT & xử lý biên
 
-*Sơ đồ minh họa. Số thiết bị, loại kết nối và vị trí lắp đặt được chốt cùng IT/OT trong khảo sát. Celesnity Platform đặt trong môi trường Nestlé duyệt.*
+*Sơ đồ (khối `diagram`):*
+
+- **Mô-đun IoT gắn thêm:** cảm biến độ ẩm, nhiệt độ phòng chiết rót (I/O) · máy, đèn báo chưa nối mạng (I/O) · PLC của vít định lượng, hàn màng, động cơ (RS485 · CAN · Ethernet) · robot xếp pallet (Ethernet) → MCU + LoRa → gateway ESP32 + LoRa → Raspberry Pi, mô hình tại biên.
+- **Hệ thống sẵn có:** PLC L1, L2 → historian replica hoặc OPC UA · SAP/MES, bảng tính kế hoạch → API hoặc file định kỳ → gateway mạng OT.
+- Tất cả gộp lại, chỉ đọc, lên Nền tảng Celesnity trong môi trường Nestlé duyệt.
+
+- **Mọi mũi tên một chiều:** không ghi ngược vào PLC, robot hay thiết bị; mô-đun không gửi lệnh xuống.
+- **Đọc PLC qua RS485, CAN hay Ethernet** chỉ dùng cho PLC chưa có historian hay OPC UA, ở chế độ chỉ đọc và khi IT/OT duyệt.
+- **Máy tính biên** lọc và đệm dữ liệu khi mất kết nối, chạy mô hình cho cảnh báo cần phản hồi nhanh. Mất kết nối thì dây chuyền vẫn chạy bình thường.
+
+*Sơ đồ minh họa. Số thiết bị, loại kết nối, vị trí lắp đặt và phần cứng được chốt cùng IT/OT trong khảo sát.*
 
 ## Hướng ứng dụng tại các nhà máy Nestlé Việt Nam (đề xuất, xác định cùng Nestlé sau Cổng 4)
 
