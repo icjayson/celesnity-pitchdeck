@@ -1071,7 +1071,7 @@ export const appendix: AppendixSection[] = [
         flow: {
           branches: [
             {
-              group: "Hệ thống sẵn có",
+              group: "",
               branches: [
                 {
                   nodes: [{ label: "PLC L1, L2" }, { label: "Historian replica", sub: "hoặc OPC UA" }],
@@ -1083,7 +1083,7 @@ export const appendix: AppendixSection[] = [
               then: [{ label: "Gateway mạng OT" }],
             },
             {
-              group: "Mô-đun IoT gắn thêm",
+              group: "",
               branches: [
                 {
                   nodes: [{ label: "Cảm biến", sub: "độ ẩm, nhiệt độ phòng chiết rót" }, { label: "MCU + LoRa", tone: "edge" }],

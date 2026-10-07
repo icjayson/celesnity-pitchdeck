@@ -80,15 +80,17 @@ function Flow({ flow }: { flow: DiagramFlow }) {
         </Fragment>
       ))}
       {/* Trong khung: nối điểm gộp (hoặc ô cuối) ra tới mép khung, nơi nhánh cha nhận tiếp */}
-      {flow.group ? <span aria-hidden className={`-mr-4 h-px w-4 shrink-0 ${LINE}`} /> : null}
+      {flow.group !== undefined ? <span aria-hidden className={`-mr-4 h-px w-4 shrink-0 ${LINE}`} /> : null}
     </div>
   );
-  if (!flow.group) return body;
+  if (flow.group === undefined) return body;
   return (
-    <div className="relative rounded-[14px] border border-dashed border-ink-500/45 px-4 pb-3 pt-8">
-      <span className="muted absolute left-4 top-2.5 text-[11.5px] font-semibold uppercase tracking-[0.08em]">
-        <RichText text={flow.group} />
-      </span>
+    <div className={`relative rounded-[14px] border border-dashed border-ink-500/45 px-4 pb-3 ${flow.group ? "pt-8" : "pt-3"}`}>
+      {flow.group ? (
+        <span className="muted absolute left-4 top-2.5 text-[11.5px] font-semibold uppercase tracking-[0.08em]">
+          <RichText text={flow.group} />
+        </span>
+      ) : null}
       {body}
     </div>
   );

@@ -75,7 +75,7 @@ export type DiagramBranch = { nodes: DiagramNode[]; via?: Rich[] };
 
 /**
  * Các nhánh (hoặc nhóm con) xếp dọc, gộp lại rồi đi tiếp qua chuỗi `then`.
- * `group`: khung nét đứt có nhãn. `then` rỗng: đường gộp đi thẳng ra mép khung.
+ * `group`: khung nét đứt có nhãn; chuỗi rỗng là khung không nhãn. `then` rỗng: đường gộp đi thẳng ra mép khung.
  */
 export type DiagramFlow = {
   group?: Rich;
