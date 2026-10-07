@@ -13,8 +13,8 @@ export const faq: FaqItem[] = [
   {
     id: "du-lieu-roi-vn",
     q: "Dữ liệu của Hòa Phát có rời Việt Nam không?",
-    a: "Không. Dữ liệu thô lưu tại Việt Nam, dưới quyền Hòa Phát; bản vẽ, thiết kế, firmware, BOM và công thức quy trình không bao giờ rời Hòa Phát. Hòa Phát duyệt mục đích, người truy cập, thời hạn lưu và mọi phần được chia sẻ. Celesnity nhận bản cập nhật mô hình, không bao giờ là dữ liệu thô.",
-    section: "hop-tac",
+    a: "Không. Dữ liệu thô lưu tại Việt Nam, trong môi trường Hòa Phát duyệt; bản vẽ, thiết kế, hệ thống thiết bị, BOM và công thức quy trình không bao giờ rời Hòa Phát. Hòa Phát duyệt mục đích, người truy cập, thời hạn lưu và mọi phần được chia sẻ. Thứ duy nhất được gửi sang Celesnity là bản cập nhật trọng số mô hình đã qua khử nhận diện và kiểm thử an ninh, không bao giờ kèm dữ liệu thô, và chỉ gửi khi Hòa Phát duyệt từng lần. Đổi lại, Hòa Phát nhận các phiên bản mô hình nền mới, học từ nhiều nhà máy.",
+    section: "hai-ben",
     keywords: ["dữ liệu", "rời", "việt nam", "nước ngoài", "lưu trữ", "chủ quyền", "ra ngoài"],
     suggested: true,
   },
@@ -61,10 +61,17 @@ export const faq: FaqItem[] = [
   {
     id: "so-huu-mo-hinh",
     q: "Hòa Phát có sở hữu mô hình không?",
-    a: "Có. Mô hình riêng và các kết quả về hoạt động Hòa Phát thuộc sở hữu Hòa Phát; Celesnity chỉ dùng để vận hành dịch vụ. Mô hình nền, mã huấn luyện và bộ công cụ đánh giá thuộc Celesnity, Hòa Phát có giấy phép nội bộ vĩnh viễn, miễn phí bản quyền theo mức tham gia. Khi chấm dứt hợp tác, Hòa Phát giữ mô hình riêng và giấy phép.",
-    section: "hop-tac",
+    a: "Hòa Phát sở hữu toàn bộ dữ liệu nội bộ, thiết kế, hồ sơ vận hành và mọi kết quả về hoạt động của Hòa Phát; Celesnity chỉ dùng để vận hành dịch vụ. Mô hình (cả mô hình nền và bản dành riêng cho Hòa Phát), mã huấn luyện và bộ công cụ đánh giá thuộc Celesnity. Hòa Phát được sử dụng độc quyền bản dành riêng trong suốt thời gian hợp tác, và bản này không được cung cấp cho bên nào khác. Đội ngũ IT của Hòa Phát được hướng dẫn để chủ động vận hành hệ thống hằng ngày. Khi chấm dứt hợp tác, dữ liệu được trả lại hoặc xóa theo yêu cầu.",
+    section: "hai-ben",
     keywords: ["sở hữu", "mô hình riêng", "quyền", "sở hữu trí tuệ", "giấy phép", "của ai"],
     suggested: true,
+  },
+  {
+    id: "celesnity-duoc-gi",
+    q: "Celesnity được gì từ hợp tác này?",
+    a: "Ba thứ. Thứ nhất, phí dịch vụ: cố định trong thử nghiệm, sau đó theo giá trị mà Tài chính Hòa Phát xác nhận. Thứ hai, bản cập nhật trọng số mô hình khi Hòa Phát duyệt, không bao giờ là dữ liệu thô, để mô hình nền học từ thực tế công nghiệp Việt Nam. Thứ ba, một đối tác tham chiếu, khi Hòa Phát đồng ý. Lợi ích hai bên gắn vào nhau: mô hình nền càng tốt thì mô hình dành riêng cho Hòa Phát càng tốt.",
+    section: "hai-ben",
+    keywords: ["celesnity được gì", "lợi ích của celesnity", "hai bên", "đổi lại", "vì sao celesnity", "cùng có lợi"],
   },
   {
     id: "sau-12-thang",
@@ -128,7 +135,7 @@ export const faq: FaqItem[] = [
   {
     id: "mo-hinh-da-chay",
     q: "Mô hình đã chạy thật ở Hòa Phát chưa?",
-    a: "Chưa. Các tình huống, con số và buồng mô phỏng trên trang là mô phỏng minh họa; mô hình thật được huấn luyện trên dữ liệu Hòa Phát trong thử nghiệm. Mô hình phải thi đạt trên bộ đề kín của Hòa Phát, do Hòa Phát chấm, trước khi kỹ sư được dùng dự báo. Phần trích xuất hồ sơ từ lời nói ở mục \"Thử làm công nhân\" là AI thật.",
+    a: "Chưa. Các tình huống, con số và buồng mô phỏng trên trang là mô phỏng minh họa; mô hình thật được huấn luyện trên dữ liệu Hòa Phát trong thử nghiệm. Mô hình phải thi đạt trên bộ đề kín của Hòa Phát, do Hòa Phát chấm, trước khi kỹ sư được dùng dự báo.",
     section: "phong-thi",
     keywords: ["đã chạy", "chạy thật", "có thật", "minh họa", "đã dùng", "kết quả thật"],
   },
@@ -195,8 +202,8 @@ export const faq: FaqItem[] = [
   {
     id: "uc0",
     q: "Lập hồ sơ khách hàng tự động (Ứng dụng 01) làm gì?",
-    a: "Từ lời báo lỗi bằng giọng nói tiếng Việt, AI tự tạo hồ sơ, gắn model, phiên bản bo mạch, lô linh kiện và kết quả đo. Mục tiêu là rút ngắn thời gian kỹ sư tập hợp bằng chứng từ nhiều hệ thống; tiêu chí đạt là giảm ít nhất 25% thời gian lập hồ sơ. Kỹ sư chất lượng quyết định. Quý vị có thể thử ngay ở mục \"Thử làm công nhân\".",
-    section: "thu-ngay",
+    a: "Từ lời báo lỗi bằng giọng nói tiếng Việt, AI tự tạo hồ sơ, gắn model, phiên bản bo mạch, lô linh kiện và kết quả đo. Mục tiêu là rút ngắn thời gian kỹ sư tập hợp bằng chứng từ nhiều hệ thống; tiêu chí đạt là giảm ít nhất 25% thời gian lập hồ sơ. Kỹ sư chất lượng quyết định.",
+    section: "use-case",
     keywords: ["uc0", "hồ sơ", "giọng nói", "báo lỗi", "công nhân", "trích xuất"],
   },
   {
@@ -286,7 +293,7 @@ export const faq: FaqItem[] = [
     id: "nguoi-lao-dong",
     q: "Dữ liệu có được dùng để đánh giá công nhân không?",
     a: "Không. Dữ liệu người lao động không bao giờ được dùng để xếp hạng hay kỷ luật cá nhân. Chương trình tham vấn trước, khử nhận diện và không dùng dữ liệu để đánh giá cá nhân.",
-    section: "hop-tac",
+    section: "hai-ben",
     keywords: ["người lao động", "công nhân", "giám sát", "kỷ luật", "đánh giá cá nhân"],
   },
   {

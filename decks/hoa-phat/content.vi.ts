@@ -758,6 +758,253 @@ export const sections: Section[] = [
     ],
   },
   {
+    id: "hai-ben",
+    act: 3,
+    theme: "mist",
+    layout: "wide",
+    eyebrow: "Chủ quyền dữ liệu và lợi ích hai bên",
+    title: "Hòa Phát giữ dữ liệu, Celesnity giữ công nghệ nền, và cả hai cùng thông minh hơn sau mỗi vòng học",
+    blocks: [
+      {
+        kind: "statement",
+        context: "Mô hình AI liên tục hoàn thiện từ thực tiễn sản xuất; ngược lại, kinh nghiệm vận hành được chuẩn hóa và nhân rộng nhờ AI.",
+        highlight: "Hòa Phát có **kinh nghiệm vận hành thực tế**. Celesnity **làm chủ công nghệ AI Thế giới thực**.",
+        conclusion: "**Nguyên tắc hợp tác:** bảo toàn 100% tài sản dữ liệu của mỗi bên. Chỉ chia sẻ tri thức mô hình đã qua kiểm duyệt bảo mật để tạo ra giá trị cộng hưởng hai chiều.",
+      },
+      { kind: "h3", text: "Chu trình luân chuyển dữ liệu và tri thức khép kín" },
+      { kind: "module", id: "M13", variant: "exchange" },
+      {
+        kind: "note",
+        text: "Mỗi bản cập nhật đều qua kiểm thử chống khôi phục dữ liệu và được Hòa Phát duyệt trước khi gửi, vì bản cập nhật đã tích hợp vào một phiên bản mô hình nền đã phát hành thì không thu hồi được.",
+      },
+      { kind: "h3", text: "Sáu cam kết không thay đổi" },
+      { kind: "module", id: "M13", variant: "commitments" },
+      { kind: "h3", text: "Sở hữu trí tuệ" },
+      {
+        kind: "cards", cols: 3, tone: "orange",
+        head: ["Tài sản", "Chủ sở hữu", "Quyền của Hòa Phát", "Quyền của Celesnity"],
+        rows: [
+          [
+            "Dữ liệu nội bộ, thiết kế, hồ sơ vận hành và mọi kết quả về hoạt động Hòa Phát",
+            "Hòa Phát",
+            "Toàn quyền",
+            "Chỉ dùng để vận hành dịch vụ, trong phạm vi Hòa Phát duyệt",
+          ],
+          [
+            "Mô hình dành riêng cho Hòa Phát",
+            "Celesnity",
+            "Sử dụng độc quyền trong suốt thời gian hợp tác",
+            "Phát triển, huấn luyện và bảo trì; không cung cấp cho bên nào khác",
+          ],
+          [
+            "Mô hình nền, mã huấn luyện, bộ công cụ đánh giá",
+            "Celesnity",
+            "Sử dụng trong suốt thời gian hợp tác",
+            "Sở hữu, tiếp tục phát triển và cấp phép",
+          ],
+        ],
+      },
+      { kind: "h3", text: "Cơ chế hợp tác cộng hưởng giá trị" },
+      { kind: "module", id: "M14", variant: "paired" },
+      {
+        kind: "p",
+        wide: true,
+        text: "**Đồng hành kiến tạo giá trị:** Celesnity chỉ ghi nhận hiệu quả khi Hòa Phát thu được lợi ích kinh tế thực tế; năng lực mô hình nền của Celesnity song hành trực tiếp cùng sự tự chủ công nghệ của Hòa Phát.",
+      },
+    ],
+    details: [
+      {
+        title: "Chu trình luân chuyển dữ liệu và tri thức khép kín",
+        printOnly: true,
+        blocks: [
+          {
+            kind: "table",
+            head: ["Bước", "Điều gì đi đâu", "Gồm những gì"],
+            rows: [
+              [
+                "**①**",
+                "**Dữ liệu gốc lưu trữ biệt lập tại Hòa Phát**",
+                "Toàn bộ dữ liệu thô (bản vẽ thiết kế, hệ thống thiết bị, BOM, quy trình công nghệ) được lưu trữ và kiểm soát độc quyền bởi Hòa Phát; mô hình dành riêng cho Hòa Phát chạy ngay trong môi trường này.",
+              ],
+              [
+                "**②**",
+                "**Chuyển giao dữ liệu dưới sự phê duyệt của Hòa Phát**",
+                "Chỉ gửi bản cập nhật trọng số mô hình đã qua khử nhận diện và kiểm thử an ninh; tuyệt đối không kèm dữ liệu thô và chỉ gửi khi được Hòa Phát duyệt từng lần.",
+              ],
+              [
+                "**③**",
+                "**Tái tích hợp và nâng cấp năng lực vận hành**",
+                "Hòa Phát nhận lại phiên bản mô hình nền nâng cấp (được tôi luyện từ đa nhà máy), giúp mô hình dành riêng cho Hòa Phát thông minh và chính xác hơn sau mỗi vòng lặp.",
+              ],
+            ],
+            caption: "Dữ liệu thô luôn lưu trữ nội bộ. Chỉ có tham số tri thức đã học được chuyển giao, và quay trở lại dưới dạng một mô hình thông minh hơn.",
+          },
+        ],
+      },
+      {
+        title: "Sáu cam kết không thay đổi",
+        printOnly: true,
+        blocks: [
+          {
+            kind: "list",
+            ordered: true,
+            items: [
+              "Mô hình tập trung dự báo, so sánh và tối ưu hoá. **Con người có thẩm quyền phê duyệt mọi thay đổi.** Tự động hoá bằng AI theo từng bước đồng hành cùng Hòa Phát; mỗi bước lên mức tự chủ cao hơn là quyết định riêng của Hòa Phát, qua quy trình quản lý thay đổi của nhà máy.",
+              "Interlock, bảo vệ an toàn, thông số đã thẩm định, quyết định của Chất lượng và quyết định xuất xưởng **giữ nguyên quyền hiện tại**. Ngưỡng và quy tắc lấy từ tiêu chuẩn của nhà máy, **không do AI đặt**.",
+              "Dữ liệu thô lưu tại Việt Nam, trong môi trường Hòa Phát duyệt. **Bản vẽ, thiết kế, hệ thống thiết bị, BOM, công thức quy trình không bao giờ rời Hòa Phát.**",
+              "Hòa Phát duyệt mục đích, người truy cập, thời hạn lưu và mọi phần được chia sẻ. Dữ liệu Hòa Phát không gộp sang khách hàng khác và không dùng cho đối thủ. Mô hình dành riêng cho Hòa Phát không được cung cấp cho bên nào khác. Khi chấm dứt hợp tác, dữ liệu được trả lại hoặc xóa theo yêu cầu.",
+              "Dữ liệu người lao động **không bao giờ** được dùng để xếp hạng hay kỷ luật cá nhân.",
+              "Mọi công bố, mọi lần dùng tên hay logo Hòa Phát cần được đồng ý bằng văn bản (xem trước ít nhất 30 ngày).",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Bảng lợi ích hai bên",
+        printOnly: true,
+        blocks: [
+          {
+            kind: "table",
+            caption: "Nguồn lực đóng góp",
+            head: ["Hạng mục đối ứng", "**Hòa Phát đóng góp**", "**Celesnity đóng góp**"],
+            rows: [
+              ["**Dữ liệu và công nghệ lõi**", "**Quyền truy cập dữ liệu vận hành:** cấp quyền chỉ đọc, lưu trữ tại chỗ, chỉ mở theo phạm vi Hòa Phát phê duyệt.", "**Mô hình AI nền tảng:** cung cấp mô hình nền và tự tài trợ 100% chi phí nghiên cứu, phát triển."],
+              ["**Nền tảng và nghiệp vụ**", "**Tri thức chuyên gia nghiệp vụ:** chuyên gia R&D và Chất lượng cùng giải bài toán, khoảng 4 giờ/tuần.", "**Nền tảng phần mềm:** triển khai nền tảng dữ liệu tập trung và bộ ứng dụng vận hành AI chuyên dụng."],
+              ["**Hạ tầng và triển khai tại nhà máy**", "**Hạ tầng máy chủ tại chỗ:** phần cứng đặt tại Việt Nam, thuộc sở hữu Hòa Phát.", "**Đội triển khai:** 5–6 người, trong đó kỹ sư hiện trường làm việc tại nhà máy; tinh gọn dần còn 3 khi quy trình ổn định."],
+              ["**Nhân lực và vận hành**", "**Đội ngũ IT vận hành:** 2–4 kỹ sư IT nòng cốt, trực tiếp vận hành hệ thống hằng ngày.", "**Hướng dẫn vận hành:** đào tạo, kèm cặp thực tế đến khi đội ngũ IT Hòa Phát hoàn toàn làm chủ việc vận hành."],
+            ],
+          },
+          {
+            kind: "table",
+            caption: "Giá trị nhận lại",
+            head: ["Mục tiêu giá trị", "**Hòa Phát nhận**", "**Celesnity nhận**"],
+            rows: [
+              ["**Kinh tế và chi phí**", "**Hiệu quả kinh tế đo được:** lợi ích đo lường minh bạch trên từng đơn vị sản phẩm, do Hòa Phát trực tiếp xác nhận.", "**Phí theo hiệu quả:** cố định chi phí trong giai đoạn thử nghiệm; sau đó gắn phí dịch vụ trực tiếp với giá trị đã được xác nhận."],
+              ["**Mô hình và chủ quyền dữ liệu**", "**Mô hình AI dành riêng:** chạy tại Việt Nam và chỉ phục vụ Hòa Phát trong suốt thời gian hợp tác; dữ liệu nội bộ và mọi kết quả về hoạt động Hòa Phát thuộc sở hữu Hòa Phát.", "**Bản cập nhật tri thức mô hình:** trọng số đã qua kiểm thử an ninh, chỉ khi Hòa Phát duyệt; tuyệt đối không kèm dữ liệu thô."],
+              ["**Độ hoàn thiện công nghệ**", "**Đón đầu năng lực AI tối tân:** tiếp cận trước 6 tháng các tính năng và phiên bản mô hình nền mới, được tôi luyện từ đa nhà máy.", "**Bảo chứng năng lực công nghiệp:** Mô hình AI Thế giới thực được kiểm chứng trong môi trường sản xuất công nghiệp nặng hàng đầu Việt Nam."],
+              ["**Tầm nhìn dài hạn và vị thế**", "**Năng lực vận hành nội bộ:** đội ngũ IT chủ động vận hành hệ thống, sẵn sàng cùng Celesnity nhân rộng sang điện lạnh và thép.", "**Khách hàng tham chiếu chiến lược:** điển hình triển khai thành công, khi Hòa Phát đồng ý."],
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "hop-tac",
+    act: 3,
+    theme: "light",
+    eyebrow: "Hình thức hợp tác",
+    title: "Hòa Phát đang đầu tư vào năng lực tự triển khai trong tương lai, không mua một phần mềm riêng lẻ",
+    blocks: [
+      { kind: "h3", text: "Ba hạng mục triển khai chính" },
+      { kind: "module", id: "M14", variant: "package" },
+      {
+        kind: "list",
+        items: [
+          "**Thử nghiệm:** phí cố định, phạm vi rõ ràng, thống nhất sau khảo sát Hòa Mạc. Không đạt Cổng 2 thì không chuyển sang giai đoạn có phí tiếp theo.",
+          "**Sau thử nghiệm:** định giá theo giá trị Tài chính đã xác minh. Mỗi dòng sản phẩm, nhà máy hay mảng mới (kể cả thép) được định giá theo phạm vi riêng.",
+          "**Không đề xuất:** độc quyền · góp vốn hay chia doanh thu · chuyển dữ liệu ra khỏi Việt Nam.",
+          "**Nguồn tài trợ mô hình nền:** Celesnity tự tài trợ. Hai bên có thể cùng nộp hồ sơ xin quỹ khoa học và công nghệ của Việt Nam.",
+        ],
+      },
+      { kind: "h3", text: "Pháp lý" },
+      {
+        kind: "list",
+        items: [
+          "**Văn bản áp dụng:** Luật Trí tuệ nhân tạo 134/2025/QH15 (hiệu lực 1/3/2026) · Nghị định 142/2026/NĐ-CP · Quyết định 33/2026/QĐ-TTg (hiệu lực 15/8/2026) · Luật Bảo vệ dữ liệu cá nhân 91/2025/QH15 và Nghị định 356/2025/NĐ-CP (hiệu lực 1/1/2026).",
+          "**Phân loại rủi ro:** Celesnity lập hồ sơ phân loại cho từng chức năng và thông báo Bộ KH&CN khi bắt buộc; Hòa Phát nhận hồ sơ với vai trò bên triển khai. Không gán trước mức rủi ro. Phân loại được rà soát lại khi mở rộng phạm vi.",
+          "**An ninh:** theo kiến trúc nhà máy đã duyệt và mô hình phân vùng IEC 62443; bắt đầu ở chế độ chỉ đọc; ghi nhật ký mọi lần gọi mô hình.",
+          "**Tuân thủ sản phẩm** (CB, an toàn điện, EMC, hiệu suất năng lượng) là một lớp riêng; báo cáo AI không thay thế được.",
+        ],
+      },
+      { kind: "h3", text: "Quản trị" },
+      { kind: "cards", cols: 3, rows: [["Ban chỉ đạo chung", "Trưởng bộ phận AI Hòa Phát chủ trì, cùng bảo trợ ngành hàng, CEO và CTO Celesnity. Họp hằng quý và tại mỗi cổng."], ["Hội đồng dữ liệu", "họp hằng tháng."], ["Nhóm làm việc chung", "họp hằng tuần, tại nhà máy."]] },
+    ],
+    details: [
+      {
+        title: "Ba thành phần của gói",
+        printOnly: true,
+        blocks: [
+          {
+            kind: "table",
+            head: ["Thành phần", "Gồm những gì"],
+            rows: [
+              [
+                "**① Mô hình AI Thế giới thực**",
+                "Bản riêng của Hòa Phát, chạy tại Việt Nam; nhận các phiên bản mô hình nền mới, học được từ nhiều nhà máy",
+              ],
+              [
+                "**② Bộ ứng dụng AI-native**",
+                "Hồ sơ tự động · dự báo và so sánh trong không gian làm việc của kỹ sư · bảng chỉ tiêu · kết nối cho tác nhân AI của Tập đoàn",
+              ],
+              [
+                "**③ Triển khai và nghiệm thu (kỹ sư thực địa)**",
+                "Cấu hình theo quy trình Hòa Phát · tích hợp hệ thống · **đào tạo đội ngũ IT tới khi tự vận hành, tự huấn luyện và dẫn dắt mở rộng**",
+              ],
+            ],
+          },
+          {
+            kind: "table",
+            head: ["Cơ cấu chi phí", "Triển khai và chuyển giao", "Mô hình + Ứng dụng"],
+            rows: [
+              ["**Năm thứ 1**", "Phần lớn", "Phần nhỏ"],
+              ["**Năm thứ 2+**", "Phần nhỏ", "Phần lớn"],
+            ],
+          },
+        ],
+      },
+
+    ],
+  },
+  {
+    id: "thu-ngo",
+    act: 0,
+    theme: "light",
+    eyebrow: "Thư ngỏ",
+    title: "Kính gửi Chủ tịch Hội đồng Quản trị và Ban Tổng Giám đốc Tập đoàn Hòa Phát",
+    blocks: [
+      {
+        kind: "p",
+        text: "Trước hết, Celesnity xin trân trọng cảm ơn Quý vị đã dành thời gian cho đề xuất này.",
+      },
+      {
+        kind: "p",
+        text: "Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ đọc hiểu ngôn ngữ sang thực sự thấu hiểu và có thể tương tác với thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài. Các công ty có thể ứng dụng các loại hình AI đại trà. Nhưng để đi trước, đón đầu xu thế công nghệ và công nghiệp tân tiến nhất của tương lai, một Mô hình AI Thế giới thực **(từ nay gọi là Mô hình)** là xu hướng tất yếu của con đường nghiên cứu AI trên toàn cầu. Hòa Phát sẽ dẫn dắt Việt Nam khi là nhà máy đầu tiên ứng dụng và làm chủ Mô hình này.",
+      },
+      {
+        kind: "p",
+        text: "Vì vậy, Celesnity trân trọng đề xuất Hòa Phát trở thành **Đối tác công nghiệp sáng lập** của chương trình **Nhà máy siêu thông minh**. Chương trình xây dựng một Mô hình AI Thế giới thực hiểu cách các nhà máy của Hòa Phát vận hành. Mô hình chạy tại Việt Nam, trên dữ liệu của Hòa Phát, và **do chính đội ngũ Hòa Phát làm chủ**.",
+      },
+      { kind: "p", text: "**Tầm nhìn**\nMỗi nhà máy của Hòa Phát, từ gia dụng đến thép, đều có thể **tự học** từ mỗi quyết định và kết quả thực tế, **dự báo trước** hệ quả của quyết định tiếp theo, và **nhân rộng** kinh nghiệm sang mọi dây chuyền, mọi nhà máy trong Tập đoàn." },
+      { kind: "p", text: "**Cách làm**\nChương trình bắt đầu nhỏ và chắc: một dòng bếp từ tại Hòa Mạc, hoặc một khâu xử lý tại nhà máy thép tuỳ chọn. Ngay từ tháng thứ 1, đội ngũ IT của Hòa Phát làm việc cùng kỹ sư Celesnity tại nhà máy, tiếp tục đào tạo năng lực tại Hòa Phát." },
+      { kind: "p", text: "**Kết quả dự kiến sau 12 tháng**\n6 ứng dụng chạy thật trên 2–3 dòng sản phẩm, mở rộng sang nhà máy điện lạnh hoặc luyện kim khác. Đội ngũ IT của Hòa Phát **tự vận hành và phát triển**, và cùng Celesnity xây dựng kế hoạch cụ thể để tiếp tục nhân rộng." },
+      { kind: "p", text: "**Cam kết và lợi ích hai bên**\nDữ liệu thô lưu tại Việt Nam, dưới quyền Hòa Phát; bản vẽ, thiết kế và công thức quy trình không bao giờ rời Hòa Phát. Mô hình chỉ dự báo và so sánh; **con người có thẩm quyền phê duyệt mọi thay đổi**. Đổi lại, Celesnity được học từ những bản cập nhật mô hình mà Hòa Phát duyệt, để mô hình nền ngày càng tốt hơn, trước hết cho chính Hòa Phát; sau thử nghiệm, phí của Celesnity đi theo giá trị mà Tài chính Hòa Phát xác nhận." },
+      { kind: "p", text: "**Kính đề nghị Ban Lãnh đạo**" },
+      {
+        kind: "list",
+        ordered: true,
+        items: [
+          "**Thống nhất chủ trương:** Hòa Phát là Đối tác công nghiệp sáng lập; gia dụng là điểm khởi đầu, thép là đích đến.",
+          "**Cử đầu mối:** lãnh đạo phụ trách, đầu mối dữ liệu, đầu mối R&D và Chất lượng Hòa Mạc, cùng 2 kỹ sư IT cho đội vận hành mô hình.",
+          "**Cho phép khảo sát Hòa Mạc** để chốt dòng sản phẩm, bài toán, số liệu nền và phí thử nghiệm.",
+        ],
+      },
+      {
+        kind: "p",
+        text: "Chúng tôi tin rằng Nhà máy siêu thông minh do một tập đoàn Việt Nam làm chủ, trên dữ liệu Việt Nam, có thể trở thành chuẩn mực mới cho sản xuất không những trong khu vực mà còn trên cả thế giới. Celesnity mong được đồng hành cùng Hòa Phát trên chặng đường đó.",
+      },
+      { kind: "signature", lines: ["Trân trọng,", "**Celesnity**, đơn vị phát triển nền tảng Minder AI"] },
+    ],
+  },
+];
+
+/**
+ * Các section tạm cất (không hiển thị trên trang, không vào bản in và trợ lý).
+ * Muốn bật lại: chuyển phần tử về mảng `sections` đúng vị trí cũ
+ * ("thu-ngay" sau "lo-trinh"; "mo-phong" sau "ba-lop"; "phong-thi" sau "thu-ngay"; "loi-moi" ở cuối (thay "thu-ngo" về sau "mo-dau"); "kiem-soat" sau "hai-ben" (cũ; chi tiết đã chuyển sang "hop-tac"); "gia-tri" sau "phong-thi").
+ */
+export const parkedSections: Section[] = [
+  {
     id: "thu-ngay",
     act: 3,
     theme: "mist",
@@ -829,193 +1076,6 @@ export const sections: Section[] = [
       { kind: "module", id: "M6" },
     ],
   },
-  {
-    id: "hop-tac",
-    act: 3,
-    theme: "light",
-    eyebrow: "Hình thức hợp tác",
-    title: "Hòa Phát đang đầu tư vào năng lực tự triển khai trong tương lai, không mua một phần mềm riêng lẻ",
-    blocks: [
-      { kind: "h3", text: "Ba hạng mục triển khai chính" },
-      { kind: "module", id: "M14", variant: "package" },
-      {
-        kind: "list",
-        items: [
-          "**Thử nghiệm:** phí cố định, phạm vi rõ ràng, thống nhất sau khảo sát Hòa Mạc. Không đạt Cổng 2 thì không chuyển sang giai đoạn có phí tiếp theo.",
-          "**Sau thử nghiệm:** định giá theo giá trị Tài chính đã xác minh. Mỗi dòng sản phẩm, nhà máy hay mảng mới (kể cả thép) được định giá theo phạm vi riêng.",
-          "**Không đề xuất:** độc quyền · góp vốn hay chia doanh thu · chuyển dữ liệu ra khỏi Việt Nam.",
-          "**Nguồn tài trợ mô hình nền:** Celesnity tự tài trợ. Hai bên có thể cùng nộp hồ sơ xin quỹ khoa học và công nghệ của Việt Nam.",
-        ],
-      },
-      { kind: "h3", text: "Sáu cam kết không thay đổi" },
-      { kind: "module", id: "M13", variant: "commitments" },
-      { kind: "h3", text: "Sở hữu trí tuệ" },
-      {
-        kind: "cards", cols: 3, tone: "orange",
-        head: ["Tài sản", "Chủ sở hữu", "Quyền của Hòa Phát"],
-        rows: [
-          ["Dữ liệu, thiết kế, hồ sơ vận hành", "Hòa Phát", "Toàn quyền"],
-          [
-            "Mô hình riêng và các kết quả về hoạt động Hòa Phát",
-            "Hòa Phát",
-            "Sở hữu; Celesnity chỉ dùng để vận hành dịch vụ",
-          ],
-          [
-            "Mô hình nền, mã huấn luyện, bộ công cụ đánh giá",
-            "Celesnity",
-            "Giấy phép nội bộ vĩnh viễn, miễn phí bản quyền theo mức tham gia",
-          ],
-        ],
-      },
-      { kind: "h3", text: "Pháp lý" },
-      {
-        kind: "list",
-        items: [
-          "**Văn bản áp dụng:** Luật Trí tuệ nhân tạo 134/2025/QH15 (hiệu lực 1/3/2026) · Nghị định 142/2026/NĐ-CP · Quyết định 33/2026/QĐ-TTg (hiệu lực 15/8/2026) · Luật Bảo vệ dữ liệu cá nhân 91/2025/QH15 và Nghị định 356/2025/NĐ-CP (hiệu lực 1/1/2026).",
-          "**Phân loại rủi ro:** Celesnity lập hồ sơ phân loại cho từng chức năng và thông báo Bộ KH&CN khi bắt buộc; Hòa Phát nhận hồ sơ với vai trò bên triển khai. Không gán trước mức rủi ro. Phân loại được rà soát lại khi mở rộng phạm vi.",
-          "**An ninh:** theo kiến trúc nhà máy đã duyệt và mô hình phân vùng IEC 62443; bắt đầu ở chế độ chỉ đọc; ghi nhật ký mọi lần gọi mô hình.",
-          "**Tuân thủ sản phẩm** (CB, an toàn điện, EMC, hiệu suất năng lượng) là một lớp riêng; báo cáo AI không thay thế được.",
-        ],
-      },
-      { kind: "h3", text: "Quản trị" },
-      { kind: "cards", cols: 3, rows: [["Ban chỉ đạo chung", "Trưởng bộ phận AI Hòa Phát chủ trì, cùng bảo trợ ngành hàng, CEO và CTO Celesnity. Họp hằng quý và tại mỗi cổng."], ["Hội đồng dữ liệu", "họp hằng tháng."], ["Nhóm làm việc chung", "họp hằng tuần, tại nhà máy."]] },
-    ],
-    details: [
-      {
-        title: "Sáu cam kết không thay đổi",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "list",
-            ordered: true,
-            items: [
-              "Dữ liệu thô lưu tại Việt Nam. **Bản vẽ, thiết kế, firmware, BOM, công thức quy trình không bao giờ rời Hòa Phát.**",
-              "Hòa Phát duyệt mục đích, người truy cập, thời hạn lưu và mọi phần được chia sẻ.",
-              "Dữ liệu người lao động **không bao giờ** được dùng để xếp hạng hay kỷ luật cá nhân.",
-              "Mô hình tập trung dự báo, so sánh và tối ưu hoá. **Con người có thẩm quyền phê duyệt mọi thay đổi**. Tự động hoá bằng AI theo từng bước đồng hành cùng Hòa Phát.",
-              "Dữ liệu Hòa Phát không được dùng cho mô hình của đối thủ trực tiếp.",
-              "Mọi công bố cần Hòa Phát đồng ý bằng văn bản (xem trước ít nhất 30 ngày).",
-            ],
-          },
-        ],
-      },
-      {
-        title: "Ba thành phần của gói",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "table",
-            head: ["Thành phần", "Gồm những gì"],
-            rows: [
-              [
-                "**① Mô hình AI Thế giới thực**",
-                "Bản riêng của Hòa Phát, chạy tại Việt Nam; nhận các phiên bản mô hình nền mới, học được từ nhiều nhà máy",
-              ],
-              [
-                "**② Bộ ứng dụng AI-native**",
-                "Hồ sơ tự động · dự báo và so sánh trong không gian làm việc của kỹ sư · bảng chỉ tiêu · kết nối cho tác nhân AI của Tập đoàn",
-              ],
-              [
-                "**③ Triển khai và nghiệm thu (kỹ sư thực địa)**",
-                "Cấu hình theo quy trình Hòa Phát · tích hợp hệ thống · **đào tạo đội ngũ IT tới khi tự vận hành, tự huấn luyện và dẫn dắt mở rộng**",
-              ],
-            ],
-          },
-          {
-            kind: "table",
-            head: ["Cơ cấu chi phí", "Triển khai và chuyển giao", "Mô hình + Ứng dụng"],
-            rows: [
-              ["**Năm thứ 1**", "Phần lớn", "Phần nhỏ"],
-              ["**Năm thứ 2+**", "Phần nhỏ", "Phần lớn"],
-            ],
-          },
-        ],
-      },
-
-    ],
-  },
-  {
-    id: "hai-ben",
-    act: 3,
-    theme: "mist",
-    eyebrow: "Lợi ích hai bên",
-    title: "Một quan hệ đối tác minh bạch",
-    blocks: [
-      { kind: "module", id: "M14", variant: "benefits" },
-    ],
-    details: [
-      {
-        title: "Bảng lợi ích hai bên",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "table",
-            head: ["", "**Hòa Phát**", "**Celesnity**"],
-            rows: [
-              [
-                "**Nhận**",
-                "Giá trị đo được trên từng sản phẩm · mô hình riêng chạy tại Việt Nam · **đội ngũ IT tự chủ vận hành và huấn luyện** · quyền dùng mô hình nền · tiếp cận tính năng mới sớm 6 tháng · chủ trì Ban chỉ đạo · con đường sang thép",
-                "Mô hình được kiểm chứng trong công nghiệp Việt Nam · bản cập nhật mô hình (**không bao giờ là dữ liệu thô**) · đối tác tham chiếu đầu tiên · bộ đề thi làm chung · doanh thu",
-              ],
-              [
-                "**Góp**",
-                "Dữ liệu (theo mức Hòa Phát chọn) · chuyên gia nghiệp vụ · hạ tầng tính toán tại Việt Nam · đội ngũ IT 2→4 người",
-                "Mô hình nền · nền tảng dữ liệu tập trung · đội FDE 3→5 người · chi phí nghiên cứu mô hình nền",
-              ],
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: "thu-ngo",
-    act: 0,
-    theme: "light",
-    eyebrow: "Thư ngỏ",
-    title: "Kính gửi Chủ tịch Hội đồng Quản trị và Ban Tổng Giám đốc Tập đoàn Hòa Phát",
-    blocks: [
-      {
-        kind: "p",
-        text: "Trước hết, Celesnity xin trân trọng cảm ơn Quý vị đã dành thời gian cho đề xuất này.",
-      },
-      {
-        kind: "p",
-        text: "Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ đọc hiểu ngôn ngữ sang thực sự thấu hiểu và có thể tương tác với thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài. Các công ty có thể ứng dụng các loại hình AI đại trà. Nhưng để đi trước, đón đầu xu thế công nghệ và công nghiệp tân tiến nhất của tương lai, một Mô hình AI Thế giới thực **(từ nay gọi là Mô hình)** là xu hướng tất yếu của con đường nghiên cứu AI trên toàn cầu. Hòa Phát sẽ dẫn dắt Việt Nam khi là nhà máy đầu tiên ứng dụng và làm chủ Mô hình này.",
-      },
-      {
-        kind: "p",
-        text: "Vì vậy, Celesnity trân trọng đề xuất Hòa Phát trở thành **Đối tác công nghiệp sáng lập** của chương trình **Nhà máy siêu thông minh**. Chương trình xây dựng một Mô hình AI Thế giới thực hiểu cách các nhà máy của Hòa Phát vận hành. Mô hình chạy tại Việt Nam, trên dữ liệu của Hòa Phát, và **do chính đội ngũ Hòa Phát làm chủ**.",
-      },
-      { kind: "p", text: "**Tầm nhìn**\nMỗi nhà máy của Hòa Phát, từ gia dụng đến thép, đều có thể **tự học** từ mỗi quyết định và kết quả thực tế, **dự báo trước** hệ quả của quyết định tiếp theo, và **nhân rộng** kinh nghiệm sang mọi dây chuyền, mọi nhà máy trong Tập đoàn." },
-      { kind: "p", text: "**Cách làm**\nChương trình bắt đầu nhỏ và chắc: một dòng bếp từ tại Hòa Mạc, hoặc một khâu xử lý tại nhà máy thép tuỳ chọn. Ngay từ tháng thứ 1, đội ngũ IT của Hòa Phát làm việc cùng kỹ sư Celesnity tại nhà máy, tiếp tục đào tạo năng lực tại Hòa Phát." },
-      { kind: "p", text: "**Kết quả dự kiến sau 12 tháng**\n6 ứng dụng chạy thật trên 2–3 dòng sản phẩm, mở rộng sang nhà máy điện lạnh hoặc luyện kim khác. Đội ngũ IT của Hòa Phát **tự vận hành và phát triển**, và cùng Celesnity xây dựng kế hoạch cụ thể để tiếp tục nhân rộng." },
-      { kind: "p", text: "**Cam kết của Celesnity**\nDữ liệu thô lưu tại Việt Nam và dưới quyền Hòa Phát; bản vẽ, thiết kế và công thức quy trình không bao giờ rời Hòa Phát. Mô hình chỉ dự báo và so sánh; **con người có thẩm quyền phê duyệt mọi thay đổi**." },
-      { kind: "p", text: "**Kính đề nghị Ban Lãnh đạo**" },
-      {
-        kind: "list",
-        ordered: true,
-        items: [
-          "**Thống nhất chủ trương:** Hòa Phát là Đối tác công nghiệp sáng lập; gia dụng là điểm khởi đầu, thép là đích đến.",
-          "**Cử đầu mối:** lãnh đạo phụ trách, đầu mối dữ liệu, đầu mối R&D và Chất lượng Hòa Mạc, cùng 2 kỹ sư IT cho đội vận hành mô hình.",
-          "**Cho phép khảo sát Hòa Mạc** để chốt dòng sản phẩm, bài toán, số liệu nền và phí thử nghiệm.",
-        ],
-      },
-      {
-        kind: "p",
-        text: "Chúng tôi tin rằng Nhà máy siêu thông minh do một tập đoàn Việt Nam làm chủ, trên dữ liệu Việt Nam, có thể trở thành chuẩn mực mới cho sản xuất không những trong khu vực mà còn trên cả thế giới. Celesnity mong được đồng hành cùng Hòa Phát trên chặng đường đó.",
-      },
-      { kind: "signature", lines: ["Trân trọng,", "**Celesnity**, đơn vị phát triển nền tảng Minder AI"] },
-    ],
-  },
-];
-
-/**
- * Các section tạm cất (không hiển thị trên trang, không vào bản in và trợ lý).
- * Muốn bật lại: chuyển phần tử về mảng `sections` đúng vị trí cũ
- * ("mo-phong" sau "ba-lop"; "phong-thi" sau "thu-ngay"; "loi-moi" ở cuối (thay "thu-ngo" về sau "mo-dau"); "kiem-soat" sau "hai-ben" (cũ; chi tiết đã chuyển sang "hop-tac"); "gia-tri" sau "phong-thi").
- */
-export const parkedSections: Section[] = [
   {
     id: "loi-moi",
     act: 3,
@@ -1318,36 +1378,49 @@ export const closing = {
   ask: "Hỏi trợ lý",
 };
 
-/** Lợi ích hai bên (M14 variant "benefits") */
+/**
+ * Lợi ích hai bên (M14 variant "paired" trong #hai-ben): dòng thứ i của Hòa Phát đối ứng dòng thứ i của Celesnity,
+ * nên `give`, `receive` của hai bên và `rowLabels` phải dài bằng nhau.
+ */
 export const benefits = {
+  groupTitles: { give: "Nguồn lực đóng góp", receive: "Giá trị nhận lại" },
+  columnHeads: {
+    give: ["Hạng mục đối ứng", "Hòa Phát đóng góp", "Celesnity đóng góp"],
+    receive: ["Mục tiêu giá trị", "Hòa Phát nhận", "Celesnity nhận"],
+  },
+  rowLabels: {
+    give: ["Dữ liệu và công nghệ lõi", "Nền tảng và nghiệp vụ", "Hạ tầng và triển khai tại nhà máy", "Nhân lực và vận hành"],
+    receive: ["Kinh tế và chi phí", "Mô hình và chủ quyền dữ liệu", "Độ hoàn thiện công nghệ", "Tầm nhìn dài hạn và vị thế"],
+  },
   partner: {
     name: "Hòa Phát",
-    receive: [
-      "Giá trị đo được trên từng sản phẩm",
-      "Mô hình riêng chạy tại Việt Nam",
-      "**Đội ngũ IT tự chủ vận hành và huấn luyện**",
-      "Quyền dùng mô hình nền",
-      "Tiếp cận tính năng mới sớm 6 tháng",
-      "Chủ trì Ban chỉ đạo",
-      "Con đường sang thép",
-    ],
     give: [
-      "Dữ liệu (theo mức Hòa Phát chọn)",
-      "Chuyên gia nghiệp vụ",
-      "Hạ tầng tính toán tại Việt Nam",
-      "Đội ngũ IT 2→4 người",
+      "**Quyền truy cập dữ liệu vận hành:** cấp quyền chỉ đọc, lưu trữ tại chỗ, chỉ mở theo phạm vi Hòa Phát phê duyệt.",
+      "**Tri thức chuyên gia nghiệp vụ:** chuyên gia R&D và Chất lượng cùng giải bài toán, khoảng 4 giờ/tuần.",
+      "**Hạ tầng máy chủ tại chỗ:** phần cứng đặt tại Việt Nam, thuộc sở hữu Hòa Phát.",
+      "**Đội ngũ IT vận hành:** 2–4 kỹ sư IT nòng cốt, trực tiếp vận hành hệ thống hằng ngày.",
+    ],
+    receive: [
+      "**Hiệu quả kinh tế đo được:** lợi ích đo lường minh bạch trên từng đơn vị sản phẩm, do Hòa Phát trực tiếp xác nhận.",
+      "**Mô hình AI dành riêng:** chạy tại Việt Nam và chỉ phục vụ Hòa Phát trong suốt thời gian hợp tác; dữ liệu nội bộ và mọi kết quả về hoạt động Hòa Phát thuộc sở hữu Hòa Phát.",
+      "**Đón đầu năng lực AI tối tân:** tiếp cận trước 6 tháng các tính năng và phiên bản mô hình nền mới, được tôi luyện từ đa nhà máy.",
+      "**Năng lực vận hành nội bộ:** đội ngũ IT chủ động vận hành hệ thống, sẵn sàng cùng Celesnity nhân rộng sang điện lạnh và thép.",
     ],
   },
   celesnity: {
     name: "Celesnity",
-    receive: [
-      "Mô hình được kiểm chứng trong công nghiệp Việt Nam",
-      "Bản cập nhật mô hình (**không bao giờ là dữ liệu thô**)",
-      "Đối tác tham chiếu đầu tiên",
-      "Bộ đề thi làm chung",
-      "Doanh thu",
+    give: [
+      "**Mô hình AI nền tảng:** cung cấp mô hình nền và tự tài trợ 100% chi phí nghiên cứu, phát triển.",
+      "**Nền tảng phần mềm:** triển khai nền tảng dữ liệu tập trung và bộ ứng dụng vận hành AI chuyên dụng.",
+      "**Đội triển khai:** 5–6 người, trong đó kỹ sư hiện trường làm việc tại nhà máy; tinh gọn dần còn 3 khi quy trình ổn định.",
+      "**Hướng dẫn vận hành:** đào tạo, kèm cặp thực tế đến khi đội ngũ IT Hòa Phát hoàn toàn làm chủ việc vận hành.",
     ],
-    give: ["Mô hình nền", "Nền tảng dữ liệu tập trung", "Đội FDE 3→5 người", "Chi phí nghiên cứu mô hình nền"],
+    receive: [
+      "**Phí theo hiệu quả:** cố định chi phí trong giai đoạn thử nghiệm; sau đó gắn phí dịch vụ trực tiếp với giá trị đã được xác nhận.",
+      "**Bản cập nhật tri thức mô hình:** trọng số đã qua kiểm thử an ninh, chỉ khi Hòa Phát duyệt; tuyệt đối không kèm dữ liệu thô.",
+      "**Bảo chứng năng lực công nghiệp:** Mô hình AI Thế giới thực được kiểm chứng trong môi trường sản xuất công nghiệp nặng hàng đầu Việt Nam.",
+      "**Khách hàng tham chiếu chiến lược:** điển hình triển khai thành công, khi Hòa Phát đồng ý.",
+    ],
   },
 };
 

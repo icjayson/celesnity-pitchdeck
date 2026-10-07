@@ -10,12 +10,19 @@ function useDetailBlocks(sectionId: string, title: string | RegExp): Block[] {
   return d?.blocks ?? [];
 }
 
-export function useDetailTable(sectionId: string, title: string | RegExp): { head: string[]; rows: string[][] } {
+export function useDetailTable(sectionId: string, title: string | RegExp): { head: string[]; rows: string[][]; caption?: string } {
   const t = useDetailBlocks(sectionId, title).find((b) => b.kind === "table");
-  return t && t.kind === "table" ? { head: t.head, rows: t.rows } : { head: [], rows: [] };
+  return t && t.kind === "table" ? { head: t.head, rows: t.rows, caption: t.caption } : { head: [], rows: [] };
 }
 
-export function useDetailList(sectionId: string, title: string | RegExp): string[] {
-  const l = useDetailBlocks(sectionId, title).find((b) => b.kind === "list");
-  return l && l.kind === "list" ? l.items : [];
+/** `sectionId` có thể là danh sách: lấy danh sách đầu tiên tìm thấy theo thứ tự đó. */
+export function useDetailList(sectionId: string | string[], title: string | RegExp): string[] {
+  const { sections, parkedSections } = useDeck();
+  const all = [...sections, ...parkedSections];
+  for (const id of Array.isArray(sectionId) ? sectionId : [sectionId]) {
+    const d = all.find((x) => x.id === id)?.details?.find((x) => (typeof title === "string" ? x.title === title : title.test(x.title)));
+    const l = d?.blocks.find((b) => b.kind === "list");
+    if (l && l.kind === "list") return l.items;
+  }
+  return [];
 }

@@ -1,7 +1,7 @@
 "use client";
-/** M13 — Chủ quyền dữ liệu (#kiem-soat) và các phần đề xuất trong #hop-tac. Đặc tả: docs/implementation-plan.md mục 2. */
+/** M13 — Chủ quyền dữ liệu (#kiem-soat, #hai-ben) và các phần đề xuất trong #hop-tac. Đặc tả: docs/implementation-plan.md mục 2. */
 import { useState } from "react";
-import { Ban, ClipboardCheck, FileSignature, MapPin, UserCheck, UserX, Vault, type LucideIcon } from "lucide-react";
+import { Ban, ClipboardCheck, FileSignature, MapPin, ShieldCheck, UserCheck, UserX, Vault, type LucideIcon } from "lucide-react";
 import { RichText, plainText } from "@/components/shared/RichText";
 import { useDetailList, useDetailTable } from "./shared/detailContent";
 import { MotionToggle, useMotionGate } from "./shared/motion";
@@ -14,18 +14,31 @@ const FADE_CSS = `@keyframes m13-in{from{opacity:0;transform:translateY(4px)}to{
 
 /** Biểu tượng cho các cam kết, theo đúng thứ tự trong content (deck có thể bỏ bớt cam kết lưu ký) */
 const COMMIT_ICONS: LucideIcon[] = [MapPin, ClipboardCheck, UserX, UserCheck, Ban, Vault, FileSignature];
+/** Chọn biểu tượng theo nội dung (các deck xếp cam kết theo thứ tự khác nhau); không khớp thì theo vị trí */
+const ICON_RULES: [RegExp, LucideIcon][] = [
+  [/công bố/i, FileSignature],
+  [/lưu ký/i, Vault],
+  [/người lao động/i, UserX],
+  [/interlock|bảo vệ an toàn/i, ShieldCheck],
+  [/phê duyệt mọi thay đổi/i, UserCheck],
+  [/duyệt mục đích/i, ClipboardCheck],
+  [/lưu tại Việt Nam|môi trường .* duyệt/i, MapPin],
+  [/đối thủ/i, Ban],
+];
 const commitIcon = (text: string, i: number): LucideIcon =>
-  /công bố/i.test(text) ? FileSignature : /lưu ký/i.test(text) ? Vault : (COMMIT_ICONS[i] ?? ClipboardCheck);
+  ICON_RULES.find(([re]) => re.test(text))?.[1] ?? COMMIT_ICONS[i] ?? ClipboardCheck;
 
 const RECOMMENDED: Level = 3;
 
 /**
  * variant mặc định (#kiem-soat): bản đồ + so sánh nhanh ba mức.
- * "founding" (#hop-tac): thẻ đề xuất Mức 3 · "commitments" (#hop-tac): các cam kết không thay đổi.
+ * "founding" (#hop-tac): thẻ đề xuất Mức 3 · "commitments" (#hai-ben hoặc #hop-tac): các cam kết không thay đổi.
+ * "exchange" (#hai-ben): chu trình luân chuyển dữ liệu và tri thức khép kín (điều gì ở lại, điều gì đi ra, điều gì quay về).
  */
 export default function M13({ variant }: { variant?: string }) {
   if (variant === "founding") return <Founding />;
   if (variant === "commitments") return <Commitments />;
+  if (variant === "exchange") return <Exchange />;
   return <Sovereignty />;
 }
 
@@ -138,6 +151,78 @@ function Sovereignty() {
   );
 }
 
+/** Màu từng bước khớp với khung cảnh: ① môi trường khách hàng · ② bản cập nhật đi ra · ③ phiên bản mới quay về */
+const EXCHANGE_TONES = [
+  "bg-orange-100 text-orange-700 ring-orange-500/40",
+  "bg-blue-100 text-blue-600 ring-blue-300",
+  "bg-navy-900 text-white ring-navy-700",
+];
+
+/** Chu trình luân chuyển dữ liệu và tri thức khép kín: dữ liệu ở lại, bản cập nhật đi ra khi được duyệt, phiên bản mô hình nền mới quay về. */
+function Exchange() {
+  const { party } = useDeck();
+  const { rows, caption } = useDetailTable("hai-ben", "Chu trình luân chuyển dữ liệu và tri thức khép kín");
+  const gate = useMotionGate<HTMLDivElement>();
+
+  return (
+    <div ref={gate.ref} className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-6">
+      <figure className="relative isolate m-0 flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-navy-700 bg-navy-900 p-3 text-white shadow-[0_28px_60px_-30px_rgba(10,31,68,0.7)] sm:p-5">
+        <span aria-hidden className="pointer-events-none absolute -right-24 top-24 -z-10 h-72 w-72 rounded-full bg-blue-500/20 blur-[90px]" />
+        <SovereigntyScene level={2} returnFlow play={gate.play} reduced={gate.reduced} />
+        <figcaption className="mt-auto flex flex-col gap-3 border-t border-navy-700 px-1 pt-3">
+          {caption ? (
+            <p className="text-[15px] font-medium leading-snug text-white">
+              <RichText text={caption} />
+            </p>
+          ) : null}
+          <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12.5px] text-blue-300">
+            <li className="flex items-center gap-1.5">
+              <span aria-hidden className="h-3 w-4 rounded-[4px] border-[1.5px] border-orange-500" />
+              {party.environment}
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span aria-hidden className="h-2 w-2 rounded-full bg-blue-300" />
+              Bản cập nhật mô hình
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span aria-hidden className="h-2 w-2 rounded-full bg-white" />
+              Phiên bản mô hình nền mới
+            </li>
+            <li className="ml-auto">
+              <MotionToggle paused={gate.userPaused} onToggle={gate.toggle} reduced={gate.reduced} tone="dark" className="-mr-1" />
+            </li>
+          </ul>
+        </figcaption>
+      </figure>
+
+      <ol className="flex flex-col gap-3">
+        {rows.map((r, i) => (
+          <li
+            key={i}
+            className="flex flex-1 items-start gap-4 rounded-[var(--radius-card)] lg:items-center border border-line-200 bg-white p-5 shadow-[0_20px_50px_-34px_rgba(10,31,68,0.5)] sm:p-6"
+          >
+            <span
+              aria-hidden
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[18px] ring-1 ${EXCHANGE_TONES[i] ?? EXCHANGE_TONES[1]}`}
+            >
+              {plainText(r[0] ?? "")}
+            </span>
+            <div className="flex flex-col gap-1.5 pt-0.5">
+              <p className="text-[18px] font-semibold leading-snug tracking-[-0.01em] text-navy-900">
+                <span className="sr-only">{plainText(r[0] ?? "")} </span>
+                <RichText text={r[1] ?? ""} />
+              </p>
+              <p className="text-[15px] leading-relaxed text-ink-500">
+                <RichText text={r[2] ?? ""} />
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 /** Đề xuất hình thức hợp tác: Mức 3, Đối tác sáng lập, với toàn bộ quyền lợi. */
 function Founding() {
   const { scenarios } = useDeck();
@@ -184,7 +269,7 @@ function Founding() {
 
 /** Các cam kết không thay đổi ("Bảy…", "Sáu…"), chia hai cột. */
 function Commitments() {
-  const commitments = useDetailList("hop-tac", /cam kết không thay đổi$/);
+  const commitments = useDetailList(["hai-ben", "hop-tac"], /cam kết không thay đổi$/);
   return (
     <ol className="grid grid-cols-1 gap-3 md:grid-cols-2">
       {commitments.map((c, i) => {

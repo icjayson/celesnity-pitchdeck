@@ -9,11 +9,12 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /**
  * M14 — Lời mời và kết (docs/implementation-plan.md, mục 2).
- * variant "benefits" (#hai-ben) · "package" (#hop-tac) · "closing" (#loi-moi).
+ * variant "benefits" (#hai-ben, hai cột rời) · "paired" (#hai-ben, từng dòng đối ứng) · "package" (#hop-tac) · "closing" (#loi-moi).
  */
 export default function M14({ variant }: { variant?: string }) {
   if (variant === "package") return <Package />;
   if (variant === "closing") return <Closing />;
+  if (variant === "paired") return <PairedBenefits />;
   return <Benefits />;
 }
 
@@ -95,6 +96,116 @@ function BenefitColumn({
         ))}
       </div>
     </article>
+  );
+}
+
+/* ───────────── Lợi ích hai bên, từng dòng đối ứng ───────────── */
+
+/** Dòng thứ i của khách hàng đối ứng dòng thứ i của Celesnity (decks/<slug>/content.vi.ts → benefits). */
+function PairedBenefits() {
+  const { benefits } = useDeck();
+  const { partner, celesnity, rowLabels, groupTitles, columnHeads } = benefits;
+  const groups = [
+    {
+      key: "give",
+      title: groupTitles?.give ?? ui.give,
+      heads: columnHeads?.give,
+      labels: rowLabels?.give ?? [],
+      a: partner.give,
+      b: celesnity.give,
+    },
+    {
+      key: "receive",
+      title: groupTitles?.receive ?? ui.receive,
+      heads: columnHeads?.receive,
+      labels: rowLabels?.receive ?? [],
+      a: partner.receive,
+      b: celesnity.receive,
+    },
+  ];
+  const hasLabels = groups.some((g) => g.labels.length > 0);
+  // Có cột hạng mục: hạng mục · khách hàng · khoảng giữa · Celesnity
+  const grid = hasLabels
+    ? "lg:grid-cols-[minmax(150px,0.62fr)_minmax(0,1fr)_40px_minmax(0,1fr)]"
+    : "lg:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)]";
+
+  return (
+    <div className="flex flex-col gap-10">
+      {groups.map((g, gi) => {
+        const partnerHead = g.heads?.[1] ?? partner.name;
+        const celesnityHead = g.heads?.[2] ?? celesnity.name;
+        return (
+          <section key={g.key} aria-labelledby={`pb-${g.key}`} className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <span aria-hidden className="tabular flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy-900 text-[13px] font-semibold text-white">
+                {String(gi + 1).padStart(2, "0")}
+              </span>
+              <h4 id={`pb-${g.key}`} className="text-[19px] font-semibold tracking-[-0.01em] text-navy-900 sm:text-[21px]">
+                {g.title}
+              </h4>
+            </div>
+
+            <div className="overflow-hidden rounded-[var(--radius-card)] border border-line-200 bg-white shadow-[0_20px_50px_-28px_rgba(10,31,68,0.4)]">
+              <div aria-hidden className={`hidden border-b border-line-200 bg-mist-50 lg:grid ${grid}`}>
+                {hasLabels ? (
+                  <div className="flex items-center px-8 text-[12px] font-semibold uppercase tracking-[0.1em] text-ink-500">
+                    {g.heads?.[0] ?? ""}
+                  </div>
+                ) : null}
+                <PairHead name={partnerHead} accent="orange" />
+                <div className="flex items-center justify-center">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-line-200 bg-white text-navy-900">
+                    <ArrowLeftRight size={16} strokeWidth={1.5} />
+                  </span>
+                </div>
+                <PairHead name={celesnityHead} accent="blue" />
+              </div>
+
+              <ul>
+                {Array.from({ length: Math.max(g.a.length, g.b.length) }).map((_, i) => (
+                  <li key={i} className={`grid grid-cols-1 border-t border-line-200 first:border-t-0 ${grid}`}>
+                    {hasLabels ? (
+                      <p className="px-6 pb-1 pt-4 text-[15px] font-semibold leading-snug text-navy-900 sm:px-8 lg:py-4">
+                        <RichText text={g.labels[i] ?? ""} />
+                      </p>
+                    ) : null}
+                    <PairCell name={partnerHead} text={g.a[i] ?? ""} accent="orange" />
+                    <span aria-hidden className="hidden lg:block" />
+                    <PairCell name={celesnityHead} text={g.b[i] ?? ""} accent="blue" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
+function PairHead({ name, accent }: { name: string; accent: "orange" | "blue" }) {
+  return (
+    <div className="relative flex items-center gap-2.5 px-8 pb-4 pt-5">
+      <span className={`absolute inset-x-0 top-0 h-1 ${accent === "orange" ? "bg-orange-500" : "bg-blue-500"}`} />
+      <span className={`h-2.5 w-2.5 rounded-full ${accent === "orange" ? "bg-orange-500" : "bg-blue-500"}`} />
+      <span className="text-[17px] font-semibold tracking-[-0.01em]">{name}</span>
+    </div>
+  );
+}
+
+function PairCell({ name, text, accent }: { name: string; text: string; accent: "orange" | "blue" }) {
+  const dot = accent === "orange" ? "bg-orange-500" : "bg-blue-500";
+  const tag = accent === "orange" ? "text-orange-700" : "text-blue-600";
+  return (
+    <div className={`flex flex-col gap-1 px-6 py-4 sm:px-8 ${accent === "blue" ? "pt-0 lg:pt-4" : ""}`}>
+      <span className={`text-[12px] font-semibold uppercase tracking-[0.1em] lg:sr-only ${tag}`}>{name}</span>
+      <p className="flex gap-2.5 text-[15px] leading-snug">
+        <span aria-hidden className={`mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full ${dot} opacity-70`} />
+        <span>
+          <RichText text={text} />
+        </span>
+      </p>
+    </div>
   );
 }
 

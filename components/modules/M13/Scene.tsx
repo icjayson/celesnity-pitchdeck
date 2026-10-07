@@ -16,8 +16,21 @@ const T = "600ms cubic-bezier(0.22, 1, 0.36, 1)";
 
 export type Level = 1 | 2 | 3;
 
-/** Khung cảnh M13: chỉ đúng thứ được phép rời môi trường của khách hàng ở mỗi mức mới chuyển động ra ngoài. */
-export function SovereigntyScene({ level, play, reduced }: { level: Level; play: boolean; reduced: boolean }) {
+/**
+ * Khung cảnh M13: chỉ đúng thứ được phép rời môi trường của khách hàng ở mỗi mức mới chuyển động ra ngoài.
+ * `returnFlow` (#hai-ben): thêm dòng phiên bản mô hình nền mới quay về môi trường của khách hàng.
+ */
+export function SovereigntyScene({
+  level,
+  play,
+  reduced,
+  returnFlow = false,
+}: {
+  level: Level;
+  play: boolean;
+  reduced: boolean;
+  returnFlow?: boolean;
+}) {
   const { party } = useDeck();
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const showUpdate = level >= 2;
@@ -26,6 +39,8 @@ export function SovereigntyScene({ level, play, reduced }: { level: Level; play:
 
   const updD = "M193 66 C 236 56, 282 104, 324 178";
   const setD = "M192 80 C 228 104, 262 160, 312 202";
+  // Phiên bản mô hình nền mới: từ mô hình nền quay về đáy khối môi trường của khách hàng
+  const retD = "M300 250 C 250 300, 150 240, 128 114";
   // Dữ liệu thô vòng quanh bên trong khối, không bao giờ ra ngoài
   const rawLoop = "M66 74 C 66 58, 154 58, 154 74 C 154 90, 66 90, 66 74 Z";
   const [dx, dy] = VN_POINTS.dungQuat;
@@ -65,12 +80,15 @@ export function SovereigntyScene({ level, play, reduced }: { level: Level; play:
       {/* Mô hình nền, bên ngoài */}
       <g style={{ opacity: showUpdate ? 1 : 0.4, transition: `opacity ${T}` }}>
         <rect x={278} y={156} width={116} height={96} rx={12} fill={NAVY9} stroke={BLUE3} strokeOpacity={0.45} strokeWidth={1.25} />
-        <text x={290} y={174} fontSize={11} fontWeight={600} fill={BLUE3}>
-          Mô hình nền
+        <circle cx={336} cy={194} r={24} fill={`url(#${uid}halo)`} />
+        <circle cx={336} cy={194} r={10} fill={`url(#${uid}core)`} />
+        <circle cx={336} cy={194} r={14} fill="none" stroke={BLUE3} strokeOpacity={0.5} />
+        <text x={336} y={232} textAnchor="middle" fontSize={10.5} fontWeight={600} fill={BLUE3}>
+          <tspan x={336}>Mô hình AI</tspan>
+          <tspan x={336} dy={13}>
+            Thế giới thực
+          </tspan>
         </text>
-        <circle cx={336} cy={210} r={24} fill={`url(#${uid}halo)`} />
-        <circle cx={336} cy={210} r={10} fill={`url(#${uid}core)`} />
-        <circle cx={336} cy={210} r={14} fill="none" stroke={BLUE3} strokeOpacity={0.5} />
       </g>
 
       {/* Mức 2+: bản cập nhật mô hình */}
@@ -98,6 +116,20 @@ export function SovereigntyScene({ level, play, reduced }: { level: Level; play:
         </g>
       </g>
 
+      {/* Vòng quay về: phiên bản mô hình nền mới */}
+      {returnFlow ? (
+        <g>
+          <path d={retD} fill="none" stroke="#fff" strokeOpacity={0.35} strokeWidth={1.2} strokeDasharray="2 5" />
+          <Stream d={retD} n={4} dur={3.6} fill="#fff" r={3} offset={1.6} />
+          <g transform="translate(150 262)">
+            <rect width={92} height={20} rx={10} fill={NAVY9} stroke="#fff" strokeOpacity={0.55} />
+            <text x={46} y={13.5} textAnchor="middle" fontSize={9.5} fontWeight={500} fill="#fff">
+              Phiên bản mới
+            </text>
+          </g>
+        </g>
+      ) : null}
+
       {/* Môi trường của khách hàng */}
       <rect x={36} y={34} width={148} height={76} rx={12} fill="rgba(255,122,26,0.08)" stroke={ORANGE} strokeWidth={2} />
       <text x={47} y={51} fontSize={10.5} fontWeight={600} fill={ORANGE}>
@@ -106,7 +138,7 @@ export function SovereigntyScene({ level, play, reduced }: { level: Level; play:
       <path d={rawLoop} fill="none" stroke={ORANGE} strokeOpacity={0.25} strokeDasharray="2 4" />
       <Stream d={rawLoop} n={5} dur={6} fill="#FFD2B0" r={2} />
       <text x={110} y={102} textAnchor="middle" fontSize={9} fill="#FFD2B0">
-        Dữ liệu thô ở lại
+        Dữ liệu thô được bảo toàn
       </text>
       {/* khóa trên khối */}
       <g transform="translate(166 25)">

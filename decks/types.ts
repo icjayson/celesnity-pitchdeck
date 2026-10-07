@@ -419,7 +419,18 @@ export type DeckData = {
   parkedSections: Section[];
   appendix: AppendixSection[];
   closing: Closing;
-  benefits: { partner: BenefitSide; celesnity: BenefitSide };
+  /**
+   * M14 "paired": dòng thứ i của hai bên đối ứng nhau. `rowLabels` là cột hạng mục ở đầu mỗi dòng,
+   * `groupTitles` thay tiêu đề nhóm mặc định "Góp"/"Nhận" (không đặt thì dùng mặc định).
+   * `columnHeads`: tiêu đề cột của từng nhóm [cột hạng mục, cột khách hàng, cột Celesnity].
+   */
+  benefits: {
+    partner: BenefitSide;
+    celesnity: BenefitSide;
+    rowLabels?: { give: string[]; receive: string[] };
+    groupTitles?: { give: string; receive: string };
+    columnHeads?: { give: string[]; receive: string[] };
+  };
   packageParts: PackagePart[];
   costShift: CostShiftRow[];
   faq: FaqItem[];
