@@ -450,12 +450,12 @@ export const sections: Section[] = [
             head: ["#", "Use case", "Câu hỏi được trả lời", "Dùng thật từ"],
             rows: [
               ["**Ứng dụng 01**", "**Lập hồ sơ khách hàng tự động**", "Lỗi này đã có đủ bằng chứng chưa? Ai cần xử lý?", "**T+1**"],
-              ["**Ứng dụng 02**", "**Dự báo lô hàng rủi ro cao**", "Lô hoặc trạm nào cần kiểm tra ngay?", "**T+5** (thi trên lịch sử từ T+2)"],
+              ["**Ứng dụng 02**", "**Dự báo lô hàng rủi ro cao**", "Lô hoặc trạm nào cần kiểm tra ngay?", "**T+5** (thử nghiệm trên lịch sử từ T+2)"],
               [
                 "**Ứng dụng 03**",
                 "**So sánh các phương án trước khi thực hiện**",
                 "Chỉnh firmware hay đổi linh kiện, cách nào hiệu quả hơn?",
-                "**T+6** (thi trên lịch sử từ T+3)",
+                "**T+6** (thử nghiệm trên lịch sử từ T+3)",
               ],
               ["UC3", "Cảnh báo sớm bảo hành", "Nhóm sản xuất nào sắp phát sinh bảo hành?", "T+7"],
               [
@@ -623,7 +623,7 @@ export const sections: Section[] = [
               ],
               [
                 "**3. Đồng huấn luyện**",
-                "Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thi, đồng tác giả báo cáo kỹ thuật, **dẫn dắt mở rộng sang thép**",
+                "Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thử nghiệm, đồng tác giả báo cáo kỹ thuật, **dẫn dắt mở rộng sang thép**",
                 "Một vòng đóng góp qua kiểm thử bảo mật",
                 "Năm thứ 2",
               ],
@@ -672,7 +672,7 @@ export const sections: Section[] = [
         ],
       },
       {
-        title: "Thử nghiệm 16 tuần: kết quả nhanh ở tháng thứ 1, kết quả thi ở tháng thứ 4",
+        title: "Thử nghiệm 16 tuần: kết quả nhanh ở tháng thứ 1, kết quả đầy đủ ở tháng thứ 4",
         printOnly: true,
         blocks: [
           {
@@ -691,13 +691,13 @@ export const sections: Section[] = [
               ],
               [
                 "**5–8**",
-                "Nối dữ liệu lịch sử 2 năm; Hòa Phát dựng **bộ đề thi kín**; huấn luyện mô hình riêng phiên bản đầu",
+                "Nối dữ liệu lịch sử 2 năm; Hòa Phát dựng **bộ đề thử nghiệm kín**; huấn luyện mô hình riêng phiên bản đầu",
                 "Mô hình v0.1",
               ],
               [
                 "**9–12**",
-                "**Thi trên lịch sử của chính Hòa Phát**: dự báo của mô hình được so với những gì đã thực sự xảy ra (Ứng dụng 02 với các lô cũ, Ứng dụng 03 với các thay đổi kỹ thuật cũ); R&D và QC chấm mẫu",
-                "Kết quả thi",
+                "**Thử nghiệm trên lịch sử của chính Hòa Phát**: dự báo của mô hình được so với những gì đã thực sự xảy ra (Ứng dụng 02 với các lô cũ, Ứng dụng 03 với các thay đổi kỹ thuật cũ); R&D và QC chấm mẫu",
+                "Kết quả thử nghiệm",
               ],
               [
                 "**13–14**",
@@ -741,9 +741,9 @@ export const sections: Section[] = [
             head: ["Tháng", "Giai đoạn", "Use case gia dụng và điện lạnh", "Thép", "Dữ liệu và nền tảng", "IT Hòa Phát", "Cổng"],
             rows: [
               ["**T+1**", "Thử nghiệm: Học", "**Ứng dụng 01 dùng thật**", "", "Môi trường tại Việt Nam · từ điển sản phẩm · nối dữ liệu", "Học việc", "**Cổng 1**"],
-              ["**T+2**", "Thử nghiệm: Học", "Ứng dụng 02 thi trên lịch sử", "", "Bộ đề thi kín", "Học việc", ""],
-              ["**T+3**", "Thử nghiệm: Học", "Ứng dụng 03 thi trên lịch sử", "", "Nối dữ liệu bảo hành", "Học việc", ""],
-              ["**T+4**", "Thử nghiệm: Học", "Kết quả thi", "", "", "**Tự chạy 1 vòng**", "**Cổng 2**"],
+              ["**T+2**", "Thử nghiệm: Học", "Ứng dụng 02 thử nghiệm trên lịch sử", "", "Bộ đề thử nghiệm kín", "Học việc", ""],
+              ["**T+3**", "Thử nghiệm: Học", "Ứng dụng 03 thử nghiệm trên lịch sử", "", "Nối dữ liệu bảo hành", "Học việc", ""],
+              ["**T+4**", "Thử nghiệm: Học", "Kết quả thử nghiệm", "", "", "**Tự chạy 1 vòng**", "**Cổng 2**"],
               ["**T+5**", "Dùng thật", "**Ứng dụng 02 dùng thật**", "", "Mở cho kỹ sư dùng", "Cùng vận hành", ""],
               ["**T+6**", "Dùng thật", "**Ứng dụng 03 dùng thật**", "", "", "Cùng vận hành", ""],
               ["**T+7**", "Dùng thật", "**Ứng dụng 04** bảo hành sớm", "", "Nối dữ liệu dịch vụ", "Cùng vận hành", ""],
@@ -795,6 +795,45 @@ export const sections: Section[] = [
       },
 
 
+    ],
+  },
+  {
+    id: "demo",
+    act: 3,
+    theme: "mist",
+    layout: "wide",
+    eyebrow: "Demo ứng dụng tại Nhà máy của Hòa Phát",
+    title: "Minder vận hành trên mô hình nhà máy Phú Mỹ",
+    blocks: [
+      {
+        kind: "label",
+        variant: "sim",
+        text: "Dữ liệu mô phỏng phục vụ demo, không phải số liệu thật của Hòa Phát. Bố trí nhà máy là minh họa.",
+      },
+      {
+        kind: "video",
+        video: {
+          src: "/decks/hoa-phat/demo-van-hanh.mp4",
+          poster: "/decks/hoa-phat/demo-van-hanh.jpg",
+          width: 1920,
+          height: 1002,
+          title: "Mô hình nhà máy, phát hiện lỗi sớm và bảng điều khiển vận hành",
+          caption:
+            "Mô hình nhà máy theo khu vực, dây chuyền, công đoạn và thiết bị · phát hiện sớm khi động cơ dây chuyền bắt đầu lệch khỏi trạng thái bình thường, trước khi phải dừng máy · bảng Vận hành và Dây chuyền: sản lượng, OEE, phế và hàng sửa theo công đoạn, nguyên nhân dừng máy, lệnh sản xuất",
+        },
+      },
+      {
+        kind: "video",
+        video: {
+          src: "/decks/hoa-phat/demo-hoi-minder.mp4",
+          poster: "/decks/hoa-phat/demo-hoi-minder.jpg",
+          width: 1920,
+          height: 1002,
+          title: "Hỏi đáp với Trợ lý Minder AI",
+          caption:
+            "Một câu hỏi bằng tiếng Việt → Minder truy vấn dữ liệu nhà máy và dựng biểu đồ công suất máy theo giờ cho từng dây chuyền trong 7 ngày gần nhất",
+        },
+      },
     ],
   },
   {
@@ -1104,7 +1143,7 @@ export const parkedSections: Section[] = [
           ],
           ["Tháng 11/2026", "Khảo sát Hòa Mạc → chốt phạm vi và phí thử nghiệm"],
           ["T+1", "Thử nghiệm bắt đầu khi dữ liệu và môi trường được duyệt"],
-          ["T+4", "Cổng 2: kết quả thi trước Ban chỉ đạo"],
+          ["T+4", "Cổng 2: kết quả thử nghiệm trước Ban chỉ đạo"],
           ["T+8", "Cổng 3: mở cửa sang khảo sát thép"],
           ["T+12", "**Đội ngũ IT của Hòa Phát tự vận hành; bắt đầu đồng huấn luyện; kế hoạch thử nghiệm thép**"],
         ],
@@ -1172,12 +1211,12 @@ export const parkedSections: Section[] = [
     act: 3,
     theme: "dark",
     layout: "wide",
-    eyebrow: "Hòa Phát giữ đề thi",
-    title: "Mô hình phải thi đỗ trên dữ liệu của Hòa Phát, do Hòa Phát chấm, trước khi được dùng",
+    eyebrow: "Hòa Phát giữ đề thử nghiệm",
+    title: "Mô hình phải vượt qua thử nghiệm trên dữ liệu của Hòa Phát, do Hòa Phát chấm, trước khi được dùng",
     blocks: [
       {
         kind: "p",
-        text: "**Bộ đề thi kín:** Hòa Phát giữ riêng một phần dữ liệu lịch sử kèm kết quả thật. Celesnity không xem được đáp án; mô hình làm bài, Hòa Phát chấm.",
+        text: "**Bộ đề thử nghiệm kín:** Hòa Phát giữ riêng một phần dữ liệu lịch sử kèm kết quả thật. Celesnity không xem được đáp án; mô hình làm bài, Hòa Phát chấm.",
       },
       { kind: "module", id: "M11" },
       {
@@ -1185,7 +1224,7 @@ export const parkedSections: Section[] = [
         text: "**Không đạt thì sao:** dừng hoặc điều chỉnh use case đó. **Không chuyển sang giai đoạn có phí tiếp theo khi cổng chưa đạt.** Các use case khác và quy trình Ứng dụng 01 vẫn tiếp tục.",
       },
       { kind: "h3", text: "Bốn bước trước khi kỹ sư được dùng dự báo" },
-      { kind: "steps", layout: "vertical", rows: [["Thi trên lịch sử", "mô hình chỉ thấy thông tin có tại thời điểm của mỗi quyết định cũ."], ["Chuyên gia chấm", "R&D và Chất lượng chấm mẫu, kể cả những ca mô hình sai."], ["Chạy thử song song", "mô hình chạy trên ca thật nhưng không ai thấy dự báo khi quyết định; kết quả được so sánh sau."], ["Tư vấn", "kỹ sư thấy dự báo kèm bằng chứng và quyết định như trước. Mọi lần không theo dự báo đều được ghi lý do."]] },
+      { kind: "steps", layout: "vertical", rows: [["Thử nghiệm trên lịch sử", "mô hình chỉ thấy thông tin có tại thời điểm của mỗi quyết định cũ."], ["Chuyên gia chấm", "R&D và Chất lượng chấm mẫu, kể cả những ca mô hình sai."], ["Chạy thử song song", "mô hình chạy trên ca thật nhưng không ai thấy dự báo khi quyết định; kết quả được so sánh sau."], ["Tư vấn", "kỹ sư thấy dự báo kèm bằng chứng và quyết định như trước. Mọi lần không theo dự báo đều được ghi lý do."]] },
       {
         kind: "note",
         text: "Mọi bước lên mức tự chủ cao hơn (tự thực hiện tác vụ số, rồi tác vụ vật lý) là quyết định riêng của Hòa Phát, theo quy định pháp luật.",
@@ -1534,11 +1573,11 @@ export const appendix: AppendixSection[] = [
           ],
           [
             "Mô hình nhầm trùng hợp thành nguyên nhân",
-            "Thi trên các thay đổi cũ; chuyên gia chấm; chỉ dùng ở chế độ tư vấn",
+            "Thử nghiệm trên các thay đổi cũ; chuyên gia chấm; chỉ dùng ở chế độ tư vấn",
           ],
           [
             "Kinh nghiệm gia dụng không áp dụng được cho thép",
-            "Thép có khảo sát và bộ đề thi riêng; thứ mang sang là nền tảng, phương pháp và đội ngũ, không mặc định mang sang độ chính xác",
+            "Thép có khảo sát và bộ đề thử nghiệm riêng; thứ mang sang là nền tảng, phương pháp và đội ngũ, không mặc định mang sang độ chính xác",
           ],
           ["Lộ thiết kế hoặc công thức", "Thiết kế không rời Hòa Phát; kiểm thử chống khôi phục dữ liệu trước mọi lần đóng góp"],
           [

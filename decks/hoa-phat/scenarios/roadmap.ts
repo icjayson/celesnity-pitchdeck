@@ -12,11 +12,11 @@ export const roadmapPhases: RoadmapPhase[] = [
     name: "Thử nghiệm",
     months: "T+1–T+4",
     span: 4,
-    goal: "Chứng minh trên dữ liệu của chính Hòa Phát, với bộ đề thi kín do Hòa Phát giữ",
+    goal: "Chứng minh trên dữ liệu của chính Hòa Phát, với bộ đề thử nghiệm kín do Hòa Phát giữ",
     apps: [
       { name: "Lập hồ sơ khách hàng tự động", when: "Triển khai từ T+1" },
-      { name: "Dự báo lô hàng rủi ro cao", when: "Thi trên lịch sử từ T+2" },
-      { name: "So sánh các phương án trước khi thực hiện", when: "Thi trên lịch sử từ T+3" },
+      { name: "Dự báo lô hàng rủi ro cao", when: "Thử nghiệm trên lịch sử từ T+2" },
+      { name: "So sánh các phương án trước khi thực hiện", when: "Thử nghiệm trên lịch sử từ T+3" },
     ],
     gates: [
       { name: "Cổng 1", when: "T+1", pass: "Dữ liệu đủ để làm; thỏa thuận dữ liệu đã ký" },
@@ -26,7 +26,7 @@ export const roadmapPhases: RoadmapPhase[] = [
     opsNote: "IT Hòa Phát học việc, tự chạy 1 vòng dữ liệu ở T+4",
     team: { celesnity: "~5–6 người", partnerTeam: "2 người" },
     people: { celesnity: 5.5, partnerTeam: 2, celesnityText: "5–6" },
-    outcomes: ["Mô hình v0.1", "Kết quả thi trên lịch sử", "Bằng chứng chuyển giao"],
+    outcomes: ["Mô hình v0.1", "Kết quả thử nghiệm trên lịch sử", "Bằng chứng chuyển giao"],
   },
   {
     id: "trien-khai",

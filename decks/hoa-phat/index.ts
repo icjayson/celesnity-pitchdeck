@@ -105,7 +105,7 @@ export const hoaPhatDeck: DeckData = {
       {
         name: "Đồng huấn luyện",
         when: "Năm thứ 2",
-        can: "Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thi, đồng tác giả báo cáo kỹ thuật, dẫn dắt mở rộng sang thép",
+        can: "Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thử nghiệm, đồng tác giả báo cáo kỹ thuật, dẫn dắt mở rộng sang thép",
         test: "Một vòng đóng góp qua kiểm thử bảo mật",
       },
     ],

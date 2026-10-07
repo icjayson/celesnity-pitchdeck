@@ -283,8 +283,8 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 | # | Use case | Câu hỏi được trả lời | Dùng thật từ |
 | :---- | :---- | :---- | :---- |
 | **Ứng dụng 01** | **Lập hồ sơ khách hàng tự động** | Lỗi này đã có đủ bằng chứng chưa? Ai cần xử lý? | **T+1** |
-| **Ứng dụng 02** | **Dự báo lô hàng rủi ro cao** | Lô hoặc trạm nào cần kiểm tra ngay? | **T+5** (thi trên lịch sử từ T+2) |
-| **Ứng dụng 03** | **So sánh các phương án trước khi thực hiện** | Chỉnh firmware hay đổi linh kiện, cách nào hiệu quả hơn? | **T+6** (thi trên lịch sử từ T+3) |
+| **Ứng dụng 02** | **Dự báo lô hàng rủi ro cao** | Lô hoặc trạm nào cần kiểm tra ngay? | **T+5** (thử nghiệm trên lịch sử từ T+2) |
+| **Ứng dụng 03** | **So sánh các phương án trước khi thực hiện** | Chỉnh firmware hay đổi linh kiện, cách nào hiệu quả hơn? | **T+6** (thử nghiệm trên lịch sử từ T+3) |
 | Ứng dụng 04 | Cảnh báo sớm bảo hành | Nhóm sản xuất nào sắp phát sinh bảo hành? | T+7 |
 | Ứng dụng 05 | Tối ưu đề xuất của tác nhân AI | Đề xuất của tác nhân AI (của Minder, hoặc của Tập đoàn như tại Dung Quất) đã đủ an toàn để đến người duyệt chưa? | T+8 |
 | Ứng dụng 06 | Chẩn đoán trước yêu cầu khách hàng | Kỹ thuật viên nên chuẩn bị lỗi và linh kiện nào trước khi đến nhà khách? | T+9 |
@@ -331,14 +331,14 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 **[Tương tác M10: Thanh kéo 12 tháng]**
 
-### Thử nghiệm 16 tuần: kết quả nhanh ở tháng thứ 1, kết quả thi ở tháng thứ 4
+### Thử nghiệm 16 tuần: kết quả nhanh ở tháng thứ 1, kết quả đầy đủ ở tháng thứ 4
 
 | Tuần | Việc | Đầu ra |
 | :---- | :---- | :---- |
 | **1–2** | Khảo sát Hòa Mạc; R&D, Chất lượng và Tài chính chọn dòng sản phẩm và bài toán; ký thỏa thuận dữ liệu | Phạm vi và số nền được thống nhất |
 | **3–4** | Dựng môi trường tại Việt Nam; xây từ điển sản phẩm bếp từ; **bật ghi nhận tiếng Việt và hồ sơ tự động (Ứng dụng 01)** | **Cổng 1** · Ứng dụng 01 chạy trên chuyền |
-| **5–8** | Nối dữ liệu lịch sử 2 năm; Hòa Phát dựng **bộ đề thi kín**; huấn luyện mô hình riêng phiên bản đầu | Mô hình v0.1 |
-| **9–12** | **Thi trên lịch sử của chính Hòa Phát**: dự báo của mô hình được so với những gì đã thực sự xảy ra (Ứng dụng 02 với các lô cũ, Ứng dụng 03 với các thay đổi kỹ thuật cũ); R&D và QC chấm mẫu | Kết quả thi |
+| **5–8** | Nối dữ liệu lịch sử 2 năm; Hòa Phát dựng **bộ đề thử nghiệm kín**; huấn luyện mô hình riêng phiên bản đầu | Mô hình v0.1 |
+| **9–12** | **Thử nghiệm trên lịch sử của chính Hòa Phát**: dự báo của mô hình được so với những gì đã thực sự xảy ra (Ứng dụng 02 với các lô cũ, Ứng dụng 03 với các thay đổi kỹ thuật cũ); R&D và QC chấm mẫu | Kết quả thử nghiệm |
 | **13–14** | Chạy thử song song trên ca thật; IT Hòa Phát tự chạy một vòng dữ liệu và chấm điểm | Bằng chứng chuyển giao |
 | **15–16** | Tài chính xác nhận giá trị; báo cáo trước Ban chỉ đạo | **Cổng 2**: mở rộng, điều chỉnh hay dừng |
 
@@ -355,9 +355,9 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 | Tháng | Giai đoạn | Use case gia dụng và điện lạnh | Thép | Dữ liệu và nền tảng | IT Hòa Phát | Cổng |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | **T+1** | Thử nghiệm: Học | **Ứng dụng 01 dùng thật** |  | Môi trường tại Việt Nam · từ điển sản phẩm · nối dữ liệu | Học việc | **Cổng 1** |
-| **T+2** | Thử nghiệm: Học | Ứng dụng 02 thi trên lịch sử |  | Bộ đề thi kín | Học việc |  |
-| **T+3** | Thử nghiệm: Học | Ứng dụng 03 thi trên lịch sử |  | Nối dữ liệu bảo hành | Học việc |  |
-| **T+4** | Thử nghiệm: Học | Kết quả thi |  |  | **Tự chạy 1 vòng** | **Cổng 2** |
+| **T+2** | Thử nghiệm: Học | Ứng dụng 02 thử nghiệm trên lịch sử |  | Bộ đề thử nghiệm kín | Học việc |  |
+| **T+3** | Thử nghiệm: Học | Ứng dụng 03 thử nghiệm trên lịch sử |  | Nối dữ liệu bảo hành | Học việc |  |
+| **T+4** | Thử nghiệm: Học | Kết quả thử nghiệm |  |  | **Tự chạy 1 vòng** | **Cổng 2** |
 | **T+5** | Dùng thật | **Ứng dụng 02 dùng thật** |  | Mở cho kỹ sư dùng | Cùng vận hành |  |
 | **T+6** | Dùng thật | **Ứng dụng 03 dùng thật** |  |  | Cùng vận hành |  |
 | **T+7** | Dùng thật | **Ứng dụng 04** bảo hành sớm |  | Nối dữ liệu dịch vụ | Cùng vận hành |  |
@@ -397,19 +397,19 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 | :---- | :---- | :---- | :---- |
 | **1. Vận hành** | Chạy luồng dữ liệu, giám sát mô hình, quản trị người dùng, xử lý sự cố thường gặp | Tự chạy 1 vòng (T+4) → tự vận hành 4 tuần (T+8) | T+4–T+8 |
 | **2. Tự huấn luyện lại** | Cập nhật mô hình riêng bằng dữ liệu mới, chấm trên bộ đề, quyết định phát hành phiên bản | Tự huấn luyện lại không cần hỗ trợ, kết quả không kém phiên bản trước | T+12 |
-| **3. Đồng huấn luyện** | Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thi, đồng tác giả báo cáo kỹ thuật, **dẫn dắt mở rộng sang thép** | Một vòng đóng góp qua kiểm thử bảo mật | Năm thứ 2 |
+| **3. Đồng huấn luyện** | Đóng góp vào mô hình nền chung, cùng thiết kế bộ đề thử nghiệm, đồng tác giả báo cáo kỹ thuật, **dẫn dắt mở rộng sang thép** | Một vòng đóng góp qua kiểm thử bảo mật | Năm thứ 2 |
 
 **Nguyên tắc chia vai:** IT vận hành hệ thống. Chuyên gia nghiệp vụ (R&D, Chất lượng, và sau này là kỹ sư thép) xác nhận mô hình có đúng về chuyên môn hay không.
 
 ---
 
-## `#phong-thi` · Hòa Phát giữ đề thi
+## `#phong-thi` · Hòa Phát giữ đề thử nghiệm
 
-### Mô hình phải thi đỗ trên dữ liệu của Hòa Phát, do Hòa Phát chấm, trước khi được dùng
+### Mô hình phải vượt qua thử nghiệm trên dữ liệu của Hòa Phát, do Hòa Phát chấm, trước khi được dùng
 
-**[Tương tác M11: Phòng thi, phong bì niêm phong và 4 cánh cửa]**
+**[Tương tác M11: Phòng thử nghiệm, phong bì niêm phong và 4 cánh cửa]**
 
-**Bộ đề thi kín:** Hòa Phát giữ riêng một phần dữ liệu lịch sử kèm kết quả thật. Celesnity không xem được đáp án; mô hình làm bài, Hòa Phát chấm.
+**Bộ đề thử nghiệm kín:** Hòa Phát giữ riêng một phần dữ liệu lịch sử kèm kết quả thật. Celesnity không xem được đáp án; mô hình làm bài, Hòa Phát chấm.
 
 | Cổng | Tiêu chí | Ngưỡng đạt | Ai chấm |
 | :---- | :---- | :---- | :---- |
@@ -432,7 +432,7 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 
 **Xem chi tiết: bốn bước trước khi kỹ sư được dùng dự báo**
 
-1. **Thi trên lịch sử:** mô hình chỉ thấy thông tin có tại thời điểm của mỗi quyết định cũ.
+1. **Thử nghiệm trên lịch sử:** mô hình chỉ thấy thông tin có tại thời điểm của mỗi quyết định cũ.
 2. **Chuyên gia chấm:** R&D và Chất lượng chấm mẫu, kể cả những ca mô hình sai.
 3. **Chạy thử song song:** mô hình chạy trên ca thật nhưng không ai thấy dự báo khi quyết định; kết quả được so sánh sau.
 4. **Tư vấn:** kỹ sư thấy dự báo kèm bằng chứng và quyết định như trước. Mọi lần không theo dự báo đều được ghi lý do.
@@ -471,6 +471,20 @@ Ví dụ: *"Trạm test 3, bếp lô 2409 lại nhảy bảo vệ nhiệt lần 
 - **Ở quy mô Tập đoàn:** giá trị nhân theo số dòng sản phẩm và nhà máy được mở rộng, chỉ sau khi từng nơi đã được kiểm chứng. Ở thép, giá trị được đo theo mẻ, theo tấn và theo giờ dừng máy, và sẽ được định lượng trong khảo sát.
 - **Quy đổi năng suất:** mục tiêu +30% năng suất của Tập đoàn tương đương thời gian còn 77%, tức giảm 23% thời gian.
 - **Không tính vào lợi ích:** sự kiện quá hiếm để quan sát · lợi ích đã ghi nhận ở nơi khác · số liệu của công ty khác.
+
+---
+
+## `#demo` · Demo ứng dụng tại Nhà máy Tủ đông Phú Mỹ
+
+### Minder vận hành trên mô hình nhà máy tủ đông Phú Mỹ
+
+*Dữ liệu mô phỏng phục vụ demo, không phải số liệu thật của Hòa Phát. Bố trí nhà máy là minh họa.*
+
+**[Video: Mô hình nhà máy, phát hiện lỗi sớm và bảng điều khiển vận hành]**
+Mô hình nhà máy theo khu vực, dây chuyền, công đoạn và thiết bị · phát hiện sớm khi động cơ dây chuyền bắt đầu lệch khỏi trạng thái bình thường, trước khi phải dừng máy · bảng Vận hành và Dây chuyền: sản lượng, OEE, phế và hàng sửa theo công đoạn, nguyên nhân dừng máy, lệnh sản xuất
+
+**[Video: Hỏi đáp với Trợ lý Minder AI]**
+Một câu hỏi bằng tiếng Việt → Minder truy vấn dữ liệu nhà máy và dựng biểu đồ công suất máy theo giờ cho từng dây chuyền trong 7 ngày gần nhất
 
 ---
 
@@ -599,7 +613,7 @@ Mô hình AI liên tục hoàn thiện từ thực tiễn sản xuất; ngược
 | Tháng 10/2026 | Làm việc với Trưởng bộ phận AI và ngành hàng; thống nhất term sheet, NDA, thỏa thuận xử lý dữ liệu |
 | Tháng 11/2026 | Khảo sát Hòa Mạc → chốt phạm vi và phí thử nghiệm |
 | T+1 | Thử nghiệm bắt đầu khi dữ liệu và môi trường được duyệt |
-| T+4 | Cổng 2: kết quả thi trước Ban chỉ đạo |
+| T+4 | Cổng 2: kết quả thử nghiệm trước Ban chỉ đạo |
 | T+8 | Cổng 3: mở cửa sang khảo sát thép |
 | T+12 | **Đội ngũ IT của Hòa Phát tự vận hành; bắt đầu đồng huấn luyện; kế hoạch thử nghiệm thép** |
 
@@ -654,8 +668,8 @@ Celesnity mong được cùng Hòa Phát xây dựng nó.
 | :---- | :---- |
 | Dữ liệu không đủ liên kết | Cổng 1 kiểm tra trước; dùng dữ liệu theo lô khi chưa có theo số máy |
 | Mô hình không hơn cách làm hiện tại | Cổng 2 với bộ đề kín; không đạt thì dừng, không chuyển sang giai đoạn có phí |
-| Mô hình nhầm trùng hợp thành nguyên nhân | Thi trên các thay đổi cũ; chuyên gia chấm; chỉ dùng ở chế độ tư vấn |
-| Kinh nghiệm gia dụng không áp dụng được cho thép | Thép có khảo sát và bộ đề thi riêng; thứ mang sang là nền tảng, phương pháp và đội ngũ, không mặc định mang sang độ chính xác |
+| Mô hình nhầm trùng hợp thành nguyên nhân | Thử nghiệm trên các thay đổi cũ; chuyên gia chấm; chỉ dùng ở chế độ tư vấn |
+| Kinh nghiệm gia dụng không áp dụng được cho thép | Thép có khảo sát và bộ đề thử nghiệm riêng; thứ mang sang là nền tảng, phương pháp và đội ngũ, không mặc định mang sang độ chính xác |
 | Lộ thiết kế hoặc công thức | Thiết kế không rời Hòa Phát; kiểm thử chống khôi phục dữ liệu trước mọi lần đóng góp |
 | Phụ thuộc vào Celesnity | Đội ngũ IT tự vận hành từ T+8, tự huấn luyện từ T+12; mã nguồn và mô hình được lưu ký |
 | Người lao động lo bị giám sát | Tham vấn trước; khử nhận diện; không dùng để đánh giá cá nhân |

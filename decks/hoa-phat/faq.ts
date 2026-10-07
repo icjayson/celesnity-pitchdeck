@@ -21,7 +21,7 @@ export const faq: FaqItem[] = [
   {
     id: "pilot-khong-dat",
     q: "Nếu thử nghiệm không đạt thì sao?",
-    a: "Nếu một use case không đạt cổng, use case đó được dừng hoặc điều chỉnh, và chương trình không chuyển sang giai đoạn có phí tiếp theo khi cổng chưa đạt. Các use case khác và quy trình hồ sơ tự động (Ứng dụng 01) vẫn tiếp tục. Kể cả khi thử nghiệm không đạt, Hòa Phát vẫn giữ dữ liệu đã được làm sạch và liên kết, quy trình ghi nhận tiếng Việt, bộ đề thi kín và đội ngũ IT đã được đào tạo.",
+    a: "Nếu một use case không đạt cổng, use case đó được dừng hoặc điều chỉnh, và chương trình không chuyển sang giai đoạn có phí tiếp theo khi cổng chưa đạt. Các use case khác và quy trình hồ sơ tự động (Ứng dụng 01) vẫn tiếp tục. Kể cả khi thử nghiệm không đạt, Hòa Phát vẫn giữ dữ liệu đã được làm sạch và liên kết, quy trình ghi nhận tiếng Việt, bộ đề thử nghiệm kín và đội ngũ IT đã được đào tạo.",
     section: "phong-thi",
     keywords: ["không đạt", "thất bại", "trượt", "dừng", "rủi ro", "mất gì"],
     suggested: true,
@@ -53,9 +53,9 @@ export const faq: FaqItem[] = [
   {
     id: "ai-cham",
     q: "Ai chấm kết quả thử nghiệm?",
-    a: "Hòa Phát chấm. Hòa Phát giữ riêng bộ đề thi kín gồm dữ liệu lịch sử kèm kết quả thật; Celesnity không xem được đáp án, mô hình làm bài và Hòa Phát chấm. Ở Cổng 2, Chất lượng chấm Ứng dụng 02, R&D chấm Ứng dụng 03, Hội đồng dữ liệu chấm độ tin cậy, IT và Pháp chế chấm an toàn. Tài chính Hòa Phát xác nhận giá trị ở Cổng 4.",
+    a: "Hòa Phát chấm. Hòa Phát giữ riêng bộ đề thử nghiệm kín gồm dữ liệu lịch sử kèm kết quả thật; Celesnity không xem được đáp án, mô hình làm bài và Hòa Phát chấm. Ở Cổng 2, Chất lượng chấm Ứng dụng 02, R&D chấm Ứng dụng 03, Hội đồng dữ liệu chấm độ tin cậy, IT và Pháp chế chấm an toàn. Tài chính Hòa Phát xác nhận giá trị ở Cổng 4.",
     section: "phong-thi",
-    keywords: ["chấm", "đề thi", "đánh giá", "kiểm chứng", "ai quyết định đạt", "cổng"],
+    keywords: ["chấm", "đề thử nghiệm", "đánh giá", "kiểm chứng", "ai quyết định đạt", "cổng"],
     suggested: true,
   },
   {
@@ -114,7 +114,7 @@ export const faq: FaqItem[] = [
   {
     id: "vi-sao-hoa-phat",
     q: "Vì sao chọn Hòa Phát và vì sao bây giờ?",
-    a: "Hòa Phát có chuỗi khép kín từ thiết kế, sản xuất đến dịch vụ, nên nguyên nhân và hệ quả nằm trong cùng một hồ sơ. Hòa Phát đa dạng lĩnh vực, mở rộng nhanh (như dự án tủ lạnh Phú Mỹ 1,2 triệu sản phẩm/năm) và có định hướng AI Tập đoàn. Bộ đề thi và từ điển sản phẩm của ngành còn đang được xác lập, nên đối tác sáng lập cùng định nghĩa chúng; Luật Trí tuệ nhân tạo (hiệu lực 1/3/2026) đã có khung pháp lý rõ.",
+    a: "Hòa Phát có chuỗi khép kín từ thiết kế, sản xuất đến dịch vụ, nên nguyên nhân và hệ quả nằm trong cùng một hồ sơ. Hòa Phát đa dạng lĩnh vực, mở rộng nhanh (như dự án tủ lạnh Phú Mỹ 1,2 triệu sản phẩm/năm) và có định hướng AI Tập đoàn. Bộ đề thử nghiệm và từ điển sản phẩm của ngành còn đang được xác lập, nên đối tác sáng lập cùng định nghĩa chúng; Luật Trí tuệ nhân tạo (hiệu lực 1/3/2026) đã có khung pháp lý rõ.",
     section: "ban-do",
     keywords: ["vì sao", "tại sao hòa phát", "bây giờ", "thời điểm", "sao lại"],
   },
@@ -135,7 +135,7 @@ export const faq: FaqItem[] = [
   {
     id: "mo-hinh-da-chay",
     q: "Mô hình đã chạy thật ở Hòa Phát chưa?",
-    a: "Chưa. Các tình huống, con số và buồng mô phỏng trên trang là mô phỏng minh họa; mô hình thật được huấn luyện trên dữ liệu Hòa Phát trong thử nghiệm. Mô hình phải thi đạt trên bộ đề kín của Hòa Phát, do Hòa Phát chấm, trước khi kỹ sư được dùng dự báo.",
+    a: "Chưa. Các tình huống, con số và buồng mô phỏng trên trang là mô phỏng minh họa; mô hình thật được huấn luyện trên dữ liệu Hòa Phát trong thử nghiệm. Mô hình phải vượt qua thử nghiệm trên bộ đề kín của Hòa Phát, do Hòa Phát chấm, trước khi kỹ sư được dùng dự báo.",
     section: "phong-thi",
     keywords: ["đã chạy", "chạy thật", "có thật", "minh họa", "đã dùng", "kết quả thật"],
   },
@@ -144,7 +144,7 @@ export const faq: FaqItem[] = [
   {
     id: "pilot-16-tuan",
     q: "Thử nghiệm 16 tuần gồm những gì?",
-    a: "Tuần 1–2 khảo sát Hòa Mạc, chọn dòng sản phẩm và bài toán, ký thỏa thuận dữ liệu. Tuần 3–4 dựng môi trường tại Việt Nam và bật hồ sơ tự động Ứng dụng 01 (Cổng 1). Tuần 5–8 nối dữ liệu lịch sử 2 năm, Hòa Phát dựng bộ đề thi kín, huấn luyện mô hình v0.1. Tuần 9–12 thi trên lịch sử của chính Hòa Phát; tuần 13–14 chạy thử song song; tuần 15–16 Tài chính xác nhận giá trị và báo cáo trước Ban chỉ đạo (Cổng 2).",
+    a: "Tuần 1–2 khảo sát Hòa Mạc, chọn dòng sản phẩm và bài toán, ký thỏa thuận dữ liệu. Tuần 3–4 dựng môi trường tại Việt Nam và bật hồ sơ tự động Ứng dụng 01 (Cổng 1). Tuần 5–8 nối dữ liệu lịch sử 2 năm, Hòa Phát dựng bộ đề thử nghiệm kín, huấn luyện mô hình v0.1. Tuần 9–12 thử nghiệm trên lịch sử của chính Hòa Phát; tuần 13–14 chạy thử song song; tuần 15–16 Tài chính xác nhận giá trị và báo cáo trước Ban chỉ đạo (Cổng 2).",
     section: "lo-trinh",
     keywords: ["pilot", "16 tuần", "kéo dài", "bao lâu", "thử nghiệm", "giai đoạn đầu", "kế hoạch thử nghiệm"],
   },
@@ -172,7 +172,7 @@ export const faq: FaqItem[] = [
   {
     id: "lo-trinh-12-thang",
     q: "Lộ trình 12 tháng diễn ra thế nào?",
-    a: "T+1–T+4 là thử nghiệm học: Ứng dụng 01 dùng thật từ T+1, Ứng dụng 02 và Ứng dụng 03 thi trên lịch sử, kết quả thi ở T+4. T+5–T+8 là dùng thật: Ứng dụng 02, Ứng dụng 03, Ứng dụng 04 bảo hành sớm, Ứng dụng 05 tối ưu đề xuất AI. T+9–T+12 là nhân rộng: Ứng dụng 06 chẩn đoán trước, dòng thứ 2 Hòa Mạc, điện lạnh Hưng Yên/Phú Mỹ, khảo sát thép và kế hoạch thử nghiệm thép năm thứ 2. T+1 là tháng đầu tiên sau khi Hòa Phát duyệt quyền truy cập dữ liệu và môi trường tính toán.",
+    a: "T+1–T+4 là thử nghiệm học: Ứng dụng 01 dùng thật từ T+1, Ứng dụng 02 và Ứng dụng 03 thử nghiệm trên lịch sử, kết quả thử nghiệm ở T+4. T+5–T+8 là dùng thật: Ứng dụng 02, Ứng dụng 03, Ứng dụng 04 bảo hành sớm, Ứng dụng 05 tối ưu đề xuất AI. T+9–T+12 là nhân rộng: Ứng dụng 06 chẩn đoán trước, dòng thứ 2 Hòa Mạc, điện lạnh Hưng Yên/Phú Mỹ, khảo sát thép và kế hoạch thử nghiệm thép năm thứ 2. T+1 là tháng đầu tiên sau khi Hòa Phát duyệt quyền truy cập dữ liệu và môi trường tính toán.",
     section: "lo-trinh",
     keywords: ["lộ trình", "12 tháng", "timeline", "tháng", "kế hoạch"],
   },
@@ -253,7 +253,7 @@ export const faq: FaqItem[] = [
   {
     id: "mang-sang-thep",
     q: "Kinh nghiệm gia dụng có áp dụng được cho thép không?",
-    a: "Thứ mang sang thép là nền tảng đã chạy thật, phương pháp và bộ đề thi đã kiểm chứng, đội ngũ IT của Hòa Phát đã tự vận hành được mô hình, và quy trình quản trị dữ liệu đã được duyệt. Độ chính xác không mặc định mang sang: mô hình được học tiếp bằng dữ liệu thép và được kiểm chứng riêng với khảo sát và bộ đề thi riêng.",
+    a: "Thứ mang sang thép là nền tảng đã chạy thật, phương pháp và bộ đề thử nghiệm đã kiểm chứng, đội ngũ IT của Hòa Phát đã tự vận hành được mô hình, và quy trình quản trị dữ liệu đã được duyệt. Độ chính xác không mặc định mang sang: mô hình được học tiếp bằng dữ liệu thép và được kiểm chứng riêng với khảo sát và bộ đề thử nghiệm riêng.",
     section: "ban-do",
     keywords: ["áp dụng", "mang sang", "thép", "độ chính xác", "chuyển giao"],
   },

@@ -13,9 +13,9 @@ const peopleFor = (m: number) =>
 
 const raw: Omit<MonthRow, "share" | "people">[] = [
   { m: 1, phase: "Thử nghiệm: Học", useCase: "Ứng dụng 01 dùng thật", expansion: "", data: "Môi trường tại Việt Nam · từ điển sản phẩm · nối dữ liệu", it: "Học việc", gate: "Cổng 1", live: ["UC0"], itLevel: "Học việc" },
-  { m: 2, phase: "Thử nghiệm: Học", useCase: "Ứng dụng 02 thi trên lịch sử", expansion: "", data: "Bộ đề thi kín", it: "Học việc", gate: "", live: ["UC0"], itLevel: "Học việc" },
-  { m: 3, phase: "Thử nghiệm: Học", useCase: "Ứng dụng 03 thi trên lịch sử", expansion: "", data: "Nối dữ liệu bảo hành", it: "Học việc", gate: "", live: ["UC0"], itLevel: "Học việc" },
-  { m: 4, phase: "Thử nghiệm: Học", useCase: "Kết quả thi", expansion: "", data: "", it: "Tự chạy 1 vòng", gate: "Cổng 2", live: ["UC0"], itLevel: "Bậc 1: tự chạy 1 vòng" },
+  { m: 2, phase: "Thử nghiệm: Học", useCase: "Ứng dụng 02 thử nghiệm trên lịch sử", expansion: "", data: "Bộ đề thử nghiệm kín", it: "Học việc", gate: "", live: ["UC0"], itLevel: "Học việc" },
+  { m: 3, phase: "Thử nghiệm: Học", useCase: "Ứng dụng 03 thử nghiệm trên lịch sử", expansion: "", data: "Nối dữ liệu bảo hành", it: "Học việc", gate: "", live: ["UC0"], itLevel: "Học việc" },
+  { m: 4, phase: "Thử nghiệm: Học", useCase: "Kết quả thử nghiệm", expansion: "", data: "", it: "Tự chạy 1 vòng", gate: "Cổng 2", live: ["UC0"], itLevel: "Bậc 1: tự chạy 1 vòng" },
   { m: 5, phase: "Dùng thật", useCase: "Ứng dụng 02 dùng thật", expansion: "", data: "Mở cho kỹ sư dùng", it: "Cùng vận hành", gate: "", live: ["UC0", "UC1"], itLevel: "Cùng vận hành" },
   { m: 6, phase: "Dùng thật", useCase: "Ứng dụng 03 dùng thật", expansion: "", data: "", it: "Cùng vận hành", gate: "", live: ["UC0", "UC1", "UC2"], itLevel: "Cùng vận hành" },
   { m: 7, phase: "Dùng thật", useCase: "Ứng dụng 04 bảo hành sớm", expansion: "", data: "Nối dữ liệu dịch vụ", it: "Cùng vận hành", gate: "", live: ["UC0", "UC1", "UC2", "UC3"], itLevel: "Cùng vận hành" },
