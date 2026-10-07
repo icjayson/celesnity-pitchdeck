@@ -1416,7 +1416,7 @@ export const benefits = {
       "**Hướng dẫn vận hành:** đào tạo, kèm cặp thực tế đến khi đội ngũ IT Hòa Phát hoàn toàn làm chủ việc vận hành.",
     ],
     receive: [
-      "**Phí theo hiệu quả:** cố định chi phí trong giai đoạn thử nghiệm; sau đó gắn phí dịch vụ trực tiếp với giá trị đã được xác nhận.",
+      "**Chi phí theo giá trị:** cố định chi phí trong giai đoạn thử nghiệm; sau đó gắn phí dịch vụ trực tiếp với giá trị đã được xác nhận.",
       "**Bản cập nhật tri thức mô hình:** trọng số đã qua kiểm thử an ninh, chỉ khi Hòa Phát duyệt; tuyệt đối không kèm dữ liệu thô.",
       "**Bảo chứng năng lực công nghiệp:** Mô hình AI Thế giới thực được kiểm chứng trong môi trường sản xuất công nghiệp nặng hàng đầu Việt Nam.",
       "**Khách hàng tham chiếu chiến lược:** điển hình triển khai thành công, khi Hòa Phát đồng ý.",
