@@ -26,6 +26,7 @@ export const hoaPhatDeck: DeckData = {
   appendix,
   closing,
   benefits,
+  quickLink: { label: "Lợi ích hợp tác", section: "hai-ben" },
   packageParts,
   costShift,
   faq,

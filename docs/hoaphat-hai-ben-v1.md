@@ -4,7 +4,7 @@
 
 ## `#hai-ben` · Chủ quyền dữ liệu và lợi ích hai bên
 
-### Hòa Phát giữ dữ liệu, Celesnity giữ công nghệ nền, và cả hai cùng thông minh hơn sau mỗi vòng học
+### Hòa Phát bảo toàn chủ quyền dữ liệu, Celesnity làm chủ công nghệ AI Thế giới thực. Cùng bứt phá năng lực sau mỗi chu trình vận hành
 
 **Hòa Phát có kinh nghiệm vận hành thực tế. Celesnity làm chủ công nghệ AI Thế giới thực.**
 

@@ -19,10 +19,46 @@ export function dispatchAction(name: string, input: unknown): boolean {
   if (!parsed.success) return false;
   if (name === "scroll_to_section") {
     const { id } = parsed.data as ActionInput<"scroll_to_section">;
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollAndSettle(id);
   }
   window.dispatchEvent(new CustomEvent<Detail>(EVENT, { detail: { name: name as ActionName, input: parsed.data } }));
   return true;
+}
+
+let cancelSettle: (() => void) | null = null;
+
+/**
+ * Cuộn mượt tới section rồi chỉnh lại nếu bị lệch: các module tải muộn phía trên làm trang dài thêm
+ * trong lúc cuộn, nên điểm dừng đầu tiên thường hụt. Người dùng tự cuộn hoặc chạm thì dừng chỉnh.
+ */
+function scrollAndSettle(id: string) {
+  cancelSettle?.();
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  let corrections = 0;
+  let lastY = -1;
+  const started = Date.now();
+  const stop = () => {
+    window.clearInterval(timer);
+    ["wheel", "touchstart", "keydown"].forEach((t) => window.removeEventListener(t, stop));
+    cancelSettle = null;
+  };
+  const timer = window.setInterval(() => {
+    const y = window.scrollY;
+    if (y !== lastY) {
+      lastY = y; // còn đang cuộn
+      return;
+    }
+    const off = el.getBoundingClientRect().top;
+    if (Math.abs(off) <= 8 || corrections >= 4 || Date.now() - started > 10000) return stop();
+    corrections += 1;
+    lastY = -1;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 200);
+  ["wheel", "touchstart", "keydown"].forEach((t) => window.addEventListener(t, stop, { passive: true }));
+  cancelSettle = stop;
 }
 
 /** Đăng ký lắng nghe một hành động. Trả về hàm hủy đăng ký. */

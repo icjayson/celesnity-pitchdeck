@@ -424,6 +424,8 @@ export type DeckData = {
    * `groupTitles` thay tiêu đề nhóm mặc định "Góp"/"Nhận" (không đặt thì dùng mặc định).
    * `columnHeads`: tiêu đề cột của từng nhóm [cột hạng mục, cột khách hàng, cột Celesnity].
    */
+  /** Nút cố định cạnh "Mục lục", dẫn thẳng tới một section (ví dụ lợi ích hợp tác) */
+  quickLink?: { label: string; section: string };
   benefits: {
     partner: BenefitSide;
     celesnity: BenefitSide;

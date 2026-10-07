@@ -1,14 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { List, X, FileDown, BookOpen, Presentation } from "lucide-react";
+import { List, X, FileDown, BookOpen, Presentation, Handshake } from "lucide-react";
 import { useDeck } from "@/components/deck/DeckProvider";
 import { plainText } from "./RichText";
 import { scrollToSection } from "@/lib/actions";
 
 /** Mục lục bên trái (thu gọn được) và thanh tiến độ chia 3 hồi. */
 export function SiteChrome() {
-  const { acts, sections, basePath } = useDeck();
+  const { acts, sections, basePath, quickLink } = useDeck();
   const [active, setActive] = useState<string>(sections[0].id);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -80,6 +80,19 @@ export function SiteChrome() {
           {open ? <X size={16} strokeWidth={1.5} aria-hidden /> : <List size={16} strokeWidth={1.5} aria-hidden />}
           <span>Mục lục</span>
         </button>
+        {quickLink ? (
+          <button
+            type="button"
+            onClick={() => {
+              scrollToSection(quickLink.section);
+              setOpen(false);
+            }}
+            className="flex h-10 items-center gap-2 rounded-[var(--radius-control)] bg-orange-500 px-3.5 text-[14px] font-semibold text-navy-900 shadow-[0_10px_24px_-12px_rgba(232,98,10,0.7)] transition-colors hover:bg-orange-600"
+          >
+            <Handshake size={16} strokeWidth={1.75} aria-hidden />
+            <span>{quickLink.label}</span>
+          </button>
+        ) : null}
       </div>
 
       {open ? (

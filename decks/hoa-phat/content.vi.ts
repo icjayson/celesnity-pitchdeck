@@ -55,6 +55,46 @@ export const sections: Section[] = [
     ],
   },
   {
+    id: "thu-ngo",
+    act: 0,
+    theme: "light",
+    eyebrow: "Thư ngỏ",
+    title: "Kính gửi Chủ tịch Hội đồng Quản trị và Ban Tổng Giám đốc Tập đoàn Hòa Phát",
+    blocks: [
+      {
+        kind: "p",
+        text: "Trước hết, Celesnity xin trân trọng cảm ơn Quý vị đã dành thời gian cho đề xuất này.",
+      },
+      {
+        kind: "p",
+        text: "Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ đọc hiểu ngôn ngữ sang thực sự thấu hiểu và có thể tương tác với thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài. Các công ty có thể ứng dụng các loại hình AI đại trà. Nhưng để đi trước, đón đầu xu thế công nghệ và công nghiệp tân tiến nhất của tương lai, một Mô hình AI Thế giới thực **(từ nay gọi là Mô hình)** là xu hướng tất yếu của con đường nghiên cứu AI trên toàn cầu. Hòa Phát sẽ dẫn dắt Việt Nam khi là nhà máy đầu tiên ứng dụng và làm chủ Mô hình này.",
+      },
+      {
+        kind: "p",
+        text: "Vì vậy, Celesnity trân trọng đề xuất Hòa Phát trở thành **Đối tác công nghiệp sáng lập** của chương trình **Nhà máy siêu thông minh**. Chương trình xây dựng một Mô hình AI Thế giới thực hiểu cách các nhà máy của Hòa Phát vận hành. Mô hình chạy tại Việt Nam, trên dữ liệu của Hòa Phát, và **do chính đội ngũ Hòa Phát làm chủ**.",
+      },
+      { kind: "p", text: "**Tầm nhìn**\nMỗi nhà máy của Hòa Phát, từ gia dụng đến thép, đều có thể **tự học** từ mỗi quyết định và kết quả thực tế, **dự báo trước** hệ quả của quyết định tiếp theo, và **nhân rộng** kinh nghiệm sang mọi dây chuyền, mọi nhà máy trong Tập đoàn." },
+      { kind: "p", text: "**Cách làm**\nChương trình bắt đầu nhỏ và chắc: một dòng bếp từ tại Hòa Mạc, hoặc một khâu xử lý tại nhà máy thép tuỳ chọn. Ngay từ tháng thứ 1, đội ngũ IT của Hòa Phát làm việc cùng kỹ sư Celesnity tại nhà máy, tiếp tục đào tạo năng lực tại Hòa Phát." },
+      { kind: "p", text: "**Kết quả dự kiến sau 12 tháng**\n6 ứng dụng chạy thật trên 2–3 dòng sản phẩm, mở rộng sang nhà máy điện lạnh hoặc luyện kim khác. Đội ngũ IT của Hòa Phát **tự vận hành và phát triển**, và cùng Celesnity xây dựng kế hoạch cụ thể để tiếp tục nhân rộng." },
+      { kind: "p", text: "**Cam kết và lợi ích hai bên**\nDữ liệu thô lưu tại Việt Nam, dưới quyền Hòa Phát; bản vẽ, thiết kế và công thức quy trình không bao giờ rời Hòa Phát. Mô hình chỉ dự báo và so sánh; **con người có thẩm quyền phê duyệt mọi thay đổi**. Đổi lại, Celesnity được học từ những bản cập nhật mô hình mà Hòa Phát duyệt, để mô hình nền ngày càng tốt hơn, trước hết cho chính Hòa Phát; sau thử nghiệm, phí của Celesnity đi theo giá trị mà Tài chính Hòa Phát xác nhận." },
+      { kind: "p", text: "**Kính đề nghị Ban Lãnh đạo**" },
+      {
+        kind: "list",
+        ordered: true,
+        items: [
+          "**Thống nhất chủ trương:** Hòa Phát là Đối tác công nghiệp sáng lập; gia dụng là điểm khởi đầu, thép là đích đến.",
+          "**Cử đầu mối:** lãnh đạo phụ trách, đầu mối dữ liệu, đầu mối R&D và Chất lượng Hòa Mạc, cùng 2 kỹ sư IT cho đội vận hành mô hình.",
+          "**Cho phép khảo sát Hòa Mạc** để chốt dòng sản phẩm, bài toán, số liệu nền và phí thử nghiệm.",
+        ],
+      },
+      {
+        kind: "p",
+        text: "Chúng tôi tin rằng Nhà máy siêu thông minh do một tập đoàn Việt Nam làm chủ, trên dữ liệu Việt Nam, có thể trở thành chuẩn mực mới cho sản xuất không những trong khu vực mà còn trên cả thế giới. Celesnity mong được đồng hành cùng Hòa Phát trên chặng đường đó.",
+      },
+      { kind: "signature", lines: ["Trân trọng,", "**Celesnity**, đơn vị phát triển nền tảng Minder AI"] },
+    ],
+  },
+  {
     id: "tu-chu",
     act: 1,
     theme: "mist",
@@ -763,7 +803,7 @@ export const sections: Section[] = [
     theme: "mist",
     layout: "wide",
     eyebrow: "Chủ quyền dữ liệu và lợi ích hai bên",
-    title: "Hòa Phát giữ dữ liệu, Celesnity giữ công nghệ nền, và cả hai cùng thông minh hơn sau mỗi vòng học",
+    title: "Hòa Phát bảo toàn chủ quyền dữ liệu, Celesnity làm chủ công nghệ AI Thế giới thực. Cùng bứt phá năng lực sau mỗi chu trình vận hành",
     blocks: [
       {
         kind: "statement",
@@ -954,46 +994,6 @@ export const sections: Section[] = [
         ],
       },
 
-    ],
-  },
-  {
-    id: "thu-ngo",
-    act: 0,
-    theme: "light",
-    eyebrow: "Thư ngỏ",
-    title: "Kính gửi Chủ tịch Hội đồng Quản trị và Ban Tổng Giám đốc Tập đoàn Hòa Phát",
-    blocks: [
-      {
-        kind: "p",
-        text: "Trước hết, Celesnity xin trân trọng cảm ơn Quý vị đã dành thời gian cho đề xuất này.",
-      },
-      {
-        kind: "p",
-        text: "Hòa Phát lớn mạnh bằng cách **tự làm chủ từng mắt xích** của chuỗi giá trị: từ nguyên liệu, thép, đến đồ gia dụng và cả bo mạch bếp từ. Trong thập kỷ tới, mắt xích quyết định sức cạnh tranh của một nhà máy là **trí thông minh vận hành**: khả năng hiểu vì sao lỗi xảy ra, dự báo trước hệ quả của mỗi quyết định, và mang kinh nghiệm từ nơi này sang nơi khác. Thế hệ AI tiếp theo đang chuyển từ đọc hiểu ngôn ngữ sang thực sự thấu hiểu và có thể tương tác với thế giới vật lý, và doanh nghiệp nào làm chủ trí thông minh vận hành của chính mình sẽ giữ lợi thế lâu dài. Các công ty có thể ứng dụng các loại hình AI đại trà. Nhưng để đi trước, đón đầu xu thế công nghệ và công nghiệp tân tiến nhất của tương lai, một Mô hình AI Thế giới thực **(từ nay gọi là Mô hình)** là xu hướng tất yếu của con đường nghiên cứu AI trên toàn cầu. Hòa Phát sẽ dẫn dắt Việt Nam khi là nhà máy đầu tiên ứng dụng và làm chủ Mô hình này.",
-      },
-      {
-        kind: "p",
-        text: "Vì vậy, Celesnity trân trọng đề xuất Hòa Phát trở thành **Đối tác công nghiệp sáng lập** của chương trình **Nhà máy siêu thông minh**. Chương trình xây dựng một Mô hình AI Thế giới thực hiểu cách các nhà máy của Hòa Phát vận hành. Mô hình chạy tại Việt Nam, trên dữ liệu của Hòa Phát, và **do chính đội ngũ Hòa Phát làm chủ**.",
-      },
-      { kind: "p", text: "**Tầm nhìn**\nMỗi nhà máy của Hòa Phát, từ gia dụng đến thép, đều có thể **tự học** từ mỗi quyết định và kết quả thực tế, **dự báo trước** hệ quả của quyết định tiếp theo, và **nhân rộng** kinh nghiệm sang mọi dây chuyền, mọi nhà máy trong Tập đoàn." },
-      { kind: "p", text: "**Cách làm**\nChương trình bắt đầu nhỏ và chắc: một dòng bếp từ tại Hòa Mạc, hoặc một khâu xử lý tại nhà máy thép tuỳ chọn. Ngay từ tháng thứ 1, đội ngũ IT của Hòa Phát làm việc cùng kỹ sư Celesnity tại nhà máy, tiếp tục đào tạo năng lực tại Hòa Phát." },
-      { kind: "p", text: "**Kết quả dự kiến sau 12 tháng**\n6 ứng dụng chạy thật trên 2–3 dòng sản phẩm, mở rộng sang nhà máy điện lạnh hoặc luyện kim khác. Đội ngũ IT của Hòa Phát **tự vận hành và phát triển**, và cùng Celesnity xây dựng kế hoạch cụ thể để tiếp tục nhân rộng." },
-      { kind: "p", text: "**Cam kết và lợi ích hai bên**\nDữ liệu thô lưu tại Việt Nam, dưới quyền Hòa Phát; bản vẽ, thiết kế và công thức quy trình không bao giờ rời Hòa Phát. Mô hình chỉ dự báo và so sánh; **con người có thẩm quyền phê duyệt mọi thay đổi**. Đổi lại, Celesnity được học từ những bản cập nhật mô hình mà Hòa Phát duyệt, để mô hình nền ngày càng tốt hơn, trước hết cho chính Hòa Phát; sau thử nghiệm, phí của Celesnity đi theo giá trị mà Tài chính Hòa Phát xác nhận." },
-      { kind: "p", text: "**Kính đề nghị Ban Lãnh đạo**" },
-      {
-        kind: "list",
-        ordered: true,
-        items: [
-          "**Thống nhất chủ trương:** Hòa Phát là Đối tác công nghiệp sáng lập; gia dụng là điểm khởi đầu, thép là đích đến.",
-          "**Cử đầu mối:** lãnh đạo phụ trách, đầu mối dữ liệu, đầu mối R&D và Chất lượng Hòa Mạc, cùng 2 kỹ sư IT cho đội vận hành mô hình.",
-          "**Cho phép khảo sát Hòa Mạc** để chốt dòng sản phẩm, bài toán, số liệu nền và phí thử nghiệm.",
-        ],
-      },
-      {
-        kind: "p",
-        text: "Chúng tôi tin rằng Nhà máy siêu thông minh do một tập đoàn Việt Nam làm chủ, trên dữ liệu Việt Nam, có thể trở thành chuẩn mực mới cho sản xuất không những trong khu vực mà còn trên cả thế giới. Celesnity mong được đồng hành cùng Hòa Phát trên chặng đường đó.",
-      },
-      { kind: "signature", lines: ["Trân trọng,", "**Celesnity**, đơn vị phát triển nền tảng Minder AI"] },
     ],
   },
 ];
