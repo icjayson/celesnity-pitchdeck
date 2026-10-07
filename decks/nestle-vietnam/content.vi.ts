@@ -1014,9 +1014,9 @@ export const appendix: AppendixSection[] = [
     blocks: [
       {
         kind: "p",
-        text: "Dữ liệu đi lên nền tảng theo **hai đường, đều một chiều**. **Đường chính** đọc từ hệ thống sẵn có của nhà máy. **Đường phụ** gắn thêm mô-đun cho thiết bị chưa xuất được dữ liệu, chỉ dùng khi IT/OT duyệt.",
+        text: "Dữ liệu đi lên nền tảng **một chiều, chỉ đọc**: từ hệ thống sẵn có của nhà máy, và từ mô-đun IoT gắn thêm cho thiết bị chưa xuất được dữ liệu khi IT/OT duyệt.",
       },
-      { kind: "h3", text: "Toàn nhà máy: mỗi dây chuyền một máy tính biên" },
+      { kind: "h3", text: "Kiến trúc hệ thống tổng thể" },
       {
         kind: "diagram",
         nodeWidth: 152,
@@ -1065,13 +1065,13 @@ export const appendix: AppendixSection[] = [
           { tone: "platform", label: "Nền tảng" },
         ],
       },
-      { kind: "h3", text: "Từng thiết bị: nối theo loại tín hiệu" },
+      { kind: "h3", text: "Kiến trúc kết nối thiết bị IoT & xử lý biên" },
       {
         kind: "diagram",
         flow: {
           branches: [
             {
-              group: "Đường chính: hệ thống sẵn có",
+              group: "Hệ thống sẵn có",
               branches: [
                 {
                   nodes: [{ label: "PLC L1, L2" }, { label: "Historian replica", sub: "hoặc OPC UA" }],
@@ -1083,7 +1083,7 @@ export const appendix: AppendixSection[] = [
               then: [{ label: "Gateway mạng OT" }],
             },
             {
-              group: "Đường phụ: gắn thêm mô-đun",
+              group: "Mô-đun IoT gắn thêm",
               branches: [
                 {
                   nodes: [{ label: "Cảm biến", sub: "độ ẩm, nhiệt độ phòng chiết rót" }, { label: "MCU + LoRa", tone: "edge" }],
