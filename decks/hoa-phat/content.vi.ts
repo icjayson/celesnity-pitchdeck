@@ -154,6 +154,7 @@ export const sections: Section[] = [
               ],
             ],
           },
+          { kind: "p", text: "**Thứ tự:** Tự động hóa (những năm 2000) → AI ngôn ngữ lớn (năm 2022) → Mô hình AI Thế giới thực (năm 2027)." },
         ],
       },
     ],
@@ -314,57 +315,6 @@ export const sections: Section[] = [
     ],
   },
   {
-    id: "mot-ngay",
-    act: 2,
-    theme: "navy",
-    layout: "wide",
-    eyebrow: "Một ngày trong Nhà máy siêu thông minh",
-    title: "Cùng một bộ não, ở mọi nhà máy của Tập đoàn",
-    blocks: [
-      { kind: "label", variant: "future", text: "Hình dung tương lai, minh họa cách hệ thống làm việc." },
-      { kind: "module", id: "M5" },
-    ],
-    details: [
-      {
-        title: "Toàn bộ một ngày",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "table",
-            head: ["Giờ", "Nơi", "Điều xảy ra"],
-            rows: [
-              [
-                "**07:40**",
-                "**Xưởng gia dụng, Hòa Mạc**",
-                "Công nhân báo một lỗi kiểm tra bằng giọng nói. AI tự lập hồ sơ; mô hình chỉ ra những lô cùng rủi ro trong vài phút. Kỹ sư chất lượng duyệt kế hoạch kiểm tra",
-              ],
-              [
-                "**10:00**",
-                "**Nhà máy thép, Dung Quất**",
-                "Một tác nhân AI đề xuất dời lịch bảo trì. Trước khi đến người duyệt, mô hình kiểm tra hệ quả lên sản lượng và chất lượng. Người phụ trách quyết định với đầy đủ dự báo",
-              ],
-              [
-                "**14:00**",
-                "**R&D, Hòa Mạc**",
-                "Hai phương án sửa một bo mạch được so sánh trước khi làm khuôn hay thử nghiệm. R&D chọn phương án có dự báo tốt hơn, rồi thử để xác nhận",
-              ],
-              [
-                "**16:30**",
-                "**Dây chuyền tủ lạnh mới, Phú Mỹ**",
-                "Trong giai đoạn tăng công suất, mô hình mang kinh nghiệm từ các dây chuyền điện lạnh hiện có, chỉ ra những công đoạn cần theo dõi sát",
-              ],
-              [
-                "**Cuối ngày**",
-                "**Toàn Tập đoàn**",
-                "Mọi quyết định trong ngày và kết quả của chúng quay về mô hình. **Ngày mai, cả Tập đoàn thông minh hơn hôm nay**",
-              ],
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
     id: "ban-do",
     act: 2,
     theme: "light",
@@ -442,12 +392,12 @@ export const sections: Section[] = [
     blocks: [{ kind: "module", id: "M18" }],
     details: [
       {
-        title: "Bảng danh mục use case",
+        title: "Bảng danh mục ứng dụng",
         printOnly: true,
         blocks: [
           {
             kind: "table",
-            head: ["#", "Use case", "Câu hỏi được trả lời", "Dùng thật từ"],
+            head: ["#", "Ứng dụng", "Câu hỏi được trả lời", "Dùng thật từ"],
             rows: [
               ["**Ứng dụng 01**", "**Lập hồ sơ khách hàng tự động**", "Lỗi này đã có đủ bằng chứng chưa? Ai cần xử lý?", "**T+1**"],
               ["**Ứng dụng 02**", "**Dự báo lô hàng rủi ro cao**", "Lô hoặc trạm nào cần kiểm tra ngay?", "**T+5** (thử nghiệm trên lịch sử từ T+2)"],
@@ -457,14 +407,14 @@ export const sections: Section[] = [
                 "Chỉnh firmware hay đổi linh kiện, cách nào hiệu quả hơn?",
                 "**T+6** (thử nghiệm trên lịch sử từ T+3)",
               ],
-              ["UC3", "Cảnh báo sớm bảo hành", "Nhóm sản xuất nào sắp phát sinh bảo hành?", "T+7"],
+              ["**Ứng dụng 04**", "**Cảnh báo sớm bảo hành**", "Nhóm sản xuất nào sắp phát sinh bảo hành?", "T+7"],
               [
-                "UC4",
-                "Tối ưu đề xuất của tác nhân AI",
+                "**Ứng dụng 05**",
+                "**Tối ưu đề xuất của tác nhân AI**",
                 "Đề xuất của tác nhân AI (của Minder, hoặc của Tập đoàn như tại Dung Quất) đã đủ an toàn để đến người duyệt chưa?",
                 "T+8",
               ],
-              ["UC5", "Chẩn đoán trước yêu cầu khách hàng", "Kỹ thuật viên nên chuẩn bị lỗi và linh kiện nào trước khi đến nhà khách?", "T+9"],
+              ["**Ứng dụng 06**", "**Chẩn đoán trước yêu cầu khách hàng**", "Kỹ thuật viên nên chuẩn bị lỗi và linh kiện nào trước khi đến nhà khách?", "T+9"],
               [
                 "→",
                 "**Nhân rộng**",
@@ -482,7 +432,7 @@ export const sections: Section[] = [
         ],
       },
       {
-        title: "Thẻ use case: ba use case đầu tiên",
+        title: "Thẻ ứng dụng: ba ứng dụng đầu tiên",
         printOnly: true,
         blocks: [
           {
@@ -490,37 +440,25 @@ export const sections: Section[] = [
             head: ["", "**Ứng dụng 01 Lập hồ sơ khách hàng tự động**", "**Ứng dụng 02 Dự báo lô hàng rủi ro cao**", "**Ứng dụng 03 So sánh các phương án trước khi thực hiện**"],
             rows: [
               [
-                "**Cơ hội**",
-                "Rút ngắn thời gian kỹ sư tập hợp bằng chứng từ nhiều hệ thống",
-                "Dồn nguồn lực kiểm tra vào đúng nơi có nguy cơ cao",
-                "Dự báo trước phương án nào hiệu quả, trước khi đầu tư khuôn, thẩm định, chứng nhận",
+                "**Cách làm thông thường**",
+                "Kỹ sư gom dữ liệu thủ công từ nhiều hệ thống (sản xuất, kiểm tra, bảo hành) để lập một hồ sơ lỗi; mất nhiều giờ và dễ thiếu thông tin.",
+                "Kiểm tra dàn đều hoặc chọn mẫu theo kinh nghiệm; lỗi thường chỉ lộ ra khi đã lặp lại ở cuối chuyền hoặc phát sinh bảo hành.",
+                "Thử lần lượt từng phương án sửa; mỗi lần thử tốn khuôn, thẩm định, chứng nhận và nhiều tuần chờ kết quả.",
               ],
               [
-                "**AI làm gì**",
-                "Từ lời báo bằng giọng nói, AI tạo hồ sơ, gắn model, phiên bản bo mạch, lô linh kiện, kết quả đo",
-                "Xếp hạng lô và trạm theo nguy cơ không đạt kiểm tra hoặc bảo hành",
-                "Dự báo tác động của từng phương án lên lỗi và bảo hành, kèm các thay đổi lịch sử làm dẫn chứng",
+                "**Với Mô hình AI Thế giới thực**",
+                "Công nhân nói một câu bằng tiếng Việt; AI tự tạo hồ sơ, gắn model, phiên bản bo mạch, lô linh kiện và kết quả đo.",
+                "Xếp hạng lô và trạm theo nguy cơ ngay trong lúc sản xuất, dồn nguồn lực kiểm tra vào đúng nơi có nguy cơ cao.",
+                "Dự báo trước tác động của từng phương án lên lỗi và bảo hành, kèm dẫn chứng từ các thay đổi đã làm trước đây.",
               ],
               [
-                "**Dữ liệu**",
-                "Ghi nhận giọng nói, BOM, kết quả kiểm tra",
-                "Lô linh kiện, phiên bản, kết quả đo, sửa lại",
-                "Lịch sử thay đổi kỹ thuật và kết quả sau đó",
-              ],
-              [
-                "**Ai quyết định**",
+                "**Người quyết định**",
                 "Kỹ sư chất lượng",
                 "Chất lượng quyết định kiểm tra gì",
                 "R&D và Chất lượng duyệt qua quy trình phát hành hiện có",
               ],
               [
-                "**Đo bằng**",
-                "Giờ công cho mỗi hồ sơ",
-                "Số lỗi thật bắt được với cùng nguồn lực kiểm tra",
-                "Số thay đổi phải làm lại; thời gian ra quyết định",
-              ],
-              [
-                "**Tiêu chí đạt**",
+                "**Đạt khi**",
                 "Giảm **≥25%** thời gian",
                 "Bắt thêm **≥20%** lỗi thật",
                 "Chọn đúng phương án tốt hơn **≥70%**",
@@ -530,7 +468,7 @@ export const sections: Section[] = [
         ],
       },
       {
-        title: "Thẻ use case: ba use case tiếp theo, mở rộng ra thị trường và sang tác nhân AI của Tập đoàn",
+        title: "Thẻ ứng dụng: ba ứng dụng tiếp theo, mở rộng ra thị trường và sang tác nhân AI của Tập đoàn",
         printOnly: true,
         blocks: [
           {
@@ -538,20 +476,25 @@ export const sections: Section[] = [
             head: ["", "**Ứng dụng 04 Cảnh báo sớm bảo hành**", "**Ứng dụng 05 Tối ưu đề xuất của tác nhân AI**", "**Ứng dụng 06 Chẩn đoán trước yêu cầu khách hàng**"],
             rows: [
               [
-                "**Cơ hội**",
-                "Phát hiện xu hướng sớm hơn, nên ít sản phẩm bị ảnh hưởng hơn",
-                "Người duyệt chỉ nhận đề xuất đã được kiểm tra, nên năng suất tăng mà chuẩn duyệt không giảm",
-                "Sửa đúng ngay lần đầu",
+                "**Cách làm thông thường**",
+                "Biết có vấn đề khi yêu cầu bảo hành đã tăng, thường vài tháng sau khi sản phẩm rời nhà máy.",
+                "Đề xuất của tác nhân AI đến thẳng người duyệt; người duyệt phải tự đánh giá tính khả thi và hệ quả của từng đề xuất.",
+                "Kỹ thuật viên đến nhà khách rồi mới chẩn đoán; thiếu linh kiện thì phải quay lại lần thứ hai.",
               ],
               [
-                "**AI làm gì**",
-                "Dự báo đường bảo hành của từng nhóm sản xuất, vài tháng trước khi yêu cầu bảo hành xuất hiện",
-                "Kiểm tra trước tính khả thi và hệ quả của đề xuất từ tác nhân AI. **Đây là cầu nối sang thép**",
-                "Dự báo lỗi và cách sửa có khả năng nhất cho từng ca dịch vụ",
+                "**Với Mô hình AI Thế giới thực**",
+                "Dự báo đường bảo hành của từng nhóm sản xuất vài tháng trước khi yêu cầu bảo hành xuất hiện.",
+                "Mô hình kiểm tra trước tính khả thi và hệ quả; người duyệt chỉ nhận những đề xuất đã qua kiểm tra.",
+                "Dự báo lỗi và cách sửa có khả năng nhất trước khi đến, để chuẩn bị đúng linh kiện và sửa đúng ngay lần đầu.",
               ],
-              ["**Ai quyết định**", "Chất lượng và ngành hàng", "Người duyệt vẫn duyệt mọi việc", "Chuyên gia kỹ thuật"],
               [
-                "**Tiêu chí đạt**",
+                "**Người quyết định**",
+                "Chất lượng và ngành hàng",
+                "Người duyệt vẫn duyệt mọi việc",
+                "Chuyên gia kỹ thuật",
+              ],
+              [
+                "**Đạt khi**",
                 "Sai số dự báo ở 3 tháng trong ngưỡng; phát hiện sớm **≥4 tuần**",
                 "**≥50%** đề xuất có lỗi bị chặn trước khi đến người duyệt",
                 "Top 3 dự báo chứa lỗi đúng **≥** mức phân loại hiện tại",
@@ -641,7 +584,7 @@ export const sections: Section[] = [
         blocks: [
           {
             kind: "cards", cols: 4,
-            head: ["", "**Thử nghiệm (T+1–T+4)**", "**Dùng thật (T+5–T+8)**", "**Nhân rộng (T+9–T+12)**"],
+            head: ["", "**Thử nghiệm (T+1–T+4)**", "**Triển khai (T+5–T+8)**", "**Nhân rộng (T+9–T+12)**"],
             rows: [
               [
                 "**Celesnity**",
@@ -786,9 +729,9 @@ export const sections: Section[] = [
             head: ["Giai đoạn", "Celesnity", "Hòa Phát"],
             rows: [
               ["Thử nghiệm (T+1–T+4)", "90%", "10%"],
-              ["Dùng thật (T+5–T+8)", "50%", "50%"],
+              ["Triển khai (T+5–T+8)", "50%", "50%"],
               ["Nhân rộng (T+9–T+12)", "20%", "**80%**"],
-              ["Tháng 6 song song: thép", "Hỗ trợ", "**Dẫn dắt**"],
+              ["Năm thứ 2 · Thép", "Hỗ trợ", "**Dẫn dắt**"],
             ],
           },
         ],
@@ -802,7 +745,7 @@ export const sections: Section[] = [
     act: 3,
     theme: "mist",
     layout: "wide",
-    eyebrow: "Demo ứng dụng tại Nhà máy của Hòa Phát",
+    eyebrow: "Mô hình giao diện các ứng dụng tại Nhà máy của Hòa Phát trên nền tảng Minder",
     title: "Minder vận hành trên mô hình nhà máy Phú Mỹ",
     blocks: [
       {
@@ -958,7 +901,7 @@ export const sections: Section[] = [
             caption: "Giá trị nhận lại",
             head: ["Mục tiêu giá trị", "**Hòa Phát nhận**", "**Celesnity nhận**"],
             rows: [
-              ["**Kinh tế và chi phí**", "**Hiệu quả kinh tế đo được:** lợi ích đo lường minh bạch trên từng đơn vị sản phẩm, do Hòa Phát trực tiếp xác nhận.", "**Phí theo hiệu quả:** cố định chi phí trong giai đoạn thử nghiệm; sau đó gắn phí dịch vụ trực tiếp với giá trị đã được xác nhận."],
+              ["**Kinh tế và chi phí**", "**Hiệu quả kinh tế đo được:** lợi ích đo lường minh bạch trên từng đơn vị sản phẩm, do Hòa Phát trực tiếp xác nhận.", "**Chi phí theo giá trị:** cố định chi phí trong giai đoạn thử nghiệm; sau đó gắn phí dịch vụ trực tiếp với giá trị đã được xác nhận."],
               ["**Mô hình và chủ quyền dữ liệu**", "**Mô hình AI dành riêng:** chạy tại Việt Nam và chỉ phục vụ Hòa Phát trong suốt thời gian hợp tác; dữ liệu nội bộ và mọi kết quả về hoạt động Hòa Phát thuộc sở hữu Hòa Phát.", "**Bản cập nhật tri thức mô hình:** trọng số đã qua kiểm thử an ninh, chỉ khi Hòa Phát duyệt; tuyệt đối không kèm dữ liệu thô."],
               ["**Độ hoàn thiện công nghệ**", "**Đón đầu năng lực AI tối tân:** tiếp cận trước 6 tháng các tính năng và phiên bản mô hình nền mới, được tôi luyện từ đa nhà máy.", "**Bảo chứng năng lực công nghiệp:** Mô hình AI Thế giới thực được kiểm chứng trong môi trường sản xuất công nghiệp nặng hàng đầu Việt Nam."],
               ["**Tầm nhìn dài hạn và vị thế**", "**Năng lực vận hành nội bộ:** đội ngũ IT chủ động vận hành hệ thống, sẵn sàng cùng Celesnity nhân rộng sang điện lạnh và thép.", "**Khách hàng tham chiếu chiến lược:** điển hình triển khai thành công, khi Hòa Phát đồng ý."],
@@ -980,10 +923,10 @@ export const sections: Section[] = [
       {
         kind: "list",
         items: [
-          "**Thử nghiệm:** phí cố định, phạm vi rõ ràng, thống nhất sau khảo sát Hòa Mạc. Không đạt Cổng 2 thì không chuyển sang giai đoạn có phí tiếp theo.",
-          "**Sau thử nghiệm:** định giá theo giá trị Tài chính đã xác minh. Mỗi dòng sản phẩm, nhà máy hay mảng mới (kể cả thép) được định giá theo phạm vi riêng.",
-          "**Không đề xuất:** độc quyền · góp vốn hay chia doanh thu · chuyển dữ liệu ra khỏi Việt Nam.",
-          "**Nguồn tài trợ mô hình nền:** Celesnity tự tài trợ. Hai bên có thể cùng nộp hồ sơ xin quỹ khoa học và công nghệ của Việt Nam.",
+          "**Giai đoạn thử nghiệm:** Áp dụng mức phí cố định với phạm vi công việc xác định, thống nhất sau đợt khảo sát tại Hòa Mạc. Đảm bảo nguyên tắc nghiệm thu theo mốc: nếu không đạt chuẩn Cổng 2, dự án sẽ không chuyển sang giai đoạn tính phí tiếp theo.",
+          "**Giai đoạn sau thử nghiệm:** Định giá linh hoạt theo giá trị kinh tế thực tế do Ban Tài chính Hòa Phát thẩm định và xác nhận. Mỗi dòng sản phẩm, nhà máy hay mảng vận hành mới (bao gồm cả mảng thép) đều được xây dựng phạm vi và cơ chế định giá độc lập.",
+          "**Nguyên tắc hợp tác (Cam kết 3 Không):** Không ràng buộc độc quyền · Không yêu cầu góp vốn hay chia sẻ doanh thu · Tuyệt đối không chuyển dữ liệu ra khỏi lãnh thổ Việt Nam.",
+          "**Nguồn lực phát triển mô hình:** Celesnity chủ động tự tài trợ chi phí nghiên cứu và hoàn thiện mô hình nền tảng; hai bên có thể đồng hành đăng ký tiếp cận các Quỹ phát triển Khoa học & Công nghệ tại Việt Nam.",
         ],
       },
       { kind: "h3", text: "Pháp lý" },
@@ -1024,7 +967,8 @@ export const sections: Section[] = [
           },
           {
             kind: "table",
-            head: ["Cơ cấu chi phí", "Triển khai và chuyển giao", "Mô hình + Ứng dụng"],
+            caption: "**Dự tính chi phí.** Càng tự chủ, chi phí triển khai càng giảm.",
+            head: ["Dịch chuyển chi phí", "Triển khai và chuyển giao", "Mô hình + Ứng dụng"],
             rows: [
               ["**Năm thứ 1**", "Phần lớn", "Phần nhỏ"],
               ["**Năm thứ 2+**", "Phần nhỏ", "Phần lớn"],

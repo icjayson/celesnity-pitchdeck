@@ -262,7 +262,7 @@ export const faq: FaqItem[] = [
   {
     id: "chi-phi",
     q: "Chi phí thử nghiệm là bao nhiêu?",
-    a: "Phí thử nghiệm là phí cố định với phạm vi rõ ràng, được thống nhất sau khảo sát Hòa Mạc, nên Celesnity chưa đưa con số ở giai đoạn này. Không đạt Cổng 2 thì không chuyển sang giai đoạn có phí tiếp theo. Sau thử nghiệm, giá được định theo giá trị Tài chính Hòa Phát đã xác minh, và mỗi dòng sản phẩm, nhà máy hay mảng mới được định giá theo phạm vi riêng.",
+    a: "Giai đoạn thử nghiệm áp dụng mức phí cố định với phạm vi công việc xác định, thống nhất sau đợt khảo sát tại Hòa Mạc, nên Celesnity chưa đưa con số ở giai đoạn này. Nguyên tắc nghiệm thu theo mốc: nếu không đạt chuẩn Cổng 2, dự án sẽ không chuyển sang giai đoạn tính phí tiếp theo. Giai đoạn sau thử nghiệm định giá linh hoạt theo giá trị kinh tế thực tế do Ban Tài chính Hòa Phát thẩm định và xác nhận; mỗi dòng sản phẩm, nhà máy hay mảng vận hành mới (bao gồm cả mảng thép) đều được xây dựng phạm vi và cơ chế định giá độc lập.",
     section: "hop-tac",
     keywords: ["chi phí", "giá", "phí", "phí thử nghiệm", "bao nhiêu tiền", "mấy tỷ", "báo giá", "ngân sách", "tốn"],
   },
@@ -283,7 +283,7 @@ export const faq: FaqItem[] = [
   {
     id: "goi-hop-tac",
     q: "Gói hợp tác gồm những gì?",
-    a: "Gói gồm ba thành phần: ① Mô hình AI Thế giới thực, bản riêng của Hòa Phát chạy tại Việt Nam; ② Bộ ứng dụng AI-native (hồ sơ tự động, dự báo và so sánh, bảng chỉ tiêu, kết nối cho tác nhân AI của Tập đoàn); ③ Triển khai và chuyển giao (FDE), đào tạo đội ngũ IT tới khi tự vận hành, tự huấn luyện và dẫn dắt mở rộng. Năm thứ 1 phần lớn chi phí là triển khai và chuyển giao; từ năm thứ 2 phần lớn là mô hình và ứng dụng. Celesnity không đề xuất độc quyền, góp vốn hay chia doanh thu.",
+    a: "Gói gồm ba thành phần: ① Mô hình AI Thế giới thực, bản riêng của Hòa Phát chạy tại Việt Nam; ② Bộ ứng dụng AI-native (hồ sơ tự động, dự báo và so sánh, bảng chỉ tiêu, kết nối cho tác nhân AI của Tập đoàn); ③ Triển khai và chuyển giao (FDE), đào tạo đội ngũ IT tới khi tự vận hành, tự huấn luyện và dẫn dắt mở rộng. Năm thứ 1 phần lớn chi phí là triển khai và chuyển giao; từ năm thứ 2 phần lớn là mô hình và ứng dụng. Nguyên tắc hợp tác (Cam kết 3 Không): không ràng buộc độc quyền, không yêu cầu góp vốn hay chia sẻ doanh thu, tuyệt đối không chuyển dữ liệu ra khỏi lãnh thổ Việt Nam.",
     section: "hop-tac",
     keywords: ["gói", "hợp tác", "thành phần", "fde", "độc quyền", "góp vốn", "chia doanh thu", "cơ cấu"],
   },

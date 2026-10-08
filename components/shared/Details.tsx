@@ -21,6 +21,21 @@ export function DetailsPanel({ items, sectionId, forceOpen = false }: { items: D
     return () => window.removeEventListener("landing:toggle-details", onToggle);
   }, [sectionId]);
 
+  // Bản in: hiện thẳng nội dung, không khung và không thanh "Xem chi tiết"
+  if (forceOpen)
+    return (
+      <div className="flex flex-col gap-8">
+        {items.map((d, i) => (
+          <div key={i} className="flex flex-col gap-4">
+            <h3 className="text-[22px] font-semibold tracking-tight sm:text-[26px]">
+              <RichText text={d.title} />
+            </h3>
+            <Blocks blocks={d.blocks} skipModules partner={party.short} />
+          </div>
+        ))}
+      </div>
+    );
+
   return (
     <div ref={ref} className="flex flex-col gap-3">
       {items.map((d, i) => {

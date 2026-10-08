@@ -162,6 +162,11 @@ body {
   width: 28%;
   min-width: 180px;
 }
+.data-table--index tbody th {
+  width: 1%;
+  min-width: 0;
+  white-space: nowrap;
+}
 .theme-light .data-table thead th,
 .theme-mist .data-table thead th {
   background: var(--color-mist-50);

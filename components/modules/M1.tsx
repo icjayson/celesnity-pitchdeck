@@ -74,7 +74,7 @@ function Story() {
     <div className="relative mb-16 lg:mb-24">
       <div className="grid grid-cols-1 gap-0 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-14">
         {/* Cảnh dính: phía trên (mobile) hoặc bên trái (desktop) */}
-        <div className="sticky top-14 z-10 self-start -mx-4 bg-navy-950/92 px-4 pb-3 pt-2 backdrop-blur-md sm:-mx-8 sm:px-8 lg:top-0 lg:mx-0 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-0 lg:backdrop-blur-none">
+        <div className="sticky top-0 z-10 self-start -mx-4 bg-navy-950/92 px-4 pb-3 pt-16 backdrop-blur-md sm:-mx-8 sm:px-8 lg:top-0 lg:mx-0 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-0 lg:backdrop-blur-none">
           <figure className="mx-auto w-full max-w-[min(100%,calc((42svh)*1.54))] lg:max-w-none">
             <StoryVisuals step={sceneState === 0 ? 1 : sceneState} reduced={reduced} />
             <figcaption className="sr-only" aria-live="polite">
@@ -96,7 +96,7 @@ function Story() {
                   stepRefs.current[idx] = el;
                 }}
                 data-step={n}
-                className={`flex py-[18svh] ${n === 3 ? "items-start pb-[45svh] lg:min-h-[140svh] lg:pb-0 lg:pt-[38svh]" : "items-center lg:min-h-[90svh] lg:py-0"} ${n === 1 ? "pt-[10svh] lg:pt-0" : ""}`}
+                className={`flex py-[18svh] ${n === 3 ? "items-start pb-[22svh] lg:min-h-[140svh] lg:pb-0 lg:pt-[38svh]" : "items-center lg:min-h-[90svh] lg:py-0"} ${n === 1 ? "pt-[10svh] lg:pt-0" : ""}`}
               >
                 <article
                   className={`relative w-full rounded-[var(--radius-card)] border p-6 transition-[border-color,background-color,opacity,transform] duration-500 ease-[var(--ease-brand)] sm:p-8 ${

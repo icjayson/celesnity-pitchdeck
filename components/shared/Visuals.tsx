@@ -39,8 +39,10 @@ export function Cards({
   const grid = { 2: "md:grid-cols-2", 3: "md:grid-cols-2 lg:grid-cols-3", 4: "md:grid-cols-2 lg:grid-cols-4" }[cols];
   const bar = { blue: "bg-blue-500", orange: "bg-orange-500", navy: "bg-navy-700" }[tone];
   const labelled = (head?.length ?? 0) > 2;
+  /** Thẻ 4 cột chỉ có một dòng ngắn: giữ 2 cột trên mobile */
+  const compact = cols === 4 && rows.every((r) => r.length === 1);
   return (
-    <div className={`grid grid-cols-1 gap-4 ${grid}`}>
+    <div className={compact ? "grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" : `grid grid-cols-1 gap-4 ${grid}`}>
       {rows.map((r, i) => {
         const filled = r.slice(1).filter(has).length;
         const showLabels = labelled && filled > 1;
@@ -48,10 +50,10 @@ export function Cards({
         return (
         <article
           key={i}
-          className="vis-card relative flex flex-col gap-3 overflow-hidden rounded-[var(--radius-card)] p-6"
+          className={`vis-card relative flex flex-col gap-3 overflow-hidden rounded-[var(--radius-card)] ${compact ? "p-4 sm:p-6" : "p-6"}`}
         >
           <span aria-hidden className={`absolute inset-x-0 top-0 h-[3px] ${isPartner ? "bg-orange-500" : bar}`} />
-          <h4 className={r.length === 1 ? "pt-2 text-[18px] font-normal leading-snug" : "text-[17px] font-semibold leading-snug"}>
+          <h4 className={r.length === 1 ? `pt-2 font-normal leading-snug ${compact ? "text-[15px] sm:text-[18px]" : "text-[18px]"}` : "text-[17px] font-semibold leading-snug"}>
             <RichText text={r[0]} />
           </h4>
           {r.slice(1).map((c, j) =>
@@ -254,20 +256,20 @@ export function Chips({ items, tone = "neutral" }: { items: string[]; tone?: "ne
 /** Các ý nhấn mạnh: khối nền navy, đánh số, dấu tick orange */
 export function Pillars({ items }: { items: string[] }) {
   return (
-    <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <ol className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {items.map((it, i) => (
         <li
           key={i}
-          className="relative flex min-h-[188px] flex-col justify-between gap-6 overflow-hidden rounded-[var(--radius-card)] bg-navy-900 p-6 text-white shadow-[0_24px_50px_-28px_rgba(10,31,68,0.7)]"
+          className="relative flex min-h-[150px] flex-col justify-between gap-4 overflow-hidden rounded-[var(--radius-card)] bg-navy-900 p-4 text-white sm:min-h-[188px] sm:gap-6 sm:p-6 shadow-[0_24px_50px_-28px_rgba(10,31,68,0.7)]"
         >
           <span aria-hidden className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-500/25 blur-2xl" />
           <div className="relative flex items-center justify-between">
             <span className="tabular text-[13px] font-semibold tracking-[0.08em] text-blue-300">{String(i + 1).padStart(2, "0")}</span>
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 text-navy-900">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-500 text-navy-900 sm:h-9 sm:w-9">
               <Check aria-hidden size={18} strokeWidth={2} />
             </span>
           </div>
-          <p className="relative text-[19px] font-semibold leading-snug tracking-[-0.01em]">
+          <p className="relative text-[15px] font-semibold leading-snug tracking-[-0.01em] sm:text-[19px]">
             <RichText text={it} />
           </p>
         </li>
