@@ -1,0 +1,303 @@
+/*
+ * Footer trang gốc (chuyển từ celesnity-ldp: site-footer.module.css + phần footer trong globals.css).
+ * Màu đổi sang token của Landing Deck: chữ navy-900, chữ phụ ink-500, hover blue-600.
+ */
+
+.footer {
+  --lead: var(--color-navy-950);
+  /* Trạng thái nghỉ: đường chân trời đã mở hết */
+  --reveal: 1;
+  --edge: 100%;
+  --arc-x: 400%;
+  --arc-y: 400%;
+  --frame: min(1480px, calc(100vw - 96px));
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  min-height: max(92svh, 720px);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--lead);
+  color: var(--color-navy-900);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.frame {
+  width: var(--frame);
+  margin-inline: auto;
+}
+
+/* Màu của phần phía trên ở mép trên, chân tối để hàng dưới và chữ lớn đọc được */
+.wash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to bottom, var(--lead) 0%, transparent 18%),
+    linear-gradient(to top, rgba(6, 20, 46, 0.78) 0%, rgba(6, 20, 46, 0.3) 26%, rgba(6, 20, 46, 0) 46%);
+  pointer-events: none;
+}
+
+/* Vòng cung chân trời: nhà máy nhô lên từ màu nền phía trên, rộng dần khi cuộn tới */
+.horizon {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(var(--arc-x) var(--arc-y) at 50% var(--edge), transparent 60%, var(--lead) 100%);
+  pointer-events: none;
+}
+.horizon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    var(--arc-x) var(--arc-y) at 50% var(--edge),
+    transparent 56%,
+    rgba(141, 184, 255, calc((1 - var(--reveal)) * 0.32)) 63%,
+    transparent 74%
+  );
+  mix-blend-mode: screen;
+}
+
+.pane {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(96px, 11vw, 140px) clamp(40px, 6vw, 72px);
+}
+
+/* Khung kính mờ chứa link: 3 cột, email nằm dưới logo */
+.glass {
+  display: grid;
+  width: min(100%, 1040px);
+  grid-template-columns: 1.3fr 0.8fr 1.2fr;
+  gap: 40px 48px;
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 22px;
+  background: rgba(247, 248, 250, 0.72);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 30px 80px rgba(13, 20, 32, 0.12);
+  opacity: clamp(0, calc(var(--reveal) * 2.4 - 0.6), 1);
+  transform: translateY(calc((1 - var(--reveal)) * 48px));
+}
+
+.brandLink {
+  display: inline-flex;
+  color: inherit;
+}
+
+.lockup {
+  --brand-word-size: 1.08rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.08em;
+  color: var(--color-navy-900);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: var(--brand-word-size);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.wordmark {
+  white-space: nowrap;
+}
+/* PNG gốc có lề trình bày, nên phóng to và cắt trong khung đã canh */
+.mark {
+  position: relative;
+  display: block;
+  flex: 0 0 1.94em;
+  width: 1.94em;
+  height: 1.887em;
+  overflow: hidden;
+  transform: translateY(-0.167em);
+}
+.mark img {
+  position: absolute;
+  left: -0.955em;
+  top: -0.993em;
+  width: 3.85em;
+  max-width: none;
+  height: 3.85em;
+  object-fit: contain;
+}
+
+.tagline {
+  max-width: 330px;
+  margin: 24px 0 0;
+  color: var(--color-ink-500);
+}
+
+.links {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  font-size: 1rem;
+}
+.links a {
+  transition: color 0.2s ease;
+}
+.links a:hover,
+.links a:focus-visible {
+  color: var(--color-blue-600);
+}
+
+.contact {
+  grid-column: 1;
+  justify-self: start;
+  align-self: end;
+}
+.contact a {
+  display: inline-block;
+  font-size: clamp(1.1rem, 1.35vw, 1.35rem);
+  border-bottom: 1px solid rgba(10, 31, 68, 0.3);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.contact a:hover,
+.contact a:focus-visible {
+  color: var(--color-blue-600);
+  border-color: var(--color-blue-600);
+}
+
+/* Hàng dưới cùng, nằm trên sàn của ảnh */
+.floor {
+  position: relative;
+  z-index: 3;
+}
+.base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.26);
+}
+.legal,
+.place {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.legal span {
+  white-space: nowrap;
+}
+.place {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-right: auto;
+  margin-left: 34px;
+}
+.placeDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-blue-500);
+}
+.clock {
+  color: var(--color-white);
+  font-variant-numeric: tabular-nums;
+}
+
+.social {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.social a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--color-white);
+  border-radius: 50%;
+  transition: background 0.25s ease;
+}
+.social li:last-child a {
+  margin-right: -11px;
+}
+.social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+.social a:hover,
+.social a:focus-visible {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Chữ "Celesnity" lớn tràn xuống chân trang, hoà vào ảnh bằng overlay */
+.word {
+  position: relative;
+  z-index: 2;
+  margin: 18px 0 -0.2em;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 10%, rgba(255, 255, 255, 0.5) 75%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font: 700 clamp(4.5rem, 17vw, 19rem) / 0.8 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: -0.055em;
+  text-align: center;
+  mix-blend-mode: overlay;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@media (max-width: 1080px) {
+  .footer {
+    --frame: calc(100vw - 56px);
+  }
+}
+
+@media (max-width: 820px) {
+  .footer {
+    --frame: calc(100vw - 40px);
+  }
+  .glass {
+    grid-template-columns: 1fr 1fr;
+  }
+  .glass > div:first-child,
+  .contact {
+    grid-column: 1 / -1;
+  }
+  .base {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .place {
+    margin: 0;
+  }
+  .social {
+    margin-left: -11px;
+  }
+  .social li:last-child a {
+    margin-right: 0;
+  }
+  .word {
+    font-size: 23vw;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer {
+    --frame: calc(100vw - 32px);
+  }
+  .lockup {
+    --brand-word-size: 1.02rem;
+  }
+  .glass {
+    grid-template-columns: 1fr;
+  }
+  .contact a {
+    font-size: 1.15rem;
+  }
+}

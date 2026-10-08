@@ -1,6 +1,9 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import { DeckPortal } from "@/components/portal/DeckPortal";
 
-/** Trang gốc: tạm chuyển tới deck đầu tiên (giữ đường dẫn đã gửi trước khi chia deck). Thư viện deck sẽ làm sau. */
+export const metadata: Metadata = { title: "Minder AI · Celesnity" };
+
+/** Trang gốc: cổng chọn deck PDF theo vai trò, ngôn ngữ và mức kỹ thuật (chuyển từ minder-decks.vercel.app). */
 export default function Root() {
-  redirect("/hoa-phat");
+  return <DeckPortal />;
 }
