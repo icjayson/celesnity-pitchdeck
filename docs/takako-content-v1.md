@@ -26,7 +26,7 @@
 >   - không case study;
 >   - Giai đoạn 2–3 không ghi năm.
 > - **Dữ liệu module** M20, M21, M15, M16 nằm trong `decks/takako-vietnam/scenarios.ts`; quyền lợi đôi bên và gói hợp tác trong `content.vi.ts`. Các bảng dữ liệu module dưới đây có dấu `skip-table`.
-> - **Nhân sự, tỷ lệ vận hành và năng lực đội Takako** trong M15/M16 là đề xuất, chốt cùng Takako.
+> - **Nhân sự và tỷ lệ vận hành** trong M15/M16 là đề xuất, chốt cùng Takako.
 > - **Cần xác minh trước khi phát hành:**
 >   - MES có gắn thời gian máy, phế phẩm, sửa chữa theo mã hàng hoặc lệnh sản xuất không. Nếu không, đổi nguyên nhân ở thẻ 09:00.
 >   - Takako đã có định mức giá thành theo mã hàng chưa.
@@ -487,7 +487,14 @@ Kỹ sư Celesnity làm việc tại nhà máy cùng từng bộ phận, hiểu 
 
 ### Triển khai qua 3 giai đoạn
 
-**[M15]** Dải ba giai đoạn và thẻ chi tiết từng giai đoạn (ứng dụng đưa vào · đầu ra nghiệm thu · nguồn lực · năng lực đội Takako); dữ liệu ở mục "Dữ liệu M15, M16" bên dưới.
+**[M15]** Dải ba giai đoạn và thẻ chi tiết từng giai đoạn (ứng dụng đưa vào · đầu ra nghiệm thu · nguồn lực); dữ liệu ở mục "Dữ liệu M15, M16" bên dưới.
+
+#### Ứng dụng có thể triển khai ở Giai đoạn 2
+
+**[M21 gd2]** Carousel, mỗi lần một slide; bấm mũi tên, tab hoặc phím ←/→ để chuyển. Thứ tự:
+1. **Theo dõi dây chuyền sản xuất theo thời gian thực:** video `/decks/takako-vietnam/gd2-theo-doi-day-chuyen.mp4` (mô hình 3D hai nhà máy, dữ liệu mô phỏng).
+2. **Tạo lịch tự động (báo cáo, đối soát…):** video `/decks/takako-vietnam/gd2-tao-lich-tu-dong.mp4`.
+3. **Phát hiện và dự báo điểm bất thường:** ảnh chụp `/decks/takako-vietnam/gd2-phat-hien-bat-thuong.jpg` (bấm để xem lớn).
 
 **Chi tiết (bản in): Ba giai đoạn**
 
@@ -542,16 +549,6 @@ Minder AI và các phần việc đã chứng minh ở nhà máy thứ nhất ch
 | 01 Ba ứng dụng trọng tâm | Pilot 6 tuần | Trợ lý vận hành sản xuất, Trợ lý hỗ trợ kế toán, Trợ lý quản lý bản vẽ kỹ thuật: output đầu tiên tuần 2 | Giai đoạn 1 · tuần 6: Takako chấm KPI | 80 / 20 | ~2 người Celesnity · đầu mối 3 phòng |
 | 02 Mở rộng ứng dụng | Sau Giai đoạn 1 | Đợt 2a · 2b · 2c | Giai đoạn 2 · cuối mỗi đợt: mỗi ứng dụng đạt KPI riêng | 50 / 50 | ~3 người Celesnity · đầu mối mỗi ứng dụng |
 | 03 Nhà máy thứ hai | Sau Giai đoạn 2 | Các phần việc đã đạt KPI; lớp kết nối, quy tắc, cách đo dùng lại | Takako quyết định | Takako dẫn dắt · Celesnity hỗ trợ | |
-
-<!-- content-check: skip-table -->
-| Năng lực đội Takako | Mốc |
-|---|---|
-| Đặt quy tắc đầu tiên | Tuần 1 |
-| Tự chỉnh quy tắc và ngưỡng | Tuần 3 |
-| Tự đọc và chấm KPI | Tuần 6 |
-| Tự đặt quy tắc cho ứng dụng mới | GĐ 2 |
-| Vận hành Minder AI hằng ngày | GĐ 2 |
-| Dẫn dắt nhân rộng | GĐ 3 |
 
 <!-- content-check: skip-table -->
 | Đội | Ba ứng dụng trọng tâm | Mở rộng ứng dụng | Nhà máy thứ hai |

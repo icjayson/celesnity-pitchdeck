@@ -39,10 +39,10 @@ Quy tắc bắt buộc:
   moduleNotes: {
     M8: "[Module tương tác: bản đồ ba giai đoạn, Ba ứng dụng trọng tâm → Mở rộng ứng dụng → Nhà máy thứ hai, lõi Minder AI]",
     M14: "[Module: quyền lợi đôi bên / hai thành phần của gói hợp tác / đoạn kết]",
-    M15: "[Module tương tác: ba giai đoạn, ứng dụng đưa vào, cổng nghiệm thu, nguồn lực, năng lực đội Takako]",
+    M15: "[Module tương tác: ba giai đoạn, ứng dụng đưa vào, đầu ra nghiệm thu, nguồn lực]",
     M16: "[Module: nhân sự theo giai đoạn của Celesnity và Takako; là đề xuất]",
     M20: "[Module tương tác: Minder AI làm việc; hiện không hiển thị trên trang]",
-    M21: "[Module: hình kiến trúc (hệ thống Takako → Minder AI nhận quy tắc của quản lý → quản lý theo vai trò), bốn bước Giám sát liên tục → Phát hiện biến động → Tổng hợp nguyên nhân → Báo cáo đúng người, ba ứng dụng trọng tâm mỗi phần một hàng kèm video demo, ảnh chụp ba quy tắc trong Minder AI: Kế hoạch sản lượng & công suất, Nghiệp vụ kế toán (nguồn whitelist), Bản vẽ & revision, sơ đồ ranh giới dữ liệu trong nhà máy, và KPI hai tầng (Tầng 1 là năm KPI nghiệm thu pilot; Tầng 2 mỗi trợ lý một làn từ tác động quy trình tới tác động kinh doanh)]",
+    M21: "[Module: hình kiến trúc (hệ thống Takako → Minder AI nhận quy tắc của quản lý → quản lý theo vai trò), bốn bước Giám sát liên tục → Phát hiện biến động → Tổng hợp nguyên nhân → Báo cáo đúng người, ba ứng dụng trọng tâm mỗi phần một hàng kèm video demo, ảnh chụp ba quy tắc trong Minder AI: Kế hoạch sản lượng & công suất, Nghiệp vụ kế toán (nguồn whitelist), Bản vẽ & revision, sơ đồ ranh giới dữ liệu trong nhà máy, lưới demo ứng dụng Giai đoạn 2 (phát hiện và dự báo điểm bất thường, theo dõi dây chuyền theo thời gian thực, tạo lịch tự động), và KPI hai tầng (Tầng 1 là năm KPI nghiệm thu pilot; Tầng 2 mỗi trợ lý một làn từ tác động quy trình tới tác động kinh doanh)]",
   },
   useCaseToolDescription: "Deck này không có danh mục use case.",
   extract: { kind: "case", system: "Deck này không có module trích xuất." },

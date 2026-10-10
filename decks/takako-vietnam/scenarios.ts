@@ -572,6 +572,42 @@ export const m21: IllustratedData = {
       },
     },
   },
+  demos: {
+    gd2: [
+      {
+        title: "Theo dõi dây chuyền sản xuất theo thời gian thực",
+        sub: "Mô hình 3D hai nhà máy, trạng thái từng máy cập nhật trực tiếp (dữ liệu mô phỏng)",
+        video: {
+          src: "/decks/takako-vietnam/gd2-theo-doi-day-chuyen.mp4",
+          poster: "/decks/takako-vietnam/gd2-theo-doi-day-chuyen.jpg",
+          width: 1280,
+          height: 616,
+          title: "Theo dõi dây chuyền sản xuất theo thời gian thực",
+        },
+      },
+      {
+        title: "Tạo lịch tự động (báo cáo, đối soát…)",
+        sub: "Đặt lịch để Minder AI tự soạn và gửi báo cáo, đối soát định kỳ",
+        video: {
+          src: "/decks/takako-vietnam/gd2-tao-lich-tu-dong.mp4",
+          poster: "/decks/takako-vietnam/gd2-tao-lich-tu-dong.jpg",
+          width: 1280,
+          height: 616,
+          title: "Tạo lịch tự động (báo cáo, đối soát…)",
+        },
+      },
+      {
+        title: "Phát hiện và dự báo điểm bất thường",
+        sub: "Chấm điểm bất thường cho từng thiết bị, chỉ ra nguyên nhân chính và cảnh báo trước khi vượt ngưỡng",
+        photo: {
+          src: "/decks/takako-vietnam/gd2-phat-hien-bat-thuong.jpg",
+          alt: "Minder AI phát hiện dòng servo tay kẹp trên robot RB-512 lệch khỏi vận hành bình thường: điểm bất thường so với ngưỡng và nguyên nhân chính",
+          width: 1920,
+          height: 924,
+        },
+      },
+    ],
+  },
   gallery: {
     "quy-tac": [
       {
@@ -788,14 +824,6 @@ export const roadmap: NonNullable<DeckData["scenarios"]["roadmap"]> = {
       outcomes: ["Hai nhà máy dùng chung quy tắc và cách đo", "Triển khai nhanh hơn nhà máy thứ nhất"],
       lead: true,
     },
-  ],
-  itSteps: [
-    { label: "Đặt quy tắc đầu tiên", when: "Tuần 1", m: 1 },
-    { label: "Tự chỉnh quy tắc và ngưỡng", when: "Tuần 3", m: 2 },
-    { label: "Tự đọc và chấm KPI", when: "Tuần 6", m: 3 },
-    { label: "Tự đặt quy tắc cho ứng dụng mới", when: "GĐ 2", m: 4 },
-    { label: "Vận hành Minder AI hằng ngày", when: "GĐ 2", m: 5 },
-    { label: "Dẫn dắt nhân rộng", when: "GĐ 3", m: 6 },
   ],
   phaseEndMonth: { gd1: 3, gd2: 5, gd3: 6 },
   noGateNote: "Takako quyết định phạm vi và thứ tự cho nhà máy thứ hai",

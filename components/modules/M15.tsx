@@ -130,6 +130,7 @@ export default function M15(_props: { variant?: string }) {
 function PhaseCard({ p }: { p: RoadmapPhase }) {
   const { party, scenarios } = useDeck();
   const dark = !p.lead;
+  const ladder = (scenarios.roadmap?.itSteps?.length ?? 0) > 0;
   return (
     <article
       className={`relative overflow-hidden rounded-[var(--radius-card)] p-6 sm:p-8 ${
@@ -150,7 +151,7 @@ function PhaseCard({ p }: { p: RoadmapPhase }) {
         </p>
       </header>
 
-      <div className="relative mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className={`relative mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 ${ladder ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
         <Box title="Ứng dụng đưa vào" icon={<Sparkles aria-hidden size={16} strokeWidth={1.5} />} dark={dark}>
           <ul className="flex flex-col gap-2.5">
             {p.apps.map((a) => (
@@ -208,9 +209,11 @@ function PhaseCard({ p }: { p: RoadmapPhase }) {
             </div>
           )}
         </Box>
-        <Box title={`Năng lực ${party.team}`} icon={<Flag aria-hidden size={16} strokeWidth={1.5} />} dark={dark}>
-          <ItLadder phase={p} dark={dark} />
-        </Box>
+        {ladder ? (
+          <Box title={`Năng lực ${party.team}`} icon={<Flag aria-hidden size={16} strokeWidth={1.5} />} dark={dark}>
+            <ItLadder phase={p} dark={dark} />
+          </Box>
+        ) : null}
       </div>
     </article>
   );
@@ -262,7 +265,7 @@ function People({ count, text, tone, label }: { count: number; text?: string; to
 
 /** Thang năng lực của đội khách hàng: mốc đã đạt tới cuối giai đoạn, mốc hiện tại nổi bật */
 function ItLadder({ phase, dark }: { phase: RoadmapPhase; dark: boolean }) {
-  const { phases, itSteps, phaseEndMonth } = useDeck().scenarios.roadmap!;
+  const { phases, itSteps = [], phaseEndMonth } = useDeck().scenarios.roadmap!;
   const end = phaseEndMonth[phase.id];
   const reached = itSteps.filter((s) => s.m <= end);
   const current = reached[reached.length - 1];

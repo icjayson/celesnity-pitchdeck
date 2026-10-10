@@ -514,6 +514,8 @@ export const sections: Section[] = [
     title: "Triển khai qua 3 giai đoạn",
     blocks: [
       { kind: "module", id: "M15" },
+      { kind: "h3", text: "Ứng dụng có thể triển khai ở Giai đoạn 2" },
+      { kind: "module", id: "M21", variant: "gd2" },
       { kind: "h3", text: "Lộ trình chi tiết giai đoạn 1" },
       {
         kind: "timeline",

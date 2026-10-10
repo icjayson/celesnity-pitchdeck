@@ -1,7 +1,7 @@
 "use client";
 /**
  * M21 — Thẻ có hình minh họa (phong cách M2) và sơ đồ ranh giới bảo mật. Dữ liệu: deck.scenarios.m21.
- * Biến thể: tên một bộ thẻ trong `sets` (ví dụ "buoc", "ba-viec") · "security" (ranh giới dữ liệu trong nhà máy) · "kpi" (chuỗi KPI ba tầng).
+ * Biến thể: tên một bộ thẻ trong `sets` (ví dụ "buoc", "ba-viec") · "security" (ranh giới dữ liệu trong nhà máy) · "kpi" (chuỗi KPI) · khóa trong `demos` (carousel demo).
  * Bản in bỏ module; nội dung tương đương nằm trong bảng của section.
  */
 import { Fragment, useRef, useState, type KeyboardEvent } from "react";
@@ -12,6 +12,8 @@ import {
   BriefcaseBusiness,
   Calculator,
   Check,
+  ChevronLeft,
+  ChevronRight,
   DraftingCompass,
   Factory,
   ListChecks,
@@ -46,6 +48,7 @@ export default function M21({ variant = "" }: { variant?: string }) {
   if (variant === "architecture" && data.architecture) return <Architecture a={data.architecture} />;
   if (variant === "kpi" && data.kpi) return <KpiChain k={data.kpi} />;
   if (data.gallery?.[variant]) return <Gallery items={data.gallery[variant]} />;
+  if (data.demos?.[variant]) return <Demos items={data.demos[variant]} />;
   const set = data.sets[variant];
   if (!set) return null;
   const n = set.cards.length;
@@ -417,5 +420,101 @@ function Gallery({ items }: { items: NonNullable<IllustratedData["gallery"]>[str
         <Photo photo={cur.photo} />
       </div>
     </div>
+  );
+}
+
+/* ───────────── Demo dạng carousel: một slide mỗi lần, bấm mũi tên hoặc tab để chuyển ───────────── */
+function Demos({ items }: { items: NonNullable<IllustratedData["demos"]>[string] }) {
+  const [i, setI] = useState(0);
+  const n = items.length;
+  const go = (k: number) => setI(((k % n) + n) % n);
+  const d = items[i];
+  // Ô chờ dùng chung tỉ lệ với slide có media đầu tiên để khung không nhảy khi chuyển
+  const first = items.map((x) => x.video ?? x.photo).find(Boolean);
+  const media = d.video ?? d.photo;
+  const ratio = media ? `${media.width}/${media.height}` : first ? `${first.width}/${first.height}` : "16/9";
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key === "ArrowRight") go(i + 1);
+    if (e.key === "ArrowLeft") go(i - 1);
+  };
+  const arrow =
+    "absolute top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-navy-900 shadow-[0_8px_24px_-10px_rgba(10,31,68,0.5)] transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
+  return (
+    <section aria-roledescription="carousel" aria-label="Demo ứng dụng" className="mx-auto flex w-full max-w-[880px] flex-col gap-4" onKeyDown={onKey}>
+      {/* Thanh chọn: ba thẻ điều hướng cùng kiểu dải giai đoạn của lộ trình */}
+      <div role="tablist" aria-label="Chọn demo" className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-1.5">
+        {items.map((x, k) => {
+          const active = k === i;
+          return (
+            <button
+              key={x.title}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => go(k)}
+              className={`flex min-w-0 items-center rounded-[12px] border p-3 text-left transition-all duration-300 ease-[var(--ease-brand)] sm:p-4 ${
+                active
+                  ? "border-navy-900 bg-navy-900 text-white shadow-[0_16px_36px_-20px_rgba(10,31,68,0.7)]"
+                  : "border-line-200 bg-mist-50 text-navy-900 hover:border-blue-300 hover:bg-blue-100/60"
+              }`}
+            >
+              <span className="text-[15px] font-semibold leading-snug sm:text-[16px]">
+                <span className={`tabular mr-1.5 ${active ? "text-blue-300" : "text-ink-500"}`}>{String(k + 1).padStart(2, "0")}.</span>
+                {x.title}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="vis-card relative flex flex-col gap-3 rounded-[var(--radius-card)] p-3" aria-live="polite">
+        <div key={d.title} className="relative overflow-hidden rounded-[12px] border border-line-200 bg-navy-900" style={{ aspectRatio: ratio }}>
+          {d.video ? (
+            <>
+              <video
+                className="absolute inset-0 h-full w-full object-contain print:hidden"
+                src={d.video.src}
+                poster={d.video.poster}
+                controls
+                playsInline
+                preload="metadata"
+                aria-label={d.title}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={d.video.poster} alt="" className="absolute inset-0 hidden h-full w-full object-contain print:block" />
+            </>
+          ) : d.photo ? (
+            <a href={d.photo.src} target="_blank" rel="noreferrer" className="absolute inset-0 bg-white" aria-label={`Xem lớn: ${d.title}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={d.photo.src} alt={d.photo.alt} className="h-full w-full object-contain" />
+            </a>
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 border-2 border-dashed border-line-200 bg-mist-50 text-ink-500">
+              <PlayCircle aria-hidden size={28} strokeWidth={1.25} />
+              <p className="px-4 text-center text-[13px] font-medium">{d.placeholder ?? "Video demo"}</p>
+            </div>
+          )}
+        </div>
+        {n > 1 ? (
+          <>
+            <button type="button" aria-label="Demo trước" onClick={() => go(i - 1)} className={`${arrow} -left-3 sm:-left-5`}>
+              <ChevronLeft aria-hidden size={20} strokeWidth={1.75} />
+            </button>
+            <button type="button" aria-label="Demo tiếp theo" onClick={() => go(i + 1)} className={`${arrow} -right-3 sm:-right-5`}>
+              <ChevronRight aria-hidden size={20} strokeWidth={1.75} />
+            </button>
+          </>
+        ) : null}
+        <div className="flex items-start justify-between gap-4 px-1 pb-1">
+          <div className="flex flex-col gap-1">
+            <p className="text-[15px] font-semibold leading-snug text-navy-900">{d.title}</p>
+            {d.sub ? <p className="text-[13px] leading-snug text-ink-500">{d.sub}</p> : null}
+          </div>
+          <p className="tabular shrink-0 pt-0.5 text-[13px] font-medium text-ink-500">
+            {i + 1} / {n}
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }

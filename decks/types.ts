@@ -503,7 +503,8 @@ export type DeckData = {
     };
     roadmap?: {
       phases: RoadmapPhase[];
-      itSteps: { label: string; when: string; m: number }[];
+      /** Thang năng lực của đội khách hàng; bỏ trống thì M15 không hiện khối này */
+      itSteps?: { label: string; when: string; m: number }[];
       phaseEndMonth: Record<string, number>;
       /** Ô "Đầu ra nghiệm thu" khi giai đoạn không có cổng */
       noGateNote: string;
@@ -792,6 +793,8 @@ export type IllustratedData = {
   gallery?: Record<string, { label: string; sub?: string; photo: Photo }[]>;
   /** KPI ba tầng (variant "kpi") */
   kpi?: KpiData;
+  /** Lưới demo nhỏ (variant = khóa): mỗi thẻ một ảnh hoặc video; chưa có thì hiện ô chờ `placeholder` */
+  demos?: Record<string, { title: string; sub?: string; video?: Video; photo?: Photo; placeholder?: string }[]>;
   /** Sơ đồ kiến trúc (variant "architecture"): nguồn → Minder AI (nhận quy tắc của quản lý) → người nhận theo vai trò */
   architecture?: {
     sourcesTitle: string;
