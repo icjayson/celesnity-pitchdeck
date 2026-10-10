@@ -6,7 +6,8 @@ Thư mục chung cho các landing deck tương tác gửi khách hàng. Mỗi kh
 |---|---|
 | `/hoa-phat` (+ `/phu-luc`, `/ban-in`, `/v1`) | Nhà máy siêu thông minh · Hòa Phát × Celesnity |
 | `/nestle-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Nestlé Trị An × Celesnity |
-| `/` | Tạm chuyển tới `/hoa-phat` (giữ đường dẫn đã gửi). Thư viện deck làm sau |
+| `/isuzu-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Isuzu Việt Nam × Celesnity |
+| `/` | Cổng chọn deck |
 
 Đường dẫn cũ `/phu-luc`, `/ban-in`, `/v1` tự chuyển về `/hoa-phat/...`.
 
@@ -57,6 +58,10 @@ npm run build && npm start
 
 Để trống `OPENAI_API_KEY` thì trợ lý và M6 chạy bằng câu trả lời soạn sẵn của từng deck (chế độ offline).
 
+## Cloud Run
+
+`Dockerfile` tạo image Next.js standalone; `cloudbuild.yaml` build, đẩy image và cập nhật service `celesnity-deck` đã cấu hình sẵn. Mã truy cập từng khách hàng và khóa API phải được gắn từ Secret Manager vào **runtime**, không đưa vào Docker build. Xem [hướng dẫn triển khai](docs/cloud-run-deployment.md) để tạo service, cấu hình secret, trigger, kiểm tra và rollback.
+
 ## Biến môi trường
 
 | Biến | Dùng cho |
@@ -64,7 +69,7 @@ npm run build && npm start
 | `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `CHAT_MODEL` | Trợ lý và M6 (chỉ ở server) |
 | `CHAT_DAILY_BUDGET`, `CHAT_DAILY_BUDGET_<SLUG>` | Trần chi phí theo ngày, tính riêng từng deck |
 | `CHAT_LOG` | `on`: lưu câu hỏi vào `.data/<slug>/chat-log.jsonl` |
-| `ACCESS_CODE_<SLUG>` | Mã truy cập của từng deck (`ACCESS_CODE_HOA_PHAT`, `ACCESS_CODE_NESTLE_VIETNAM`). Trống: không khóa |
+| `ACCESS_CODE_<SLUG>` | Mã truy cập của từng deck (`ACCESS_CODE_HOA_PHAT`, `ACCESS_CODE_NESTLE_VIETNAM`, `ACCESS_CODE_ISUZU_VIETNAM`). Trống: không khóa |
 | `ACCESS_CODE` | Mã cũ, chỉ áp dụng cho `/hoa-phat` khi chưa đặt `ACCESS_CODE_HOA_PHAT` |
 | `SITE_URL` | Địa chỉ trang, dùng cho `npm run pdf` và Playwright |
 
@@ -86,7 +91,7 @@ npm run build && npm start
 1. Viết nội dung gốc `docs/<slug>-content.md` theo cấu trúc section của deck hiện có.
 2. Tạo `decks/<slug>/` (sao chép `decks/nestle-vietnam/` làm mẫu): `content.vi.ts`, `usecases.ts`, `scenarios.ts`, `faq.ts`, `knowledge.ts`, `assistant.ts`, `index.ts`.
 3. Thêm deck vào `decks/all.ts` (allDecks, allAssistants, deckSources, forbiddenTerms) và ảnh vào `public/decks/<slug>/`.
-4. Đặt `ACCESS_CODE_<SLUG>` trong `.env.local` và trên Vercel.
+4. Đặt `ACCESS_CODE_<SLUG>` trong `.env.local` và Secret Manager/Cloud Run.
 5. Chạy `npm run check`, `npm run eval -- --deck=<slug>`, `npm run e2e`, rồi `npm run pdf -- --deck=<slug>`.
 
 ## Chế độ trình chiếu và bản in

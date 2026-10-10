@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   reactStrictMode: true,
   poweredByHeader: false,
   /** Đường dẫn cũ (trước khi chia deck theo khách hàng) → deck Hòa Phát */

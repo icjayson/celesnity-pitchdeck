@@ -1,0 +1,12 @@
+.git
+node_modules
+.next
+out
+coverage
+test-results
+playwright-report
+.data
+.env*
+*.log
+.DS_Store
+*.tsbuildinfo
