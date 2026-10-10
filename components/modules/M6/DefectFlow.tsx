@@ -33,7 +33,7 @@ const normalize = (s: string) => s.trim().replace(/\s+/g, " ");
 
 export function DefectFlow() {
   const { slug, labels, scenarios } = useDeck();
-  const m6 = scenarios.m6;
+  const m6 = scenarios.m6!;
   const reduced = useReducedMotion();
   const [text, setText] = useState("");
   const [phase, setPhase] = useState<Phase>("idle");

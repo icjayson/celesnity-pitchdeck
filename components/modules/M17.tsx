@@ -12,7 +12,7 @@ const tones = {
 };
 
 export default function M17(_props: { variant?: string }) {
-  const levels = useDeck().scenarios.m17.map((l, i) => ({ ...l, n: i + 1, tone: TONES[Math.min(i, TONES.length - 1)] }));
+  const levels = useDeck().scenarios.m17!.map((l, i) => ({ ...l, n: i + 1, tone: TONES[Math.min(i, TONES.length - 1)] }));
   return (
     <div className="flex flex-col gap-8">
       {/* Bậc thang: thẻ sau cao hơn thẻ trước */}

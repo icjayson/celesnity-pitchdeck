@@ -218,9 +218,10 @@ function Package() {
   const show = inView || reduced;
   return (
     <div className="flex flex-col gap-6">
-      <ol className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <ol className={`grid grid-cols-1 gap-4 ${packageParts.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
         {packageParts.map((p, i) => {
-          const isDeploy = i === 2;
+          /** Phần cuối là triển khai (nền sáng) */
+          const isDeploy = i === packageParts.length - 1 && i > 0;
           return (
             <li
               key={p.n}
@@ -255,6 +256,8 @@ function Package() {
         })}
       </ol>
 
+      {costShift.length ? (
+      <>
       <h3 className="pt-4 text-[22px] font-semibold tracking-tight sm:text-[26px]">Dự tính chi phí</h3>
       <figure
         ref={ref}
@@ -306,6 +309,8 @@ function Package() {
           </span>
         </figcaption>
       </figure>
+      </>
+      ) : null}
     </div>
   );
 }
@@ -341,7 +346,9 @@ function Segment({
 /* ───────────── Lời mời và đoạn kết ───────────── */
 
 function Closing() {
-  const { closing, basePath } = useDeck();
+  const { closing, basePath, features, islands } = useDeck();
+  /** Deck tắt trợ lý: không hiện nút hỏi trợ lý. Deck không có đảo nhà máy: không vẽ cảnh nhà máy */
+  const assistantOn = features?.assistant !== false;
   const bleedRef = useRef<HTMLDivElement>(null);
   const [sceneRef, inView] = useInView<HTMLDivElement>("-15% 0px");
   const reduced = useReducedMotion();
@@ -370,6 +377,7 @@ function Closing() {
           <FileDown size={18} strokeWidth={1.5} aria-hidden />
           {closing.pdf}
         </a>
+        {assistantOn ? (
         <button
           type="button"
           onClick={() => window.dispatchEvent(new CustomEvent("landing:open-assistant"))}
@@ -378,6 +386,7 @@ function Closing() {
           <MessageCircle size={18} strokeWidth={1.5} aria-hidden />
           {closing.ask}
         </button>
+        ) : null}
       </div>
 
       {/* Full-bleed: thoát khỏi container, kéo tới đáy section (bù padding dưới của Section) */}
@@ -386,6 +395,7 @@ function Closing() {
         className="theme-dark grain relative -mb-24 ml-[calc(50%-50vw)] mt-24 w-screen sm:-mb-[120px] sm:mt-[120px] lg:-mb-[160px]"
       >
         <div className="mx-auto flex max-w-[1200px] flex-col gap-12 px-4 py-20 sm:px-8 sm:py-28">
+          {islands.length ? (
           <div
             ref={sceneRef}
             className="relative"
@@ -401,6 +411,7 @@ function Closing() {
             />
             <FactoryScene state={3} steelDestination particles className="relative" />
           </div>
+          ) : null}
 
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             <h2 className="text-[30px] font-semibold leading-[1.12] tracking-[-0.025em] sm:text-[40px] lg:text-[48px]">

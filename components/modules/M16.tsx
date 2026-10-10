@@ -11,7 +11,7 @@ const toneCls = {
 };
 
 export default function M16(_props: { variant?: string }) {
-  const { phases: staffingPhases, rows: staffingRows, leaders: staffingLeaders } = useDeck().scenarios.staffing;
+  const { phases: staffingPhases, rows: staffingRows, leaders: staffingLeaders } = useDeck().scenarios.staffing!;
   return (
     <div className="overflow-hidden rounded-[var(--radius-card)] border border-line-200 bg-white shadow-[0_24px_60px_-40px_rgba(10,31,68,0.45)]">
       {/* Hàng tiêu đề giai đoạn (desktop) */}
@@ -57,7 +57,7 @@ function TeamLabel({ team, note, tone }: { team: string; note?: string; tone: St
 }
 
 function Row({ row }: { row: StaffRow }) {
-  const staffingPhases = useDeck().scenarios.staffing.phases;
+  const staffingPhases = useDeck().scenarios.staffing!.phases;
   return (
     <div className="grid grid-cols-1 border-t border-line-200 lg:grid-cols-[220px_repeat(3,minmax(0,1fr))]">
       <TeamLabel team={row.team} note={row.note} tone={row.tone} />

@@ -25,7 +25,7 @@ const CHAIN_Y = 262;
 
 export function LoopScene({ path, play, reduced }: { path: "A" | "B"; play: boolean; reduced: boolean }) {
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
-  const loop = useDeck().scenarios.m3.loop;
+  const loop = useDeck().scenarios.m3!.loop;
   if (!loop) return null;
   const isB = path === "B";
   const tileCenter = (i: number) => TILES_X[i] + TILE_W / 2;

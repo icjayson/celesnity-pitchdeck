@@ -17,7 +17,9 @@ export type ModuleId =
   | "M16"
   | "M17"
   | "M18"
-  | "M19";
+  | "M19"
+  | "M20"
+  | "M21";
 
 /** Nhãn trung thực (docs/implementation-plan.md, mục 1.4) */
 export type LabelVariant = "sim" | "ai" | "future" | "proposal";
@@ -63,7 +65,11 @@ export type Block =
   /** Ảnh đặt cạnh một nhóm khối (ảnh nhỏ không bị phóng to quá kích thước gốc) */
   | { kind: "media"; photo: Photo; blocks: Block[]; side?: "left" | "right" }
   /** Sơ đồ kiến trúc: các nhánh hội tụ sang phải, mũi tên một chiều (components/shared/Diagram.tsx) */
-  | { kind: "diagram"; flow: DiagramFlow; legend?: { tone: DiagramTone; label: Rich }[]; caption?: Rich; /** px, mặc định 120 */ nodeWidth?: number };
+  | { kind: "diagram"; flow: DiagramFlow; legend?: { tone: DiagramTone; label: Rich }[]; caption?: Rich; /** px, mặc định 120 */ nodeWidth?: number }
+  /** Hàng ô số liệu lớn (2–4 ô): con số, nhãn, ghi chú nhỏ */
+  | { kind: "stats"; items: { value: Rich; label: Rich; note?: Rich }[] }
+  /** Danh sách cam kết có dấu tick, 1 hoặc 2 cột (không phụ thuộc id section như M13 "commitments") */
+  | { kind: "checklist"; items: Rich[]; cols?: 1 | 2 };
 
 /** plain: thiết bị, hệ thống của khách hàng · edge: phần Celesnity lắp đặt · platform: nền tảng */
 export type DiagramTone = "plain" | "edge" | "platform";
@@ -367,6 +373,8 @@ export type Brand = {
   partnerWordmark: string;
   /** Chiều cao logo (px) trong cụm logo trang bìa */
   partnerLogoHeight?: number;
+  /** Nhãn lõi trong cảnh nhà máy (M8, M14 closing); mặc định "Mô hình AI Thế giới thực" */
+  coreLabel?: string;
 };
 
 /** Đảo nhà máy trong minh họa (M1, M5, M8). Thứ tự = vị trí trái, giữa, phải. */
@@ -374,7 +382,7 @@ export type IslandSpec = {
   id: string;
   label: string;
   /** Kiểu hình vẽ trong components/art/Islands.tsx */
-  art: "gia-dung" | "dien-lanh" | "thep" | "capsule-line" | "coffee-plant" | "network" | "truck-line" | "truck-plant" | "dealer-network";
+  art: "gia-dung" | "dien-lanh" | "thep" | "capsule-line" | "coffee-plant" | "network" | "truck-line" | "truck-plant" | "dealer-network" | "machining-cell" | "machining-plant" | "second-plant";
 };
 
 export type DeckLabels = {
@@ -412,7 +420,10 @@ export type CostShiftRow = { year: string; deploy: number; model: number; deploy
 export type DeckData = {
   slug: string;
   basePath: string;
-  meta: { title: string; description: string; tagline: string; footer: string };
+  /** series: tên bộ tài liệu ở đầu trang phụ lục; không đặt thì dùng "Nhà máy siêu thông minh" */
+  meta: { title: string; description: string; tagline: string; footer: string; series?: string };
+  /** Tính năng bật/tắt theo deck. assistant = false: không gắn trợ lý AI nổi và không gọi API chat */
+  features?: { assistant?: boolean };
   acts: Act[];
   labels: DeckLabels;
   sections: Section[];
@@ -447,8 +458,8 @@ export type DeckData = {
   brand: Brand;
   islands: IslandSpec[];
   scenarios: {
-    m5: { events: M5Event[] };
-    m6: (
+    m5?: { events: M5Event[] };
+    m6?: (
       | {
           kind: "case";
           samples: string[];
@@ -473,7 +484,7 @@ export type DeckData = {
           defaultStory: string;
         }
     ) & { copy: M6Copy };
-    m10: {
+    m10?: {
       months: MonthRow[];
       gates: { m: number; name: string }[];
       finale: { headline: string; next: string };
@@ -486,23 +497,23 @@ export type DeckData = {
       /** Nhãn dưới con số phần vận hành của khách hàng ở T12 */
       partnerShareNote: string;
     };
-    roadmap: {
+    roadmap?: {
       phases: RoadmapPhase[];
       itSteps: { label: string; when: string; m: number }[];
       phaseEndMonth: Record<string, number>;
       /** Ô "Đầu ra nghiệm thu" khi giai đoạn không có cổng */
       noGateNote: string;
     };
-    staffing: {
+    staffing?: {
       phases: { name: string; months: string }[];
       rows: StaffRow[];
       leaders: { team: string; text: string };
     };
-    m17: { name: string; when: string; can: string; test: string }[];
+    m17?: { name: string; when: string; can: string; test: string }[];
     /** Hình thức hợp tác (M13 "founding"): câu dưới tên mức đề xuất */
-    m13: { foundingNote: string };
+    m13?: { foundingNote: string };
     /** Hai con đường (M3): chú thích cho trình đọc màn hình theo con đường */
-    m3: {
+    m3?: {
       captions: { A: string; B: string };
       /** Nhãn ngắn trên nút chuyển A/B; mặc định lấy phần sau dấu ":" của tiêu đề cột trong bảng */
       toggle?: { A: string; B: string };
@@ -521,7 +532,7 @@ export type DeckData = {
       };
     };
     /** Câu chuyện M1 (#sieu-thong-minh): mô tả cho trình đọc màn hình và chữ trong ba minh họa */
-    m1: {
+    m1?: {
       /** Mô tả cảnh theo trạng thái 0 (toàn cảnh) · 1 Tự học · 2 Dự báo trước · 3 Nhân rộng */
       captions: [string, string, string, string];
       /** Hình "Dự báo trước": tên trục, ba phương án (phương án cuối là phương án được chọn), thẻ kết luận */
@@ -535,6 +546,10 @@ export type DeckData = {
     m19?: GenealogyData;
     m4?: { title: string; options: M4Option[]; score: { before: number; after: number; unit: string } };
     m12?: { defaults: CalcInputs; breakEvenGrid: { volumes: number[]; costs: number[] } };
+    /** Minder AI làm việc (M20): quy tắc do quản lý đặt và các output theo vai trò */
+    m20?: FeedScenario;
+    /** Thẻ có hình minh họa và sơ đồ ranh giới bảo mật (M21) */
+    m21?: IllustratedData;
   };
 };
 
@@ -630,4 +645,149 @@ export type GenealogyData = {
   locationLabels: { plant: string; dealer: string; customer: string };
   chain: string[];
   footnote: string;
+};
+
+// ───────────────────────────── Minder AI làm việc (M20) ─────────────────────────────
+
+/** Vai trò người xem trong feed (ví dụ Kế toán, Kỹ thuật, Sản xuất) */
+export type FeedRole = { id: string; label: string };
+
+/** Quy tắc trả lời do quản lý đặt: dữ liệu, cách tính, ngưỡng, định dạng, người nhận, thời điểm */
+export type FeedRule = {
+  /** Mã quy tắc, ví dụ "QT-GT-01" */
+  id: string;
+  name: string;
+  /** Vai trò người đặt, không bao giờ là tên cá nhân */
+  owner: string;
+  appliesTo: string;
+  data: Rich[];
+  method: Rich;
+  /** Ngưỡng; `options` cho nút đổi ngưỡng ở biến thể "rule" */
+  threshold?: { label: string; options: string[]; value: string };
+  /** Thứ tự các mục trong output */
+  format: string[];
+  recipients: string;
+  schedule: string;
+};
+
+export type FeedArea = "san-xuat" | "van-hanh" | "ke-toan" | "tai-nguyen-ky-thuat";
+export type FeedKind = "briefing" | "alert" | "recalc" | "regulation" | "report";
+
+export type FeedItem = {
+  id: string;
+  /** "07:30" hoặc "Thứ Sáu 17:00" */
+  time: string;
+  kind: FeedKind;
+  /** Mảng thông tin; báo cáo tổng hợp có thể không gắn mảng nào */
+  area?: FeedArea;
+  /** Vai trò thấy thẻ này */
+  roles: string[];
+  ruleId: string;
+  title: string;
+  /** Người nhận hiển thị trên thẻ */
+  to: string;
+  /** Câu tóm tắt đầu thẻ */
+  summary: Rich;
+  fields: { k: string; v: Rich }[];
+  /** "Xem cách tính": từng dòng đóng góp */
+  calc?: { k: string; v: string; total?: boolean }[];
+  sources: string[];
+  /** Thiếu dữ liệu: Minder AI nói rõ */
+  gap?: Rich;
+  /** Ghi chú cuối thẻ (ví dụ "không phải kế hoạch sản xuất") */
+  note?: Rich;
+  /** "Hỏi thêm": một câu hỏi và câu trả lời soạn sẵn */
+  followUp?: { q: string; a: Rich; sources?: string[] };
+  /** Theo vai trò: ẩn cả thẻ (hideCard) hoặc ẩn các mục có khóa trong hideKeys và thay bằng dòng text */
+  restricted?: { role: string; text: string; hideCard?: boolean; hideKeys?: string[] }[];
+  /** Biến thể "rule": output theo từng ngưỡng (khóa = một giá trị trong threshold.options) */
+  byThreshold?: Record<string, { send: boolean; note: Rich }>;
+};
+
+export type FeedScenario = {
+  /** Tên trong khung giao diện, ví dụ "Minder AI" */
+  product: string;
+  /** Nhãn ngày trong khung, ví dụ "Hôm nay" */
+  dayLabel: string;
+  roles: FeedRole[];
+  areaLabels: Record<FeedArea, string>;
+  kindLabels: Record<FeedKind, string>;
+  rules: FeedRule[];
+  items: FeedItem[];
+  /** id các thẻ cho biến thể "cover" */
+  coverIds: string[];
+  /** id thẻ cho biến thể "rule" */
+  ruleDemoId: string;
+  /** Chữ giao diện */
+  copy: {
+    sidebar: string[];
+    feedTitle: string;
+    sent: string;
+    sources: string;
+    calc: string;
+    ruleChip: string;
+    confirm: string;
+    wrong: string;
+    notNeeded: string;
+    askMore: string;
+    confirmed: string;
+    /** Bỏ phản hồi đã chọn */
+    undo: string;
+    roleLabel: string;
+    ruleTitle: string;
+    /** Tiêu đề cột output ở biến thể "rule" */
+    outputTitle: string;
+    ruleFields: { owner: string; appliesTo: string; data: string; method: string; threshold: string; format: string; recipients: string; schedule: string };
+    thresholdLabel: string;
+    notSent: string;
+    close: string;
+    counter: string;
+  };
+};
+
+// ───────────────────────────── Thẻ minh họa (M21) ─────────────────────────────
+
+/** Kiểu hình minh họa nét mảnh trong components/modules/M21/Art.tsx */
+export type IllustrationArt = "watch" | "detect" | "compose" | "deliver" | "cost" | "machine" | "drawing";
+
+export type IllustratedCard = {
+  art: IllustrationArt;
+  /** Nhãn nhỏ phía trên hình (ví dụ "Bước 1") */
+  eyebrow?: string;
+  title: string;
+  sub?: string;
+  rows: { k: string; v: Rich }[];
+  /** Thẻ nổi bật (nền navy) */
+  featured?: boolean;
+};
+
+/** Icon trong sơ đồ kiến trúc M21 */
+export type ArchIcon = "ledger" | "machine" | "drawing" | "law" | "accounting" | "engineering" | "production" | "leadership";
+
+export type IllustratedData = {
+  /** Bộ thẻ theo variant của M21 (ví dụ "buoc", "ba-viec") */
+  sets: Record<string, { arrows?: boolean; cards: IllustratedCard[] }>;
+  /** Sơ đồ kiến trúc (variant "architecture"): nguồn → Minder AI (nhận quy tắc của quản lý) → người nhận theo vai trò */
+  architecture?: {
+    sourcesTitle: string;
+    sources: { icon: ArchIcon; name: string; sub: string }[];
+    via: string;
+    core: { name: string; sub: string; steps: string[]; key: string };
+    rule: { name: string; sub: string; fields: string[] };
+    out: string;
+    usersTitle: string;
+    users: { icon: ArchIcon; name: string; sub: string }[];
+    caption: string;
+  };
+  /** Sơ đồ ranh giới bảo mật (variant "security") */
+  security?: {
+    boundary: string;
+    systems: { name: string; sub: string }[];
+    via: string;
+    core: { name: string; sub: string };
+    inside: { name: string; sub: string }[];
+    allowed: { name: string; sub: string };
+    blocked: { name: string; sub: string };
+    caption: string;
+  };
 };

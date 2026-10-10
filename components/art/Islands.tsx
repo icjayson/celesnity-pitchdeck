@@ -484,6 +484,110 @@ function DealerNetwork({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
   );
 }
 
+/** Xưởng gia công chính xác: trung tâm gia công CNC có cửa kính, máy tiện có mâm cặp, giá chi tiết (piston), bàn kỹ thuật có màn hình bản vẽ */
+function MachiningCell({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const chuck = cyl(ox, oy, 16, -36, 6, 6, 20);
+  const parts: [number, number][] = [
+    [36, -42],
+    [46, -42],
+    [36, -32],
+    [46, -32],
+  ];
+  return (
+    <g>
+      {/* Trung tâm gia công CNC */}
+      <Box f={box(ox, oy, -52, -52, 34, 28, 34)} pal={pal} />
+      <Glass d={line([P(-48, -24, 10), P(-26, -24, 10), P(-26, -24, 26), P(-48, -24, 26)]) + "Z"} pal={pal} />
+      <Box f={box(ox, oy, -44, -46, 14, 12, 8, 34)} pal={pal} />
+      <Detail d={line([P(-37, -40, 26), P(-37, -40, 14)])} pal={pal} opacity={0.8} />
+      {/* Máy tiện */}
+      <Box f={box(ox, oy, -8, -50, 32, 20, 20)} pal={pal} />
+      <Cyl c={chuck} pal={pal}>
+        <ellipse {...NS} cx={chuck.cx} cy={chuck.cy} rx={chuck.rx * 0.4} ry={chuck.ry * 0.4} fill={pal.detail} fillOpacity={0.7} />
+      </Cyl>
+      <Detail d={line([P(-4, -30, 6), P(20, -30, 6)])} pal={pal} />
+      {/* Giá chi tiết đã gia công */}
+      <Box f={box(ox, oy, 30, -48, 22, 22, 6)} pal={pal} />
+      {parts.map(([x, y]) => (
+        <Cyl key={`${x}-${y}`} c={cyl(ox, oy, x, y, 3, 8, 6)} pal={pal} />
+      ))}
+      {/* Bàn kỹ thuật và màn hình bản vẽ */}
+      <Box f={box(ox, oy, -50, 14, 26, 16, 12)} pal={pal} />
+      <Box f={box(ox, oy, -46, 18, 16, 3, 12, 12)} pal={pal} />
+      <Detail d={line([P(-43, 21, 15), P(-35, 21, 15), P(-35, 21, 21)]) + line([P(-43, 21, 18), P(-39, 21, 18)])} pal={pal} opacity={0.85} />
+      {/* Pallet chi tiết chờ */}
+      <Box f={box(ox, oy, -6, 12, 44, 30, 4)} pal={pal} />
+      {[
+        [2, 18],
+        [16, 18],
+        [2, 30],
+        [16, 30],
+      ].map(([x, y]) => (
+        <Cyl key={`p${x}-${y}`} c={cyl(ox, oy, x, y, 4, 9, 4)} pal={pal} />
+      ))}
+    </g>
+  );
+}
+
+/** Toàn nhà máy: xưởng mái răng cưa, ba máy CNC, kho bản vẽ, điểm dữ liệu chung */
+function MachiningPlant({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const saw: string[] = [];
+  for (let x = -50; x < 14; x += 16) saw.push(line([P(x, -16, 26), P(x + 8, -16, 34), P(x + 16, -16, 26)]));
+  const hub = cyl(ox, oy, 30, 30, 7, 8);
+  return (
+    <g>
+      {/* Xưởng chính */}
+      <Box f={box(ox, oy, -52, -52, 66, 36, 26)} pal={pal} />
+      <Detail d={saw.join("")} pal={pal} opacity={0.7} />
+      <Glass d={line([P(-44, -16, 6), P(-14, -16, 6), P(-14, -16, 16), P(-44, -16, 16)]) + "Z"} pal={pal} />
+      {/* Kho bản vẽ và văn phòng kỹ thuật */}
+      <Box f={box(ox, oy, 22, -50, 28, 22, 40)} pal={pal} />
+      <Detail d={[14, 22, 30].map((z) => line([P(22, -36, z), P(22, -32, z)]) + line([P(26, -28, z), P(46, -28, z)])).join("")} pal={pal} opacity={0.6} />
+      {/* Ba máy CNC trước xưởng */}
+      {[-48, -30, -12].map((x) => (
+        <g key={x}>
+          <Box f={box(ox, oy, x, 2, 14, 14, 16)} pal={pal} />
+          <Detail d={line([P(x + 3, 16, 5), P(x + 11, 16, 5), P(x + 11, 16, 12), P(x + 3, 16, 12)]) + "Z"} pal={pal} opacity={0.75} />
+        </g>
+      ))}
+      {/* Dữ liệu chung: các máy nối về một điểm */}
+      <path {...NS} d={[-41, -23, -5].map((x) => line([P(x, 16, 1), P(30, 30, 1)])).join("")} fill="none" stroke={pal.detail} strokeOpacity={0.55} strokeWidth={1} strokeDasharray="3 4" />
+      <Cyl c={hub} pal={pal}>
+        <ellipse {...NS} cx={hub.cx} cy={hub.cy} rx={hub.rx * 0.45} ry={hub.ry * 0.45} fill={pal.detail} fillOpacity={0.7} />
+      </Cyl>
+    </g>
+  );
+}
+
+/** Nhà máy thứ hai: xưởng mái răng cưa, tòa văn phòng, cổng nhận và một bộ máy CNC giống nhà máy thứ nhất */
+function SecondPlant({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const saw: string[] = [];
+  for (let x = -50; x < 6; x += 14) saw.push(line([P(x, -14, 24), P(x + 7, -14, 31), P(x + 14, -14, 24)]));
+  const tower = cyl(ox, oy, 40, -40, 5, 46);
+  return (
+    <g>
+      <Box f={box(ox, oy, -52, -52, 58, 38, 24)} pal={pal} />
+      <Detail d={saw.join("")} pal={pal} opacity={0.75} />
+      <Box f={box(ox, oy, 14, -50, 20, 26, 34)} pal={pal} />
+      <Detail d={[10, 18, 26].map((z) => line([P(34, -46, z), P(34, -28, z)])).join("")} pal={pal} opacity={0.55} />
+      <Cyl c={tower} pal={pal} />
+      {/* Bộ máy giống nhà máy thứ nhất */}
+      {[-44, -24].map((x) => (
+        <Box key={x} f={box(ox, oy, x, 6, 14, 14, 16)} pal={pal} />
+      ))}
+      <Box f={box(ox, oy, 0, 8, 26, 14, 10)} pal={pal} />
+      <Detail d={line([P(4, 22, 4), P(22, 22, 4)])} pal={pal} />
+      {/* Cổng nhận */}
+      <Box f={box(ox, oy, 34, 24, 4, 4, 18)} pal={pal} />
+      <Box f={box(ox, oy, 34, 44, 4, 4, 18)} pal={pal} />
+      <Box f={box(ox, oy, 34, 24, 4, 24, 3, 18)} pal={pal} />
+    </g>
+  );
+}
+
 type ArtKind = IslandSpec["art"];
 const ART: Record<ArtKind, (p: { ox: number; oy: number; pal: Pal }) => ReactNode> = {
   "gia-dung": GiaDung,
@@ -495,6 +599,9 @@ const ART: Record<ArtKind, (p: { ox: number; oy: number; pal: Pal }) => ReactNod
   "truck-line": TruckLine,
   "truck-plant": TruckPlant,
   "dealer-network": DealerNetwork,
+  "machining-cell": MachiningCell,
+  "machining-plant": MachiningPlant,
+  "second-plant": SecondPlant,
 };
 
 /** Vẽ một đảo: `id` là vị trí (trái · giữa · phải, quyết định bảng màu), `art` là kiểu hình vẽ của deck */

@@ -80,7 +80,9 @@ export function FactoryScene({
   islandNotes,
   showCoreLabel = true,
 }: FactorySceneProps) {
-  const { islands } = useDeck();
+  const { islands, brand } = useDeck();
+  /** Nhãn lõi: theo deck (ví dụ "Minder AI"), mặc định Mô hình AI Thế giới thực */
+  const coreName = brand.coreLabel ?? CORE_NAME;
   /** Vị trí ↔ đảo của deck */
   const spec = (slot: Slot) => islands[ISLAND_IDS.indexOf(slot)];
   const slotOf = (id: IslandId | null | undefined): Slot | null => {
@@ -329,7 +331,7 @@ export function FactoryScene({
         >
           <Pill light={light} compact={compact}>
             <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
-            {CORE_NAME}
+            {coreName}
           </Pill>
         </div>
       ) : null}

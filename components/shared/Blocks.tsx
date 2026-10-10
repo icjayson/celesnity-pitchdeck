@@ -6,7 +6,7 @@ import { Video } from "./Video";
 import { Label } from "./Label";
 import { ModuleSlot } from "./ModuleSlot";
 import { ArrowRight, ChevronRight } from "lucide-react";
-import { KeyValue, Cards, Steps, Timeline, Compare, Chips, Pillars } from "./Visuals";
+import { KeyValue, Cards, Steps, Timeline, Compare, Chips, Pillars, Stats, Checklist } from "./Visuals";
 import { Diagram } from "./Diagram";
 
 /**
@@ -70,6 +70,10 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
       return <Compare head={b.head} rows={b.rows} />;
     case "pillars":
       return <Pillars items={b.items} />;
+    case "stats":
+      return <Stats items={b.items} />;
+    case "checklist":
+      return <Checklist items={b.items} cols={b.cols} />;
     case "chips":
       return <Chips items={b.items} tone={b.tone} />;
     case "quote":

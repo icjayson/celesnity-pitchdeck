@@ -4,7 +4,7 @@
  */
 import type { DeckData, IncidentCard, MonthRow, RoadmapPhase, StaffRow } from "../types";
 
-type Scenarios = DeckData["scenarios"];
+type Scenarios = Required<DeckData["scenarios"]>;
 
 // ───────────── M5: Một ngày ─────────────
 export const m5: Scenarios["m5"] = {

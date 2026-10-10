@@ -38,6 +38,8 @@ function blockText(b: Block, moduleNotes: Record<string, string>): string {
       return ["(Sơ đồ)", ...diagramPaths(b.flow, plainText).map((p) => `- ${p}`), b.caption ? plainText(b.caption) : ""].filter(Boolean).join("\n");
     case "statement":
       return [b.context, b.highlight, b.conclusion].map(plainText).join(" ");
+    case "stats":
+      return b.items.map((it) => `- ${plainText(it.value)}: ${plainText(it.label)}${it.note ? ` (${plainText(it.note)})` : ""}`).join("\n");
   }
   const g = b as { text?: string; items?: string[]; ordered?: boolean; head?: string[]; rows?: string[][]; caption?: string };
   if (Array.isArray(g.rows)) return rowsText(g.head, g.rows, g.caption);

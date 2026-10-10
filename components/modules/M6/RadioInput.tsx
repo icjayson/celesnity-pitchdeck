@@ -20,7 +20,7 @@ export function RadioInput({
   busy: boolean;
   reduced: boolean;
 }) {
-  const { samples, copy } = useDeck().scenarios.m6;
+  const { samples, copy } = useDeck().scenarios.m6!;
   const speech = useSpeech({
     onText: (t) => onChange(t.slice(0, MAX)),
     onEnd: (t) => {

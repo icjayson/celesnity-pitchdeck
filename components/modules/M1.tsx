@@ -39,7 +39,7 @@ function Hero() {
 function Story() {
   const { sections, scenarios } = useDeck();
   /** Mô tả cảnh cho trình đọc màn hình (theo trạng thái) */
-  const SCENE_CAPTION = scenarios.m1.captions;
+  const SCENE_CAPTION = scenarios.m1!.captions;
   const steps = getSteps(sections);
   const reduced = useReducedMotion();
   const [active, setActive] = useState<SceneState>(0);

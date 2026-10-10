@@ -30,7 +30,7 @@ function isResult(x: unknown): x is IncidentResult {
 
 export function IncidentFlow() {
   const { slug, labels, scenarios } = useDeck();
-  const m6 = scenarios.m6;
+  const m6 = scenarios.m6!;
   const reduced = useReducedMotion();
   const [text, setText] = useState("");
   const [phase, setPhase] = useState<Phase>("idle");

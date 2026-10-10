@@ -25,6 +25,8 @@ const registry: Record<ModuleId, ComponentType<{ variant?: string }>> = {
   M17: dynamic(() => import("@/components/modules/M17"), { loading }),
   M18: dynamic(() => import("@/components/modules/M18"), { loading }),
   M19: dynamic(() => import("@/components/modules/M19"), { loading }),
+  M20: dynamic(() => import("@/components/modules/M20"), { loading }),
+  M21: dynamic(() => import("@/components/modules/M21"), { loading }),
 };
 
 /** Chỗ đặt một module tương tác trong section */

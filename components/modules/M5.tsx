@@ -22,7 +22,7 @@ const STEP_MS = 3600;
 
 export default function M5({ variant }: { variant?: string }) {
   const { labels, scenarios } = useDeck();
-  const m5Events = scenarios.m5.events;
+  const m5Events = scenarios.m5!.events;
   const STOPS = useMemo(() => m5Events.map((e) => (toMin(e.time) - START) / (END - START)), [m5Events]);
   const [idx, setIdx] = useState(0);
   const [approved, setApproved] = useState<Record<number, boolean>>({});

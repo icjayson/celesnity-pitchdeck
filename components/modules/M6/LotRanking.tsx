@@ -16,7 +16,7 @@ type Row = { lo: string; risk: number | null; reason: string; own?: boolean };
 
 export function LotRanking({ card, reduced }: { card: CaseCard; reduced: boolean }) {
   const { labels, scenarios } = useDeck();
-  const m6Ranking = scenarios.m6.kind === "case" ? scenarios.m6.ranking : [];
+  const m6Ranking = scenarios.m6?.kind === "case" ? scenarios.m6.ranking : [];
   const own: Row = { lo: card.lo || "chưa rõ", risk: null, reason: "Lô của hồ sơ vừa lập", own: true };
   const rows: Row[] = [own, ...m6Ranking.filter((r) => r.lo !== card.lo)];
   const [linked, setLinked] = useState(reduced);

@@ -49,7 +49,7 @@ export function ChatMessages({
   /** Kiểu kính trong suốt (khung chat neo ở trang bìa) */
   glass?: boolean;
 }) {
-  const { sections, faq } = useDeck();
+  const { sections, faq, meta } = useDeck();
   const suggestedFaq = faq.filter((f) => f.suggested);
   const sectionName = (id: string) => {
     const s = sections.find((x) => x.id === id);
@@ -78,7 +78,7 @@ export function ChatMessages({
       {messages.length === 0 ? (
         <div>
           <p className={`text-[15px] leading-relaxed ${glass ? "text-white/90" : "text-navy-900"}`}>
-            Celesnity sẵn sàng trả lời các câu hỏi về đề xuất <span className="font-semibold">Nhà máy siêu thông minh</span>.
+            Celesnity sẵn sàng trả lời các câu hỏi về đề xuất <span className="font-semibold">{meta.series ?? "Nhà máy siêu thông minh"}</span>.
             Quý vị có thể chọn một câu hỏi gợi ý:
           </p>
           <ul className="mt-4 flex flex-wrap gap-2" aria-label="Câu hỏi gợi ý">

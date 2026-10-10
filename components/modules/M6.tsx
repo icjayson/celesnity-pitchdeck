@@ -40,16 +40,16 @@ function isExtractResult(x: unknown): x is Result {
 
 export default function M6({ variant }: { variant?: string }) {
   void variant;
-  const { scenarios } = useDeck();
-  if (scenarios.m6.kind === "incident") return <IncidentFlow />;
-  if (scenarios.m6.kind === "defect") return <DefectFlow />;
-  return <CaseFlow fallback={scenarios.m6.fallback} />;
+  const m6 = useDeck().scenarios.m6!;
+  if (m6.kind === "incident") return <IncidentFlow />;
+  if (m6.kind === "defect") return <DefectFlow />;
+  return <CaseFlow fallback={m6.fallback} />;
 }
 
 /** Luồng "case": lời báo lỗi → thẻ hồ sơ → xếp hạng lô → kế hoạch kiểm tra */
 function CaseFlow({ fallback }: { fallback: Record<string, CaseCard> }) {
   const { slug, scenarios } = useDeck();
-  const { copy } = scenarios.m6;
+  const { copy } = scenarios.m6!;
   const steps = copy.steps;
   const modeLabel = modeLabelOf(copy.aiLabel);
   const reduced = useReducedMotion();

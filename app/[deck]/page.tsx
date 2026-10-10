@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: Promise<{ deck: string 
         </div>
       </footer>
       <PresenterMode />
-      <Assistant />
+      {deck.features?.assistant === false ? null : <Assistant />}
     </>
   );
 }

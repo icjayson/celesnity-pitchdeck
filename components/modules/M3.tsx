@@ -19,7 +19,7 @@ const FADE_CSS = `@keyframes m3-in{from{opacity:0;transform:translateY(4px)}to{o
 .m3-in{animation:m3-in 450ms cubic-bezier(.22,1,.36,1) both}`;
 
 export default function M3({ variant }: { variant?: string }) {
-  const { captions: CAPTION, toggle } = useDeck().scenarios.m3;
+  const { captions: CAPTION, toggle } = useDeck().scenarios.m3!;
   // Tiêu đề bảng tuỳ deck: "Bảng hai con đường" hoặc "Bảng hai phương án"
   const { head, rows } = useDetailTable("hai-con-duong", /^Bảng hai (con đường|phương án)$/);
   const [path, setPath] = useState<Path>("A");

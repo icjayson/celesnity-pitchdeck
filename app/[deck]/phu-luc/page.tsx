@@ -24,7 +24,7 @@ export default async function Appendix({ params }: Props) {
           <ArrowLeft size={16} strokeWidth={1.5} aria-hidden /> Về trang chính
         </Link>
         <p className="text-[13px] font-medium uppercase tracking-[0.12em] text-orange-700">Phụ lục</p>
-        <h1 className="mb-16 mt-3 text-[36px] font-semibold tracking-[-0.025em] sm:text-[44px]">Nhà máy siêu thông minh</h1>
+        <h1 className="mb-16 mt-3 text-[36px] font-semibold tracking-[-0.025em] sm:text-[44px]">{meta.series ?? "Nhà máy siêu thông minh"}</h1>
         <div className="flex flex-col gap-20">
           {appendix.map((a) => (
             <section key={a.id} id={a.id} className="flex flex-col gap-6">

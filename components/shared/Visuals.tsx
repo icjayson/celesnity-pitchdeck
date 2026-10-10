@@ -277,3 +277,46 @@ export function Pillars({ items }: { items: string[] }) {
     </ol>
   );
 }
+
+/** Hàng ô số liệu lớn: con số (tabular), nhãn, ghi chú nhỏ. 2 cột trên điện thoại, tối đa 4 cột */
+export function Stats({ items }: { items: { value: string; label: string; note?: string }[] }) {
+  const lg = { 1: "lg:grid-cols-1", 2: "lg:grid-cols-2", 3: "lg:grid-cols-3" }[items.length] ?? "lg:grid-cols-4";
+  return (
+    <dl className={`grid grid-cols-2 gap-3 sm:gap-4 ${lg}`}>
+      {items.map((it, i) => (
+        <div key={i} className="vis-card relative flex flex-col gap-2 overflow-hidden rounded-[var(--radius-card)] p-4 sm:p-6">
+          <span aria-hidden className="absolute inset-x-0 top-0 h-[3px] bg-blue-500" />
+          <dt className="order-2 text-[14px] leading-snug sm:text-[16px]">
+            <RichText text={it.label} />
+          </dt>
+          <dd className="order-1 text-[32px] font-semibold leading-none tracking-[-0.025em] tabular sm:text-[44px]">
+            <RichText text={it.value} />
+          </dd>
+          {has(it.note) ? (
+            <dd className="muted order-3 text-[13px] leading-snug">
+              <RichText text={it.note!} />
+            </dd>
+          ) : null}
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/** Danh sách cam kết có dấu tick (thẻ trắng, viền 1px), 1 hoặc 2 cột */
+export function Checklist({ items, cols = 2 }: { items: string[]; cols?: 1 | 2 }) {
+  return (
+    <ul className={`grid grid-cols-1 gap-3 ${cols === 2 ? "md:grid-cols-2" : ""}`}>
+      {items.map((it, i) => (
+        <li key={i} className="vis-card flex items-start gap-3.5 rounded-[14px] p-4 sm:p-5">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+            <Check aria-hidden size={17} strokeWidth={2} />
+          </span>
+          <p className="pt-1 text-[15px] leading-snug">
+            <RichText text={it} />
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}

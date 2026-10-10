@@ -64,6 +64,9 @@ function buildTools(deck: DeckData, a: DeckAssistant, live: Set<string>, useCase
       },
     },
   ];
+  // Deck không có danh mục use case hay lộ trình 12 tháng (ví dụ deck không theo bộ Mô hình AI Thế giới thực): bỏ tool tương ứng
+  if (!useCaseIds.length) defs.splice(defs.findIndex((d) => d.name === "open_use_case"), 1);
+  if (!deck.scenarios.m10) defs.splice(defs.findIndex((d) => d.name === "set_timeline_month"), 1);
   // Tool của section có thể tạm cất: chỉ bật khi deck có mô tả và section đang hiển thị
   if (a.simulationToolDescription && live.has("mo-phong")) {
     defs.push({
@@ -129,7 +132,7 @@ export function buildAssistantContext(deck: DeckData, a: DeckAssistant): Assista
     matcher: createFaqMatcher(deck.faq),
     languageNudge: a.languageNudge,
     extract: a.extract,
-    extractFallback: deck.scenarios.m6.fallback,
+    extractFallback: deck.scenarios.m6?.fallback ?? {},
   };
 }
 

@@ -12,7 +12,7 @@ const bands = [
 
 /** Trục 12 tháng: thanh kéo (role="slider"), 4 ổ khóa cổng và 3 dải giai đoạn */
 export function Timeline({ month, onChange }: { month: number; onChange: (m: number) => void }) {
-  const m10Months = useDeck().scenarios.m10.months;
+  const m10Months = useDeck().scenarios.m10!.months;
   const track = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   const row = m10Months[month - 1];

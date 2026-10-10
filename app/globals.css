@@ -336,3 +336,98 @@ html[data-presenter="on"] [data-hide-in-presenter] {
     transform: none;
   }
 }
+
+/*
+ * Khung giao diện Minder AI (M20). Token lấy theo giao diện Minder Platform (xám trung tính, nút chính gần đen,
+ * xanh #0075de chỉ cho link, focus và lựa chọn). Chỉ dùng bên trong .minder-frame; bên ngoài khung giữ token của deck.
+ */
+.minder-frame {
+  --mf-bg: #ffffff;
+  --mf-canvas: #f9f9f9;
+  --mf-muted: #f3f3f3;
+  --mf-bubble: #ededed;
+  --mf-fg: #0d0d0d;
+  --mf-muted-fg: #5d5d5d;
+  --mf-border: rgb(13 13 13 / 10%);
+  --mf-border-soft: rgb(13 13 13 / 6%);
+  --mf-primary: #181818;
+  --mf-primary-hover: #303030;
+  --mf-accent: #0075de;
+  --mf-accent-tint: color-mix(in oklab, #0075de 8%, #ffffff);
+  --mf-selected: color-mix(in oklab, #0075de 16%, #ffffff);
+  --mf-success: #00a240;
+  --mf-success-light: #d9f4e4;
+  --mf-success-dark: #00692a;
+  --mf-warning: #e25507;
+  --mf-warning-light: #ffe7d9;
+  --mf-warning-dark: #923b0f;
+  --mf-info-light: #e0effc;
+  --mf-info-dark: #004a8c;
+  --mf-error: #e02e2a;
+  --mf-plate: #07002e;
+  --mf-shadow-card: 0 0 0 1px rgb(0 0 0 / 8%), 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --mf-shadow-pop: 0 0 0 1px rgb(0 0 0 / 8%), 0 8px 16px -4px rgb(0 0 0 / 12%);
+  background: var(--mf-bg);
+  color: var(--mf-fg);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.minder-frame :where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--mf-accent);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+.minder-frame .mf-canvas { background: var(--mf-canvas); }
+.minder-frame .mf-muted-bg { background: var(--mf-muted); }
+.minder-frame .mf-muted { color: var(--mf-muted-fg); }
+.minder-frame .mf-line { border-color: var(--mf-border-soft); }
+.minder-frame .mf-card { background: var(--mf-bg); border-radius: 12px; box-shadow: var(--mf-shadow-card); }
+.minder-frame .mf-selected { background: var(--mf-selected); }
+.minder-frame .mf-accent { color: var(--mf-accent); }
+.minder-frame .mf-bubble { background: var(--mf-bubble); }
+.minder-frame .mf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 150ms, color 150ms, box-shadow 150ms;
+}
+.minder-frame .mf-btn-primary { background: var(--mf-primary); color: #ffffff; }
+.minder-frame .mf-btn-primary:hover { background: var(--mf-primary-hover); }
+.minder-frame .mf-btn-outline { background: var(--mf-bg); color: var(--mf-fg); box-shadow: inset 0 0 0 1px var(--mf-border); }
+.minder-frame .mf-btn-outline:hover { background: var(--mf-muted); }
+.minder-frame .mf-btn-ghost { color: var(--mf-accent); }
+.minder-frame .mf-btn-ghost:hover { background: var(--mf-accent-tint); }
+.minder-frame .mf-pill-success { background: var(--mf-success-light); color: var(--mf-success-dark); }
+.minder-frame .mf-pill-warning { background: var(--mf-warning-light); color: var(--mf-warning-dark); }
+.minder-frame .mf-pill-info { background: var(--mf-info-light); color: var(--mf-info-dark); }
+/* Quy tắc do quản lý đặt: orange theo nghĩa màu của deck (con người quyết định) */
+.minder-frame .mf-rule {
+  background: var(--color-orange-100);
+  color: var(--color-orange-700);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-orange-500) 35%, transparent);
+}
+.minder-frame .mf-btn-sm { min-height: 28px; padding: 0 10px; font-size: 12.5px; }
+
+/* Chấm dữ liệu chạy trên đường nối (M21 "architecture"); tắt khi giảm chuyển động */
+@keyframes arch-flow-x {
+  from { left: -8%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  to { left: 100%; opacity: 0; }
+}
+@keyframes arch-flow-y {
+  from { top: -8%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  to { top: 100%; opacity: 0; }
+}
+.arch-dot-x { animation: arch-flow-x 2.4s var(--ease-brand) infinite; }
+.arch-dot-y { animation: arch-flow-y 2.4s var(--ease-brand) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .arch-dot-x, .arch-dot-y { animation: none; opacity: 0; }
+}

@@ -69,7 +69,7 @@ const ACC = [0.4, 0.45, 0.49, 0.54, 0.58, 0.62, 0.66, 0.7, 0.74, 0.78, 0.82, 0.8
 
 function SelfLearning({ on, reduced }: P) {
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
-  const learn = useDeck().scenarios.m1.learn;
+  const learn = useDeck().scenarios.m1!.learn;
   const acc = learn?.curve?.length === 12 ? learn.curve : ACC;
   const badge = learn?.badge ?? "Mỗi tháng thông minh hơn";
   // độ rộng nhãn theo số ký tự (13px, đậm)
@@ -215,7 +215,7 @@ const OPTION_SHAPES = [
 ] as const;
 
 function Foresight({ on }: P) {
-  const f = useDeck().scenarios.m1.foresight;
+  const f = useDeck().scenarios.m1!.foresight;
   const OPTIONS = OPTION_SHAPES.map((o, i) => ({ ...o, label: f.options[i] }));
   const history = `M40 168 L70 152 L100 170 L130 150 L160 164 L190 152 L${NOW_X} ${NOW_Y}`;
   return (
@@ -307,7 +307,7 @@ const TARGET_SLOTS = [
 ];
 
 function Replicate({ on, reduced }: P) {
-  const r = useDeck().scenarios.m1.replicate;
+  const r = useDeck().scenarios.m1!.replicate;
   const TARGETS = TARGET_SLOTS.map((t, i) => ({ ...t, label: r.targets[i] }));
   const sx = 222;
   const sy = 200;

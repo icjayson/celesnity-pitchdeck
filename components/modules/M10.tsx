@@ -57,7 +57,7 @@ function People({ count, text, tone, label }: { count: number; text?: string; to
 export default function M10({ variant }: { variant?: string }) {
   void variant;
   const { labels, useCases, party, scenarios } = useDeck();
-  const { months: m10Months, finale: m10Finale, chips, chipsTitle, lane, partnerShareNote } = scenarios.m10;
+  const { months: m10Months, finale: m10Finale, chips, chipsTitle, lane, partnerShareNote } = scenarios.m10!;
   const itSteps = itStepsOf(m10Months);
   const laneRows = m10Months.filter((r) => r.expansion);
   const [month, setMonth] = useState(1);

@@ -25,7 +25,7 @@ export function InspectionPlan({
   onApprove: () => void;
 }) {
   const { labels, scenarios } = useDeck();
-  const steps = (scenarios.m6.kind === "case" ? scenarios.m6.planTemplate : []).map((t) => fill(t, card));
+  const steps = (scenarios.m6?.kind === "case" ? scenarios.m6.planTemplate : []).map((t) => fill(t, card));
   return (
     <section aria-labelledby="m6-plan-title" className="rounded-[var(--radius-card)] border border-line-200 bg-white p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">

@@ -9,6 +9,8 @@ import { faq as nestleFaq } from "../decks/nestle-vietnam/faq";
 import { hoaphatBrief } from "../decks/hoa-phat/knowledge/hoaphat-brief";
 import { isuzuBrief } from "../decks/isuzu-vietnam/knowledge";
 import { faq as isuzuFaq } from "../decks/isuzu-vietnam/faq";
+import { takakoBrief } from "../decks/takako-vietnam/knowledge";
+import { faq as takakoFaq } from "../decks/takako-vietnam/faq";
 
 const problems: string[] = [];
 const lines = hoaphatBrief.split("\n");
@@ -79,6 +81,24 @@ for (const f of isuzuFaq) {
   for (const [re, why] of [...ISUZU_INTERNAL, ...ISUZU_PRICE]) if (re.test(f.q) || re.test(f.a)) problems.push(`[isuzu faq ${f.id}] ${why}`);
 }
 
+// ── Takako ──
+/** Không nêu tên cá nhân phía Takako, không có số tiền, không có từ ngữ đã bỏ khỏi deck */
+const TAKAKO_BANNED: [RegExp, string][] = [
+  [/anh\s+thảo|anh\s+đan|\bthảo\b(?!\s+luận)/i, "tên cá nhân (không nêu tên người phía Takako hay đối tác)"],
+  [/(phí|giá)[^.\n]{0,40}\d[\d.,]*\s*(usd|\$|đồng|triệu|tỷ)/i, "số tiền gắn với phí/giá"],
+  [/chatbot|template cố định|world model|mô hình thế giới/i, "thuật ngữ không dùng trong deck Takako"],
+];
+const tLines = takakoBrief.split("\n");
+let tFacts = 0;
+tLines.forEach((l, i) => {
+  if (!l.startsWith("- ")) return;
+  tFacts++;
+  for (const [re, why] of TAKAKO_BANNED) if (re.test(l)) problems.push(`[takako] dòng ${i + 1}: ${why}: ${l.slice(0, 100)}`);
+});
+for (const f of takakoFaq) {
+  for (const [re, why] of TAKAKO_BANNED) if (re.test(f.q) || re.test(f.a)) problems.push(`[takako faq ${f.id}] ${why}`);
+}
+
 if (problems.length) {
   console.error(`knowledge:check · ${problems.length} vấn đề / ${facts} dữ kiện`);
   problems.forEach((p) => console.error("  - " + p));
@@ -87,3 +107,4 @@ if (problems.length) {
 console.log(`knowledge:check · Đạt: Hòa Phát ${facts} dữ kiện, đều có nguồn, không có giá hay tên gọi cũ.`);
 console.log(`knowledge:check · Đạt: Nestlé Trị An ${nFacts} dữ kiện, ${nestleFaq.length} câu hỏi; không có giá, không có ghi chú khảo sát nội bộ.`);
 console.log(`knowledge:check · Đạt: Isuzu Việt Nam ${iFacts} dữ kiện, ${isuzuFaq.length} câu hỏi; không có giá, không có ghi chú nội bộ.`);
+console.log(`knowledge:check · Đạt: Takako ${tFacts} dữ kiện, ${takakoFaq.length} câu hỏi; không nêu tên cá nhân, không có giá.`);

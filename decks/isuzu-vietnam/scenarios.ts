@@ -4,7 +4,7 @@
  */
 import type { DeckData, DefectCard, DefectStory, GenealogyData, MonthRow, RoadmapPhase, StaffRow } from "../types";
 
-type Scenarios = DeckData["scenarios"];
+type Scenarios = Required<DeckData["scenarios"]>;
 
 // ───────────── Dữ liệu minh họa dùng chung: lô bản lề LOT-2938 và lô phanh BR-292 ─────────────
 type Loc = "plant" | "dealer" | "customer";

@@ -13,7 +13,7 @@ import { ScrollSteps } from "@/components/shared/ScrollSteps";
 
 export default function M15(_props: { variant?: string }) {
   const { party, scenarios } = useDeck();
-  const roadmapPhases = scenarios.roadmap.phases;
+  const roadmapPhases = scenarios.roadmap!.phases;
   const [idx, setIdx] = useState(0);
   const reduced = useReducedMotion();
   const total = roadmapPhases.length;
@@ -174,7 +174,7 @@ function PhaseCard({ p }: { p: RoadmapPhase }) {
               ))}
             </ul>
           ) : (
-            <p className="text-[14px] leading-snug">{scenarios.roadmap.noGateNote}</p>
+            <p className="text-[14px] leading-snug">{scenarios.roadmap!.noGateNote}</p>
           )}
         </Box>
         <Box title="Nguồn lực" icon={<Users aria-hidden size={16} strokeWidth={1.5} />} dark={dark}>
@@ -262,7 +262,7 @@ function People({ count, text, tone, label }: { count: number; text?: string; to
 
 /** Thang năng lực của đội khách hàng: mốc đã đạt tới cuối giai đoạn, mốc hiện tại nổi bật */
 function ItLadder({ phase, dark }: { phase: RoadmapPhase; dark: boolean }) {
-  const { phases, itSteps, phaseEndMonth } = useDeck().scenarios.roadmap;
+  const { phases, itSteps, phaseEndMonth } = useDeck().scenarios.roadmap!;
   const end = phaseEndMonth[phase.id];
   const reached = itSteps.filter((s) => s.m <= end);
   const current = reached[reached.length - 1];

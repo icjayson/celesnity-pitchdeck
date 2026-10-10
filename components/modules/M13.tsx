@@ -243,7 +243,7 @@ function Founding() {
             <h4 className="text-[30px] font-semibold leading-tight tracking-[-0.02em] sm:text-[36px]">{l.sub}</h4>
           </div>
           <p className="text-[15px] leading-relaxed text-blue-100/90">
-            {scenarios.m13.foundingNote}
+            {scenarios.m13!.foundingNote}
           </p>
         </div>
         <dl className="grid grid-cols-1 sm:grid-cols-2">
