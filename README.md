@@ -19,9 +19,7 @@ Tài liệu: `docs/content-v4.md` (nội dung Hòa Phát) · `docs/nestle-conten
 ```
 app/
   [deck]/                 trang của từng deck: page, phu-luc, ban-in, v1; layout nạp đúng deck vào DeckProvider
-  truy-cap/               trang nhập mã truy cập (trung tính, không hiện tên khách hàng)
-  api/chat · api/extract  trợ lý và trích xuất M6, bắt buộc gửi `deck`, kiểm tra quyền theo deck
-  api/access              nhập mã của một deck → cookie riêng ld_access_<slug>
+  api/chat · api/extract  trợ lý và trích xuất M6, bắt buộc gửi `deck`
 decks/
   types.ts                hợp đồng dữ liệu DeckData (gửi xuống trình duyệt) và DeckAssistant (chỉ ở server)
   all.ts                  bảng tất cả deck (script, evals), tệp nội dung gốc, tên riêng cấm lẫn giữa deck
@@ -34,7 +32,6 @@ components/
   art/                    cảnh "Nhà máy sống" (ba đảo; hình vẽ từng đảo theo deck)
   shared/ presenter/ assistant/
 lib/ai/                   trợ lý: ngữ cảnh dựng riêng cho từng deck (prompt.ts), trích xuất case/incident
-lib/access.ts             mã truy cập theo deck
 public/decks/<slug>/      ảnh, logo, bản PDF của từng deck
 evals/<slug>/             bộ kiểm thử trợ lý và trích xuất của từng deck
 ```
@@ -43,7 +40,7 @@ evals/<slug>/             bộ kiểm thử trợ lý và trích xuất của t�
 
 - **Trang:** mỗi `/<slug>` chỉ nhận dữ liệu deck của mình (server → DeckProvider). Bundle JS dùng chung không chứa câu chữ khách hàng.
 - **Trợ lý AI:** mỗi deck có system prompt, gói tri thức, câu hỏi thường gặp, tool, trích xuất, nhật ký, trần chi phí và giới hạn tần suất riêng. Trợ lý từ chối nói về khách hàng khác.
-- **Truy cập:** `ACCESS_CODE_<SLUG>` cho từng deck; cookie của deck này không mở deck khác, không gọi được trợ lý của deck khác.
+- **Truy cập:** mọi deck mở công khai theo đường dẫn (không còn mã truy cập). Trợ lý chỉ trả lời theo đúng deck được gửi kèm.
 - **Kiểm tra:** `npm run leak:check` (và `-- --build` sau khi build).
 
 ## Cài đặt và chạy
@@ -64,8 +61,6 @@ npm run build && npm start
 | `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `CHAT_MODEL` | Trợ lý và M6 (chỉ ở server) |
 | `CHAT_DAILY_BUDGET`, `CHAT_DAILY_BUDGET_<SLUG>` | Trần chi phí theo ngày, tính riêng từng deck |
 | `CHAT_LOG` | `on`: lưu câu hỏi vào `.data/<slug>/chat-log.jsonl` |
-| `ACCESS_CODE_<SLUG>` | Mã truy cập của từng deck (`ACCESS_CODE_HOA_PHAT`, `ACCESS_CODE_NESTLE_VIETNAM`). Trống: không khóa |
-| `ACCESS_CODE` | Mã cũ, chỉ áp dụng cho `/hoa-phat` khi chưa đặt `ACCESS_CODE_HOA_PHAT` |
 | `SITE_URL` | Địa chỉ trang, dùng cho `npm run pdf` và Playwright |
 
 ## Scripts
@@ -86,8 +81,7 @@ npm run build && npm start
 1. Viết nội dung gốc `docs/<slug>-content.md` theo cấu trúc section của deck hiện có.
 2. Tạo `decks/<slug>/` (sao chép `decks/nestle-vietnam/` làm mẫu): `content.vi.ts`, `usecases.ts`, `scenarios.ts`, `faq.ts`, `knowledge.ts`, `assistant.ts`, `index.ts`.
 3. Thêm deck vào `decks/all.ts` (allDecks, allAssistants, deckSources, forbiddenTerms) và ảnh vào `public/decks/<slug>/`.
-4. Đặt `ACCESS_CODE_<SLUG>` trong `.env.local` và trên Vercel.
-5. Chạy `npm run check`, `npm run eval -- --deck=<slug>`, `npm run e2e`, rồi `npm run pdf -- --deck=<slug>`.
+4. Chạy `npm run check`, `npm run eval -- --deck=<slug>`, `npm run e2e`, rồi `npm run pdf -- --deck=<slug>`.
 
 ## Chế độ trình chiếu và bản in
 

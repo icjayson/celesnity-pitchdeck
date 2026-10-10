@@ -5,7 +5,6 @@
 import { z } from "zod";
 import { extractCard, EXTRACT_MAX_CHARS } from "@/lib/ai/extract";
 import { assistantContextFor } from "@/lib/ai/prompt";
-import { hasDeckAccess } from "@/lib/access";
 import { getAssistant, getDeck } from "@/decks/registry";
 import { sessionCookieHeader, sessionFromRequest, takeToken } from "@/lib/ai/rateLimit";
 
@@ -35,9 +34,6 @@ export async function POST(request: Request) {
   const deck = getDeck(slug);
   const assistant = getAssistant(slug);
   if (!deck || !assistant) return Response.json({ error: "Nội dung không hợp lệ." }, { status: 400, headers });
-  if (!(await hasDeckAccess(slug, request.headers.get("cookie")))) {
-    return Response.json({ error: "Cần mã truy cập." }, { status: 401, headers });
-  }
 
   if (!takeToken(`x:${slug}:${session.id}`)) {
     return Response.json({ error: "Quý vị đã thử nhiều lần trong một giờ. Vui lòng thử lại sau." }, { status: 429, headers });

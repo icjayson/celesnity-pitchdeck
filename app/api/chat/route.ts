@@ -5,7 +5,6 @@
 import { z } from "zod";
 import { chatErrors, runChat, type ChatEvent, type ChatTurn } from "@/lib/ai/chat";
 import { assistantContextFor } from "@/lib/ai/prompt";
-import { hasDeckAccess } from "@/lib/access";
 import { getAssistant, getDeck } from "@/decks/registry";
 import { sessionCookieHeader, sessionFromRequest, takeToken } from "@/lib/ai/rateLimit";
 
@@ -70,15 +69,12 @@ export async function POST(request: Request) {
     return oneShot([{ t: "error", message: chatErrors.badRequest }, { t: "done" }], 400, cookieHeaders);
   }
 
-  // Ngữ cảnh riêng của deck: chỉ deck có trong registry, và người gửi phải có quyền vào deck đó
+  // Ngữ cảnh riêng của deck: chỉ deck có trong registry
   const slug = parsed.data.deck;
   const deck = getDeck(slug);
   const assistant = getAssistant(slug);
   if (!deck || !assistant) {
     return oneShot([{ t: "error", message: chatErrors.badRequest }, { t: "done" }], 400, cookieHeaders);
-  }
-  if (!(await hasDeckAccess(slug, request.headers.get("cookie")))) {
-    return oneShot([{ t: "error", message: chatErrors.badRequest }, { t: "done" }], 401, cookieHeaders);
   }
   const ctx = assistantContextFor(deck, assistant);
 

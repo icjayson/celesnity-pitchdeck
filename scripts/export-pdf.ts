@@ -20,10 +20,6 @@ const out = resolve(root, `public/decks/${deck}/nha-may-sieu-thong-minh.pdf`);
 async function main() {
   try {
     const res = await fetch(url, { redirect: "manual" });
-    if (res.status >= 300 && res.status < 400 && res.headers.get("location")?.includes("/truy-cap")) {
-      console.error(`Deck ${deck} đang khóa bằng mã truy cập. Tạm bỏ ACCESS_CODE_${deck.toUpperCase().replace(/-/g, "_")} khi xuất PDF.`);
-      process.exit(1);
-    }
     if (!res.ok) {
       console.error(`${url} trả về HTTP ${res.status}.`);
       process.exit(1);
