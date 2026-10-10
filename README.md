@@ -1,12 +1,14 @@
 # Landing deck · Celesnity
 
-Thư mục chung cho các landing deck tương tác gửi khách hàng. Mỗi khách hàng một đường dẫn con, một bộ nội dung, một trợ lý AI và một mã truy cập riêng.
+Thư mục chung cho các landing deck tương tác gửi khách hàng. Mỗi khách hàng một đường dẫn con, một bộ nội dung và một trợ lý AI riêng.
 
 | Đường dẫn | Deck |
 |---|---|
 | `/hoa-phat` (+ `/phu-luc`, `/ban-in`, `/v1`) | Nhà máy siêu thông minh · Hòa Phát × Celesnity |
 | `/nestle-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Nestlé Trị An × Celesnity |
-| `/` | Tạm chuyển tới `/hoa-phat` (giữ đường dẫn đã gửi). Thư viện deck làm sau |
+| `/isuzu-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Isuzu Việt Nam × Celesnity |
+| `/takako-vietnam` (+ `/phu-luc`, `/ban-in`) | Minder AI · Takako × Celesnity |
+| `/` | Cổng chọn deck |
 
 Đường dẫn cũ `/phu-luc`, `/ban-in`, `/v1` tự chuyển về `/hoa-phat/...`.
 
@@ -53,6 +55,10 @@ npm run build && npm start
 ```
 
 Để trống `OPENAI_API_KEY` thì trợ lý và M6 chạy bằng câu trả lời soạn sẵn của từng deck (chế độ offline).
+
+## Cloud Run
+
+`Dockerfile` tạo image Next.js standalone; `cloudbuild.yaml` build, đẩy image và cập nhật service `celesnity-deck` đã cấu hình sẵn. Mã truy cập từng khách hàng và khóa API phải được gắn từ Secret Manager vào **runtime**, không đưa vào Docker build. Xem [hướng dẫn triển khai](docs/cloud-run-deployment.md) để tạo service, cấu hình secret, trigger, kiểm tra và rollback.
 
 ## Biến môi trường
 

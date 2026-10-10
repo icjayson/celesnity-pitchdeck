@@ -1,0 +1,42 @@
+substitutions:
+  _ARTIFACT_REGISTRY: asia-southeast1-docker.pkg.dev
+  _ARTIFACT_REPOSITORY: cloud-run-source-deploy
+  _DEPLOY_REGION: asia-southeast1
+  _SERVICE_NAME: celesnity-deck
+
+steps:
+  - id: Build
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - --tag
+      - ${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_ARTIFACT_REPOSITORY}/${_SERVICE_NAME}:$COMMIT_SHA
+      - .
+
+  - id: Push
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - ${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_ARTIFACT_REPOSITORY}/${_SERVICE_NAME}:$COMMIT_SHA
+
+  # Update only the image. Secret bindings, service identity, access policy,
+  # and scaling settings are configured on the service before enabling the trigger.
+  - id: Deploy
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: gcloud
+    args:
+      - run
+      - services
+      - update
+      - ${_SERVICE_NAME}
+      - --platform=managed
+      - --project=$PROJECT_ID
+      - --image=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_ARTIFACT_REPOSITORY}/${_SERVICE_NAME}:$COMMIT_SHA
+      - --region=${_DEPLOY_REGION}
+      - --quiet
+
+images:
+  - ${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_ARTIFACT_REPOSITORY}/${_SERVICE_NAME}:$COMMIT_SHA
+
+options:
+  logging: CLOUD_LOGGING_ONLY
