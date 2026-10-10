@@ -11,7 +11,7 @@ export const takakoBrief = `## Takako (theo thông tin Takako chia sẻ)
 
 ## Phạm vi Giai đoạn 1 (Takako xác nhận)
 
-- Ba phần việc: quy trình và nghiệp vụ của phòng kế toán (giá thành, chi phí, tính lại khi kế hoạch sản lượng thay đổi, văn bản pháp lý mới từ nguồn được phép); dữ liệu MES-IoT đang quản lý (tình trạng máy, sự cố, sửa chữa, bảo trì, cycle time, sản lượng); một phần nhỏ trong quản lý bản vẽ sản phẩm (bản vẽ hiện hành, phiên bản, lệnh và lô liên quan).
+- Ba ứng dụng trọng tâm: dữ liệu MES-IoT đang quản lý (tình trạng máy, sự cố, sửa chữa, bảo trì, cycle time, sản lượng); quy trình và nghiệp vụ của phòng kế toán (giá thành, chi phí, tính lại khi kế hoạch sản lượng thay đổi, văn bản pháp lý mới từ nguồn được phép); một phần nhỏ trong quản lý bản vẽ sản phẩm (bản vẽ hiện hành, phiên bản, lệnh và lô liên quan).
 - Ngoài phạm vi Giai đoạn 1: ghi dữ liệu vào hệ thống, điều khiển máy, giám sát quy trình xưởng, chương trình gia công.
 
 ## Cách Minder AI làm việc
@@ -20,8 +20,8 @@ export const takakoBrief = `## Takako (theo thông tin Takako chia sẻ)
 - Quy tắc trả lời do chính quản lý phụ trách đặt: dữ liệu dùng, cách tính, ngưỡng, định dạng, người nhận, thời điểm. Minder AI không tự đặt ngưỡng, không tự đổi cách tính, không tự thêm người nhận.
 - Con số luôn tính bằng công thức đã duyệt, không do mô hình ngôn ngữ tự tính. Mọi output dẫn tới bản ghi gốc; thiếu dữ liệu thì nói rõ.
 - Dữ liệu nối với nhau bằng mã hàng: từ một sự cố dừng máy trên MES, Minder AI chỉ ra tác động đến giá thành trên ERP và bản vẽ liên quan.
-- Mô hình open-weight chạy trong nhà máy; không gọi dịch vụ AI bên ngoài; nguồn bên ngoài chỉ theo danh sách được phép; phân quyền theo vai trò; nhật ký mọi truy vấn và output.
-- Kỹ sư thực địa của Celesnity làm việc tại nhà máy cùng từng phòng, không thay đổi quy trình đang chạy. GIANTY quản lý dự án, tư vấn lộ trình AI và bảo mật dữ liệu. Một đối tác kết nối dữ liệu nhà máy làm đầu mối kết nối ERP, MES-IoT và kho bản vẽ.
+- Mô hình AI: qua API trong giai đoạn chuyển tiếp; từ Giai đoạn 2 chuyển dần sang Mô hình AI \"Newcomen\" do Celesnity tự nghiên cứu, phát triển và vận hành trên hạ tầng của Celesnity. Đề xuất chưa nêu nhà cung cấp API và chưa mô tả chi tiết nơi đặt từng thành phần; nếu được hỏi, nói sẽ làm rõ cùng IT Takako. Nguồn bên ngoài chỉ theo danh sách được phép; phân quyền theo vai trò; nhật ký mọi truy vấn và output.
+- Kỹ sư thực địa của Celesnity làm việc tại nhà máy cùng từng phòng, không thay đổi quy trình đang chạy. Một đối tác kết nối dữ liệu nhà máy làm đầu mối kết nối ERP, MES-IoT và kho bản vẽ.
 
 ## Câu hỏi khó và cách trả lời theo đề xuất
 
@@ -29,4 +29,4 @@ export const takakoBrief = `## Takako (theo thông tin Takako chia sẻ)
 - Về phần minh họa (PT-2041, MC-07, VS-118, các lệnh, lô, ngưỡng 3%): đó là mô phỏng minh họa, không phải số liệu của Takako.
 - Về hệ thống ERP, MES cụ thể Takako dùng: đề xuất không giả định; kết nối qua API, database view hoặc file xuất định kỳ, xác định trong tuần 1.
 - Về con số mục tiêu: chỉ có ví dụ tình trạng một máy từ khoảng 30 phút xuống dưới 2 phút; các mục tiêu khác chốt cùng Takako.
-- Nếu KPI không đạt ở Cổng 1: Takako quyết định; không mở rộng khi độ chính xác chưa đạt yêu cầu.`;
+- Nếu KPI không đạt ở Giai đoạn 1: Takako quyết định; không mở rộng khi độ chính xác chưa đạt yêu cầu.`;

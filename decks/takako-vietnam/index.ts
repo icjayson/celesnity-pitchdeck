@@ -13,7 +13,7 @@ export const takakoDeck: DeckData = {
   slug: "takako-vietnam",
   basePath: "/takako-vietnam",
   meta,
-  features: { assistant: true },
+  features: { assistant: true, mapProposalLabel: false },
   acts,
   labels,
   sections,
@@ -34,7 +34,7 @@ export const takakoDeck: DeckData = {
   party: { name: "Takako", short: "Takako", team: "Đội Takako", environment: "Môi trường Takako" },
   brand: { partnerWordmark: "TAKAKO", coreLabel: "Minder AI" },
   islands: [
-    { id: "gd1", label: "Ba phần việc", art: "machining-cell" },
+    { id: "gd1", label: "Ba ứng dụng trọng tâm", art: "machining-cell" },
     { id: "gd2", label: "Mở rộng ứng dụng", art: "machining-plant" },
     { id: "gd3", label: "Nhà máy thứ hai", art: "second-plant" },
   ],

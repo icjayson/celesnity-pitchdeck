@@ -78,10 +78,11 @@ export function Cards({
 }
 
 /** Các bước nối tiếp, có số thứ tự và đường nối */
-export function Steps({ head, rows, layout = "horizontal" }: { head?: string[]; rows: string[][]; layout?: "horizontal" | "vertical" }) {
+export function Steps({ head, rows, layout = "horizontal", cols }: { head?: string[]; rows: string[][]; layout?: "horizontal" | "vertical"; cols?: 2 }) {
   const horizontal = layout === "horizontal";
+  const wide = cols === 2 ? "" : rows.length >= 4 ? "lg:grid-cols-3 xl:grid-cols-" + Math.min(rows.length, 6) : "lg:grid-cols-" + rows.length;
   return (
-    <ol className={horizontal ? `grid grid-cols-1 gap-4 sm:grid-cols-2 ${rows.length >= 4 ? "lg:grid-cols-3 xl:grid-cols-" + Math.min(rows.length, 6) : "lg:grid-cols-" + rows.length}` : "flex flex-col gap-0"}>
+    <ol className={horizontal ? `grid grid-cols-1 gap-4 sm:grid-cols-2 ${wide}` : "flex flex-col gap-0"}>
       {rows.map((r, i) => (
         <li key={i} className={horizontal ? "vis-card relative flex flex-col gap-3 rounded-[var(--radius-card)] p-5" : "relative grid grid-cols-[44px_1fr] gap-4 pb-8 last:pb-0"}>
           {horizontal ? (
@@ -167,7 +168,7 @@ export function Timeline({ head, rows }: { head: string[]; rows: string[][] }) {
                 <RichText text={r[1]} />
               </p>
             ) : null}
-            <p className="flex flex-1 items-start gap-2 text-[15px] leading-relaxed">
+            <p className="flex min-w-0 flex-1 items-start gap-2 text-[15px] leading-relaxed">
               <Sparkles aria-hidden size={16} strokeWidth={1.5} className="mt-1 shrink-0 text-blue-500" />
               <span>
                 <span className="sr-only">{head[2]}: </span>
@@ -175,7 +176,7 @@ export function Timeline({ head, rows }: { head: string[]; rows: string[][] }) {
               </span>
             </p>
             {has(r[3]) ? (
-              <p className="flex items-start gap-2 rounded-full bg-orange-500/10 px-3 py-1.5 text-[14px] font-medium text-orange-700 sm:shrink-0">
+              <p className="flex items-start gap-2 rounded-[18px] bg-orange-500/10 px-3 py-1.5 text-[14px] font-medium text-orange-700 sm:max-w-[36%] sm:shrink-0">
                 <UserRound aria-hidden size={16} strokeWidth={1.5} className="mt-0.5 shrink-0" />
                 <span>
                   <span className="sr-only">{head[3]}: </span>

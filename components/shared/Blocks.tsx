@@ -63,7 +63,7 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
     case "cards":
       return <Cards head={b.head} rows={b.rows} cols={b.cols} tone={b.tone} partner={partner} />;
     case "steps":
-      return <Steps head={b.head} rows={b.rows} layout={b.layout} />;
+      return <Steps head={b.head} rows={b.rows} layout={b.layout} cols={b.cols} />;
     case "timeline":
       return <Timeline head={b.head} rows={b.rows} />;
     case "compare":

@@ -61,7 +61,8 @@ function getArms(sections: Section[], ORDER: IslandId[]): Arm[] {
 }
 
 export default function M8(_props: { variant?: string }) {
-  const { sections, labels, islands } = useDeck();
+  const { sections, labels, islands, features } = useDeck();
+  const showProposal = features?.mapProposalLabel !== false;
   const order = islands.map((x) => x.id);
   /** Đảo cuối là đích đến (orange) */
   const destId = order[order.length - 1];
@@ -98,9 +99,11 @@ export default function M8(_props: { variant?: string }) {
         {a.id === destId ? (
           <>
             <span className="text-[12px] font-semibold text-orange-700 sm:text-[13px]">{a.role}</span>
-            <span className="hidden sm:block">
-              <Label variant="proposal" text={labels.proposal} className="whitespace-nowrap" />
-            </span>
+            {showProposal ? (
+              <span className="hidden sm:block">
+                <Label variant="proposal" text={labels.proposal} className="whitespace-nowrap" />
+              </span>
+            ) : null}
           </>
         ) : null}
       </>,
@@ -126,9 +129,11 @@ export default function M8(_props: { variant?: string }) {
             {order.map((id) => nameOf(id).toLowerCase()).join(" sang ")}. Bấm một đảo hoặc dùng các tab để xem chi tiết.
           </figcaption>
         </figure>
-        <div className="-mt-10 flex justify-end sm:hidden">
-          <Label variant="proposal" text={labels.proposal} />
-        </div>
+        {showProposal ? (
+          <div className="-mt-10 flex justify-end sm:hidden">
+            <Label variant="proposal" text={labels.proposal} />
+          </div>
+        ) : null}
 
         <div
           role="tablist"
@@ -187,7 +192,7 @@ export default function M8(_props: { variant?: string }) {
             <span className="sr-only">{current.rowLabels.role}: </span>
             {current.role}
           </span>
-          {isDest ? <Label variant="proposal" text={labels.proposal} /> : null}
+          {isDest && showProposal ? <Label variant="proposal" text={labels.proposal} /> : null}
         </div>
 
         <h3 className="mt-4 flex items-baseline gap-3 text-[24px] font-semibold leading-tight tracking-[-0.015em] text-navy-900 sm:text-[28px]">

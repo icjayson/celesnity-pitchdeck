@@ -1,7 +1,7 @@
 "use client";
 /**
  * M21 — Thẻ có hình minh họa (phong cách M2) và sơ đồ ranh giới bảo mật. Dữ liệu: deck.scenarios.m21.
- * Biến thể: tên một bộ thẻ trong `sets` (ví dụ "buoc", "ba-viec") · "security" (ranh giới dữ liệu trong nhà máy).
+ * Biến thể: tên một bộ thẻ trong `sets` (ví dụ "buoc", "ba-viec") · "security" (ranh giới dữ liệu trong nhà máy) · "kpi" (chuỗi KPI ba tầng).
  * Bản in bỏ module; nội dung tương đương nằm trong bảng của section.
  */
 import { Fragment, useRef, useState, type KeyboardEvent } from "react";
@@ -31,6 +31,7 @@ import { Photo } from "@/components/shared/Photo";
 import { Video } from "@/components/shared/Video";
 import type { ArchIcon, IllustratedCard, IllustratedData } from "@/decks/types";
 import { IllustrationSvg } from "./M21/Art";
+import { KpiChain } from "./M21/Kpi";
 
 const GRID: Record<number, string> = {
   2: "lg:grid-cols-[minmax(0,1fr)_32px_minmax(0,1fr)]",
@@ -43,6 +44,7 @@ export default function M21({ variant = "" }: { variant?: string }) {
   const data = useDeck().scenarios.m21!;
   if (variant === "security" && data.security) return <Security s={data.security} />;
   if (variant === "architecture" && data.architecture) return <Architecture a={data.architecture} />;
+  if (variant === "kpi" && data.kpi) return <KpiChain k={data.kpi} />;
   if (data.gallery?.[variant]) return <Gallery items={data.gallery[variant]} />;
   const set = data.sets[variant];
   if (!set) return null;
@@ -171,15 +173,17 @@ function Security({ s }: { s: NonNullable<IllustratedData["security"]> }) {
               {s.allowed.sub}
             </p>
           </div>
-          <div className="rounded-[12px] border border-dashed border-line-200 bg-white/60 px-4 py-3 opacity-80">
-            <p className="flex items-center gap-2 text-[15px] font-semibold text-ink-500 line-through decoration-ink-500/60">
-              {s.blocked.name}
-            </p>
-            <p className="mt-0.5 flex items-start gap-2 text-[13px] leading-snug text-ink-500">
-              <X aria-hidden size={14} strokeWidth={2} className="mt-0.5 shrink-0" />
-              {s.blocked.sub}
-            </p>
-          </div>
+          {s.blocked ? (
+            <div className="rounded-[12px] border border-dashed border-line-200 bg-white/60 px-4 py-3 opacity-80">
+              <p className="flex items-center gap-2 text-[15px] font-semibold text-ink-500 line-through decoration-ink-500/60">
+                {s.blocked.name}
+              </p>
+              <p className="mt-0.5 flex items-start gap-2 text-[13px] leading-snug text-ink-500">
+                <X aria-hidden size={14} strokeWidth={2} className="mt-0.5 shrink-0" />
+                {s.blocked.sub}
+              </p>
+            </div>
+          ) : null}
         </div>
       </div>
       <figcaption className="muted text-[14px] leading-relaxed">
@@ -290,11 +294,11 @@ function Architecture({ a }: { a: NonNullable<IllustratedData["architecture"]> }
                 <p className="text-[13px] text-blue-300">{a.core.sub}</p>
               </div>
             </div>
-            <ol className="relative mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2">
+            <ol className="relative mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
               {a.core.steps.map((st, i) => (
-                <li key={st} className="flex flex-col gap-1 rounded-[12px] border border-navy-700 bg-navy-800/70 px-3 py-2.5">
-                  <span className="tabular text-[11px] font-semibold text-blue-300">0{i + 1}</span>
-                  <span className="whitespace-nowrap text-[14px] font-semibold leading-snug">{st}</span>
+                <li key={st} className="flex items-center gap-3 rounded-[12px] border border-navy-700 bg-navy-800/70 px-3.5 py-2.5">
+                  <span className="tabular shrink-0 text-[12px] font-semibold text-blue-300">0{i + 1}</span>
+                  <span className="min-w-0 text-[14px] font-semibold leading-snug">{st}</span>
                 </li>
               ))}
             </ol>
@@ -317,9 +321,11 @@ function Architecture({ a }: { a: NonNullable<IllustratedData["architecture"]> }
           </ul>
         </div>
       </div>
-      <figcaption className="muted text-[14px] leading-relaxed">
-        <RichText text={a.caption} />
-      </figcaption>
+      {a.caption ? (
+        <figcaption className="muted text-[14px] leading-relaxed">
+          <RichText text={a.caption} />
+        </figcaption>
+      ) : null}
     </figure>
   );
 }

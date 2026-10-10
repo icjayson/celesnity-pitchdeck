@@ -39,7 +39,7 @@ export type Block =
   /** Lưới thẻ: ô đầu mỗi hàng là tiêu đề thẻ, các ô sau là nội dung (có nhãn từ head nếu có) */
   | { kind: "cards"; head?: Rich[]; rows: Rich[][]; cols?: 2 | 3 | 4; tone?: "blue" | "orange" | "navy" }
   /** Các bước nối tiếp: ô đầu là nhãn bước, ô 2 là nội dung, ô 3+ là đầu ra/ghi chú */
-  | { kind: "steps"; head?: Rich[]; rows: Rich[][]; layout?: "horizontal" | "vertical" }
+  | { kind: "steps"; head?: Rich[]; rows: Rich[][]; layout?: "horizontal" | "vertical"; /** Số cột tối đa khi xếp ngang; mặc định theo số bước */ cols?: 2 }
   /** Dòng thời gian: giờ · điều xảy ra · AI làm gì · con người làm gì */
   | { kind: "timeline"; head: Rich[]; rows: Rich[][] }
   /** So sánh hai cột: nhãn · cột trái · cột phải (cột phải được làm nổi bật) */
@@ -423,7 +423,11 @@ export type DeckData = {
   /** series: tên bộ tài liệu ở đầu trang phụ lục; không đặt thì dùng "Nhà máy siêu thông minh" */
   meta: { title: string; description: string; tagline: string; footer: string; series?: string };
   /** Tính năng bật/tắt theo deck. assistant = false: không gắn trợ lý AI nổi và không gọi API chat */
-  features?: { assistant?: boolean };
+  features?: {
+    assistant?: boolean;
+    /** Nhãn "đề xuất" cạnh đích đến trên bản đồ M8; mặc định hiện */
+    mapProposalLabel?: boolean;
+  };
   acts: Act[];
   labels: DeckLabels;
   sections: Section[];
@@ -767,12 +771,27 @@ export type IllustratedCard = {
 /** Icon trong sơ đồ kiến trúc M21 */
 export type ArchIcon = "ledger" | "machine" | "drawing" | "law" | "accounting" | "engineering" | "production" | "leadership";
 
+/** Biến thể "kpi" của M21: KPI hai tầng. Tầng 1 là KPI nghiệm thu (chấm và gắn phí); Tầng 2 xếp theo làn, mỗi làn
+ * (một ứng dụng) đi từ tác động quy trình tới một tác động kinh doanh; mục có `time` cộng dồn vào mục chung ở cuối. */
+export type KpiTier = { label: string; name: string; sub: string; when?: string; fee?: string };
+export type KpiData = {
+  quality: { tier: KpiTier; items: { name: string; target: string }[] };
+  impact: {
+    tier: KpiTier;
+    lanes: { icon: ArchIcon; app: string; items: { text: string; time?: boolean }[]; outcome: string }[];
+    /** `tag`: nhãn ngắn trên mục có `time` */
+    shared: { name: string; target: string; sub: string; tag: string };
+  };
+};
+
 export type IllustratedData = {
   /** Bộ thẻ theo variant của M21 (ví dụ "buoc", "ba-viec") */
   /** layout "rows": mỗi thẻ một hàng, nội dung cột 1, video cột 2–3 */
   sets: Record<string, { arrows?: boolean; layout?: "grid" | "rows"; cards: IllustratedCard[] }>;
   /** Bộ ảnh chụp có tab (variant = khóa), ví dụ quy tắc do quản lý đặt trong Minder AI */
   gallery?: Record<string, { label: string; sub?: string; photo: Photo }[]>;
+  /** KPI ba tầng (variant "kpi") */
+  kpi?: KpiData;
   /** Sơ đồ kiến trúc (variant "architecture"): nguồn → Minder AI (nhận quy tắc của quản lý) → người nhận theo vai trò */
   architecture?: {
     sourcesTitle: string;
@@ -783,7 +802,7 @@ export type IllustratedData = {
     out: string;
     usersTitle: string;
     users: { icon: ArchIcon; name: string; sub: string }[];
-    caption: string;
+    caption?: string;
   };
   /** Sơ đồ ranh giới bảo mật (variant "security") */
   security?: {
@@ -793,7 +812,8 @@ export type IllustratedData = {
     core: { name: string; sub: string };
     inside: { name: string; sub: string }[];
     allowed: { name: string; sub: string };
-    blocked: { name: string; sub: string };
+    /** Kết nối bị chặn (gạch ngang); bỏ trống thì không hiện */
+    blocked?: { name: string; sub: string };
     caption: string;
   };
 };

@@ -17,7 +17,7 @@ export const meta = {
 export const acts: Act[] = [
   { n: 1, label: "I.", title: "Takako đã sẵn sàng" },
   { n: 2, label: "II.", title: "Minder AI tại Takako" },
-  { n: 3, label: "III.", title: "Đo bằng con số, mở rộng từng bước" },
+  { n: 3, label: "III.", title: "Lộ trình triển khai" },
 ];
 
 export const labels: DeckLabels = {
@@ -28,7 +28,7 @@ export const labels: DeckLabels = {
   proposal: "Đề xuất, chốt cùng Takako",
   calculatorPrivacy: "",
   chatNotice:
-    "Trợ lý chỉ trả lời về đề xuất này. Câu hỏi trên trang được xử lý bởi dịch vụ AI quốc tế; vui lòng không nhập dữ liệu nội bộ. Minder AI khi triển khai chạy trong nhà máy Takako.",
+    "Trợ lý chỉ trả lời về đề xuất này. Câu hỏi trên trang được xử lý bởi dịch vụ AI quốc tế; vui lòng không nhập dữ liệu nội bộ.",
   details: "Xem chi tiết",
   hideDetails: "Thu gọn",
 };
@@ -50,7 +50,7 @@ export const sections: Section[] = [
         kind: "lead",
         text: "Mọi thông tin quản lý cần về sản xuất, vận hành, kế toán và tài nguyên kỹ thuật, từ chính dữ liệu và hệ thống Takako đang sở hữu.",
       },
-      { kind: "note", text: "Chạy trong nhà máy · Chỉ đọc dữ liệu · Con người quyết định" },
+      { kind: "note", text: "Chỉ đọc dữ liệu · Dữ liệu thuộc Takako · Con người quyết định" },
     ],
   },
   {
@@ -71,7 +71,7 @@ export const sections: Section[] = [
       },
       {
         kind: "p",
-        text: "Celesnity trân trọng đề xuất triển khai **Minder AI, trợ lý vận hành chủ động của Takako**. Minder AI chạy trong nhà máy, đặt trên ERP, MES-IoT và kho bản vẽ Takako đang có, chỉ đọc dữ liệu và nối dữ liệu theo mã hàng. Minder AI tự theo dõi, phát hiện thay đổi, soạn sẵn thông tin và báo đúng người quản lý, theo **quy tắc do chính quản lý Takako đặt**.",
+        text: "Celesnity trân trọng đề xuất triển khai **Minder AI, trợ lý vận hành chủ động của Takako**. Minder AI đặt trên ERP, MES-IoT và kho bản vẽ Takako đang có, chỉ đọc dữ liệu và nối dữ liệu theo mã hàng. Minder AI tự theo dõi, phát hiện thay đổi, soạn sẵn thông tin và báo đúng người quản lý, theo **quy tắc do chính quản lý Takako đặt**.",
       },
       {
         kind: "p",
@@ -79,29 +79,29 @@ export const sections: Section[] = [
       },
       {
         kind: "p",
-        text: "**Cách làm**\nBắt đầu nhỏ và chắc: ba phần việc trong 4 tuần, gồm Trợ lý giá thành cho Kế toán, Trợ lý dữ liệu máy cho Sản xuất và Vận hành, Trợ lý bản vẽ cho Tài nguyên kỹ thuật. Dữ liệu chỉ đọc, không thay phần mềm nào, không thay đổi quy trình đang chạy. Kỹ sư thực địa của Celesnity làm việc tại nhà máy cùng từng phòng; ngay tuần 1, hai bên đo số nền thời gian làm việc hiện tại và quản lý đặt quy tắc cho từng phần việc.",
+        text: "**Cách làm**\nBắt đầu nhỏ và chắc: ba ứng dụng trọng tâm trong 6 tuần pilot, gồm Trợ lý vận hành sản xuất cho Sản xuất và Vận hành, Trợ lý hỗ trợ kế toán cho Kế toán, Trợ lý quản lý bản vẽ kỹ thuật cho Tài nguyên kỹ thuật. Dữ liệu chỉ đọc, không thay phần mềm nào, không thay đổi quy trình đang chạy. Kỹ sư thực địa của Celesnity làm việc tại nhà máy cùng từng phòng; ngay tuần 1, hai bên đo số nền thời gian làm việc hiện tại và quản lý đặt quy tắc cho từng phần việc.",
       },
       {
         kind: "p",
-        text: "**Kết quả dự kiến sau 4 tuần**\nBa phần việc chạy thật trên dữ liệu của Takako. Thời gian cho công việc Minder AI đảm nhận được đo so với số nền tuần 1, ví dụ tình trạng một máy từ khoảng 30 phút xuống dưới 2 phút. 100% output có nguồn, và tỷ lệ đúng do chính người nhận xác nhận. Tại Cổng 1, Takako quyết định mở rộng sang các ứng dụng tiếp theo, rồi sang nhà máy thứ hai.",
+        text: "**Kết quả dự kiến sau 6 tuần pilot**\nBa ứng dụng trọng tâm chạy thật trên dữ liệu của Takako. Thời gian cho công việc Minder AI đảm nhận được đo so với số nền tuần 1, ví dụ tình trạng một máy từ khoảng 30 phút xuống dưới 2 phút. 100% output có nguồn, và tỷ lệ đúng do chính người nhận xác nhận. Tại Giai đoạn 1, Takako quyết định mở rộng sang các ứng dụng tiếp theo, rồi sang nhà máy thứ hai.",
       },
       {
         kind: "p",
-        text: "**Cam kết của Celesnity**\nMinder AI và mô hình AI open-weight chạy trong nhà máy, không gọi dịch vụ AI bên ngoài; dữ liệu thuộc Takako. Minder AI không ghi vào hệ thống, không điều khiển máy, không tự đặt ngưỡng hay công thức. Phí gắn với KPI đã chốt trước khi bắt đầu. **Quản lý Takako luôn là người quyết định.**",
+        text: "**Cam kết của Celesnity**\nDữ liệu thuộc Takako và chỉ được đọc theo quy tắc, phân quyền Takako duyệt; mô hình AI qua API trong giai đoạn chuyển tiếp, chuyển dần sang **Mô hình AI \"Newcomen\"** của Celesnity từ Giai đoạn 2. Minder AI không ghi vào hệ thống, không điều khiển máy, không tự đặt ngưỡng hay công thức. Phí gắn với KPI đã chốt trước khi bắt đầu. **Quản lý Takako luôn là người quyết định.**",
       },
       { kind: "p", text: "**Kính đề nghị Ban lãnh đạo**" },
       {
         kind: "list",
         ordered: true,
         items: [
-          "**Thống nhất định hướng:** triển khai Minder AI theo ba giai đoạn. Ba phần việc giá thành, dữ liệu máy và bản vẽ là điểm khởi đầu; nhà máy thứ hai là đích đến.",
-          "**Cử đầu mối:** đầu mối Kế toán, Kỹ thuật, Sản xuất và IT, cùng quản lý phụ trách mỗi mảng để đặt quy tắc ở tuần 1.",
+          "**Thống nhất định hướng:** triển khai Minder AI theo ba giai đoạn. Ba ứng dụng trọng tâm vận hành sản xuất, hỗ trợ kế toán và quản lý bản vẽ kỹ thuật là điểm khởi đầu; nhà máy thứ hai là đích đến.",
+          "**Cử đầu mối:** đầu mối Sản xuất, Kỹ thuật, Kế toán và IT, cùng quản lý phụ trách mỗi mảng để đặt quy tắc ở tuần 1.",
           "**Cho phép kết nối chỉ đọc** vào ERP, MES-IoT và kho bản vẽ để đo số nền và khởi động Giai đoạn 1 vào cuối tháng 10/2026.",
         ],
       },
       {
         kind: "p",
-        text: "**Tại buổi trình bày với IT và Ban lãnh đạo**, Celesnity đề xuất: đi qua ba phần việc trên dữ liệu mô phỏng; rà danh sách dữ liệu và hạ tầng trong nhà máy cùng IT; thống nhất KPI, cách đo số nền và người xác nhận cho từng chỉ số.",
+        text: "**Tại buổi trình bày với IT và Ban lãnh đạo**, Celesnity đề xuất: đi qua ba ứng dụng trọng tâm trên dữ liệu mô phỏng; rà danh sách dữ liệu và cách kết nối cùng IT; thống nhất KPI, cách đo số nền và người xác nhận cho từng chỉ số.",
       },
       {
         kind: "p",
@@ -162,7 +162,7 @@ export const sections: Section[] = [
         head: ["Tiêu chuẩn chính xác", "Cách Minder AI bảo chứng", "Thước đo độ chính xác"],
         rows: [
           [
-            "**Chính xác từ dữ liệu gốc** (Zero Hallucination)",
+            "**Chính xác từ dữ liệu gốc**",
             "Mọi kết quả đều dẫn link trực tiếp tới bản ghi trên ERP, MES-IoT hoặc kho bản vẽ. Thiếu số liệu thì báo thiếu, tuyệt đối không ước lượng, không suy đoán ngoài dữ liệu.",
             "Tỷ lệ output được người phụ trách xác nhận đúng 100% nguồn gốc.",
           ],
@@ -173,26 +173,26 @@ export const sections: Section[] = [
           ],
           [
             "**Chính xác về hiệu quả thực tế**",
-            "Giá trị của độ chính xác được lượng hóa bằng thời gian xử lý: so sánh trực tiếp số nền tuần 1 và kết quả tuần 4. Cam kết KPI gắn liền với chi phí.",
+            "Giá trị của độ chính xác được lượng hóa bằng thời gian xử lý: so sánh trực tiếp số nền tuần 1 và kết quả tuần 6. Cam kết KPI gắn liền với chi phí.",
             "Thời gian truy xuất / tính toán nghiệp vụ thật giảm rõ rệt (ví dụ: từ 30 phút xuống < 2 phút).",
           ],
           [
-            "**Chính xác về phân quyền & truy vết** (Auditability)",
-            "Mô hình open-weight chạy on-premise trong nhà máy. Phân quyền chặt chẽ theo vai trò; ghi nhật ký (audit log) 100% câu hỏi, kết quả xuất ra và người truy cập.",
+            "**Chính xác về phân quyền & truy vết**",
+            "Phân quyền chặt chẽ theo vai trò; ghi nhật ký (audit log) 100% câu hỏi, kết quả xuất ra và người truy cập.",
             "Minh bạch tuyệt đối, truy vết được nguyên nhân mọi kết quả trả về.",
           ],
           [
             "**Kiểm chứng chính xác trên phạm vi giới hạn**",
-            "Không triển khai ồ ạt; khoanh vùng kiểm định độ chính xác trên 3 bài toán lõi (giá thành, máy móc, bản vẽ) ở chế độ chỉ đọc (read-only).",
-            "Cổng nghiệm thu sau 4 tuần: chỉ mở rộng khi độ chính xác đạt yêu cầu.",
+            "Không triển khai ồ ạt; khoanh vùng kiểm định độ chính xác trên 3 bài toán lõi (máy móc, giá thành, bản vẽ) ở chế độ chỉ đọc.",
+            "Cổng nghiệm thu sau 6 tuần pilot: chỉ mở rộng khi độ chính xác đạt yêu cầu.",
           ],
           [
             "**Chính xác theo ngữ cảnh kỹ thuật nhà máy**",
-            "Không trả lời chung chung; chỉ giải quyết bài toán nghiệp vụ chuyên sâu: bóc tách nguyên nhân đội giá thành theo công đoạn, lịch sử sự cố máy, phiên bản bản vẽ đang chạy.",
+            "Không trả lời chung chung; chỉ giải quyết bài toán nghiệp vụ chuyên sâu: lịch sử sự cố máy, bóc tách nguyên nhân đội giá thành theo công đoạn, phiên bản bản vẽ đang chạy.",
             "Tần suất sử dụng và tỷ lệ đánh giá \"Đúng nghiệp vụ\" của kỹ sư, kế toán hàng tuần.",
           ],
           [
-            "**Chính xác trong liên kết chuỗi dữ liệu** (Traceability)",
+            "**Chính xác trong liên kết chuỗi dữ liệu**",
             "Khớp nối dữ liệu xuyên suốt theo mã hàng (Part Number): từ một sự cố dừng máy trên MES, chỉ ra chính xác tác động đến giá thành trên ERP và bản vẽ kỹ thuật liên quan.",
             "Chuỗi dữ liệu liên phòng ban được đồng bộ chính xác, không đứt gãy.",
           ],
@@ -208,11 +208,11 @@ export const sections: Section[] = [
     theme: "mist",
     layout: "wide",
     eyebrow: "Minder AI là gì",
-    title: "Một trợ lý vận hành đặt trên hệ thống Takako đã có, không thay phần mềm nào",
+    title: "Trợ lý AI vận hành trên nền hạ tầng sẵn có của Takako: Giữ nguyên mọi phần mềm, không đảo lộn quy trình",
     blocks: [
       {
         kind: "lead",
-        text: "Minder AI kết nối ERP, MES-IoT và kho bản vẽ ngay trong nhà máy, nối dữ liệu theo mã hàng, rồi tự đưa thông tin đến đúng người quản lý.",
+        text: "Minder AI kết nối dữ liệu từ ERP, MES-IoT và kho bản vẽ theo từng mã hàng, từ đó tự động xâu chuỗi dữ liệu theo mã hàng và phân phối thông tin đúng vai trò, đúng thời điểm.",
       },
       { kind: "module", id: "M21", variant: "architecture" },
       { kind: "module", id: "M21", variant: "buoc" },
@@ -221,7 +221,7 @@ export const sections: Section[] = [
       {
         kind: "cards",
         cols: 4,
-        head: ["Mảng", "Quản lý cần", "Dữ liệu Takako đã có"],
+        head: ["Mảng", "Nhu cầu thông tin", "Dữ liệu sẵn có"],
         rows: [
           ["**Sản xuất**", "Sản lượng, cycle time, phế phẩm theo mã hàng và theo máy", "MES-IoT"],
           ["**Vận hành**", "Tình trạng máy, sự cố, sửa chữa, bảo trì", "MES, với 100% dữ liệu sửa chữa và bảo trì"],
@@ -251,8 +251,8 @@ export const sections: Section[] = [
                 {
                   group: "Hệ thống của Takako",
                   branches: [
-                    { nodes: [{ label: "ERP · Kế toán", sub: "đơn giá, chi phí, định mức" }] },
                     { nodes: [{ label: "MES-IoT", sub: "máy, sản lượng, cycle time, sửa chữa, bảo trì" }] },
+                    { nodes: [{ label: "Tài liệu kế toán", sub: "đơn giá, chi phí, định mức" }] },
                     { nodes: [{ label: "Kho bản vẽ", sub: "mã hàng, phiên bản, ghi chú thay đổi" }] },
                     { nodes: [{ label: "Nguồn bên ngoài được phép", sub: "văn bản pháp luật theo danh sách được phép" }] },
                   ],
@@ -261,26 +261,25 @@ export const sections: Section[] = [
               ],
               via: "chỉ đọc",
               then: [
-                { label: "Minder AI", sub: "trong nhà máy · nối theo mã hàng", tone: "platform" },
-                { label: "Quy tắc do quản lý đặt", tone: "edge" },
-                { label: "Quản lý theo vai trò", sub: "Kế toán · Kỹ thuật · Sản xuất · Ban lãnh đạo" },
+                { label: "Minder AI", sub: "xâu chuỗi theo mã hàng", tone: "platform" },
+                { label: "Quy tắc do Quản lý phê duyệt", tone: "edge" },
+                { label: "Quản lý theo vai trò", sub: "Sản xuất · Ban lãnh đạo · Kỹ thuật · Kế toán" },
               ],
             },
             legend: [
               { tone: "plain", label: "Hệ thống và người dùng của Takako" },
               { tone: "platform", label: "Minder AI" },
-              { tone: "edge", label: "Quy tắc do quản lý đặt" },
+              { tone: "edge", label: "Quy tắc do Quản lý phê duyệt" },
             ],
-            caption: "Minder AI đọc dữ liệu từ hệ thống sẵn có, không ghi ngược lại và không thay phần mềm nào.",
           },
           {
             kind: "steps",
             head: ["Bước", "Minder AI làm gì"],
             rows: [
-              ["**Theo dõi**", "Đọc dữ liệu từ ERP, MES-IoT và kho bản vẽ, liên tục và theo lịch quản lý đặt"],
-              ["**Phát hiện**", "Nhận ra thay đổi vượt ngưỡng Takako đặt: giá thành, sự cố máy, phiên bản bản vẽ"],
-              ["**Soạn sẵn**", "Viết bản tin, cảnh báo, báo cáo theo đúng quy tắc của quản lý phụ trách"],
-              ["**Báo đúng người**", "Gửi đúng quản lý, đúng lúc, kèm nguồn và cách tính"],
+              ["**Giám sát liên tục**", "Đọc dữ liệu từ ERP, MES-IoT và kho bản vẽ, liên tục và theo lịch quản lý đặt"],
+              ["**Phát hiện biến động**", "Nhận ra thay đổi vượt ngưỡng Takako thiết lập: sự cố máy, giá thành, phiên bản bản vẽ"],
+              ["**Tổng hợp nguyên nhân**", "Viết bản tin, cảnh báo, báo cáo theo đúng quy tắc của quản lý phụ trách"],
+              ["**Báo cáo đúng người**", "Chủ động gửi cảnh báo đến đúng người phụ trách, đúng thời điểm tác nghiệp"],
             ],
           },
         ],
@@ -293,19 +292,14 @@ export const sections: Section[] = [
     theme: "light",
     layout: "wide",
     eyebrow: "Giai đoạn 1",
-    title: "Ba phần việc đầu tiên Minder AI nhận tại Takako",
+    title: "Ba ứng dụng trọng tâm Minder AI có thể triển khai tại Takako",
     blocks: [
-      { kind: "lead", text: "Ba phần việc phủ đủ bốn mảng thông tin, chỉ dùng dữ liệu Takako đã có, và chỉ đọc." },
+      { kind: "lead", text: "Bao quát toàn diện 4 mảng vận hành trọng yếu. Khai thác 100% nền dữ liệu sẵn có ở chế độ chỉ đọc." },
       { kind: "module", id: "M21", variant: "ba-viec" },
-      {
-        kind: "label",
-        variant: "proposal",
-        text: "Ngoài phạm vi Giai đoạn 1: ghi dữ liệu vào hệ thống, điều khiển máy, giám sát quy trình xưởng, chương trình gia công. Các phần này thuộc lộ trình sau, khi Takako quyết định.",
-      },
     ],
     details: [
       {
-        title: "Ba phần việc",
+        title: "Ba ứng dụng trọng tâm",
         printOnly: true,
         blocks: [
           {
@@ -314,21 +308,21 @@ export const sections: Section[] = [
             head: ["Phần việc", "Quản lý nhận", "Minder AI tự gửi", "Trả lời khi được hỏi", "Dữ liệu"],
             rows: [
               [
-                "**Trợ lý giá thành** · Kế toán",
-                "Phòng Kế toán",
-                "Cảnh báo mã hàng vượt định mức kèm nguyên nhân và cách tính · Tính lại giờ máy và chi phí khi kế hoạch sản lượng thay đổi · Báo cáo giá thành tháng soạn sẵn · Tóm tắt văn bản pháp lý mới từ nguồn được phép",
-                "\"Giá thành thực của mã hàng này tháng 9?\" · \"Nếu sản lượng tăng 20% thì giờ máy và chi phí thay đổi thế nào?\"",
-                "ERP, MES-IoT, kho bản vẽ, nguồn pháp lý được phép",
-              ],
-              [
-                "**Trợ lý dữ liệu máy** · Sản xuất và Vận hành",
+                "**Trợ lý vận hành sản xuất** · Sản xuất và Vận hành",
                 "Phòng Kỹ thuật, Phòng Sản xuất",
                 "Bản tin sáng về các máy cần chú ý · Báo cáo bảo trì tuần soạn sẵn",
                 "\"Tình trạng máy MC-07 trong 6 tháng qua?\" · \"Sản lượng và phế phẩm của mã hàng này tuần trước?\"",
                 "MES-IoT: sự cố, sửa chữa, bảo trì, cycle time, sản lượng",
               ],
               [
-                "**Trợ lý bản vẽ** · Tài nguyên kỹ thuật",
+                "**Trợ lý hỗ trợ kế toán** · Kế toán",
+                "Phòng Kế toán",
+                "Cảnh báo mã hàng vượt định mức kèm nguyên nhân và cách tính · Tính lại giờ máy và chi phí khi kế hoạch sản lượng thay đổi · Báo cáo giá thành tháng soạn sẵn · Tóm tắt văn bản pháp lý mới từ nguồn được phép",
+                "\"Giá thành thực của mã hàng này tháng 9?\" · \"Nếu sản lượng tăng 20% thì giờ máy và chi phí thay đổi thế nào?\"",
+                "ERP, MES-IoT, kho bản vẽ, nguồn pháp lý được phép",
+              ],
+              [
+                "**Trợ lý quản lý bản vẽ kỹ thuật** · Tài nguyên kỹ thuật",
                 "Phòng Kỹ thuật, Phòng Sản xuất",
                 "Cảnh báo khi bản vẽ có phiên bản mới mà lệnh hoặc lô còn chạy theo phiên bản cũ",
                 "\"Bản vẽ hiện hành của mã hàng này là phiên bản nào?\" · \"Lô nào đã chạy theo phiên bản cũ?\"",
@@ -346,7 +340,7 @@ export const sections: Section[] = [
     theme: "mist",
     layout: "wide",
     eyebrow: "Quy tắc do quản lý đặt",
-    title: "Quản lý đặt quy tắc. Minder AI trả lời đúng quy tắc đó, lần nào cũng vậy.",
+    title: "Quản lý thiết lập quy tắc. Minder AI vận hành chuẩn xác, đồng nhất 100%",
     blocks: [
       {
         kind: "lead",
@@ -355,31 +349,31 @@ export const sections: Section[] = [
       { kind: "module", id: "M21", variant: "quy-tac" },
       {
         kind: "note",
-        text: "Ảnh chụp từ Minder AI: mỗi quy tắc do quản lý đặt được lưu thành một kỹ năng của dự án Takako, gồm tên, mô tả, thông tin chi tiết và nội dung hướng dẫn mà Minder AI tuân theo.",
+        text: "Giao diện thực tế từ Minder AI: Mỗi quy tắc do Takako ban hành được đóng gói thành một kỹ năng chuẩn hóa — bao gồm phạm vi dữ liệu, công thức tính và chỉ dẫn thực thi mà AI tuân thủ tuyệt đối.",
       },
       {
         kind: "steps",
-        head: ["Bước", "Việc", "Ai làm"],
+        cols: 2,
+        head: ["Bước", "Việc", "Thực hiện bởi"],
         rows: [
-          ["**Đặt quy tắc**", "Dữ liệu dùng, cách tính, ngưỡng, định dạng, người nhận, thời điểm", "Quản lý phụ trách"],
-          ["**Áp dụng**", "Mọi output và mọi câu trả lời cùng loại đều theo đúng quy tắc", "Minder AI"],
-          ["**Kiểm tra**", "Mỗi output có nguồn và cách tính; bấm Xác nhận, Không đúng hoặc Không cần", "Người nhận"],
+          ["**Thiết lập quy tắc**", "Chuẩn hóa nguồn dữ liệu sử dụng, công thức tính, ngưỡng cảnh báo, biểu mẫu báo cáo, danh sách người nhận và tần suất gửi", "Quản lý phụ trách"],
+          ["**Áp dụng**", "Mọi báo cáo chủ động và câu trả lời nghiệp vụ đều tuân thủ 100% theo đúng bộ quy tắc đã phê duyệt", "Minder AI"],
+          ["**Kiểm tra**", "Minh bạch dữ liệu gốc và công thức trong từng kết quả; người nhận trực tiếp đánh dấu phản hồi", "Người nhận"],
           [
             "**Điều chỉnh**",
-            "Sửa quy tắc khi cần; Minder AI áp dụng từ lần sau và ghi lại ai sửa, sửa gì, khi nào",
+            "Quản lý cập nhật quy tắc khi thực tế thay đổi; hệ thống áp dụng ngay và lưu vết toàn bộ nhật ký",
             "Quản lý phụ trách",
           ],
         ],
       },
-      { kind: "note", text: "Minder AI không tự đặt ngưỡng, không tự đổi cách tính và không tự thêm người nhận." },
     ],
     details: [
       {
         title: "Một quy tắc mẫu",
         printOnly: true,
         blocks: [
-          { kind: "photo", photo: { src: "/decks/takako-vietnam/quy-tac-nghiep-vu-ke-toan.webp", alt: "Quy tắc Nghiệp vụ kế toán (nguồn whitelist) trong Minder AI", width: 2000, height: 1119, caption: "Quy tắc Nghiệp vụ kế toán (nguồn whitelist)" } },
           { kind: "photo", photo: { src: "/decks/takako-vietnam/quy-tac-ke-hoach-san-luong.webp", alt: "Quy tắc Kế hoạch sản lượng & công suất trong Minder AI", width: 2000, height: 1119, caption: "Quy tắc Kế hoạch sản lượng & công suất" } },
+          { kind: "photo", photo: { src: "/decks/takako-vietnam/quy-tac-nghiep-vu-ke-toan.webp", alt: "Quy tắc Nghiệp vụ kế toán (nguồn whitelist) trong Minder AI", width: 2000, height: 1119, caption: "Quy tắc Nghiệp vụ kế toán (nguồn whitelist)" } },
           { kind: "photo", photo: { src: "/decks/takako-vietnam/quy-tac-ban-ve-revision.webp", alt: "Quy tắc Bản vẽ & revision trong Minder AI", width: 2000, height: 1119, caption: "Quy tắc Bản vẽ & revision" } },
           {
             kind: "kv",
@@ -410,26 +404,33 @@ export const sections: Section[] = [
     act: 2,
     theme: "light",
     eyebrow: "Bảo mật và kiểm soát",
-    title: "Dữ liệu ở lại Takako. Con người quyết định.",
+    title: "Dữ liệu thuộc Takako. Con người luôn là người quyết định cuối cùng",
     blocks: [
       { kind: "module", id: "M21", variant: "security" },
       { kind: "h3", text: "Cách triển khai" },
       {
         kind: "kv",
         rows: [
-          ["**Nơi chạy**", "Trong nhà máy Takako (on-premise)"],
-          ["**Mô hình AI**", "Mô hình open-weight chạy cục bộ, không gọi dịch vụ AI bên ngoài"],
-          ["**Kết nối**", "Chỉ đọc ERP, MES-IoT và kho bản vẽ"],
+          ["**Hạ tầng triển khai**", "Kết nối chỉ đọc tới hệ thống sẵn có của Takako; giữ nguyên mọi phần mềm, không thay đổi quy trình đang chạy."],
+          ["**Mô hình trí tuệ nhân tạo**", "Mô hình AI qua API trong giai đoạn chuyển tiếp; từ Giai đoạn 2 chuyển dần sang **Mô hình AI \"Newcomen\"** do Celesnity tự nghiên cứu, phát triển và vận hành trên hạ tầng của Celesnity."],
+          ["**Cơ chế kết nối dữ liệu**", "Kết nối chế độ Chỉ đọc vào ERP, MES-IoT và kho bản vẽ; không có quyền ghi, không tác động cơ sở dữ liệu gốc."],
+          ["**Kết nối ngoại vi**", "Thiết lập Danh sách trắng nghiêm ngặt; chỉ truy cập các nguồn dữ liệu được Takako phê duyệt trước (ví dụ: cổng thông tin văn bản pháp quy phục vụ kế toán)."],
+          ["**Kiểm soát truy cập**", "Phân quyền chặt chẽ theo vai trò; mỗi nhân sự chỉ tiếp cận thông tin và báo cáo trong đúng phạm vi nhiệm vụ."],
+          ["**Nhật ký truy vết & kiểm toán**", "Ghi nhận toàn diện nhật ký hệ thống: Lưu vết 100% lượt truy vấn, kết quả phản hồi và mọi thao tác hiệu chỉnh quy tắc."],
+          ["**Tiêu chuẩn & pháp lý**", "Ký kết thỏa thuận bảo mật (**NDA**) trước khi khảo sát; quy trình kiểm soát an ninh thông tin tuân thủ tiêu chuẩn **ISO/IEC 27001**."],
+          ["**Chủ quyền dữ liệu**", "Dữ liệu và tri thức vận hành thuộc quyền sở hữu duy nhất của Takako; **cam kết không dùng để huấn luyện mô hình chung bên ngoài.**"],
+        ],
+      },
+      { kind: "h3", text: "Mô hình AI của Minder AI" },
+      {
+        kind: "steps",
+        cols: 2,
+        head: ["Thời điểm", "Mô hình AI"],
+        rows: [
+          ["**Giai đoạn 1**", "Mô hình AI qua API trong giai đoạn chuyển tiếp, theo cùng quy tắc, phân quyền và nhật ký"],
           [
-            "**Nguồn bên ngoài**",
-            "Chỉ các nguồn trong danh sách được phép, ví dụ cơ sở dữ liệu văn bản pháp luật cho Kế toán",
-          ],
-          ["**Truy cập**", "Theo vai trò: mỗi người chỉ thấy thông tin đúng vai trò của mình"],
-          ["**Nhật ký**", "Ghi lại mọi truy vấn, mọi output và mọi lần sửa quy tắc"],
-          ["**Pháp lý**", "Ký NDA trước khi khảo sát; quản lý bảo mật theo ISO 27001 cùng GIANTY"],
-          [
-            "**Quyền dữ liệu**",
-            "Dữ liệu thuộc Takako, không dùng để huấn luyện mô hình chung khi chưa được Takako đồng ý",
+            "**Từ Giai đoạn 2**",
+            "Chuyển dần sang **Mô hình AI \"Newcomen\"** do Celesnity tự nghiên cứu, phát triển và vận hành trên hạ tầng của Celesnity; chuyển theo từng loại tác vụ, đối chiếu kết quả trước khi thay",
           ],
         ],
       },
@@ -456,27 +457,27 @@ export const sections: Section[] = [
     act: 3,
     theme: "mist",
     layout: "wide",
-    eyebrow: "Bản đồ triển khai Minder AI tại Takako",
-    title: "Bắt đầu từ ba phần việc, mở rộng ứng dụng, rồi đến nhà máy thứ hai",
+    eyebrow: "Triển khai Minder AI tại Takako",
+    title: "Kiểm chứng từ 3 bài toán lõi, mở rộng phạm vi ứng dụng, tiến tới nhân rộng tại nhà máy thứ hai",
     blocks: [
       { kind: "module", id: "M8" },
       {
         kind: "p",
-        text: "**Cùng một Minder AI · cùng bộ quy tắc của quản lý · cùng cách đo KPI.** Mỗi giai đoạn thêm việc cho Minder AI trên nền đã chứng minh ở giai đoạn trước.",
+        text: "**Đồng nhất một nền tảng Minder AI - Kế thừa trọn vẹn bộ quy tắc quản trị - Nhất quán thước đo KPI.**\nMỗi giai đoạn mở rộng thêm bài toán nghiệp vụ mới trên chính nền tảng đã được kiểm chứng chắc chắn trước đó",
       },
       {
         kind: "label",
         variant: "proposal",
         text: "Giai đoạn 2 và 3 là hướng đề xuất; phạm vi và thứ tự do Takako quyết định sau mỗi cổng.",
       },
-      { kind: "h3", text: "Những gì nhà máy thứ hai kế thừa từ nhà máy thứ nhất" },
+      { kind: "h3", text: "Nền tảng sẵn sàng nhân rộng sang nhà máy thứ hai" },
       {
         kind: "pillars",
         items: [
-          "Minder AI đã chạy thật trên dữ liệu Takako",
-          "Bộ quy tắc trả lời của quản lý Takako",
-          "Cách đo KPI và cổng nghiệm thu đã kiểm chứng",
-          "Đội Takako đã tự đặt và chỉnh quy tắc",
+          "Nền tảng AI đã kiểm chứng thực tế",
+          "Bộ quy tắc điều hành đã chuẩn hóa",
+          "Khung chuẩn đo lường KPI & nghiệm thu",
+          "Đội ngũ nội bộ làm chủ AI",
         ],
       },
     ],
@@ -489,9 +490,9 @@ export const sections: Section[] = [
             kind: "table",
             head: ["", "**① Giai đoạn 1**", "**② Giai đoạn 2**", "**③ Giai đoạn 3**"],
             rows: [
-              ["**Nơi**", "Nhà máy thứ nhất · Kế toán, Kỹ thuật, Sản xuất", "Nhà máy thứ nhất · các phòng ban", "Nhà máy thứ hai"],
+              ["**Nơi**", "Nhà máy thứ nhất · Sản xuất, Kỹ thuật, Kế toán", "Nhà máy thứ nhất · các phòng ban", "Nhà máy thứ hai"],
               ["**Vai trò**", "Nơi bắt đầu", "Mở rộng ứng dụng", "**Đích đến**"],
-              ["**Thời gian**", "4 tuần", "Sau Cổng 1", "Sau Cổng 2"],
+              ["**Thời gian**", "Pilot 6 tuần", "Sau Giai đoạn 1", "Sau Giai đoạn 2"],
               [
                 "**Câu hỏi Minder AI trả lời** *(ví dụ)*",
                 "Giá thành thực của mã hàng này tháng 9? Máy nào cần chú ý hôm nay? Bản vẽ đang dùng có phải bản mới nhất?",
@@ -510,31 +511,41 @@ export const sections: Section[] = [
     theme: "light",
     layout: "wide",
     eyebrow: "Lộ trình",
-    title: "Ba giai đoạn. Takako quyết định ở mỗi cổng.",
+    title: "Triển khai qua 3 giai đoạn",
     blocks: [
       { kind: "module", id: "M15" },
-      { kind: "h3", text: "Giai đoạn 1 theo tuần" },
+      { kind: "h3", text: "Lộ trình chi tiết giai đoạn 1" },
       {
         kind: "timeline",
-        head: ["Tuần", "Việc", "Minder AI", "Takako"],
+        head: ["Tuần", "Mốc tiến độ", "Minder AI", "Takako"],
         rows: [
           [
             "**1**",
-            "Kết nối và đo số nền",
-            "Kết nối chỉ đọc ERP, MES-IoT, kho bản vẽ; đo thời gian hiện tại",
-            "Quản lý đặt quy tắc, ngưỡng và người nhận cho từng phần việc",
+            "Kết nối dữ liệu & Đo lường số nền (Baseline)",
+            "Kết nối chỉ đọc (Read-only) vào ERP, MES-IoT, kho bản vẽ; đo lường chính xác thời gian xử lý tác vụ hiện tại.",
+            "Quản lý thiết lập bộ quy tắc, ngưỡng kiểm soát và danh sách nhân sự phụ trách cho từng bài toán.",
           ],
           [
             "**2**",
-            "Output đầu tiên",
-            "Gửi bản tin, cảnh báo và báo cáo cho 2–3 người nhận mỗi phần việc",
-            "Người nhận đánh dấu từng output",
+            "Phát hành kết quả đầu tiên (Thử nghiệm hẹp)",
+            "Tự động gửi bản tin, cảnh báo và dự thảo báo cáo thử nghiệm tới nhóm 2–3 nhân sự nòng cốt ở mỗi bài toán.",
+            "Nhân sự tiếp nhận thẩm định độ chính xác và phản hồi trực tiếp trên từng kết quả.",
           ],
-          ["**3**", "Dùng hằng ngày", "Gửi cho toàn bộ người nhận; trả lời câu hỏi thêm", "Quản lý chỉnh quy tắc theo phản hồi"],
-          ["**4**", "Đo và quyết định", "Báo cáo KPI so với tuần 1", "**Cổng 1:** Takako quyết định Giai đoạn 2"],
+          [
+            "**3–5**",
+            "Vận hành thực tế diện rộng & Tinh chỉnh",
+            "Mở rộng phân phối báo cáo cho toàn bộ nhân sự liên quan; phản hồi tức thì các câu hỏi truy vấn phát sinh.",
+            "Quản lý theo dõi, tinh chỉnh quy tắc và ngưỡng dựa trên dữ liệu đánh giá thực tế.",
+          ],
+          [
+            "**6**",
+            "Nghiệm thu KPI & phê duyệt giai đoạn pilot",
+            "Xuất báo cáo tổng kết KPI đối soát độc lập với số nền đo được ở Tuần 1.",
+            "Ban lãnh đạo Takako nghiệm thu kết quả và phê duyệt triển khai Giai đoạn 2.",
+          ],
         ],
       },
-      { kind: "label", variant: "proposal", text: "Khởi động cuối tháng 10/2026, có kết quả cuối tháng 11/2026." },
+      { kind: "label", variant: "proposal", text: "Dự kiến khởi động: Cuối tháng 10/2026 · Nghiệm thu Giai đoạn 1: Đầu tháng 12/2026." },
       { kind: "h3", text: "Nhân sự theo giai đoạn" },
       { kind: "module", id: "M16" },
       { kind: "label", variant: "proposal", text: "Nhân sự và tỷ lệ vận hành là đề xuất, chốt cùng Takako trước khi khởi động." },
@@ -550,14 +561,14 @@ export const sections: Section[] = [
             head: ["Giai đoạn", "Minder AI làm gì", ""],
             rows: [
               [
-                "**Giai đoạn 1 · 4 tuần**",
-                "Ba phần việc: giá thành, dữ liệu máy, bản vẽ. Minder AI học dữ liệu, công thức và quy tắc của Takako. **Tự học**",
-                "Cổng 1: Takako chấm KPI",
+                "**Giai đoạn 1 · Pilot 6 tuần**",
+                "Ba ứng dụng trọng tâm: vận hành sản xuất, hỗ trợ kế toán, quản lý bản vẽ kỹ thuật. Minder AI học dữ liệu, công thức và quy tắc của Takako. **Tự học**",
+                "Takako chấm KPI",
               ],
               [
                 "**Giai đoạn 2**",
                 "Nhận thêm các ứng dụng Takako đã nêu, từ báo cáo điều đã xảy ra sang cảnh báo điều sắp xảy ra. **Dự báo trước**",
-                "Cổng 2: Takako chọn ứng dụng tiếp theo",
+                "Takako chọn ứng dụng tiếp theo",
               ],
               [
                 "**Giai đoạn 3**",
@@ -607,45 +618,132 @@ export const sections: Section[] = [
         kind: "steps",
         head: ["Thời điểm", "Việc", "Kết quả"],
         rows: [
-          ["**Tuần 1**", "Đo thời gian Takako đang dùng cho từng phần việc", "Số nền (baseline) được hai bên xác nhận"],
-          ["**Tuần 2–4**", "Minder AI làm việc hằng ngày; người nhận đánh dấu từng output", "Dữ liệu đo thật, cập nhật mỗi tuần"],
-          ["**Tuần 4**", "So sánh với tuần 1, chấm KPI", "Cổng 1: Takako quyết định bước tiếp theo"],
-        ],
-      },
-      {
-        kind: "table",
-        head: ["KPI", "Cách đo", "Mục tiêu đề xuất"],
-        rows: [
           [
-            "**Thời gian cho công việc Minder AI đảm nhận**: tính giá thành một mã hàng, tổng hợp tình trạng một máy, xác nhận bản vẽ hiện hành",
-            "So với số nền tuần 1",
-            "Tình trạng một máy: từ khoảng 30 phút xuống dưới 2 phút. Các phần việc khác chốt cùng Takako",
+            "**Tuần 1**",
+            "Đo số nền và chốt golden set cùng Takako: thời gian trả lời, thời gian làm báo cáo, thời gian từng quy trình, chỉ số kinh doanh hiện tại",
+            "Số nền (baseline) được hai bên xác nhận",
           ],
-          ["**Tỷ lệ xác nhận đúng**", "Phần output người nhận bấm Xác nhận", "Chốt cùng Takako, ví dụ trên 90%"],
-          ["**Tỷ lệ không cần**", "Phần output người nhận bấm Không cần", "Thấp và giảm dần mỗi tuần"],
-          ["**Output có nguồn**", "Kiểm tra tự động", "100%"],
           [
-            "**Mức sử dụng thật**",
-            "Số người nhận, số output được đọc, số câu hỏi thêm mỗi tuần",
-            "Chốt cùng Takako",
+            "**Tuần 2–5**",
+            "Minder AI làm việc hằng ngày; người nhận đánh dấu từng output; ghi nhận hành động tiếp theo trên MES và ERP",
+            "Dữ liệu đo thật, cập nhật mỗi tuần",
+          ],
+          [
+            "**Tuần 6**",
+            "So sánh với tuần 1: chấm năm KPI pilot, báo cáo tác động lên quy trình và kinh doanh",
+            "Giai đoạn 1: Takako quyết định bước tiếp theo",
           ],
         ],
       },
-      {
-        kind: "p",
-        text: "Mỗi output của Minder AI có ba nút: **Xác nhận · Không đúng · Không cần**. Đó chính là dữ liệu đo KPI, đo ngay trên công việc hằng ngày của Takako.",
-      },
+      { kind: "h3", text: "KPI giai đoạn và tác động lên quy trình, kinh doanh" },
+      { kind: "module", id: "M21", variant: "kpi" },
       { kind: "h3", text: "Phí gắn với kết quả" },
       {
         kind: "list",
         items: [
           "**Một phần cố định nhỏ** cho kỹ sư Celesnity làm việc tại nhà máy.",
-          "**Phần còn lại chỉ trả khi đạt KPI** đã chốt trước khi bắt đầu.",
-          "**Không tính phí theo số người dùng.**",
-          "**Sau Giai đoạn 1:** hợp đồng theo từng giai đoạn, giá gắn với giá trị đo được.",
+          "**Phần còn lại chỉ trả khi đạt năm KPI pilot** đã chốt trước khi bắt đầu.",
+          "**Từ Giai đoạn 2:** hợp đồng theo từng giai đoạn, phí gắn thêm với tác động lên quy trình và kinh doanh đã chốt cùng Takako.",
         ],
       },
       { kind: "label", variant: "proposal", text: "Mức phí cụ thể nằm trong đề xuất gửi kèm." },
+    ],
+    details: [
+      {
+        title: "Bảng KPI chi tiết",
+        printOnly: true,
+        blocks: [
+          {
+            kind: "table",
+            caption: "Tầng 1 · Khung KPI nghiệm thu pilot (Giai đoạn 1): nghiệm thu tại Tuần 6, điều kiện giải ngân phí Pilot",
+            head: ["KPI", "Cách đo", "Mục tiêu đề xuất"],
+            rows: [
+              [
+                "**Thời gian truy xuất tình trạng máy**",
+                "Số nền tuần 1 so với tuần 5 đến 6",
+                "Rút ngắn từ ~30 phút xuống **dưới 2 phút**.",
+              ],
+              [
+                "**Độ chính xác nghiệp vụ**",
+                "Chấm trên golden set: bộ câu hỏi và đáp án chuẩn Takako xác nhận ở tuần 1",
+                "**≥ 90%** (hoặc ngưỡng thống nhất cùng Takako, do chính người dùng thẩm định).",
+              ],
+              [
+                "**Minh bạch nguồn gốc dữ liệu**",
+                "Kiểm tra tự động",
+                "**100%** kết quả có trích dẫn bản ghi gốc và công thức tính.",
+              ],
+              [
+                "**Thời gian lập báo cáo bảo trì định kỳ**",
+                "Số nền tuần 1 so với sau pilot",
+                "Giảm thiểu đáng kể thời gian tổng hợp (thống nhất mục tiêu cụ thể cùng Takako).",
+              ],
+              [
+                "**Mức độ chấp nhận & sử dụng thực tế**",
+                "Số người dùng và số truy vấn mỗi tuần",
+                "Đo lường tần suất đọc báo cáo, mức độ tương tác và câu hỏi truy vấn hàng tuần.",
+              ],
+            ],
+          },
+          {
+            kind: "table",
+            caption: "Tầng 2 · Tác động lên quy trình và kinh doanh: đo trong pilot, mục tiêu chốt ở Giai đoạn 2",
+            head: ["KPI", "Cách đo", "Mục tiêu đề xuất"],
+            rows: [
+              [
+                "**Vận hành sản xuất · Thời gian phát hiện bất thường của máy**: dừng lặp lại, cycle time tăng, mất dữ liệu",
+                "Từ lúc dấu hiệu xuất hiện trên MES-IoT tới lúc quản lý phụ trách nhận cảnh báo, so với số nền tuần 1",
+                "Trước ca làm việc kế tiếp, qua bản tin sáng",
+              ],
+              [
+                "**Vận hành sản xuất · Tỷ lệ cảnh báo máy có hành động tiếp theo**",
+                "Đối chiếu cảnh báo với lệnh kiểm tra, sửa chữa, bảo trì trên MES trong 48 giờ",
+                "Chốt cùng Takako",
+              ],
+              [
+                "**Hỗ trợ kế toán · Thời gian phát hiện mã hàng vượt định mức**",
+                "Từ lúc chi phí phát sinh tới lúc Phòng Kế toán nhận cảnh báo, so với số nền tuần 1",
+                "Trong tuần phát sinh, không chờ chốt sổ cuối tháng",
+              ],
+              [
+                "**Hỗ trợ kế toán · Thời gian tính lại giờ máy và chi phí khi kế hoạch thay đổi**",
+                "Từ lúc kế hoạch sản lượng trên ERP thay đổi tới lúc có bản tính lại",
+                "Trong ngày kế hoạch thay đổi",
+              ],
+              [
+                "**Hỗ trợ kế toán · Số ngày chốt báo cáo giá thành tháng**",
+                "So với tháng gần nhất trước pilot",
+                "Giảm; mức cụ thể chốt cùng Takako",
+              ],
+              [
+                "**Quản lý bản vẽ kỹ thuật · Lệnh, lô dùng phiên bản cũ được phát hiện trước khi gia công**",
+                "Đếm cảnh báo phiên bản được xác nhận đúng, đối chiếu thời điểm bắt đầu gia công",
+                "Báo trước khi gia công; tỷ lệ chốt cùng Takako",
+              ],
+              [
+                "**Kinh doanh · Giá trị chênh lệch giá thành được phát hiện sớm**",
+                "Tổng chênh lệch (VND) của các mã hàng được cảnh báo trước khi chốt sổ tháng",
+                "Đo số nền tuần 1, theo dõi xu hướng trong pilot; mục tiêu chốt ở Giai đoạn 2",
+              ],
+              [
+                "**Kinh doanh · Giờ dừng máy ngoài kế hoạch**",
+                "MES-IoT, trên nhóm máy được Minder AI theo dõi",
+                "Đo số nền tuần 1, theo dõi xu hướng trong pilot; mục tiêu chốt ở Giai đoạn 2",
+              ],
+              [
+                "**Kinh doanh · Phế phẩm và làm lại do sai phiên bản bản vẽ**",
+                "Đối chiếu phế phẩm, làm lại với phiên bản bản vẽ của lệnh và lô",
+                "Đo số nền tuần 1, theo dõi xu hướng trong pilot; mục tiêu chốt ở Giai đoạn 2",
+              ],
+              [
+                "**Kinh doanh · Thời gian hoàn thiện báo cáo và câu trả lời nghiệp vụ**",
+                "Mốc thời gian Minder AI tự ghi: từ lúc dữ liệu đủ hoặc câu hỏi được đặt tới lúc báo cáo, câu trả lời hoàn chỉnh được gửi; số nền tuần 1 lấy mẫu từ email, file và lịch sử ERP",
+                "Giảm so với số nền tuần 1; tỷ lệ đúng hạn chốt cùng Takako",
+              ],
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -657,16 +755,6 @@ export const sections: Section[] = [
     title: "Takako giữ dữ liệu và quyền quyết định; Celesnity được trả phí khi đạt KPI",
     blocks: [
       { kind: "module", id: "M14", variant: "benefits" },
-      { kind: "h3", text: "Kể cả khi Giai đoạn 1 không đạt, Takako vẫn giữ" },
-      {
-        kind: "pillars",
-        items: [
-          "Số nền thời gian làm việc của ba phần việc",
-          "Bộ quy tắc trả lời do quản lý Takako đặt",
-          "Bản đồ dữ liệu ERP, MES-IoT và kho bản vẽ",
-          "Toàn bộ dữ liệu và nhật ký, nằm trong nhà máy",
-        ],
-      },
     ],
     details: [
       {
@@ -679,7 +767,7 @@ export const sections: Section[] = [
             rows: [
               [
                 "**Nhận**",
-                "Ba phần việc chạy thật trên dữ liệu của chính Takako sau 4 tuần · Thời gian làm việc giảm, đo bằng số nền tuần 1 · Quy tắc trả lời do quản lý Takako đặt và giữ · Lộ trình có cổng: Takako quyết định ở mỗi bước",
+                "Ba ứng dụng trọng tâm chạy thật trên dữ liệu của chính Takako sau 6 tuần · Thời gian làm việc giảm, đo bằng số nền tuần 1 · Quy tắc trả lời do quản lý Takako đặt và giữ · Lộ trình có cổng: Takako quyết định ở mỗi bước",
                 "Phí gắn với KPI đạt được · Phản hồi nghiệp vụ để hoàn thiện Minder AI · Bằng chứng triển khai thực tế, chỉ công bố khi Takako đồng ý bằng văn bản",
               ],
               [
@@ -706,7 +794,7 @@ export const sections: Section[] = [
       { kind: "h3", text: "Vai trò các bên" },
       {
         kind: "cards",
-        cols: 4,
+        cols: 3,
         head: ["Bên", "Vai trò"],
         rows: [
           [
@@ -715,22 +803,17 @@ export const sections: Section[] = [
           ],
           ["**Đối tác kết nối dữ liệu nhà máy**", "Đầu mối kết nối ERP, MES-IoT và kho bản vẽ"],
           ["**Celesnity**", "Nền tảng Minder AI; kỹ sư làm việc tại nhà máy; xây các phần việc; đo KPI"],
-          ["**GIANTY**", "Quản lý dự án; tư vấn lộ trình AI; bảo mật dữ liệu"],
         ],
       },
-      { kind: "h3", text: "Bước tiếp theo: khởi động cuối tháng 10, có kết quả cuối tháng 11" },
+      { kind: "h3", text: "Bước tiếp theo: khởi động cuối tháng 10, có kết quả đầu tháng 12" },
       {
         kind: "kv",
         rows: [
           ["**16/10/2026**", "Gửi đề xuất triển khai"],
           ["**Tuần 19/10**", "Trình bày với IT và Ban lãnh đạo Takako"],
           ["**Cuối tháng 10**", "Khởi động Giai đoạn 1: kết nối dữ liệu, đo số nền, quản lý đặt quy tắc"],
-          ["**Cuối tháng 11**", "Kết quả Giai đoạn 1 và Cổng 1"],
+          ["**Đầu tháng 12**", "Kết quả Giai đoạn 1"],
         ],
-      },
-      {
-        kind: "quote",
-        text: "**Đề nghị:** Ban lãnh đạo Takako đồng ý khởi động Giai đoạn 1 vào cuối tháng 10/2026.",
       },
       { kind: "module", id: "M14", variant: "closing" },
     ],
@@ -835,11 +918,11 @@ export const benefits: { partner: BenefitSide; celesnity: BenefitSide } = {
   partner: {
     name: "Takako",
     receive: [
-      "Ba phần việc chạy thật trên dữ liệu của chính Takako sau 4 tuần",
+      "Ba ứng dụng trọng tâm chạy thật trên dữ liệu của chính Takako sau 6 tuần",
       "Thời gian làm việc giảm, đo bằng số nền tuần 1",
       "Quy tắc trả lời do quản lý Takako đặt và giữ",
       "Lộ trình có cổng: **Takako quyết định ở mỗi bước**",
-      "Dữ liệu, quy tắc và nhật ký thuộc Takako, nằm trong nhà máy",
+      "Dữ liệu, quy tắc và nhật ký thuộc Takako",
     ],
     give: [
       "Quyền truy cập chỉ đọc vào ERP, MES-IoT và kho bản vẽ",
@@ -869,7 +952,7 @@ export const packageParts: PackagePart[] = [
   {
     n: "①",
     name: "Bộ ứng dụng AI-native",
-    body: "Minder AI chạy trong nhà máy và các ứng dụng trên cùng nền tảng: **Trợ lý giá thành · Trợ lý dữ liệu máy · Trợ lý bản vẽ** ở Giai đoạn 1, thêm ứng dụng ở Giai đoạn 2. Quy tắc trả lời do quản lý Takako đặt",
+    body: "Minder AI và các ứng dụng trên cùng nền tảng: **Trợ lý vận hành sản xuất · Trợ lý hỗ trợ kế toán · Trợ lý quản lý bản vẽ kỹ thuật** ở Giai đoạn 1, thêm ứng dụng ở Giai đoạn 2. Mô hình AI qua API trong giai đoạn chuyển tiếp, chuyển dần sang Mô hình AI \"Newcomen\" của Celesnity từ Giai đoạn 2. Quy tắc trả lời do quản lý Takako đặt",
   },
   {
     n: "②",
@@ -887,8 +970,8 @@ export const appendix: AppendixSection[] = [
       {
         kind: "list",
         items: [
-          "**ERP và kế toán:** qua API, database view hoặc file xuất định kỳ. Chỉ đọc.",
           "**MES-IoT:** dữ liệu máy, sản lượng, cycle time, sự cố, sửa chữa, bảo trì. Chỉ đọc.",
+          "**ERP và kế toán:** qua API, database view hoặc file xuất định kỳ. Chỉ đọc.",
           "**Kho bản vẽ:** thông tin phiên bản, ngày phát hành, ghi chú thay đổi, liên kết với mã hàng và lệnh sản xuất.",
           "**Nguồn bên ngoài:** chỉ các nguồn trong danh sách được phép do Takako duyệt.",
           "**Kênh nhận thông tin:** email nội bộ hoặc kênh Takako chọn; xem lại toàn bộ trong Minder AI.",
@@ -899,15 +982,14 @@ export const appendix: AppendixSection[] = [
   },
   {
     id: "ha-tang",
-    title: "Hạ tầng triển khai trong nhà máy",
+    title: "Hạ tầng và mô hình AI",
     blocks: [
       {
         kind: "list",
         ordered: true,
         items: [
-          "**Máy chủ và GPU đặt tại nhà máy:** dùng hạ tầng Takako sẵn có hoặc bổ sung, chốt trước khi khởi động.",
-          "**Mô hình AI:** loại open-weight, chạy cục bộ. Minder AI không gọi dịch vụ AI bên ngoài; kết nối ra ngoài chỉ tới các nguồn trong danh sách được phép.",
-          "**Phân quyền và nhật ký:** quyền theo vai trò; nhật ký lưu trong nhà máy.",
+          "**Mô hình AI:** qua API trong giai đoạn chuyển tiếp; từ Giai đoạn 2 chuyển dần sang **Mô hình AI \"Newcomen\"** do Celesnity tự nghiên cứu, phát triển và vận hành trên hạ tầng của Celesnity. Kết nối tới nguồn bên ngoài chỉ theo danh sách được phép.",
+          "**Phân quyền và nhật ký:** quyền theo vai trò; mọi truy vấn, output và lần sửa quy tắc được ghi nhật ký.",
           "**Kỹ sư bên ngoài vào nhà máy:** theo quy định IT và bảo mật của Takako.",
         ],
       },
@@ -921,12 +1003,12 @@ export const appendix: AppendixSection[] = [
         kind: "list",
         items: [
           "**Minder AI có thay ERP hay MES không?** Không. Minder AI đặt trên các hệ thống Takako đang có, chỉ đọc dữ liệu và không thay phần mềm nào.",
-          "**Dữ liệu có ra khỏi nhà máy không?** Không. Minder AI và mô hình AI chạy trong nhà máy. Kết nối ra ngoài chỉ tới các nguồn trong danh sách được phép.",
+          "**Dữ liệu của Takako được bảo vệ thế nào?** Minder AI chỉ đọc dữ liệu Takako cho phép, theo quy tắc và phân quyền Takako duyệt, và ghi nhật ký mọi truy vấn. Dữ liệu thuộc Takako. Kết nối tới nguồn bên ngoài chỉ theo danh sách được phép. Mô hình AI qua API trong giai đoạn chuyển tiếp, chuyển dần sang **Mô hình AI \"Newcomen\"** của Celesnity từ Giai đoạn 2.",
           "**Nếu Minder AI sai thì sao?** Mỗi output có nguồn và cách tính để người nhận kiểm tra. Bấm \"Không đúng\" thì lỗi được ghi lại, rồi sửa dữ liệu hoặc quy tắc. Tỷ lệ đúng là một KPI của Giai đoạn 1.",
           "**Quy tắc do ai đặt, đổi thế nào?** Quản lý phụ trách từng mảng đặt quy tắc: dữ liệu dùng, cách tính, ngưỡng, định dạng, người nhận, thời điểm. Quản lý sửa khi cần; Minder AI áp dụng từ lần sau và ghi lại lịch sử thay đổi.",
           "**Minder AI có tự gửi quá nhiều thông tin không?** Giai đoạn 1 chỉ có 2–3 loại output cho mỗi phần việc. Ngưỡng do quản lý đặt và được chỉnh mỗi tuần theo nút \"Không cần\".",
           "**Tuần 1 cần gì từ Takako?** Quyền truy cập chỉ đọc vào ERP, MES-IoT và kho bản vẽ; một đầu mối ở mỗi bộ phận; quản lý đặt quy tắc ban đầu; vài giờ để đo thời gian làm việc hiện tại.",
-          "**Vì sao Giai đoạn 1 chưa làm giám sát quy trình xưởng hay đôn đốc tiến độ?** Đó là các ứng dụng cần gần như mọi hệ thống. Bắt đầu từ ba phần việc có dữ liệu sẵn sàng và đo được ngay, rồi mở rộng khi Takako quyết định.",
+          "**Vì sao Giai đoạn 1 chưa làm giám sát quy trình xưởng hay đôn đốc tiến độ?** Đó là các ứng dụng cần gần như mọi hệ thống. Bắt đầu từ ba ứng dụng trọng tâm có dữ liệu sẵn sàng và đo được ngay, rồi mở rộng khi Takako quyết định.",
         ],
       },
     ],
@@ -953,10 +1035,6 @@ export const appendix: AppendixSection[] = [
             "Mỗi phần việc chỉ 2–3 loại output; ngưỡng do quản lý đặt; chỉnh hằng tuần theo nút Không cần",
           ],
           ["**Output sai**", "Mỗi output có nguồn và cách tính; nút Không đúng ghi lại để sửa dữ liệu hoặc quy tắc"],
-          [
-            "**Hạ tầng trong nhà máy chưa sẵn sàng**",
-            "Chốt máy chủ và GPU trước khởi động; tuần 1 chỉ cần kết nối dữ liệu",
-          ],
           ["**Người dùng lo bị giám sát**", "Dữ liệu không dùng để đánh giá cá nhân; phân quyền theo vai trò"],
         ],
       },

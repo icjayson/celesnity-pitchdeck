@@ -40,5 +40,5 @@ export const forbiddenTerms: Record<string, string[]> = {
   "nestle-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "Takako"],
   "isuzu-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Takako"],
   /** Ngoài tên khách hàng khác: không nêu tên cá nhân phía Takako, không dùng "chatbot", "template cố định" */
-  "takako-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "anh Thảo", "chatbot", "template cố định"],
+  "takako-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "anh Thảo", "chatbot", "template cố định", "GIANTY"],
 };
