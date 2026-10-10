@@ -759,6 +759,9 @@ export type IllustratedCard = {
   rows: { k: string; v: Rich }[];
   /** Thẻ nổi bật (nền navy) */
   featured?: boolean;
+  /** Bố cục "rows": video demo ở cột phải; chưa có thì hiện ô chờ với `videoPlaceholder` */
+  video?: Video;
+  videoPlaceholder?: string;
 };
 
 /** Icon trong sơ đồ kiến trúc M21 */
@@ -766,7 +769,10 @@ export type ArchIcon = "ledger" | "machine" | "drawing" | "law" | "accounting" |
 
 export type IllustratedData = {
   /** Bộ thẻ theo variant của M21 (ví dụ "buoc", "ba-viec") */
-  sets: Record<string, { arrows?: boolean; cards: IllustratedCard[] }>;
+  /** layout "rows": mỗi thẻ một hàng, nội dung cột 1, video cột 2–3 */
+  sets: Record<string, { arrows?: boolean; layout?: "grid" | "rows"; cards: IllustratedCard[] }>;
+  /** Bộ ảnh chụp có tab (variant = khóa), ví dụ quy tắc do quản lý đặt trong Minder AI */
+  gallery?: Record<string, { label: string; sub?: string; photo: Photo }[]>;
   /** Sơ đồ kiến trúc (variant "architecture"): nguồn → Minder AI (nhận quy tắc của quản lý) → người nhận theo vai trò */
   architecture?: {
     sourcesTitle: string;

@@ -348,12 +348,13 @@ export const m21: IllustratedData = {
       ],
     },
     "ba-viec": {
+      layout: "rows",
       cards: [
         {
           art: "cost",
           eyebrow: "Kế toán",
           title: "Trợ lý giá thành",
-          sub: "Quản lý nhận: Phòng Kế toán",
+          videoPlaceholder: "Video demo Trợ lý giá thành · sẽ cập nhật",
           rows: [
             {
               k: "Minder AI tự gửi",
@@ -364,14 +365,13 @@ export const m21: IllustratedData = {
               v: "\"Giá thành thực của mã hàng này tháng 9?\" · \"Nếu sản lượng tăng 20% thì giờ máy và chi phí thay đổi thế nào?\"",
             },
             { k: "Dữ liệu", v: "ERP, MES-IoT, kho bản vẽ, nguồn pháp lý được phép" },
-            { k: "Đo bằng", v: "Thời gian tính giá thành thực của một mã hàng" },
           ],
         },
         {
           art: "machine",
           eyebrow: "Sản xuất và Vận hành",
           title: "Trợ lý dữ liệu máy",
-          sub: "Quản lý nhận: Phòng Kỹ thuật, Phòng Sản xuất",
+          videoPlaceholder: "Video demo Trợ lý dữ liệu máy · sẽ cập nhật",
           rows: [
             { k: "Minder AI tự gửi", v: "Bản tin sáng về các máy cần chú ý · Báo cáo bảo trì tuần soạn sẵn" },
             {
@@ -379,14 +379,13 @@ export const m21: IllustratedData = {
               v: "\"Tình trạng máy MC-07 trong 6 tháng qua?\" · \"Sản lượng và phế phẩm của mã hàng này tuần trước?\"",
             },
             { k: "Dữ liệu", v: "MES-IoT: sự cố, sửa chữa, bảo trì, cycle time, sản lượng" },
-            { k: "Đo bằng", v: "Thời gian trả lời tình trạng một máy" },
           ],
         },
         {
           art: "drawing",
           eyebrow: "Tài nguyên kỹ thuật",
           title: "Trợ lý bản vẽ",
-          sub: "Quản lý nhận: Phòng Kỹ thuật, Phòng Sản xuất",
+          videoPlaceholder: "Video demo Trợ lý bản vẽ · sẽ cập nhật",
           rows: [
             { k: "Minder AI tự gửi", v: "Cảnh báo khi bản vẽ có phiên bản mới mà lệnh hoặc lô còn chạy theo phiên bản cũ" },
             {
@@ -394,11 +393,47 @@ export const m21: IllustratedData = {
               v: "\"Bản vẽ hiện hành của mã hàng này là phiên bản nào?\" · \"Lô nào đã chạy theo phiên bản cũ?\"",
             },
             { k: "Dữ liệu", v: "Kho bản vẽ, lệnh sản xuất" },
-            { k: "Đo bằng", v: "Thời gian tìm và xác nhận bản vẽ hiện hành" },
           ],
         },
       ],
     },
+  },
+  gallery: {
+    "quy-tac": [
+      {
+        label: "Kế toán",
+        sub: "Nghiệp vụ kế toán (nguồn whitelist)",
+        photo: {
+          src: "/decks/takako-vietnam/quy-tac-nghiep-vu-ke-toan.webp",
+          alt: "Quy tắc Nghiệp vụ kế toán (nguồn whitelist) trong Minder AI: tên, mô tả ngắn, thông tin chi tiết và nội dung hướng dẫn",
+          width: 2000,
+          height: 1119,
+          caption: "Quy tắc **Nghiệp vụ kế toán (nguồn whitelist)**: chỉ dùng tài liệu đã duyệt, không dùng internet; tra quy chế và thông tư có trích dẫn.",
+        },
+      },
+      {
+        label: "Sản xuất và Vận hành",
+        sub: "Kế hoạch sản lượng & công suất",
+        photo: {
+          src: "/decks/takako-vietnam/quy-tac-ke-hoach-san-luong.webp",
+          alt: "Quy tắc Kế hoạch sản lượng và công suất trong Minder AI: dự báo đơn hàng so với công suất nhóm máy và chi phí phương án",
+          width: 2000,
+          height: 1119,
+          caption: "Quy tắc **Kế hoạch sản lượng & công suất**: dự báo ERP × quy trình theo rev bản vẽ hiện hành × dừng máy MES.",
+        },
+      },
+      {
+        label: "Tài nguyên kỹ thuật",
+        sub: "Bản vẽ & revision",
+        photo: {
+          src: "/decks/takako-vietnam/quy-tac-ban-ve-revision.webp",
+          alt: "Quy tắc Bản vẽ và revision trong Minder AI: rev hiện hành, ECN và lệnh sản xuất dùng bản vẽ cũ",
+          width: 2000,
+          height: 1119,
+          caption: "Quy tắc **Bản vẽ & revision**: kho bản vẽ × MES (lệnh sản xuất, quy trình); rev hiện hành, ECN và lệnh còn dùng bản vẽ cũ.",
+        },
+      },
+    ],
   },
   architecture: {
     sourcesTitle: "Hệ thống của Takako",

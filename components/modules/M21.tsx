@@ -4,7 +4,7 @@
  * Biến thể: tên một bộ thẻ trong `sets` (ví dụ "buoc", "ba-viec") · "security" (ranh giới dữ liệu trong nhà máy).
  * Bản in bỏ module; nội dung tương đương nằm trong bảng của section.
  */
-import { Fragment } from "react";
+import { Fragment, useRef, useState, type KeyboardEvent } from "react";
 import {
   Activity,
   ArrowDown,
@@ -16,6 +16,7 @@ import {
   Factory,
   ListChecks,
   Lock,
+  PlayCircle,
   Receipt,
   Scale,
   ShieldCheck,
@@ -26,6 +27,8 @@ import {
 } from "lucide-react";
 import { useDeck } from "@/components/deck/DeckProvider";
 import { RichText } from "@/components/shared/RichText";
+import { Photo } from "@/components/shared/Photo";
+import { Video } from "@/components/shared/Video";
 import type { ArchIcon, IllustratedCard, IllustratedData } from "@/decks/types";
 import { IllustrationSvg } from "./M21/Art";
 
@@ -40,9 +43,19 @@ export default function M21({ variant = "" }: { variant?: string }) {
   const data = useDeck().scenarios.m21!;
   if (variant === "security" && data.security) return <Security s={data.security} />;
   if (variant === "architecture" && data.architecture) return <Architecture a={data.architecture} />;
+  if (data.gallery?.[variant]) return <Gallery items={data.gallery[variant]} />;
   const set = data.sets[variant];
   if (!set) return null;
   const n = set.cards.length;
+  if (set.layout === "rows") {
+    return (
+      <div className="flex flex-col gap-5">
+        {set.cards.map((c) => (
+          <Row key={c.title} c={c} />
+        ))}
+      </div>
+    );
+  }
   return (
     <div className={`grid grid-cols-1 gap-4 ${set.arrows ? `${GRID[n] ?? GRID[3]} lg:gap-0` : GRID_PLAIN[n] ?? GRID_PLAIN[3]}`}>
       {set.cards.map((c, i) => (
@@ -308,5 +321,95 @@ function Architecture({ a }: { a: NonNullable<IllustratedData["architecture"]> }
         <RichText text={a.caption} />
       </figcaption>
     </figure>
+  );
+}
+
+/* ───────────── Hàng: nội dung (cột 1) + video (cột 2–3) ───────────── */
+
+function Row({ c }: { c: IllustratedCard }) {
+  return (
+    <article className="grid grid-cols-1 gap-5 rounded-[var(--radius-card)] border border-line-200 bg-white p-5 shadow-[0_20px_50px_-34px_rgba(10,31,68,0.4)] sm:p-6 lg:grid-cols-3 lg:gap-8">
+      <div className="flex flex-col">
+        {c.eyebrow ? <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-500">{c.eyebrow}</p> : null}
+        <div className="mt-3 h-[112px] overflow-hidden rounded-[12px] border border-line-200 bg-mist-50 px-2 py-1">
+          <IllustrationSvg art={c.art} />
+        </div>
+        <h3 className="mt-5 text-[19px] font-semibold leading-snug tracking-[-0.01em]">
+          <RichText text={c.title} />
+        </h3>
+        {c.sub ? <p className="mt-0.5 text-[13px] text-ink-500">{c.sub}</p> : null}
+        <dl className="mt-4 flex flex-1 flex-col gap-3.5 text-[15px] leading-relaxed">
+          {c.rows.map((r) => (
+            <div key={r.k}>
+              <dt className="text-[12px] font-medium uppercase tracking-[0.1em] text-ink-500">{r.k}</dt>
+              <dd className="mt-1">
+                <RichText text={r.v} />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div className="flex flex-col justify-center lg:col-span-2">
+        {c.video ? (
+          <Video video={c.video} />
+        ) : (
+          <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-[var(--radius-card)] border-2 border-dashed border-line-200 bg-mist-50 text-ink-500">
+            <PlayCircle aria-hidden size={44} strokeWidth={1.25} className="text-blue-500" />
+            <p className="px-6 text-center text-[15px] font-medium">{c.videoPlaceholder ?? "Video demo"}</p>
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}
+
+/* ───────────── Ảnh chụp có tab ───────────── */
+
+function Gallery({ items }: { items: NonNullable<IllustratedData["gallery"]>[string] }) {
+  const [idx, setIdx] = useState(0);
+  const refs = useRef<(HTMLButtonElement | null)[]>([]);
+  const onKey = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const n = items.length;
+    const map: Record<string, number> = { ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, Home: 0, End: n - 1 };
+    if (!(e.key in map)) return;
+    e.preventDefault();
+    setIdx(map[e.key]);
+    refs.current[map[e.key]]?.focus();
+  };
+  const cur = items[idx];
+  return (
+    <div className="flex flex-col gap-4">
+      <div role="tablist" aria-label="Quy tắc" className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        {items.map((it, i) => {
+          const on = i === idx;
+          return (
+            <button
+              key={it.label}
+              ref={(el) => {
+                refs.current[i] = el;
+              }}
+              role="tab"
+              type="button"
+              aria-selected={on}
+              tabIndex={on ? 0 : -1}
+              onClick={() => setIdx(i)}
+              onKeyDown={(e) => onKey(e, i)}
+              className={`flex flex-col items-start gap-0.5 rounded-[12px] border p-3.5 text-left transition-colors duration-300 ${
+                on ? "border-navy-900 bg-navy-900 text-white shadow-[0_16px_36px_-20px_rgba(10,31,68,0.7)]" : "border-line-200 bg-white hover:border-blue-300 hover:bg-blue-100/50"
+              }`}
+            >
+              <span className="flex items-center gap-2 text-[15px] font-semibold leading-snug">
+                <ListChecks aria-hidden size={16} strokeWidth={1.5} className={on ? "text-orange-500" : "text-orange-700"} />
+                {it.label}
+              </span>
+              {it.sub ? <span className={`text-[13px] leading-snug ${on ? "text-blue-100" : "text-ink-500"}`}>{it.sub}</span> : null}
+            </button>
+          );
+        })}
+      </div>
+      <div role="tabpanel" aria-label={cur.label}>
+        <Photo photo={cur.photo} />
+      </div>
+    </div>
   );
 }

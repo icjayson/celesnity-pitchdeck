@@ -3,7 +3,7 @@
 
 > **Ghi chú biên tập (không hiển thị trên trang)**
 > - **Nguồn:** `docs/takako-brief.md` (v4) và `docs/takako-implementation-plan.md` §4. Thông tin về Takako lấy từ buổi trao đổi ngày 09/10/2026 và phạm vi Takako chốt ngày 10/10/2026.
-> - **Thứ tự section (v1.2, 11/10/2026):** `mo-dau` → `thu-ngo` → `tu-chu` → `chinh-xac` → `minder-ai` → `quy-tac` → `ba-viec` → `kiem-soat` → `ban-do` → `lo-trinh` → `gia-tri` → `hai-ben` → `hop-tac`. `mot-ngay` (Thử ngay) tạm ẩn.
+> - **Thứ tự section (v1.3, 11/10/2026):** `mo-dau` → `thu-ngo` → `tu-chu` → `chinh-xac` → `minder-ai` → `ba-viec` → `quy-tac` → `kiem-soat` → `ban-do` → `lo-trinh` → `gia-tri` → `hai-ben` → `hop-tac`. `mot-ngay` (Thử ngay) tạm ẩn.
 > - **Module:** M20 (Minder AI làm việc) · M21 (thẻ minh họa, sơ đồ ranh giới bảo mật) · M8 (bản đồ ba giai đoạn, lõi "Minder AI") · M15 (ba giai đoạn) · M16 (nhân sự) · M14 (quyền lợi đôi bên, hình thức hợp tác, đoạn kết). Không dùng module của bộ Mô hình AI Thế giới thực (M1, M2, M3, M5, M6, M7, M10, M18, M19).
 > - **Người đọc là Ban lãnh đạo Takako.**
 >   - Không nêu tên, không trích lời cá nhân nào phía Takako. Mọi yêu cầu đều ghi là "Takako đặt ra".
@@ -227,6 +227,30 @@ Kỹ sư Celesnity làm việc tại nhà máy cùng từng bộ phận, hiểu 
 
 ---
 
+## `#ba-viec` · Giai đoạn 1
+
+*act 2 · theme mist · layout wide*
+
+**eyebrow:** Giai đoạn 1
+
+### Ba phần việc đầu tiên Minder AI nhận tại Takako
+
+**lead:** Ba phần việc phủ đủ bốn mảng thông tin, chỉ dùng dữ liệu Takako đã có, và chỉ đọc.
+
+**[M21 ba-viec]** Ba hàng, mỗi hàng một phần việc: cột 1 là nội dung (hình minh họa giá thành · máy CNC · bản vẽ, đúng như bảng dưới), cột 2–3 là video demo của phần việc đó (đang để ô chờ, sẽ chèn video sau).
+
+**Chi tiết (bản in): Ba phần việc**
+
+| Phần việc | Quản lý nhận | Minder AI tự gửi | Trả lời khi được hỏi | Dữ liệu |
+|---|---|---|---|---|
+| **Trợ lý giá thành** · Kế toán | Phòng Kế toán | Cảnh báo mã hàng vượt định mức kèm nguyên nhân và cách tính · Tính lại giờ máy và chi phí khi kế hoạch sản lượng thay đổi · Báo cáo giá thành tháng soạn sẵn · Tóm tắt văn bản pháp lý mới từ nguồn được phép | "Giá thành thực của mã hàng này tháng 9?" · "Nếu sản lượng tăng 20% thì giờ máy và chi phí thay đổi thế nào?" | ERP, MES-IoT, kho bản vẽ, nguồn pháp lý được phép |
+| **Trợ lý dữ liệu máy** · Sản xuất và Vận hành | Phòng Kỹ thuật, Phòng Sản xuất | Bản tin sáng về các máy cần chú ý · Báo cáo bảo trì tuần soạn sẵn | "Tình trạng máy MC-07 trong 6 tháng qua?" · "Sản lượng và phế phẩm của mã hàng này tuần trước?" | MES-IoT: sự cố, sửa chữa, bảo trì, cycle time, sản lượng |
+| **Trợ lý bản vẽ** · Tài nguyên kỹ thuật | Phòng Kỹ thuật, Phòng Sản xuất | Cảnh báo khi bản vẽ có phiên bản mới mà lệnh hoặc lô còn chạy theo phiên bản cũ | "Bản vẽ hiện hành của mã hàng này là phiên bản nào?" · "Lô nào đã chạy theo phiên bản cũ?" | Kho bản vẽ, lệnh sản xuất |
+
+**[label proposal]** Ngoài phạm vi Giai đoạn 1: ghi dữ liệu vào hệ thống, điều khiển máy, giám sát quy trình xưởng, chương trình gia công. Các phần này thuộc lộ trình sau, khi Takako quyết định.
+
+---
+
 ## `#quy-tac` · Quy tắc do quản lý đặt
 
 *act 2 · theme light · layout wide*
@@ -237,12 +261,12 @@ Kỹ sư Celesnity làm việc tại nhà máy cùng từng bộ phận, hiểu 
 
 **lead:** Mỗi loại thông tin có một quy tắc do quản lý phụ trách đặt ra: dùng dữ liệu nào, tính thế nào, trình bày ra sao, gửi cho ai và khi nào. Minder AI chỉ làm theo quy tắc, nên số liệu chuẩn xác, output đúng định dạng đã đề ra và nhất quán giữa các người nhận, các ngày và các bộ phận.
 
-**[M20 rule]**
-- **Bên trái:** quy tắc QT-GT-01.
-- **Bên phải:** output do quy tắc đó tạo ra.
-- **Nút chọn ngưỡng:** 3% · 5%.
-  - Ở 3%: PT-2041 vượt định mức 4,1% → Minder AI gửi cảnh báo.
-  - Ở 5%: không vượt ngưỡng → Minder AI không gửi, và hiện dòng "Không vượt ngưỡng 5%, Minder AI không gửi cảnh báo".
+**[M21 quy-tac]** Ba tab ảnh chụp quy tắc trong Minder AI, ứng với ba phần việc:
+- Kế toán: *Nghiệp vụ kế toán (nguồn whitelist)* · `/decks/takako-vietnam/quy-tac-nghiep-vu-ke-toan.webp`
+- Sản xuất và Vận hành: *Kế hoạch sản lượng & công suất* · `/decks/takako-vietnam/quy-tac-ke-hoach-san-luong.webp`
+- Tài nguyên kỹ thuật: *Bản vẽ & revision* · `/decks/takako-vietnam/quy-tac-ban-ve-revision.webp`
+
+*Ảnh chụp từ Minder AI: mỗi quy tắc do quản lý đặt được lưu thành một kỹ năng của dự án Takako, gồm tên, mô tả, thông tin chi tiết và nội dung hướng dẫn mà Minder AI tuân theo.*
 
 **[steps]**
 
@@ -270,30 +294,6 @@ Kỹ sư Celesnity làm việc tại nhà máy cùng từng bộ phận, hiểu 
 | **Định dạng** | Kết quả · Chênh lệch · Nguyên nhân chính · Cách tính · Nguồn |
 | **Người nhận** | Phòng Kế toán; thêm Phòng Kỹ thuật khi nguyên nhân nằm ở sản xuất |
 | **Thời điểm** | 09:00 mỗi ngày làm việc |
-
----
-
-## `#ba-viec` · Giai đoạn 1
-
-*act 2 · theme mist · layout wide*
-
-**eyebrow:** Giai đoạn 1
-
-### Ba phần việc đầu tiên Minder AI nhận tại Takako
-
-**lead:** Ba phần việc phủ đủ bốn mảng thông tin, chỉ dùng dữ liệu Takako đã có, và chỉ đọc.
-
-**[M21 ba-viec]** Ba thẻ có hình minh họa (giá thành · máy CNC · bản vẽ), nội dung đúng như bảng dưới.
-
-**Chi tiết (bản in): Ba phần việc**
-
-| Phần việc | Quản lý nhận | Minder AI tự gửi | Trả lời khi được hỏi | Dữ liệu | Đo bằng |
-|---|---|---|---|---|---|
-| **Trợ lý giá thành** · Kế toán | Phòng Kế toán | Cảnh báo mã hàng vượt định mức kèm nguyên nhân và cách tính · Tính lại giờ máy và chi phí khi kế hoạch sản lượng thay đổi · Báo cáo giá thành tháng soạn sẵn · Tóm tắt văn bản pháp lý mới từ nguồn được phép | "Giá thành thực của mã hàng này tháng 9?" · "Nếu sản lượng tăng 20% thì giờ máy và chi phí thay đổi thế nào?" | ERP, MES-IoT, kho bản vẽ, nguồn pháp lý được phép | Thời gian tính giá thành thực của một mã hàng |
-| **Trợ lý dữ liệu máy** · Sản xuất và Vận hành | Phòng Kỹ thuật, Phòng Sản xuất | Bản tin sáng về các máy cần chú ý · Báo cáo bảo trì tuần soạn sẵn | "Tình trạng máy MC-07 trong 6 tháng qua?" · "Sản lượng và phế phẩm của mã hàng này tuần trước?" | MES-IoT: sự cố, sửa chữa, bảo trì, cycle time, sản lượng | Thời gian trả lời tình trạng một máy |
-| **Trợ lý bản vẽ** · Tài nguyên kỹ thuật | Phòng Kỹ thuật, Phòng Sản xuất | Cảnh báo khi bản vẽ có phiên bản mới mà lệnh hoặc lô còn chạy theo phiên bản cũ | "Bản vẽ hiện hành của mã hàng này là phiên bản nào?" · "Lô nào đã chạy theo phiên bản cũ?" | Kho bản vẽ, lệnh sản xuất | Thời gian tìm và xác nhận bản vẽ hiện hành |
-
-**[label proposal]** Ngoài phạm vi Giai đoạn 1: ghi dữ liệu vào hệ thống, điều khiển máy, giám sát quy trình xưởng, chương trình gia công. Các phần này thuộc lộ trình sau, khi Takako quyết định.
 
 ---
 

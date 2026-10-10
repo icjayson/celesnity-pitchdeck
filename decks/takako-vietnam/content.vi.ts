@@ -288,9 +288,62 @@ export const sections: Section[] = [
     ],
   },
   {
-    id: "quy-tac",
+    id: "ba-viec",
     act: 2,
     theme: "light",
+    layout: "wide",
+    eyebrow: "Giai đoạn 1",
+    title: "Ba phần việc đầu tiên Minder AI nhận tại Takako",
+    blocks: [
+      { kind: "lead", text: "Ba phần việc phủ đủ bốn mảng thông tin, chỉ dùng dữ liệu Takako đã có, và chỉ đọc." },
+      { kind: "module", id: "M21", variant: "ba-viec" },
+      {
+        kind: "label",
+        variant: "proposal",
+        text: "Ngoài phạm vi Giai đoạn 1: ghi dữ liệu vào hệ thống, điều khiển máy, giám sát quy trình xưởng, chương trình gia công. Các phần này thuộc lộ trình sau, khi Takako quyết định.",
+      },
+    ],
+    details: [
+      {
+        title: "Ba phần việc",
+        printOnly: true,
+        blocks: [
+          {
+            kind: "cards",
+            cols: 3,
+            head: ["Phần việc", "Quản lý nhận", "Minder AI tự gửi", "Trả lời khi được hỏi", "Dữ liệu"],
+            rows: [
+              [
+                "**Trợ lý giá thành** · Kế toán",
+                "Phòng Kế toán",
+                "Cảnh báo mã hàng vượt định mức kèm nguyên nhân và cách tính · Tính lại giờ máy và chi phí khi kế hoạch sản lượng thay đổi · Báo cáo giá thành tháng soạn sẵn · Tóm tắt văn bản pháp lý mới từ nguồn được phép",
+                "\"Giá thành thực của mã hàng này tháng 9?\" · \"Nếu sản lượng tăng 20% thì giờ máy và chi phí thay đổi thế nào?\"",
+                "ERP, MES-IoT, kho bản vẽ, nguồn pháp lý được phép",
+              ],
+              [
+                "**Trợ lý dữ liệu máy** · Sản xuất và Vận hành",
+                "Phòng Kỹ thuật, Phòng Sản xuất",
+                "Bản tin sáng về các máy cần chú ý · Báo cáo bảo trì tuần soạn sẵn",
+                "\"Tình trạng máy MC-07 trong 6 tháng qua?\" · \"Sản lượng và phế phẩm của mã hàng này tuần trước?\"",
+                "MES-IoT: sự cố, sửa chữa, bảo trì, cycle time, sản lượng",
+              ],
+              [
+                "**Trợ lý bản vẽ** · Tài nguyên kỹ thuật",
+                "Phòng Kỹ thuật, Phòng Sản xuất",
+                "Cảnh báo khi bản vẽ có phiên bản mới mà lệnh hoặc lô còn chạy theo phiên bản cũ",
+                "\"Bản vẽ hiện hành của mã hàng này là phiên bản nào?\" · \"Lô nào đã chạy theo phiên bản cũ?\"",
+                "Kho bản vẽ, lệnh sản xuất",
+              ],
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "quy-tac",
+    act: 2,
+    theme: "mist",
     layout: "wide",
     eyebrow: "Quy tắc do quản lý đặt",
     title: "Quản lý đặt quy tắc. Minder AI trả lời đúng quy tắc đó, lần nào cũng vậy.",
@@ -299,7 +352,11 @@ export const sections: Section[] = [
         kind: "lead",
         text: "Mỗi loại thông tin có một quy tắc do quản lý phụ trách đặt ra: dùng dữ liệu nào, tính thế nào, trình bày ra sao, gửi cho ai và khi nào. Minder AI chỉ làm theo quy tắc, nên số liệu chuẩn xác, output đúng định dạng đã đề ra và nhất quán giữa các người nhận, các ngày và các bộ phận.",
       },
-      { kind: "module", id: "M20", variant: "rule" },
+      { kind: "module", id: "M21", variant: "quy-tac" },
+      {
+        kind: "note",
+        text: "Ảnh chụp từ Minder AI: mỗi quy tắc do quản lý đặt được lưu thành một kỹ năng của dự án Takako, gồm tên, mô tả, thông tin chi tiết và nội dung hướng dẫn mà Minder AI tuân theo.",
+      },
       {
         kind: "steps",
         head: ["Bước", "Việc", "Ai làm"],
@@ -321,6 +378,9 @@ export const sections: Section[] = [
         title: "Một quy tắc mẫu",
         printOnly: true,
         blocks: [
+          { kind: "photo", photo: { src: "/decks/takako-vietnam/quy-tac-nghiep-vu-ke-toan.webp", alt: "Quy tắc Nghiệp vụ kế toán (nguồn whitelist) trong Minder AI", width: 2000, height: 1119, caption: "Quy tắc Nghiệp vụ kế toán (nguồn whitelist)" } },
+          { kind: "photo", photo: { src: "/decks/takako-vietnam/quy-tac-ke-hoach-san-luong.webp", alt: "Quy tắc Kế hoạch sản lượng & công suất trong Minder AI", width: 2000, height: 1119, caption: "Quy tắc Kế hoạch sản lượng & công suất" } },
+          { kind: "photo", photo: { src: "/decks/takako-vietnam/quy-tac-ban-ve-revision.webp", alt: "Quy tắc Bản vẽ & revision trong Minder AI", width: 2000, height: 1119, caption: "Quy tắc Bản vẽ & revision" } },
           {
             kind: "kv",
             rows: [
@@ -339,62 +399,6 @@ export const sections: Section[] = [
               ["**Định dạng**", "Kết quả · Chênh lệch · Nguyên nhân chính · Cách tính · Nguồn"],
               ["**Người nhận**", "Phòng Kế toán; thêm Phòng Kỹ thuật khi nguyên nhân nằm ở sản xuất"],
               ["**Thời điểm**", "09:00 mỗi ngày làm việc"],
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: "ba-viec",
-    act: 2,
-    theme: "mist",
-    layout: "wide",
-    eyebrow: "Giai đoạn 1",
-    title: "Ba phần việc đầu tiên Minder AI nhận tại Takako",
-    blocks: [
-      { kind: "lead", text: "Ba phần việc phủ đủ bốn mảng thông tin, chỉ dùng dữ liệu Takako đã có, và chỉ đọc." },
-      { kind: "module", id: "M21", variant: "ba-viec" },
-      {
-        kind: "label",
-        variant: "proposal",
-        text: "Ngoài phạm vi Giai đoạn 1: ghi dữ liệu vào hệ thống, điều khiển máy, giám sát quy trình xưởng, chương trình gia công. Các phần này thuộc lộ trình sau, khi Takako quyết định.",
-      },
-    ],
-    details: [
-      {
-        title: "Ba phần việc",
-        printOnly: true,
-        blocks: [
-          {
-            kind: "cards",
-            cols: 3,
-            head: ["Phần việc", "Quản lý nhận", "Minder AI tự gửi", "Trả lời khi được hỏi", "Dữ liệu", "Đo bằng"],
-            rows: [
-              [
-                "**Trợ lý giá thành** · Kế toán",
-                "Phòng Kế toán",
-                "Cảnh báo mã hàng vượt định mức kèm nguyên nhân và cách tính · Tính lại giờ máy và chi phí khi kế hoạch sản lượng thay đổi · Báo cáo giá thành tháng soạn sẵn · Tóm tắt văn bản pháp lý mới từ nguồn được phép",
-                "\"Giá thành thực của mã hàng này tháng 9?\" · \"Nếu sản lượng tăng 20% thì giờ máy và chi phí thay đổi thế nào?\"",
-                "ERP, MES-IoT, kho bản vẽ, nguồn pháp lý được phép",
-                "Thời gian tính giá thành thực của một mã hàng",
-              ],
-              [
-                "**Trợ lý dữ liệu máy** · Sản xuất và Vận hành",
-                "Phòng Kỹ thuật, Phòng Sản xuất",
-                "Bản tin sáng về các máy cần chú ý · Báo cáo bảo trì tuần soạn sẵn",
-                "\"Tình trạng máy MC-07 trong 6 tháng qua?\" · \"Sản lượng và phế phẩm của mã hàng này tuần trước?\"",
-                "MES-IoT: sự cố, sửa chữa, bảo trì, cycle time, sản lượng",
-                "Thời gian trả lời tình trạng một máy",
-              ],
-              [
-                "**Trợ lý bản vẽ** · Tài nguyên kỹ thuật",
-                "Phòng Kỹ thuật, Phòng Sản xuất",
-                "Cảnh báo khi bản vẽ có phiên bản mới mà lệnh hoặc lô còn chạy theo phiên bản cũ",
-                "\"Bản vẽ hiện hành của mã hàng này là phiên bản nào?\" · \"Lô nào đã chạy theo phiên bản cũ?\"",
-                "Kho bản vẽ, lệnh sản xuất",
-                "Thời gian tìm và xác nhận bản vẽ hiện hành",
-              ],
             ],
           },
         ],
