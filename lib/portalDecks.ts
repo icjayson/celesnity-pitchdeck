@@ -18,19 +18,20 @@ export type PortalDeck = {
 const DIR = "/briefings";
 
 export const PORTAL_DECKS: PortalDeck[] = [
+  // Hai loại nhà đầu tư dùng chung một deck (giống minder-decks.vercel.app từ 14/10/2026)
   {
     audience: "investor",
     depth: "non-technical",
     locale: "en",
-    title: "Celesnity · World Model Fundraising Deck",
-    url: `${DIR}/investor-non-technical.pdf`,
+    title: "Celesnity · The World Model for Industry",
+    url: `${DIR}/investor-en.pdf`,
   },
   {
     audience: "investor",
     depth: "technical",
     locale: "en",
-    title: "Minder AI · Technical Investor Deck",
-    url: `${DIR}/investor-technical.pdf`,
+    title: "Celesnity · The World Model for Industry",
+    url: `${DIR}/investor-en.pdf`,
   },
   {
     audience: "buyer",
