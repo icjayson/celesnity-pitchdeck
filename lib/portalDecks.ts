@@ -37,7 +37,7 @@ export const PORTAL_DECKS: PortalDeck[] = [
     audience: "buyer",
     depth: "non-technical",
     locale: "en",
-    title: "Celesnity · Minder Applications, UK & Europe Introduction",
+    title: "Celesnity · Minder & World Model, UK & Europe Introduction",
     url: `${DIR}/buyer-non-technical-en.pdf`,
   },
   {
@@ -51,7 +51,7 @@ export const PORTAL_DECKS: PortalDeck[] = [
     audience: "buyer",
     depth: "non-technical",
     locale: "vi",
-    title: "Minder AI · Dành cho Lãnh đạo Vận hành",
+    title: "Celesnity · Minder & World Model, Dành cho Lãnh đạo Vận hành",
     url: `${DIR}/buyer-non-technical-vi.pdf`,
   },
   {
