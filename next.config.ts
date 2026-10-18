@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   async redirects() {
     return ["/phu-luc", "/ban-in", "/v1"].map((source) => ({ source, destination: `/hoa-phat${source}`, permanent: false }));
   },
+  /** Báo cáo tĩnh trong public/decks/<slug>/: giữ đường dẫn ngắn /<slug> như các deck */
+  async rewrites() {
+    return [{ source: "/saigon-food", destination: "/decks/saigon-food/bao-cao-pilot.html" }];
+  },
   async headers() {
     return [
       {
