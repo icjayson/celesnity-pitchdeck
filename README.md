@@ -8,6 +8,7 @@ Thư mục chung cho các landing deck tương tác gửi khách hàng. Mỗi kh
 | `/nestle-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Nestlé Trị An × Celesnity |
 | `/isuzu-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Isuzu Việt Nam × Celesnity |
 | `/takako-vietnam` (+ `/phu-luc`, `/ban-in`) | Minder AI · Takako × Celesnity |
+| `/decks/saigon-food/bao-cao-pilot.html` | Báo cáo pilot Minder · Saigon Food (trang tĩnh trong `public/`, không qua DeckProvider) |
 | `/` | Cổng chọn deck |
 
 Đường dẫn cũ `/phu-luc`, `/ban-in`, `/v1` tự chuyển về `/hoa-phat/...`.
