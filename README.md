@@ -9,7 +9,6 @@ Thư mục chung cho các landing deck tương tác gửi khách hàng. Mỗi kh
 | `/isuzu-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Isuzu Việt Nam × Celesnity |
 | `/takako-vietnam` (+ `/phu-luc`, `/ban-in`) | Minder AI · Takako × Celesnity |
 | `/saigon-food` (+ `/report`) | Báo cáo pilot Minder · Saigon Food (trang tĩnh `public/decks/saigon-food/bao-cao-pilot.html`, rewrite trong `next.config.ts`, không qua DeckProvider) |
-| `/saigon-food/report-v2` | Bản v2 của báo cáo pilot (`bao-cao-pilot-v2.html`): mục 08 thêm luồng hoàn thiện kho lạnh song song với khu vực sản xuất mới |
 | `/` | Cổng chọn deck: nhà đầu tư theo khu vực; người mua theo ngôn ngữ |
 
 Đường dẫn cũ `/phu-luc`, `/ban-in`, `/v1` tự chuyển về `/hoa-phat/...`.

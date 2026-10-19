@@ -86,6 +86,7 @@
   h3 { margin: 44px 0 14px; font-size: 19px; line-height: 1.35; font-weight: 600; }
   .deck + h3 { margin-top: 0; }
   p { margin: 0 0 12px; }
+  [hidden] { display: none !important; }
   .note { margin: 12px 0 0; color: var(--ink-500); font-size: 14px; max-width: 80ch; }
 
   /* Chỉ số */
@@ -155,7 +156,7 @@
   .fig-grid.wide { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
   .fig-grid.sub { margin-top: 28px; }
   .fig-single { max-width: 720px; }
-  .todo { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .todo { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .todo li { border: 1px solid var(--line-200); border-radius: var(--radius-card); padding: 18px 20px; font-size: 15px; }
   .todo b { display: block; margin-bottom: 6px; }
 
@@ -175,11 +176,13 @@
   .value { background: var(--mist-50); border-radius: var(--radius-card); padding: 20px; }
   .value b { display: block; font-size: 16px; margin-bottom: 8px; }
   .value p { margin: 0; color: var(--ink-500); font-size: 14px; line-height: 1.5; }
+  .values.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .values.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .value .idx { display: block; font-family: var(--font-mono); color: var(--blue-600); font-size: 13px; margin-bottom: 10px; }
 
   .gantt-wrap { overflow-x: auto; border: 1px solid var(--line-200); border-radius: var(--radius-card); background: var(--white); box-shadow: var(--shadow-card); }
   table.gantt { width: 100%; min-width: 820px; border-collapse: collapse; table-layout: fixed; font-size: 13px; }
-  .gantt col.lab { width: 230px; }
+  .gantt col.lab { width: 270px; }
   .gantt th, .gantt td { padding: 0; height: 44px; border-left: 1px solid var(--line-200); text-align: center; }
   .gantt thead th { height: 30px; font-weight: 600; color: var(--ink-500); background: var(--mist-50); border-bottom: 1px solid var(--line-200); }
   .gantt thead tr.months th { color: var(--navy-900); }
@@ -196,7 +199,7 @@
   .ms-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 14px 0 0; font-size: 14px; color: var(--ink-500); }
   .ms-legend span { display: inline-flex; align-items: center; gap: 8px; }
 
-  .why { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .why { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .why li { border-left: 3px solid var(--blue-500); padding: 2px 0 2px 14px; font-size: 15px; }
   .alt { margin-top: 18px; border: 1px dashed var(--line-200); border-radius: 12px; padding: 14px 18px; font-size: 15px; color: var(--ink-500); }
   .alt b { color: var(--navy-900); }
@@ -270,6 +273,7 @@
     .cover h1 { font-size: 40px; }
     .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .kpis, .values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .values.three { grid-template-columns: minmax(0, 1fr); }
     .fig-grid, .fig-grid.wide, .price { grid-template-columns: minmax(0, 1fr); }
     .photos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .todo, .why { grid-template-columns: minmax(0, 1fr); }
@@ -295,7 +299,7 @@
     .finding { padding: 20px; }
     .finding dl { grid-template-columns: minmax(0, 1fr); gap: 2px; }
     .finding dd { margin-bottom: 10px; }
-    .values { grid-template-columns: minmax(0, 1fr); }
+    .values, .values.two, .values.three { grid-template-columns: minmax(0, 1fr); }
     .t th, .t td { padding: 10px 12px; }
   }
 
@@ -351,8 +355,8 @@
     <li><a href="#phat-hien"><span>07</span>Phát hiện từ dữ liệu</a></li>
     <li><a href="#de-xuat"><span>08</span>Bước tiếp theo: pilot có phí</a></li>
     <li><a href="#phu-luc-a"><span>A</span>Chi phí pilot</a></li>
-    <li><a href="#phu-luc-b"><span>B</span>Tham chiếu thị trường</a></li>
-    <li><a href="#phu-luc-c"><span>C</span>Nguồn số liệu</a></li>
+    <li hidden><a href="#phu-luc-b"><span>B</span>Tham chiếu thị trường</a></li>
+    <li><a href="#phu-luc-c"><span>B</span>Nguồn số liệu</a></li>
   </ol>
 </nav>
 
@@ -382,8 +386,17 @@
 
     <div class="callout">
       <p class="label">Đề xuất</p>
-      <p>Pilot có phí 16 tuần tại một phân xưởng sản xuất, từ 16/11/2026 đến 07/03/2027. Phí trọn gói 2,0 tỷ đồng, chưa VAT. Quyết định go/no-go ngày 29/01/2027, dựa trên 3 chỉ tiêu chốt trong tuần đầu.</p>
+      <p>Pilot có phí 12 tuần tại một phân xưởng sản xuất, từ 02/11/2026 đến 24/01/2027. Phí trọn gói 929 triệu đồng, chưa VAT. Quyết định Đạt/Không đạt ngày 08/01/2027, dựa trên 3 chỉ tiêu chốt trong tuần đầu.</p>
     </div>
+
+    <h3>Video tổng kết</h3>
+    <figure class="shot">
+      <video controls playsinline preload="metadata" poster="/decks/saigon-food/assets/video/sgf-pilot-tong-quan-poster.jpg" width="1600" height="900">
+        <source src="/decks/saigon-food/assets/video/sgf-pilot-tong-quan.mp4" type="video/mp4">
+      </video>
+      <img class="print-only" src="/decks/saigon-food/assets/video/sgf-pilot-tong-quan-poster.jpg" alt="Khung hình video tổng kết" width="1600" height="900">
+      <figcaption><b>Video tổng kết 2 phút 30 giây</b>Dữ liệu đi vào Minder thế nào, các ứng dụng chạy trên dữ liệu thật, và những phát hiện vận hành sau 4 tuần triển khai.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -765,6 +778,7 @@
       <li><b>Nhật ký ca tự động</b>Đã có bản nháp quy tắc trong chat: kho lạnh −22 đến −18 °C, IQF từ −35 °C trở xuống. Chưa bật lịch chạy.</li>
       <li><b>Tài liệu</b>Chưa nạp quy trình vận hành và hướng dẫn xử lý sự cố của SGF.</li>
       <li><b>Camera AI đọc đồng hồ</b>Đã có nơi lưu dữ liệu cho máy nén, chưa có ảnh đọc.</li>
+      <li><b>Dự báo bằng Mô hình AI Thế giới thực</b>Bắt đầu thử nghiệm trong pilot có phí (mục 08).</li>
     </ul>
   </div>
 </section>
@@ -829,13 +843,28 @@
   <div class="wrap">
     <p class="sec-num">08</p>
     <h2>Bước tiếp theo: pilot có phí</h2>
-    <p class="deck">Pilot vừa qua nối điểm cuối dây chuyền: cấp đông và kho lạnh. Pilot có phí đi ngược lên các công đoạn sản xuất.</p>
+    <p class="deck">Pilot vừa qua nối điểm cuối dây chuyền: cấp đông và kho lạnh. Pilot có phí đi ngược lên các công đoạn sản xuất, trong khi kho lạnh tiếp tục chạy và được hoàn thiện.</p>
+
+    <h3>Hai luồng song song</h3>
+    <div class="values two">
+      <div class="value"><span class="idx">Luồng 1</span><b>Kho lạnh và máy nén: hoàn thiện và duy trì</b><p>Kho lạnh đã có dữ liệu từ 29/09/2026. Từ 19/10 đến 31/10, trước khi pilot bắt đầu, luồng này xử lý các phát hiện ở mục 07, bật cảnh báo cho cả 16 thiết bị và chạy nhật ký ca tự động, rồi duy trì đến hết tuần 4. Từ mùa cao điểm, kho lạnh vận hành cùng phân xưởng trên một hệ thống.</p></div>
+      <div class="value"><span class="idx">Luồng 2</span><b>Khu vực sản xuất mới</b><p>Khảo sát, lắp đặt và vận hành từ chế biến đến nhập kho lạnh.</p></div>
+    </div>
+
+    <h3>Mô hình AI Thế giới thực</h3>
+    <p class="note">Minder chạy trên Mô hình AI Thế giới thực (World Model) do Celesnity tự nghiên cứu và phát triển. Pilot vừa qua dùng hai lớp đầu: nhìn thấy và ghi nhớ. Pilot có phí thử nghiệm lớp thứ ba, dự báo, trên dữ liệu của SGF.</p>
+    <div class="values three" style="margin-top:18px">
+      <div class="value"><span class="idx">Dự báo</span><b>Kho lạnh</b><p>Dự báo thời gian về ngưỡng sau mỗi lần xả đá, để cảnh báo chỉ bật khi kho lệch thật.</p></div>
+      <div class="value"><span class="idx">Dự báo</span><b>Máy nén</b><p>Dự báo điện năng và độ mòn khi máy nén chạy gần liên tục, như Kho lạnh 2.</p></div>
+      <div class="value"><span class="idx">Dự báo</span><b>IQF và sản xuất</b><p>Thử dời lô sang khung giờ điện rẻ hơn mà vẫn đủ công suất cấp đông.</p></div>
+    </div>
+    <p class="note">Mỗi dự báo kèm mức độ tin cậy. Con người phê duyệt những việc quan trọng.</p>
 
     <h3>Mục tiêu</h3>
     <div class="values">
       <div class="value"><span class="idx">01</span><b>Sản xuất</b><p>Sản lượng, dừng máy và OEE theo ca cho từng dây chuyền.</p></div>
-      <div class="value"><span class="idx">02</span><b>Chất lượng và an toàn thực phẩm</b><p>Nhiệt độ sản phẩm qua từng công đoạn, nhật ký HACCP tự điền, sẵn cho đánh giá BRC và FSSC 22000.</p></div>
-      <div class="value"><span class="idx">03</span><b>Năng lượng</b><p>kWh trên mỗi kg sản phẩm cho từng dây chuyền và từng máy nén.</p></div>
+      <div class="value"><span class="idx">02</span><b>Chất lượng và an toàn thực phẩm</b><p>Nhiệt độ sản phẩm qua từng công đoạn đến khi vào kho lạnh, nhật ký HACCP tự điền, sẵn cho đánh giá BRC và FSSC 22000.</p></div>
+      <div class="value"><span class="idx">03</span><b>Năng lượng</b><p>kWh trên mỗi kg sản phẩm cho từng dây chuyền và từng máy nén, gồm cả máy nén kho lạnh.</p></div>
       <div class="value"><span class="idx">04</span><b>Bảo trì và con người</b><p>Giờ chạy, cảnh báo sớm, báo cáo ca tự động, hướng dẫn xử lý sự cố tra cứu bằng chat.</p></div>
     </div>
 
@@ -843,7 +872,7 @@
     <div class="table-frame"><div class="table-scroll">
       <table class="t kv">
         <tbody>
-          <tr><td>Khu vực</td><td>1 phân xưởng sản xuất do SGF chọn. Kho lạnh và phòng máy nén vẫn trong phạm vi.</td></tr>
+          <tr><td>Khu vực</td><td>1 phân xưởng sản xuất do SGF chọn, cùng khu kho lạnh và phòng máy nén đang kết nối (16 thiết bị)</td></tr>
           <tr><td>Công đoạn</td><td>Từ chế biến đến cấp đông, đóng gói và nhập kho lạnh</td></tr>
           <tr><td>Kết nối</td><td>PLC và HMI dây chuyền, BOSS Mini, công tơ điện, cảm biến dòng, camera AI đọc đồng hồ</td></tr>
           <tr><td>Ứng dụng</td><td>Mô hình phân xưởng, dashboard sản xuất và năng lượng, cảnh báo, nhật ký ca và HACCP tự điền, báo cáo ca, chat trên tài liệu quy trình</td></tr>
@@ -853,80 +882,100 @@
       </table>
     </div></div>
 
-    <h3>Thời gian: 16 tuần</h3>
+    <h3>Thời gian: 12 tuần</h3>
     <div class="gantt-wrap">
       <table class="gantt">
-        <colgroup><col class="lab"><col span="16"></colgroup>
+        <colgroup><col class="lab"><col span="14"></colgroup>
         <thead>
-          <tr class="months"><th class="lab">2026 đến 2027</th><th colspan="2">Tháng 11</th><th colspan="5">Tháng 12</th><th colspan="4">Tháng 1</th><th colspan="4">Tháng 2</th><th colspan="1">T3</th></tr>
-          <tr><th class="lab">Tuần</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th></tr>
+          <tr class="months"><th class="lab">2026 đến 2027</th><th colspan="2">Tháng 10</th><th colspan="4">Tháng 11</th><th colspan="5">Tháng 12</th><th colspan="3">Tháng 1</th></tr>
+          <tr><th class="lab">Tuần</th><th colspan="2">Trước pilot</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th></tr>
         </thead>
         <tbody>
-          <tr><td class="lab">Khảo sát và baseline<small>16/11 đến 29/11/2026</small></td><td colspan="2"><div class="bar b1"></div></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-          <tr><td class="lab">Lắp đặt và kết nối<small>30/11 đến 27/12/2026</small></td><td></td><td></td><td colspan="4"><div class="bar b2"></div></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-          <tr><td class="lab">Vận hành mùa cao điểm<small>28/12/2026 đến 31/01/2027</small></td><td></td><td></td><td></td><td></td><td></td><td></td><td colspan="5"><div class="bar b3"></div></td><td></td><td></td><td></td><td></td><td></td></tr>
-          <tr><td class="lab">Nghỉ Tết, hệ thống tự chạy<small>01/02 đến 14/02/2027</small></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td colspan="2"><div class="bar tet"></div></td><td></td><td></td><td></td></tr>
-          <tr><td class="lab">Đo kết quả và nghiệm thu<small>15/02 đến 07/03/2027</small></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td colspan="3"><div class="bar b4"></div></td></tr>
-          <tr><td class="lab">Mốc</td><td></td><td><span class="ms" title="Baseline ký xác nhận"></span></td><td></td><td></td><td></td><td><span class="ms" title="Dữ liệu đủ 95%"></span></td><td></td><td></td><td></td><td></td><td><span class="ms" title="Họp go/no-go"></span></td><td></td><td></td><td></td><td></td><td><span class="ms" title="Nghiệm thu"></span></td></tr>
+          <tr><td class="lab">Duy trì kho lạnh và máy nén<small>19/10 đến 29/11/2026</small></td><td colspan="6"><div class="bar b1"></div></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="lab">Khảo sát, thử nghiệm và baseline<small>Khu vực mới · 02/11 đến 15/11/2026</small></td><td></td><td></td><td colspan="2"><div class="bar b1"></div></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="lab">Hoàn thiện lắp đặt và kết nối<small>Khu vực mới · 16/11 đến 06/12/2026</small></td><td></td><td></td><td></td><td></td><td colspan="3"><div class="bar b2"></div></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="lab">Vận hành mùa cao điểm<small>30/11/2026 đến 10/01/2027</small></td><td></td><td></td><td></td><td></td><td></td><td></td><td colspan="6"><div class="bar b3"></div></td><td></td><td></td></tr>
+          <tr><td class="lab">Đo kết quả và nghiệm thu<small>11/01 đến 24/01/2027</small></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td colspan="2"><div class="bar b4"></div></td></tr>
+          <tr><td class="lab">Mốc</td><td></td><td><span class="ms" title="Ký hợp đồng, kho lạnh hoàn thiện"></span></td><td></td><td><span class="ms" title="Baseline ký xác nhận"></span></td><td></td><td></td><td><span class="ms" title="Dữ liệu đủ 95%"></span></td><td></td><td></td><td></td><td></td><td><span class="ms" title="Họp đánh giá Đạt/Không đạt"></span></td><td></td><td><span class="ms" title="Nghiệm thu"></span></td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="table-frame" style="margin-top:18px"><div class="table-scroll">
       <table class="t">
+        <colgroup><col style="width:22%"><col style="width:7%"><col style="width:19%"><col></colgroup>
+        <thead><tr><th>Giai đoạn</th><th class="num">Tuần</th><th class="num">Thời gian</th><th>Việc</th></tr></thead>
+        <tbody>
+          <tr><td>Hoàn thiện khu vực kho lạnh và máy nén</td><td class="num">Trước pilot</td><td class="num">19/10 đến 31/10/2026</td><td>Sửa đầu dò Kho lạnh 1, đối chiếu với nhiệt kế và sổ Excel, rồi bật cảnh báo. Cảnh báo Kho lạnh 3 bỏ qua 90 phút sau mỗi lần xả đá. Kiểm tra dàn lạnh, gas và tải của Kho lạnh 2. SGF xác nhận ngưỡng từng kho. Mở rộng theo dõi lệch chuẩn lên 16 thiết bị, bật nhật ký ca tự động, nạp quy trình vận hành. Gia cố kết nối Máy nén 4, gắn camera AI đọc đồng hồ.</td></tr>
+          <tr><td>Khảo sát, thử nghiệm và baseline</td><td class="num">1–2</td><td class="num">02/11 đến 15/11/2026</td><td><b>Các khu vực sản xuất mới:</b> khảo sát dây chuyền, thử kết nối PLC/HMI, lập bảng baseline.</td></tr>
+          <tr><td>Hoàn thiện lắp đặt và kết nối</td><td class="num">3–5</td><td class="num">16/11 đến 06/12/2026</td><td><b>Các khu vực sản xuất mới:</b> lắp PLC/HMI, công tơ điện, cảm biến dòng. Dựng mô hình phân xưởng và dashboard.</td></tr>
+          <tr><td>Vận hành mùa cao điểm</td><td class="num">5–10</td><td class="num">30/11/2026 đến 10/01/2027</td><td>Phân xưởng, kho lạnh và máy nén chạy trên một hệ thống: cảnh báo, nhật ký ca và HACCP tự điền, báo cáo ca chung, kWh theo dây chuyền và máy nén.</td></tr>
+          <tr><td>Đo kết quả và nghiệm thu</td><td class="num">11–12</td><td class="num">11/01 đến 24/01/2027</td><td>So với baseline: sản lượng, dừng máy, OEE, kWh/kg, thời gian trong dải nhiệt từng kho, số cảnh báo do xả đá.</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+
+    <div class="table-frame" style="margin-top:18px"><div class="table-scroll">
+      <table class="t">
         <thead><tr><th>Mốc</th><th class="num">Ngày</th><th>Đầu ra</th></tr></thead>
         <tbody>
-          <tr><td>Ký hợp đồng pilot</td><td class="num">Trước 13/11/2026</td><td>Phạm vi, chỉ tiêu và người phụ trách hai bên</td></tr>
-          <tr><td>Baseline sản xuất</td><td class="num">27/11/2026</td><td>Bảng baseline có chữ ký hai bên, đầu dò Kho lạnh 1 đã sửa</td></tr>
-          <tr><td>Hoàn tất lắp đặt</td><td class="num">27/12/2026</td><td>Dữ liệu về đủ 95% thời gian</td></tr>
-          <tr><td>Họp go/no-go</td><td class="num">29/01/2027</td><td>Quyết định tiếp tục dựa trên 3 chỉ tiêu</td></tr>
-          <tr><td>Nghiệm thu</td><td class="num">05/03/2027</td><td>Báo cáo so với baseline, phạm vi triển khai toàn nhà máy</td></tr>
+          <tr><td>Ký hợp đồng pilot</td><td class="num">Trước 30/10/2026</td><td>Phạm vi, chỉ tiêu và người phụ trách hai bên</td></tr>
+          <tr><td>Hoàn thiện kho lạnh</td><td class="num">30/10/2026</td><td>Đầu dò Kho lạnh 1 đã sửa, cả 16 thiết bị có cảnh báo, nhật ký ca kho lạnh chạy tự động</td></tr>
+          <tr><td>Baseline sản xuất</td><td class="num">13/11/2026</td><td>Bảng baseline có chữ ký hai bên</td></tr>
+          <tr><td>Hoàn tất lắp đặt</td><td class="num">06/12/2026</td><td>Dữ liệu khu vực sản xuất mới về đủ 95% thời gian</td></tr>
+          <tr><td>Họp đánh giá Đạt/Không đạt</td><td class="num">08/01/2027</td><td>Quyết định tiếp tục dựa trên 3 chỉ tiêu</td></tr>
+          <tr><td>Nghiệm thu</td><td class="num">22/01/2027</td><td>Báo cáo so với baseline, phạm vi triển khai toàn nhà máy</td></tr>
           <tr><td>Hợp đồng chính thức</td><td class="num">Trước 31/03/2027</td><td>Triển khai từ quý 2/2027</td></tr>
         </tbody>
       </table>
     </div></div>
 
-    <h3>Vì sao 16 tuần</h3>
+    <h3>Vì sao 12 tuần</h3>
     <ul class="why">
-      <li>Lắp phần cứng xong trước mùa cao điểm Tết, khi dây chuyền còn dễ dừng.</li>
-      <li>5 tuần vận hành ở mức tải cao nhất năm cho kết quả đáng tin nhất.</li>
-      <li>Quyết định ở tuần 11, trước Tết. Sau Tết chỉ còn đo lại và nghiệm thu.</li>
+      <li>Kho lạnh và máy nén hoàn thiện trước khi pilot bắt đầu, nên SGF có cảnh báo và nhật ký ca đầy đủ ngay từ tuần 1.</li>
+      <li>Lắp phần cứng xong đầu tháng 12, trước mùa cao điểm, khi dây chuyền còn dễ dừng.</li>
+      <li>6 tuần vận hành ở mức tải cao nhất năm cho kết quả đáng tin nhất.</li>
+      <li>Quyết định ở tuần 10, nghiệm thu ở tuần 12, đều xong trước Tết.</li>
     </ul>
-    <p class="alt"><b>Phương án khác.</b> Bắt đầu 01/03/2027, 12 tuần, quyết định cuối tháng 5/2027. Hợp đồng chính thức lùi sang quý 3/2027.</p>
+    <p class="alt"><b>Phương án khác.</b> Bắt đầu 01/03/2027, 12 tuần, quyết định cuối tháng 5/2027. Hợp đồng chính thức lùi sang quý 3/2027. Kho lạnh chạy tiếp đến ngày bắt đầu.</p>
 
-    <h3>Chỉ tiêu go/no-go</h3>
+    <h3>Chỉ tiêu Đạt/Không đạt</h3>
     <div class="table-frame"><div class="table-scroll">
       <table class="t">
         <thead><tr><th>Chỉ tiêu</th><th>Ngưỡng đạt</th><th>Cách đo</th></tr></thead>
         <tbody>
-          <tr><td>Dữ liệu đầy đủ</td><td>Từ 95% thời gian có dữ liệu hợp lệ, 4 tuần liền</td><td>Minder đếm theo từng thiết bị</td></tr>
-          <tr><td>Nhật ký ca tự điền</td><td>Từ 90% số ca được trưởng ca xác nhận; thời gian ghi chép giảm từ 70%</td><td>Bấm giờ trước và sau</td></tr>
-          <tr><td>Giá trị lượng hóa</td><td>Từ 3 cơ hội cải thiện, tổng giá trị mỗi năm lớn hơn phí pilot</td><td>Bảng tính chung, hai bên cùng ký</td></tr>
+          <tr><td>Dữ liệu đầy đủ</td><td>Từ 95% thời gian có dữ liệu hợp lệ, 4 tuần liền, cho cả thiết bị phân xưởng và kho lạnh</td><td>Minder đếm theo từng thiết bị</td></tr>
+          <tr><td>Nhật ký ca tự điền</td><td>Từ 90% số ca được trưởng ca xác nhận; thời gian ghi chép giảm từ 70%</td><td>Bấm giờ trước và sau. Kho lạnh đo từ tuần 1, khu vực sản xuất mới từ tuần 5</td></tr>
+          <tr><td>Giá trị lượng hóa</td><td>Từ 3 cơ hội cải thiện, tổng giá trị mỗi năm lớn hơn phí pilot. Cơ hội ở kho lạnh được tính khi kết quả được đo trong pilot có phí</td><td>Bảng tính chung, hai bên cùng ký</td></tr>
         </tbody>
       </table>
     </div></div>
-    <p class="note">Theo dõi thêm: độ chính xác cảnh báo từ 80% sau tinh chỉnh, từ 15 người dùng mỗi tuần, từ 90% lần dừng máy trên 5 phút có ghi lý do.</p>
+    <p class="note">Theo dõi thêm: độ chính xác cảnh báo từ 80% sau tinh chỉnh, từ 15 người dùng mỗi tuần, từ 90% lần dừng máy trên 5 phút có ghi lý do, không còn cảnh báo kho lạnh mở do xả đá.</p>
 
     <h3>Phí và điều khoản</h3>
     <div class="price">
       <div class="price-box">
         <p class="label">Phí trọn gói</p>
-        <p class="amount num">2,0 tỷ đồng</p>
-        <p class="sub">Chưa VAT, khoảng 77.000 USD</p>
-        <div class="split" aria-hidden="true"><i style="flex:500;background:var(--blue-300)"></i><i style="flex:800;background:var(--blue-500)"></i><i style="flex:700;background:var(--orange-500)"></i></div>
+        <p class="amount num">929 triệu đồng</p>
+        <p class="sub">Chưa VAT, khoảng 35.600 USD</p>
+        <div class="split" aria-hidden="true"><i style="flex:500;background:var(--blue-300)"></i><i style="flex:180;background:var(--blue-500)"></i><i style="flex:249;background:var(--orange-500)"></i></div>
         <ul class="split-legend">
           <li><span style="--c:var(--blue-300)">Phần cứng và lắp đặt</span><b class="num">500 triệu</b></li>
-          <li><span style="--c:var(--blue-500)">Đội triển khai FDE</span><b class="num">800 triệu</b></li>
-          <li><span style="--c:var(--orange-500)">Bản quyền Minder và IP Celesnity</span><b class="num">700 triệu</b></li>
+          <li><span style="--c:var(--blue-500)">Đội triển khai FDE</span><b class="num">180 triệu</b></li>
+          <li><span style="--c:var(--orange-500)">Vận hành và phát triển sản phẩm</span><b class="num">249 triệu</b></li>
         </ul>
       </div>
       <ul class="terms">
-        <li>Thanh toán 50% khi ký hợp đồng pilot, 50% khi hoàn tất lắp đặt cuối tuần 6.</li>
+        <li>Thanh toán 50% khi ký hợp đồng pilot, 50% khi hoàn tất lắp đặt cuối tuần 5.</li>
         <li>Phần cứng thuộc về SGF sau pilot.</li>
-        <li>Nếu SGF ký hợp đồng chính thức trong 60 ngày sau nghiệm thu, 700 triệu đồng phí bản quyền được trừ vào năm đầu.</li>
+        <li>SGF sở hữu dữ liệu thô. Dữ liệu có thể lưu tại nhà máy hoặc trên cloud, tùy SGF chọn. Chỉ người được cấp quyền mới truy cập.</li>
+        <li>Nếu SGF ký hợp đồng chính thức trong 60 ngày sau nghiệm thu, phí vận hành và phát triển sản phẩm của pilot được trừ vào năm đầu.</li>
         <li>Cách tính chi tiết ở phụ lục A.</li>
       </ul>
     </div>
+
+    <h3>Sau pilot: hợp đồng chính thức</h3>
+    <p class="note">Phí vận hành và phát triển sản phẩm 208 triệu đồng mỗi tháng, gồm Mô hình AI Thế giới thực, cập nhật sản phẩm, hỗ trợ và SLA. Đội FDE, phần cứng và mức dùng vượt tính riêng. Chi tiết ở phụ lục A.</p>
   </div>
 </section>
 
@@ -935,15 +984,16 @@
   <div class="wrap">
     <p class="sec-num">Phụ lục A</p>
     <h2>Chi phí pilot</h2>
-    <p class="deck">Ba khoản, tính cho 4 tháng.</p>
+    <p class="deck">Ba khoản, tính cho 3 tháng.</p>
     <div class="table-frame"><div class="table-scroll">
       <table class="t">
-        <thead><tr><th>Hạng mục</th><th>Nội dung</th><th class="num">Thành tiền (đồng)</th></tr></thead>
+        <colgroup><col style="width:17%"><col style="width:25%"><col><col style="width:14%"><col style="width:9%"></colgroup>
+        <thead><tr><th>Hạng mục</th><th>Công thức</th><th>Saigon Food</th><th class="num">Thành tiền (đồng)</th><th class="num">USD</th></tr></thead>
         <tbody>
-          <tr><td>Phần cứng và lắp đặt</td><td>Công tơ điện đa kênh, cảm biến dòng, camera AI đọc đồng hồ, gateway công nghiệp có dây, cảm biến nhiệt độ sản phẩm, vật tư và nhân công lắp đặt. Tính theo giá vốn, chốt danh mục sau khảo sát.</td><td class="num">500.000.000</td></tr>
-          <tr><td>Đội triển khai</td><td>2 kỹ sư FDE tại nhà máy × 4 tháng × 100.000.000 đồng</td><td class="num">800.000.000</td></tr>
-          <tr><td>Bản quyền Minder và IP Celesnity</td><td>4 tháng × 175.000.000 đồng. Gồm nền tảng dữ liệu, trợ lý AI, mô hình nhà máy, firmware đo dòng, mô hình camera AI đọc đồng hồ, bộ cảnh báo và mẫu báo cáo cho hệ thống lạnh và chế biến thực phẩm.</td><td class="num">700.000.000</td></tr>
-          <tr class="total"><td>Tổng, chưa VAT</td><td></td><td class="num">2.000.000.000</td></tr>
+          <tr><td>Phần cứng và lắp đặt</td><td>Thiết bị + vật tư + nhân công lắp đặt, chốt sau khảo sát (thường 300 đến 700 triệu đồng mỗi khu vực)</td><td>Theo giá vốn, chốt danh mục sau khảo sát: công tơ điện đa kênh, cảm biến dòng, camera AI đọc đồng hồ, gateway công nghiệp có dây, cảm biến nhiệt độ sản phẩm</td><td class="num">500.000.000</td><td class="num">≈ 19.200</td></tr>
+          <tr><td>Đội triển khai FDE</td><td>Số kỹ sư × số tháng × 30.000.000 đồng</td><td>2 kỹ sư × 3 tháng × 30.000.000 đồng</td><td class="num">180.000.000</td><td class="num">≈ 6.900</td></tr>
+          <tr><td>Vận hành và phát triển sản phẩm</td><td>Số tháng × 40% × phí vận hành hằng tháng của hợp đồng chính thức</td><td>3 tháng × 83.000.000 đồng (40% × 208.000.000 đồng). Gồm Mô hình AI Thế giới thực do Celesnity phát triển, nền tảng dữ liệu, trợ lý AI, mô hình nhà máy, firmware đo dòng, mô hình camera AI đọc đồng hồ, bộ cảnh báo và mẫu báo cáo cho hệ thống lạnh và chế biến thực phẩm.</td><td class="num">249.000.000</td><td class="num">≈ 9.600</td></tr>
+          <tr class="total"><td>Tổng, chưa VAT</td><td>Phần cứng + FDE + Vận hành và phát triển sản phẩm</td><td></td><td class="num">929.000.000</td><td class="num">≈ 35.600</td></tr>
         </tbody>
       </table>
     </div></div>
@@ -952,24 +1002,27 @@
     <div class="table-frame"><div class="table-scroll">
       <table class="t kv">
         <tbody>
-          <tr><td>Kỹ sư FDE</td><td>100 triệu đồng mỗi tháng, khoảng 3.800 USD. Kỹ sư cấp cao thuê ngoài tại Việt Nam theo giá quốc tế ở mức 4.500 đến 6.300 USD mỗi tháng.</td></tr>
-          <tr><td>Bản quyền và IP</td><td>175 triệu đồng mỗi tháng, tương đương khoảng 81.000 USD mỗi năm cho một phân xưởng. Braincube niêm yết 67.530 USD mỗi năm; Falkonry 50.000 USD mỗi năm cộng 20.000 USD kích hoạt; mức của Ethon ước tính 100.000 đến 200.000 USD mỗi nhà máy mỗi năm.</td></tr>
-          <tr><td>Phí pilot so với hợp đồng</td><td>Phí pilot thường bằng 10 đến 30% giá trị hợp đồng năm. 2,0 tỷ đồng tương ứng hợp đồng năm khoảng 7 đến 20 tỷ đồng.</td></tr>
+          <tr><td>Kỹ sư FDE</td><td>30 triệu đồng mỗi người mỗi tháng, khoảng 1.150 USD. Kỹ sư cấp cao thuê ngoài tại Việt Nam theo giá quốc tế ở mức 4.500 đến 6.300 USD mỗi tháng.</td></tr>
+          <tr><td>Vận hành và phát triển sản phẩm</td><td>Trong pilot tính 40% phí vận hành hằng tháng của hợp đồng chính thức: 40% × 208 triệu ≈ 83 triệu đồng mỗi tháng. Phí hợp đồng chính thức 208 triệu đồng mỗi tháng, khoảng 96.000 USD mỗi năm. Braincube niêm yết 67.530 USD mỗi năm; Falkonry 50.000 USD mỗi năm cộng 20.000 USD kích hoạt; mức của Ethon ước tính 100.000 đến 200.000 USD mỗi nhà máy mỗi năm.</td></tr>
+          <tr><td>Phí pilot so với hợp đồng</td><td>Phí pilot thường bằng 10 đến 30% giá trị hợp đồng năm. 929 triệu đồng tương ứng hợp đồng năm khoảng 3,1 đến 9,3 tỷ đồng.</td></tr>
         </tbody>
       </table>
     </div></div>
 
-    <h3>Tỷ trọng trên ngân sách 2027</h3>
+    <h3>Hợp đồng chính thức sau pilot</h3>
     <div class="table-frame"><div class="table-scroll">
       <table class="t">
-        <thead><tr><th>Khoản</th><th class="num">Giá trị</th><th class="num">Trên 100 tỷ đồng ngân sách công nghệ máy móc mới</th></tr></thead>
+        <colgroup><col style="width:24%"><col style="width:17%"><col style="width:27%"><col></colgroup>
+        <thead><tr><th>Hạng mục</th><th>Loại phí</th><th>Cách tính</th><th>Giá</th></tr></thead>
         <tbody>
-          <tr><td>Pilot có phí</td><td class="num">2,0 tỷ đồng</td><td class="num">2%</td></tr>
-          <tr><td>Dự phòng triển khai năm đầu, 4 phân xưởng</td><td class="num">9 đến 11 tỷ đồng</td><td class="num">9 đến 11%</td></tr>
+          <tr><td>Vận hành và phát triển sản phẩm<br><small>Mô hình AI Thế giới thực, cập nhật sản phẩm, hỗ trợ và SLA</small></td><td>Cố định, hằng tháng</td><td>Theo nhà máy</td><td>208 triệu đồng mỗi tháng, khoảng 8.000 USD</td></tr>
+          <tr><td>Gói AI (API)</td><td>Cố định, theo mức dùng</td><td>Đã gồm trong phí vận hành, theo mức dùng hợp lý</td><td>Dùng vượt: chi phí API × 1,3 đến 1,5, cộng dồn hằng tháng</td></tr>
+          <tr><td>Hạ tầng và lưu trữ</td><td>Cố định, theo mức dùng</td><td>Đã gồm dữ liệu của các thiết bị trong phạm vi hợp đồng, lưu 24 tháng</td><td>Dùng vượt: chi phí cộng biên lợi nhuận, cộng dồn hằng tháng. Lưu tại nhà máy thì máy chủ tính như phần cứng</td></tr>
+          <tr><td>Đội FDE</td><td>Cố định, hằng tháng</td><td>Theo số kỹ sư</td><td>30 triệu đồng mỗi kỹ sư mỗi tháng, khoảng 1.150 USD</td></tr>
+          <tr><td>Phần cứng</td><td>Một lần, cộng hạng mục bổ sung khi cần</td><td>Lắp đặt cho khu vực sản xuất mới; bổ sung khi thay thế hoặc thêm điểm đo</td><td>Thương lượng</td></tr>
         </tbody>
       </table>
     </div></div>
-    <p class="note">Ước tính sơ bộ cho năm đầu: phần cứng 0,5 đến 0,7 tỷ và bản quyền 1,2 đến 1,5 tỷ mỗi phân xưởng, cộng đội triển khai 2,4 tỷ. Chốt sau nghiệm thu.</p>
 
     <h3>Cách đo giá trị</h3>
     <div class="table-frame"><div class="table-scroll">
@@ -988,7 +1041,7 @@
 </section>
 
 <!-- Phụ lục B -->
-<section id="phu-luc-b" class="appendix">
+<section id="phu-luc-b" class="appendix" hidden>
   <div class="wrap">
     <p class="sec-num">Phụ lục B</p>
     <h2>Tham chiếu thị trường</h2>
@@ -1044,7 +1097,7 @@
 <!-- Phụ lục C -->
 <section id="phu-luc-c" class="appendix">
   <div class="wrap">
-    <p class="sec-num">Phụ lục C</p>
+    <p class="sec-num">Phụ lục B</p>
     <h2>Nguồn số liệu</h2>
     <p class="deck">Mọi số trong báo cáo lấy từ nền tảng Minder, giờ Việt Nam.</p>
     <div class="table-frame"><div class="table-scroll">

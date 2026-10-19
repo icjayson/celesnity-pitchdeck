@@ -13,7 +13,6 @@ const nextConfig: NextConfig = {
     return [
       { source: "/saigon-food", destination: "/decks/saigon-food/bao-cao-pilot.html" },
       { source: "/saigon-food/report", destination: "/decks/saigon-food/bao-cao-pilot.html" },
-      { source: "/saigon-food/report-v2", destination: "/decks/saigon-food/bao-cao-pilot-v2.html" },
     ];
   },
   async headers() {
