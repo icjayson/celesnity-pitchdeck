@@ -49,7 +49,7 @@ export type PortalOption<T extends string> = {
 
 export const INVESTOR_REGIONS: readonly PortalOption<InvestorRegion>[] = [
   { id: "usa", label: "USA", flags: "🇺🇸" },
-  { id: "europe", label: "Europe", flags: "🇪🇺" },
+  { id: "europe", label: "Europe", flags: "🇬🇧 🇪🇺" },
   { id: "global", label: "Global", flags: "🌐" },
 ];
 
