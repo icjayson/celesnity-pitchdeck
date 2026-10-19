@@ -1,68 +1,188 @@
 /**
- * Danh sách deck PDF của cổng chọn ở trang gốc (/), chuyển từ minder-decks.vercel.app (/api/deck-portal/public).
- * File PDF nằm trong public/briefings/ (công khai, không cần mã truy cập).
- * Thêm hoặc thay deck: chép PDF vào public/briefings/ rồi sửa mảng PORTAL_DECKS. Mỗi tổ hợp audience × depth × locale nên có đúng một deck.
+ * Static PDF registry for the root deck portal.
+ *
+ * There are 15 routing slots:
+ * - investor: USA, Europe and Global
+ * - buyer: English technical/non-technical plus one direct deck for each other language
+ *
+ * A slot without `url` remains visible but disabled until its translated PDF is added.
  */
 export type Audience = "investor" | "buyer";
 export type Depth = "non-technical" | "technical";
-export type Locale = "en" | "vi";
+export type InvestorRegion = "usa" | "europe" | "global";
+export type Locale =
+  | "en"
+  | "fr"
+  | "de"
+  | "it"
+  | "es"
+  | "pt"
+  | "zh"
+  | "ko"
+  | "ja"
+  | "th"
+  | "vi";
 
-export type PortalDeck = {
-  audience: Audience;
-  depth: Depth;
-  locale: Locale;
+export type InvestorDeck = {
+  audience: "investor";
+  region: InvestorRegion;
   title: string;
-  url: string;
+  url?: string;
 };
+
+export type BuyerDeck = {
+  audience: "buyer";
+  locale: Locale;
+  /** Only English branches by technical depth. */
+  depth: Depth | null;
+  title: string;
+  url?: string;
+};
+
+export type PortalDeck = InvestorDeck | BuyerDeck;
+
+export type PortalOption<T extends string> = {
+  id: T;
+  label: string;
+  flags: string;
+};
+
+export const INVESTOR_REGIONS: readonly PortalOption<InvestorRegion>[] = [
+  { id: "usa", label: "USA", flags: "🇺🇸" },
+  { id: "europe", label: "Europe", flags: "🇪🇺" },
+  { id: "global", label: "Global", flags: "🌐" },
+];
+
+export const BUYER_LANGUAGES: readonly PortalOption<Locale>[] = [
+  { id: "en", label: "English", flags: "🇬🇧 🇺🇸 🇪🇺 🌐" },
+  { id: "fr", label: "Français", flags: "🇫🇷 🇪🇺" },
+  { id: "de", label: "Deutsch", flags: "🇩🇪 🇪🇺" },
+  { id: "it", label: "Italiano", flags: "🇮🇹 🇪🇺" },
+  { id: "es", label: "Español", flags: "🇪🇸 🇪🇺" },
+  { id: "pt", label: "Português", flags: "🇵🇹 🇪🇺" },
+  { id: "zh", label: "中文", flags: "🇨🇳" },
+  { id: "ko", label: "한국어", flags: "🇰🇷" },
+  { id: "ja", label: "日本語", flags: "🇯🇵" },
+  { id: "th", label: "ภาษาไทย", flags: "🇹🇭" },
+  { id: "vi", label: "Tiếng Việt", flags: "🇻🇳" },
+];
 
 const DIR = "/briefings";
 
 export const PORTAL_DECKS: PortalDeck[] = [
-  // Hai loại nhà đầu tư dùng chung một deck (giống minder-decks.vercel.app từ 14/10/2026)
+  // The current investor PDF remains available for all three regions.
   {
     audience: "investor",
-    depth: "non-technical",
-    locale: "en",
-    title: "Celesnity · The World Model for Industry",
+    region: "usa",
+    title: "Celesnity · The World Model for Industry · USA",
     url: `${DIR}/investor-en.pdf`,
   },
   {
     audience: "investor",
-    depth: "technical",
-    locale: "en",
-    title: "Celesnity · The World Model for Industry",
+    region: "europe",
+    title: "Celesnity · The World Model for Industry · Europe",
+    url: `${DIR}/investor-en.pdf`,
+  },
+  {
+    audience: "investor",
+    region: "global",
+    title: "Celesnity · The World Model for Industry · Global",
     url: `${DIR}/investor-en.pdf`,
   },
   {
     audience: "buyer",
-    depth: "non-technical",
     locale: "en",
+    depth: "non-technical",
     title: "Celesnity · Minder & World Model, UK & Europe Introduction",
     url: `${DIR}/buyer-non-technical-en.pdf`,
   },
   {
     audience: "buyer",
-    depth: "technical",
     locale: "en",
+    depth: "technical",
     title: "Minder AI · For Technology Leaders",
     url: `${DIR}/buyer-technical-en.pdf`,
   },
   {
     audience: "buyer",
-    depth: "non-technical",
-    locale: "vi",
-    title: "Celesnity · Minder & World Model, Dành cho Lãnh đạo Vận hành",
-    url: `${DIR}/buyer-non-technical-vi.pdf`,
+    locale: "fr",
+    depth: null,
+    title: "Celesnity · Présentation acheteur",
   },
   {
     audience: "buyer",
-    depth: "technical",
+    locale: "de",
+    depth: null,
+    title: "Celesnity · Präsentation für Käufer",
+  },
+  {
+    audience: "buyer",
+    locale: "it",
+    depth: null,
+    title: "Celesnity · Presentazione per acquirenti",
+  },
+  {
+    audience: "buyer",
+    locale: "es",
+    depth: null,
+    title: "Celesnity · Presentación para compradores",
+  },
+  {
+    audience: "buyer",
+    locale: "pt",
+    depth: null,
+    title: "Celesnity · Apresentação para compradores",
+  },
+  {
+    audience: "buyer",
+    locale: "zh",
+    depth: null,
+    title: "Celesnity · 买方简介",
+  },
+  {
+    audience: "buyer",
+    locale: "ko",
+    depth: null,
+    title: "Celesnity · 구매자 브리핑",
+  },
+  {
+    audience: "buyer",
+    locale: "ja",
+    depth: null,
+    title: "Celesnity · 購入者向け資料",
+  },
+  {
+    audience: "buyer",
+    locale: "th",
+    depth: null,
+    title: "Celesnity · เอกสารสำหรับผู้ซื้อ",
+  },
+  {
+    audience: "buyer",
     locale: "vi",
-    title: "Minder AI · Dành cho Lãnh đạo Công nghệ",
-    url: `${DIR}/buyer-technical-vi.pdf`,
+    depth: null,
+    title: "Celesnity · Minder & World Model, Dành cho Lãnh đạo Vận hành",
+    url: `${DIR}/buyer-non-technical-vi.pdf`,
   },
 ];
 
-export function findDeck(audience: Audience, depth: Depth, locale: Locale): PortalDeck | undefined {
-  return PORTAL_DECKS.find((d) => d.audience === audience && d.depth === depth && d.locale === locale);
+export function findInvestorDeck(
+  region: InvestorRegion,
+): InvestorDeck | undefined {
+  return PORTAL_DECKS.find(
+    (deck): deck is InvestorDeck =>
+      deck.audience === "investor" && deck.region === region,
+  );
+}
+
+export function findBuyerDeck(
+  locale: Locale,
+  depth: Depth | null = null,
+): BuyerDeck | undefined {
+  return PORTAL_DECKS.find(
+    (deck): deck is BuyerDeck =>
+      deck.audience === "buyer" &&
+      deck.locale === locale &&
+      deck.depth === depth,
+  );
 }

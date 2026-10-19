@@ -1,12 +1,13 @@
 "use client";
-/**
- * Cổng chọn deck ở trang gốc: người xem chọn vai trò → (ngôn ngữ) → mức kỹ thuật → mở PDF ở tab mới.
- * Investor chỉ có bản tiếng Anh nên bỏ qua bước ngôn ngữ. Dữ liệu deck ở lib/portalDecks.ts.
- */
+
+/** Root portal: perspective → investor region OR buyer language → English depth. */
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
-  findDeck,
+  BUYER_LANGUAGES,
+  INVESTOR_REGIONS,
+  findBuyerDeck,
+  findInvestorDeck,
   type Audience,
   type Depth,
   type Locale,
@@ -20,9 +21,10 @@ type Choice = {
   key: string;
   label: string;
   hint?: string;
+  flags?: string;
   tone: Tone;
-  glyph: Glyph;
-  /** Bước cuối: mở PDF thay vì chuyển bước */
+  glyph?: Glyph;
+  compact?: boolean;
   href?: string;
   onSelect?: () => void;
 };
@@ -30,124 +32,113 @@ type Choice = {
 type State = { audience?: Audience; locale?: Locale };
 
 const COPY = {
-  en: {
-    tagline: "Minder AI · Briefings",
-    back: "Back",
-    perspective: "Which perspective is yours?",
-    investorType: "Which type of investor are you?",
-    language: "Which language?",
-    depth: "How technical should we go?",
-    investor: ["Investor", "Scale the intelligence"],
-    buyer: ["Buyer", "Control the operation"],
-    nonDeepTech: "Non-deep-tech investor",
-    deepTech: "Deep-tech investor",
-    nonTechnical: ["Non-technical", "Focus on the decision"],
-    technical: ["Technical", "Explore the architecture"],
-    opens: "Opens the PDF in a new tab",
-  },
-  vi: {
-    tagline: "Minder AI · Tài liệu giới thiệu",
-    back: "Quay lại",
-    depth: "Bạn muốn đi sâu đến mức nào?",
-    nonTechnical: ["Tổng quan", "Tập trung vào quyết định"],
-    technical: ["Kỹ thuật", "Tìm hiểu kiến trúc"],
-    opens: "Mở PDF ở tab mới",
-  },
+  tagline: "Minder AI · Briefings",
+  back: "Back",
+  perspective: "Which perspective is yours?",
+  investorRegion: "Where are you based?",
+  language: "Which language do you speak?",
+  depth: "How technical should we go?",
+  investor: ["Investor", "Scale the intelligence"],
+  buyer: ["Buyer", "Control the operation"],
+  nonTechnical: ["Non-technical", "Focus on the decision"],
+  technical: ["Technical", "Explore the architecture"],
+  opens: "Opens the PDF in a new tab",
 } as const;
 
 export function DeckPortal() {
   const [state, setState] = useState<State>({});
   const { audience, locale } = state;
-  const vi = locale === "vi";
-  const t = COPY.en;
 
   let step: {
     title: string;
     choices: Choice[];
     back?: () => void;
     footnote?: string;
+    compactGrid?: boolean;
   };
 
   if (!audience) {
     step = {
-      title: t.perspective,
+      title: COPY.perspective,
       choices: [
         {
           key: "investor",
-          label: t.investor[0],
-          hint: t.investor[1],
+          label: COPY.investor[0],
+          hint: COPY.investor[1],
           tone: "blue",
           glyph: "rise",
-          onSelect: () => setState({ audience: "investor", locale: "en" }),
+          onSelect: () => setState({ audience: "investor" }),
         },
         {
           key: "buyer",
-          label: t.buyer[0],
-          hint: t.buyer[1],
+          label: COPY.buyer[0],
+          hint: COPY.buyer[1],
           tone: "orange",
           glyph: "pulse",
           onSelect: () => setState({ audience: "buyer" }),
         },
       ],
     };
+  } else if (audience === "investor") {
+    step = {
+      title: COPY.investorRegion,
+      back: () => setState({}),
+      compactGrid: true,
+      choices: INVESTOR_REGIONS.map((region, index) => ({
+        key: region.id,
+        label: region.label,
+        flags: region.flags,
+        compact: true,
+        tone: index % 2 === 0 ? "blue" : "orange",
+        href: findInvestorDeck(region.id)?.url,
+      })),
+      footnote: COPY.opens,
+    };
   } else if (!locale) {
     step = {
-      title: t.language,
+      title: COPY.language,
       back: () => setState({}),
-      choices: [
-        {
-          key: "vi",
-          label: "Tiếng Việt",
-          tone: "orange",
-          glyph: "rise",
-          onSelect: () => setState({ audience, locale: "vi" }),
-        },
-        {
-          key: "en",
-          label: "English",
-          tone: "blue",
-          glyph: "pulse",
-          onSelect: () => setState({ audience, locale: "en" }),
-        },
-      ],
+      compactGrid: true,
+      choices: BUYER_LANGUAGES.map((language, index) => {
+        const isEnglish = language.id === "en";
+        return {
+          key: language.id,
+          label: language.label,
+          flags: language.flags,
+          compact: true,
+          tone: index % 2 === 0 ? "blue" : "orange",
+          onSelect: isEnglish
+            ? () => setState({ audience: "buyer", locale: "en" })
+            : undefined,
+          href: isEnglish ? undefined : findBuyerDeck(language.id)?.url,
+        };
+      }),
     };
   } else {
-    const c = vi ? COPY.vi : COPY.en;
-    const nonTech = findDeck(audience, "non-technical", locale);
-    const tech = findDeck(audience, "technical", locale);
-    const depthChoice = (depth: Depth, href: string | undefined): Choice => {
-      const isTech = depth === "technical";
-      if (audience === "investor") {
-        return {
-          key: depth,
-          label: isTech ? t.deepTech : t.nonDeepTech,
-          tone: isTech ? "orange" : "blue",
-          glyph: isTech ? "pulse" : "rise",
-          href,
-        };
-      }
-      const [label, hint] = isTech ? c.technical : c.nonTechnical;
+    const depthChoice = (depth: Depth): Choice => {
+      const isTechnical = depth === "technical";
+      const [label, hint] = isTechnical
+        ? COPY.technical
+        : COPY.nonTechnical;
       return {
         key: depth,
         label,
         hint,
-        tone: isTech ? "orange" : "blue",
-        glyph: isTech ? "pulse" : "rise",
-        href,
+        tone: isTechnical ? "orange" : "blue",
+        glyph: isTechnical ? "pulse" : "rise",
+        href: findBuyerDeck("en", depth)?.url,
       };
     };
     step = {
-      title: audience === "investor" ? t.investorType : c.depth,
-      back: () => setState(audience === "investor" ? {} : { audience }),
+      title: COPY.depth,
+      back: () => setState({ audience: "buyer" }),
       choices: [
-        depthChoice("non-technical", nonTech?.url),
-        depthChoice("technical", tech?.url),
+        depthChoice("non-technical"),
+        depthChoice("technical"),
       ],
-      footnote: c.opens,
+      footnote: COPY.opens,
     };
   }
-
-  const backLabel = vi ? COPY.vi.back : t.back;
 
   return (
     <>
@@ -177,24 +168,30 @@ export function DeckPortal() {
                 className="inline-flex h-10 items-center gap-2 rounded-[var(--radius-control)] border border-navy-700 bg-navy-900/60 px-4 text-[14px] font-medium text-blue-300 transition-colors hover:border-blue-400 hover:text-white"
               >
                 <ArrowLeft size={16} strokeWidth={1.5} aria-hidden />
-                {backLabel}
+                {COPY.back}
               </button>
             ) : null}
           </header>
 
           <div className="flex flex-1 flex-col justify-center py-14 sm:py-20">
             <p className="text-center text-[13px] font-medium uppercase tracking-[0.14em] text-blue-300">
-              {vi ? COPY.vi.tagline : t.tagline}
+              {COPY.tagline}
             </p>
             <h1
               key={step.title}
               aria-live="polite"
-              className="mx-auto mt-4 max-w-[16ch] text-balance lg:max-w-none lg:whitespace-nowrap text-center text-[36px] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[52px] lg:text-[64px] motion-safe:animate-[portal-in_480ms_var(--ease-brand)]"
+              className="mx-auto mt-4 max-w-[16ch] text-balance text-center text-[36px] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[52px] lg:max-w-none lg:whitespace-nowrap lg:text-[64px] motion-safe:animate-[portal-in_480ms_var(--ease-brand)]"
             >
               {step.title}
             </h1>
 
-            <div className="mx-auto mt-12 grid w-full max-w-[1176px] gap-4 sm:mt-16 lg:gap-5 xl:grid-cols-2 xl:gap-6">
+            <div
+              className={`mx-auto mt-12 grid w-full max-w-[1176px] gap-4 sm:mt-16 lg:gap-5 ${
+                step.compactGrid
+                  ? "sm:grid-cols-2 xl:grid-cols-3"
+                  : "xl:grid-cols-2 xl:gap-6"
+              }`}
+            >
               {step.choices.map((choice) => (
                 <ChoiceCard
                   key={`${step.title}-${choice.key}`}
@@ -218,17 +215,26 @@ export function DeckPortal() {
 
 const TONE: Record<
   Tone,
-  { card: string; ring: string; stroke: string; dot: string }
+  {
+    card: string;
+    ring: string;
+    ringHover: string;
+    stroke: string;
+    dot: string;
+  }
 > = {
   blue: {
     card: "hover:border-blue-400 hover:shadow-[0_24px_60px_-30px_rgba(47,123,246,0.7)]",
-    ring: "border-blue-400 text-blue-300 group-hover:bg-blue-500 group-hover:border-blue-500",
+    ring: "border-blue-400 text-blue-300",
+    ringHover: "group-hover:border-blue-500 group-hover:bg-blue-500",
     stroke: "var(--color-blue-400)",
     dot: "var(--color-blue-500)",
   },
   orange: {
     card: "hover:border-orange-500 hover:shadow-[0_24px_60px_-30px_rgba(255,122,26,0.55)]",
-    ring: "border-orange-500 text-orange-500 group-hover:bg-orange-500 group-hover:text-navy-900",
+    ring: "border-orange-500 text-orange-500",
+    ringHover:
+      "group-hover:bg-orange-500 group-hover:text-navy-900",
     stroke: "var(--color-orange-500)",
     dot: "var(--color-orange-600)",
   },
@@ -237,30 +243,57 @@ const TONE: Record<
 function ChoiceCard({ choice }: { choice: Choice }) {
   const tone = TONE[choice.tone];
   const disabled = !choice.onSelect && !choice.href;
-  const className = `group relative flex min-h-[132px] w-full items-center gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 text-left backdrop-blur transition duration-300 ease-[var(--ease-brand)] sm:min-h-[168px] sm:gap-6 sm:p-8 lg:gap-5 motion-safe:animate-[portal-in_480ms_var(--ease-brand)] ${
+  const className = `group relative flex w-full min-w-0 max-w-full items-center text-left backdrop-blur transition duration-300 ease-[var(--ease-brand)] motion-safe:animate-[portal-in_480ms_var(--ease-brand)] ${
+    choice.compact
+      ? "min-h-[112px] gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 sm:min-h-[124px] sm:p-6"
+      : "min-h-[132px] gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 sm:min-h-[168px] sm:gap-6 sm:p-8 lg:gap-5"
+  } ${
     disabled
-      ? "cursor-not-allowed opacity-50"
+      ? "cursor-not-allowed opacity-45"
       : `hover:-translate-y-1 ${tone.card}`
   }`;
 
   const body = (
     <>
-      <Signal glyph={choice.glyph} stroke={tone.stroke} dot={tone.dot} />
+      {choice.flags ? (
+        <span
+          aria-hidden
+          className="w-[76px] shrink-0 text-center text-[26px] leading-tight sm:w-[88px] sm:text-[30px]"
+        >
+          {choice.flags}
+        </span>
+      ) : (
+        <Signal
+          glyph={choice.glyph ?? "rise"}
+          stroke={tone.stroke}
+          dot={tone.dot}
+        />
+      )}
       <span className="min-w-0 flex-1">
-        <span className="block text-[20px] font-semibold leading-tight tracking-[-0.02em] text-white sm:text-[28px] lg:whitespace-nowrap">
+        <span
+          className={`block whitespace-normal font-semibold leading-tight tracking-[-0.02em] text-white ${
+            choice.compact
+              ? "text-[19px] sm:text-[22px]"
+              : "text-[20px] sm:text-[28px]"
+          }`}
+        >
           {choice.label}
         </span>
         {choice.hint ? (
-          <span className="muted mt-1.5 block text-[14px] sm:text-[16px] lg:whitespace-nowrap">
+          <span className="muted mt-1.5 block whitespace-normal text-[14px] sm:text-[16px]">
             {choice.hint}
           </span>
         ) : null}
       </span>
       <span
-        className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border transition-colors duration-300 sm:h-14 sm:w-14 ${tone.ring}`}
+        className={`grid shrink-0 place-items-center rounded-full border transition-colors duration-300 ${tone.ring} ${
+          disabled ? "" : tone.ringHover
+        } ${
+          choice.compact ? "h-10 w-10" : "h-11 w-11 sm:h-14 sm:w-14"
+        }`}
       >
         <ArrowRight
-          size={22}
+          size={choice.compact ? 19 : 22}
           strokeWidth={1.5}
           aria-hidden
           className="transition-transform duration-300 group-hover:translate-x-0.5"
@@ -281,6 +314,7 @@ function ChoiceCard({ choice }: { choice: Choice }) {
       </a>
     );
   }
+
   return (
     <button
       type="button"
@@ -293,7 +327,6 @@ function ChoiceCard({ choice }: { choice: Choice }) {
   );
 }
 
-/** Đường tín hiệu nhỏ ở đầu thẻ: "rise" = đường cong đi lên, "pulse" = nhịp xung */
 function Signal({
   glyph,
   stroke,

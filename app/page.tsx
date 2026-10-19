@@ -3,7 +3,7 @@ import { DeckPortal } from "@/components/portal/DeckPortal";
 
 export const metadata: Metadata = { title: "Minder AI · Celesnity" };
 
-/** Trang gốc: cổng chọn deck PDF theo vai trò, ngôn ngữ và mức kỹ thuật (chuyển từ minder-decks.vercel.app). */
+/** Root portal: investor region or buyer language; only English buyers choose technical depth. */
 export default function Root() {
   return <DeckPortal />;
 }

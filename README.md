@@ -10,7 +10,7 @@ Thư mục chung cho các landing deck tương tác gửi khách hàng. Mỗi kh
 | `/takako-vietnam` (+ `/phu-luc`, `/ban-in`) | Minder AI · Takako × Celesnity |
 | `/saigon-food` (+ `/report`) | Báo cáo pilot Minder · Saigon Food (trang tĩnh `public/decks/saigon-food/bao-cao-pilot.html`, rewrite trong `next.config.ts`, không qua DeckProvider) |
 | `/saigon-food/report-v2` | Bản v2 của báo cáo pilot (`bao-cao-pilot-v2.html`): mục 08 thêm luồng hoàn thiện kho lạnh song song với khu vực sản xuất mới |
-| `/` | Cổng chọn deck |
+| `/` | Cổng chọn deck: nhà đầu tư theo khu vực; người mua theo ngôn ngữ |
 
 Đường dẫn cũ `/phu-luc`, `/ban-in`, `/v1` tự chuyển về `/hoa-phat/...`.
 
@@ -90,6 +90,10 @@ npm run build && npm start
 2. Tạo `decks/<slug>/` (sao chép `decks/nestle-vietnam/` làm mẫu): `content.vi.ts`, `usecases.ts`, `scenarios.ts`, `faq.ts`, `knowledge.ts`, `assistant.ts`, `index.ts`.
 3. Thêm deck vào `decks/all.ts` (allDecks, allAssistants, deckSources, forbiddenTerms) và ảnh vào `public/decks/<slug>/`.
 4. Chạy `npm run check`, `npm run eval -- --deck=<slug>`, `npm run e2e`, rồi `npm run pdf -- --deck=<slug>`.
+
+## Cổng deck ở `/`
+
+Danh sách 15 hồ sơ định tuyến nằm trong `lib/portalDecks.ts`: 3 khu vực nhà đầu tư, 2 deck tiếng Anh cho người mua và 10 deck ngôn ngữ khác. Chép PDF vào `public/briefings/`, sau đó gán đường dẫn `url` cho hồ sơ tương ứng. Hồ sơ chưa có PDF vẫn hiện nhưng bị vô hiệu hóa để không chuyển người xem sang sai ngôn ngữ.
 
 ## Chế độ trình chiếu và bản in
 
