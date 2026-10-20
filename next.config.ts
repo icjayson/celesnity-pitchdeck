@@ -11,8 +11,10 @@ const nextConfig: NextConfig = {
   /** Báo cáo tĩnh trong public/decks/<slug>/: giữ đường dẫn ngắn /<slug> như các deck */
   async rewrites() {
     return [
-      { source: "/saigon-food", destination: "/decks/saigon-food/bao-cao-pilot.html" },
-      { source: "/saigon-food/report", destination: "/decks/saigon-food/bao-cao-pilot.html" },
+      // v1 (mặc định, bản gửi SGF): chỉ phí pilot. v2: bản đầy đủ, có giá hợp đồng chính thức và so sánh thị trường.
+      { source: "/saigon-food", destination: "/decks/saigon-food/bao-cao-pilot-v1.html" },
+      { source: "/saigon-food/v2", destination: "/decks/saigon-food/bao-cao-pilot-v2.html" },
+      { source: "/saigon-food/v1", destination: "/decks/saigon-food/bao-cao-pilot-v1.html" },
     ];
   },
   async headers() {

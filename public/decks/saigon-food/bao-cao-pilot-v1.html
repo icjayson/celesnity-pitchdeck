@@ -1,0 +1,3443 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Báo cáo pilot Saigon Food</title>
+  <meta name="description"
+    content="Kết quả 1 tháng pilot Minder tại Kho lạnh 1 của Saigon Food và đề xuất pilot có phí cho khu vực sản xuất.">
+  <style>
+    :root {
+      color-scheme: light;
+      --navy-950: #06142e;
+      --navy-900: #0a1f44;
+      --navy-800: #0f2a5c;
+      --navy-700: #16367a;
+      --blue-600: #1f5fd6;
+      --blue-500: #2f7bf6;
+      --blue-300: #8db8ff;
+      --blue-100: #e6f0ff;
+      --mist-50: #f6f8fc;
+      --line-200: #dce3ee;
+      --ink-500: #5b6b85;
+      --orange-500: #ff7a1a;
+      --orange-700: #c2500a;
+      --orange-100: #fff1e6;
+      --green-500: #00a240;
+      --green-100: #d9f4e4;
+      --green-700: #00692a;
+      --white: #ffffff;
+      --radius-card: 16px;
+      --radius-img: 12px;
+      --shadow-card: 0 1px 2px rgba(10, 31, 68, 0.04), 0 12px 32px -24px rgba(10, 31, 68, 0.25);
+      --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Noto Sans", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--white);
+      color: var(--navy-900);
+      font: 16px/1.6 var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: var(--blue-600);
+      text-underline-offset: 2px;
+    }
+
+    :where(a, summary):focus-visible {
+      outline: 2px solid var(--orange-500);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .num,
+    td.num,
+    th.num {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 0.86em;
+    }
+
+    .muted {
+      color: var(--ink-500);
+    }
+
+    /* Bìa */
+    .cover {
+      background:
+        radial-gradient(900px 480px at 88% -10%, rgba(47, 123, 246, 0.35), transparent 60%),
+        radial-gradient(700px 420px at -10% 110%, rgba(22, 54, 122, 0.9), transparent 60%),
+        var(--navy-950);
+      color: var(--white);
+      padding: 40px 0 56px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .brand img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .eyebrow {
+      margin: 72px 0 12px;
+      color: var(--blue-300);
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .cover h1 {
+      margin: 0;
+      max-width: 18ch;
+      font-size: 52px;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      font-weight: 600;
+    }
+
+    .cover .lead {
+      margin: 20px 0 0;
+      max-width: 46ch;
+      font-size: 20px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .meta {
+      margin: 56px 0 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .meta div {
+      border-top: 1px solid rgba(141, 184, 255, 0.35);
+      padding-top: 12px;
+    }
+
+    .meta dt {
+      color: var(--blue-300);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .meta dd {
+      margin: 4px 0 0;
+      font-size: 15px;
+    }
+
+    /* Mục lục */
+    .toc {
+      padding: 28px 32px;
+    }
+
+    .toc ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 6px 24px;
+    }
+
+    .toc a {
+      display: flex;
+      gap: 10px;
+      color: var(--navy-900);
+      text-decoration: none;
+      font-size: 15px;
+      padding: 4px 0;
+    }
+
+    .toc a:hover {
+      color: var(--blue-600);
+    }
+
+    .toc span {
+      font-family: var(--font-mono);
+      color: var(--blue-600);
+      font-size: 13px;
+      padding-top: 2px;
+      min-width: 22px;
+    }
+
+    /* Khung mục */
+    section {
+      padding: 72px 0;
+      border-top: 1px solid var(--line-200);
+    }
+
+    section.appendix {
+      background: var(--mist-50);
+    }
+
+    .sec-num {
+      font-family: var(--font-mono);
+      color: var(--blue-600);
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+    }
+
+    h2.part {
+      margin-top: 72px;
+    }
+
+    .deck {
+      margin: 0 0 36px;
+      max-width: 62ch;
+      color: var(--ink-500);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    h3 {
+      margin: 44px 0 14px;
+      font-size: 19px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .deck+h3 {
+      margin-top: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .note {
+      margin: 12px 0 0;
+      color: var(--ink-500);
+      font-size: 14px;
+      max-width: 80ch;
+    }
+
+    /* Chỉ số */
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin: 0 0 40px;
+    }
+
+    .kpi {
+      background: var(--mist-50);
+      border-radius: var(--radius-card);
+      padding: 20px 20px 22px;
+    }
+
+    .kpi b {
+      display: block;
+      font-size: 36px;
+      line-height: 1.1;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi span {
+      display: block;
+      margin-top: 10px;
+      color: var(--ink-500);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .points {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .points li {
+      position: relative;
+      padding-left: 22px;
+      max-width: 78ch;
+    }
+
+    .points li::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 0.62em;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--blue-500);
+    }
+
+    .callout {
+      margin: 36px 0 0;
+      border-radius: var(--radius-card);
+      background: var(--navy-900);
+      color: var(--white);
+      padding: 24px 28px;
+    }
+
+    .callout .label {
+      margin: 0 0 6px;
+      color: var(--blue-300);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .callout p:last-child {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.55;
+      max-width: 70ch;
+    }
+
+    /* Bảng */
+    .table-frame {
+      border: 1px solid var(--line-200);
+      border-radius: var(--radius-card);
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table.t {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .t th {
+      background: var(--mist-50);
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line-200);
+      vertical-align: bottom;
+    }
+
+    .t td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line-200);
+      vertical-align: top;
+    }
+
+    .t tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .t td:first-child {
+      font-weight: 500;
+    }
+
+    .t .num {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .t tr.total td {
+      background: var(--mist-50);
+      font-weight: 600;
+    }
+
+    .bench td {
+      vertical-align: middle;
+    }
+
+    .bench th.num {
+      white-space: normal;
+    }
+
+    .bench tbody+tbody tr.sum td {
+      border-top: 2px solid var(--line-200);
+    }
+
+    .bench tr.sum {
+      cursor: pointer;
+    }
+
+    .bench tr.sum:hover td {
+      background-image: linear-gradient(rgba(16, 24, 40, .04), rgba(16, 24, 40, .04));
+    }
+
+    .bench tr.sum button {
+      all: unset;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--navy-900);
+    }
+
+    .bench tr.sum button:focus-visible {
+      outline: 2px solid var(--blue-500);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .bench tr.sum button::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(-45deg);
+      transition: transform .15s;
+    }
+
+    .bench tbody.open tr.sum button::before {
+      transform: rotate(45deg);
+    }
+
+    .bench tr.sum small {
+      display: block;
+      margin: 4px 0 0 15px;
+      color: var(--ink-500);
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    .bench tr.sum .count {
+      color: var(--ink-500);
+    }
+
+    .bench tr.sum .hint {
+      color: var(--blue-600);
+      font-size: 14px;
+      margin-left: 8px;
+    }
+
+    .bench tbody:not(.open) tr.sum td {
+      border-bottom: 0;
+    }
+
+    .bench tbody:not(.open) tr.item {
+      display: none;
+    }
+
+    ul.lic {
+      margin: 6px 0 0;
+      padding-left: 18px;
+      color: var(--ink-500);
+      font-size: 13px;
+    }
+
+    ul.lic li {
+      margin: 2px 0;
+    }
+
+    .bench tr.item td {
+      font-size: 14px;
+    }
+
+    /* Các gói khác: đỏ nhạt → đỏ vừa theo tổng phí; Minder: xanh lá */
+    .bench tbody.c1 td {
+      background-color: #fdeeee;
+    }
+
+    .bench tbody.c2 td {
+      background-color: #f9dada;
+    }
+
+    .bench tbody.c3 td {
+      background-color: #f4c3c3;
+    }
+
+    .bench tbody.ours td {
+      background-color: var(--green-100);
+    }
+
+    .bench tbody.ours tr.sum button {
+      color: var(--green-700);
+    }
+
+    .bench tr.hw td {
+      background-image: linear-gradient(rgba(255, 255, 255, .55), rgba(255, 255, 255, .55));
+      color: var(--ink-500);
+    }
+
+    @media print {
+      .bench tbody tr.item {
+        display: table-row;
+      }
+
+      .bench tr.sum .hint {
+        display: none;
+      }
+    }
+
+    .t td.flag {
+      color: var(--orange-700);
+    }
+
+    .t.kv td:first-child {
+      width: 30%;
+      color: var(--ink-500);
+      font-weight: 500;
+    }
+
+    .t .after {
+      color: var(--navy-900);
+    }
+
+    .t .before {
+      color: var(--ink-500);
+    }
+
+    /* Luồng dữ liệu */
+    .flow {
+      display: grid;
+      gap: 14px;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 20px;
+      align-items: center;
+      background: var(--mist-50);
+      border-radius: var(--radius-card);
+      padding: 18px 20px;
+    }
+
+    .flow-row.before {
+      background: var(--white);
+      border: 1px dashed var(--line-200);
+    }
+
+    .flow-label b {
+      display: block;
+      font-size: 15px;
+    }
+
+    .flow-steps {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .node {
+      flex: 1 1 0;
+      min-width: 0;
+      background: var(--white);
+      border: 1px solid var(--line-200);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .node b {
+      display: block;
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .node span {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink-500);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .node.minder {
+      background: var(--navy-900);
+      border-color: var(--navy-900);
+      color: var(--white);
+    }
+
+    .node.minder span {
+      color: var(--blue-300);
+    }
+
+    .node.manual {
+      background: var(--white);
+      border-style: dashed;
+    }
+
+    .arrow {
+      flex: 0 0 34px;
+      align-self: center;
+      height: 2px;
+      background: var(--blue-300);
+      position: relative;
+      margin: 0 4px;
+    }
+
+    .arrow::after {
+      content: "";
+      position: absolute;
+      right: -2px;
+      top: -5px;
+      border-left: 9px solid var(--blue-300);
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+
+    .before .arrow {
+      background: var(--line-200);
+    }
+
+    .before .arrow::after {
+      border-left-color: var(--line-200);
+    }
+
+    .pill {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--blue-100);
+      color: var(--navy-800);
+      white-space: nowrap;
+    }
+
+    .pill.ok {
+      background: var(--green-100);
+      color: var(--green-700);
+    }
+
+    .pill.warn {
+      background: var(--orange-100);
+      color: var(--orange-700);
+    }
+
+    .pill.grey {
+      background: var(--mist-50);
+      color: var(--ink-500);
+      border: 1px solid var(--line-200);
+    }
+
+    /* Ảnh hiện trường */
+    .photos {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .photos figure {
+      margin: 0;
+    }
+
+    .photos img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: var(--radius-img);
+    }
+
+    .photos figcaption {
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--ink-500);
+    }
+
+    /* Ảnh chụp màn hình */
+    figure.shot {
+      margin: 0;
+    }
+
+    a.zoom {
+      display: block;
+      cursor: zoom-in;
+    }
+
+    figure.shot img,
+    figure.shot video {
+      width: 100%;
+      border: 1px solid var(--line-200);
+      border-radius: var(--radius-img);
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+    }
+
+    figure.shot figcaption {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink-500);
+    }
+
+    figure.shot figcaption b {
+      display: block;
+      color: var(--navy-900);
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .fig-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .fig-grid.wide {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    .fig-grid.sub {
+      margin-top: 28px;
+    }
+
+    .fig-single {
+      max-width: 720px;
+    }
+
+    .todo {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .todo li {
+      border: 1px solid var(--line-200);
+      border-radius: var(--radius-card);
+      padding: 18px 20px;
+      font-size: 15px;
+    }
+
+    .todo b {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* Phát hiện */
+    .findings {
+      display: grid;
+      gap: 18px;
+    }
+
+    .finding {
+      border: 1px solid var(--line-200);
+      border-radius: var(--radius-card);
+      padding: 24px 26px;
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+    }
+
+    .finding header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .finding header .pill {
+      margin-top: 0;
+    }
+
+    .finding h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .finding dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 8px 20px;
+    }
+
+    .finding dt {
+      color: var(--ink-500);
+      font-size: 14px;
+      font-weight: 600;
+      padding-top: 1px;
+    }
+
+    .finding dd {
+      margin: 0;
+      max-width: 78ch;
+    }
+
+    .finding figure {
+      margin-top: 18px;
+    }
+
+    /* Đề xuất */
+    .values {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .value {
+      background: var(--mist-50);
+      border-radius: var(--radius-card);
+      padding: 20px;
+    }
+
+    .value b {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .value p {
+      margin: 0;
+      color: var(--ink-500);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .values.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .values.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .value .idx {
+      display: block;
+      font-family: var(--font-mono);
+      color: var(--blue-600);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .gantt-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line-200);
+      border-radius: var(--radius-card);
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+    }
+
+    table.gantt {
+      width: 100%;
+      min-width: 820px;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 13px;
+    }
+
+    .gantt col.lab {
+      width: 270px;
+    }
+
+    .gantt th,
+    .gantt td {
+      padding: 0;
+      height: 44px;
+      border-left: 1px solid var(--line-200);
+      text-align: center;
+    }
+
+    .gantt thead th {
+      height: 30px;
+      font-weight: 600;
+      color: var(--ink-500);
+      background: var(--mist-50);
+      border-bottom: 1px solid var(--line-200);
+    }
+
+    .gantt thead tr.months th {
+      color: var(--navy-900);
+    }
+
+    .gantt th.lab,
+    .gantt td.lab {
+      border-left: 0;
+      text-align: left;
+      padding: 6px 14px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+
+    .gantt td.lab small {
+      display: block;
+      color: var(--ink-500);
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .gantt tbody tr+tr td {
+      border-top: 1px solid var(--line-200);
+    }
+
+    .bar {
+      margin: 7px 3px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--blue-500);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .bar.b1 {
+      background: var(--blue-300);
+      color: var(--navy-900);
+    }
+
+    .bar.b2 {
+      background: var(--blue-500);
+    }
+
+    .bar.b3 {
+      background: var(--blue-600);
+    }
+
+    .bar.b4 {
+      background: var(--navy-800);
+    }
+
+    .bar.tet {
+      background: repeating-linear-gradient(45deg, var(--mist-50), var(--mist-50) 6px, var(--line-200) 6px, var(--line-200) 12px);
+      color: var(--ink-500);
+    }
+
+    .ms {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: var(--orange-500);
+      transform: rotate(45deg);
+      border-radius: 2px;
+      vertical-align: middle;
+    }
+
+    .ms-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 22px;
+      margin: 14px 0 0;
+      font-size: 14px;
+      color: var(--ink-500);
+    }
+
+    .ms-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .why {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .why li {
+      border-left: 3px solid var(--blue-500);
+      padding: 2px 0 2px 14px;
+      font-size: 15px;
+    }
+
+    .alt {
+      margin-top: 18px;
+      border: 1px dashed var(--line-200);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 15px;
+      color: var(--ink-500);
+    }
+
+    .alt b {
+      color: var(--navy-900);
+    }
+
+    .price {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .price-box {
+      border-radius: var(--radius-card);
+      background: var(--navy-900);
+      color: var(--white);
+      padding: 26px 28px;
+    }
+
+    .price-box .label {
+      color: var(--blue-300);
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .price-box .amount {
+      margin: 8px 0 2px;
+      font-size: 44px;
+      line-height: 1.1;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .price-box .amount .plus {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--blue-300);
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .price-box .sub {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 15px;
+    }
+
+    .split {
+      margin: 22px 0 0;
+      display: flex;
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .split i {
+      display: block;
+    }
+
+    .split-legend {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      font-size: 14px;
+    }
+
+    .split-legend li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .split-legend li span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .split-legend li b {
+      white-space: nowrap;
+    }
+
+    .split-legend li span::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--c);
+    }
+
+    .terms {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .terms li {
+      border: 1px solid var(--line-200);
+      border-radius: 12px;
+      padding: 14px 18px;
+      background: var(--white);
+      font-size: 15px;
+    }
+
+    /* Cặp trước và sau */
+    .pairs {
+      display: grid;
+      gap: 22px;
+      margin-bottom: 8px;
+    }
+
+    .pair {
+      border: 1px solid var(--line-200);
+      border-radius: var(--radius-card);
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+      padding: 22px 24px 24px;
+    }
+
+    .pair-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 0 0 16px;
+    }
+
+    .pair-head .idx {
+      font-family: var(--font-mono);
+      color: var(--blue-600);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .pair-head h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .pair-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1.55fr);
+      gap: 0 14px;
+      align-items: start;
+    }
+
+    .side {
+      margin: 0;
+    }
+
+    .side .media {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line-200);
+      background: var(--mist-50);
+    }
+
+    .side .media>img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .side:not(.after) .media>img,
+    .side .media.overlay>img {
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .side figcaption {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--ink-500);
+    }
+
+    .side figcaption b {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--navy-900);
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .side dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: max-content minmax(0, 1fr);
+      gap: 4px 14px;
+    }
+
+    .side dt {
+      color: var(--ink-500);
+    }
+
+    .side dd {
+      margin: 0;
+      color: var(--navy-900);
+      font-weight: 500;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .tag.before {
+      background: var(--mist-50);
+      color: var(--ink-500);
+      border: 1px solid var(--line-200);
+    }
+
+    .tag.after {
+      background: var(--blue-600);
+      color: var(--white);
+    }
+
+    .tag.mock {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      margin: 0;
+      background: var(--orange-100);
+      color: var(--orange-700);
+    }
+
+    .chart-media {
+      background: var(--white) !important;
+      padding: 4px 4px 0;
+    }
+
+    .chart-media svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .pair-arrow {
+      align-self: center;
+      position: relative;
+      height: 2px;
+      background: var(--blue-300);
+      margin-bottom: 40px;
+    }
+
+    .pair-arrow::after {
+      content: "";
+      position: absolute;
+      right: -2px;
+      top: -5px;
+      border-left: 9px solid var(--blue-300);
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+
+    .ai-box {
+      position: absolute;
+      border: 2px solid var(--blue-500);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.75);
+    }
+
+    .ai-label {
+      position: absolute;
+      transform: translateX(-50%);
+      background: var(--navy-900);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 4px 7px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .ai-label.r {
+      transform: none;
+      right: 1%;
+    }
+
+    .sheet-media {
+      aspect-ratio: 4 / 3;
+      background: var(--white) !important;
+    }
+
+    .sheet {
+      position: absolute;
+      inset: 0;
+      padding: 14px 12px 12px;
+      font-size: 12px;
+      overflow: hidden;
+    }
+
+    .sheet-top {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 8px;
+      color: var(--ink-500);
+    }
+
+    .sheet-top span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--line-200);
+    }
+
+    .sheet-top b {
+      margin-left: 6px;
+      font-weight: 500;
+      font-size: 12px;
+    }
+
+    .sheet table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .sheet th,
+    .sheet td {
+      border: 1px solid #dfe5ee;
+      height: 27px;
+      padding: 0 6px;
+      text-align: left;
+      font-weight: 500;
+      color: var(--navy-900);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sheet th {
+      width: 24px;
+      background: #f1f4f9;
+      color: var(--ink-500);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .sheet thead th {
+      height: 20px;
+    }
+
+    .sheet thead th:first-child {
+      width: 24px;
+    }
+
+    .sheet td.hd {
+      background: #f7f9fc;
+      font-weight: 600;
+    }
+
+    .sheet i {
+      display: block;
+      height: 6px;
+      border-radius: 3px;
+      background: #c9d2df;
+    }
+
+    .sheet em.copy {
+      display: block;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--orange-700);
+      background: var(--orange-100);
+      border-radius: 4px;
+      padding: 2px 4px;
+    }
+
+    .data-view {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--ink-500);
+    }
+
+    .data-view summary {
+      cursor: pointer;
+      color: var(--blue-600);
+    }
+
+    .dv-grid {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      gap: 2px 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .dv-grid span {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .dv-grid b {
+      color: var(--navy-900);
+      font-weight: 500;
+    }
+
+    .sources td:last-child a {
+      word-break: break-word;
+    }
+
+    .appendix .table-frame+h3 {
+      margin-top: 40px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line-200);
+      padding: 28px 0 48px;
+      color: var(--ink-500);
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .cover h1 {
+        font-size: 40px;
+      }
+
+      .meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .kpis,
+      .values {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .values.three {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .fig-grid,
+      .fig-grid.wide,
+      .price {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .photos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .todo,
+      .why {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .flow-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .pair-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px 0;
+      }
+
+      .pair-arrow {
+        width: 2px;
+        height: 22px;
+        justify-self: center;
+        margin: 0;
+      }
+
+      .pair-arrow::after {
+        right: auto;
+        left: -5px;
+        top: auto;
+        bottom: -2px;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 9px solid var(--blue-300);
+        border-bottom: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+
+      .wrap,
+      .toc {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      section {
+        padding: 52px 0;
+      }
+
+      .cover {
+        padding: 28px 0 40px;
+      }
+
+      .eyebrow {
+        margin-top: 48px;
+      }
+
+      .cover h1 {
+        font-size: 32px;
+      }
+
+      .cover .lead {
+        font-size: 17px;
+      }
+
+      h2 {
+        font-size: 26px;
+      }
+
+      .deck {
+        font-size: 16px;
+      }
+
+      .kpi b {
+        font-size: 28px;
+      }
+
+      .flow-steps {
+        flex-direction: column;
+      }
+
+      .arrow {
+        flex: 0 0 22px;
+        width: 2px;
+        height: 22px;
+        align-self: center;
+        margin: 4px 0;
+      }
+
+      .arrow::after {
+        right: auto;
+        left: -5px;
+        top: auto;
+        bottom: -2px;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 9px solid var(--blue-300);
+        border-bottom: 0;
+      }
+
+      .before .arrow::after {
+        border-left-color: transparent;
+        border-top-color: var(--line-200);
+      }
+
+      .finding {
+        padding: 20px;
+      }
+
+      .finding dl {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2px;
+      }
+
+      .finding dd {
+        margin-bottom: 10px;
+      }
+
+      .values,
+      .values.two,
+      .values.three {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .t th,
+      .t td {
+        padding: 10px 12px;
+      }
+    }
+
+    .print-only {
+      display: none;
+    }
+
+    @page {
+      size: A4;
+      margin: 14mm 13mm 15mm;
+    }
+
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      body {
+        font-size: 10.5pt;
+      }
+
+      .wrap {
+        max-width: none;
+        padding: 0;
+      }
+
+      .cover {
+        padding: 18mm 10mm 14mm;
+        break-after: page;
+      }
+
+      .eyebrow {
+        margin-top: 40mm;
+      }
+
+      .toc {
+        display: none;
+      }
+
+      section {
+        break-before: page;
+        padding: 0;
+        border: 0;
+      }
+
+      section.appendix {
+        background: none;
+      }
+
+      h3 {
+        break-after: avoid;
+      }
+
+      figure,
+      .finding,
+      .table-frame,
+      .kpi,
+      .callout,
+      .flow-row,
+      .value,
+      .price-box,
+      .terms li,
+      .gantt-wrap {
+        break-inside: avoid;
+      }
+
+      .shadow,
+      .table-frame,
+      .finding,
+      figure.shot img,
+      .gantt-wrap {
+        box-shadow: none;
+      }
+
+      .fig-single {
+        max-width: 120mm;
+      }
+
+      figure.shot img {
+        max-height: 120mm;
+        width: auto;
+        max-width: 100%;
+      }
+
+      video {
+        display: none;
+      }
+
+      .pair {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+
+      .data-view {
+        display: none;
+      }
+
+      .print-only {
+        display: block;
+      }
+
+      footer {
+        border: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="cover">
+    <div class="wrap">
+      <div class="brand"><img src="/decks/saigon-food/assets/brand/celesnity-mark.png" alt="" width="28"
+          height="28"><span>Celesnity</span></div>
+      <p class="eyebrow">Saigon Food × Celesnity</p>
+      <h1>Báo cáo pilot Minder tại Kho lạnh 1</h1>
+      <p class="lead">Kết quả 1 tháng thử nghiệm và đề xuất pilot có phí cho khu vực sản xuất.</p>
+      <dl class="meta">
+        <div>
+          <dt>Gửi</dt>
+          <dd>Ban lãnh đạo Saigon Food</dd>
+        </div>
+        <div>
+          <dt>Ngày lập</dt>
+          <dd>18/10/2026</dd>
+        </div>
+        <div>
+          <dt>Dữ liệu tự động</dt>
+          <dd>Từ 29/09/2026</dd>
+        </div>
+        <div>
+          <dt>Nguồn số liệu</dt>
+          <dd>Nền tảng Minder, trích ngày 18/10/2026</dd>
+        </div>
+      </dl>
+    </div>
+  </header>
+
+  <nav class="toc wrap" aria-label="Mục lục">
+    <ol>
+      <li><a href="#tom-tat"><span>01</span>Tóm tắt</a></li>
+      <li><a href="#pham-vi"><span>02</span>Phạm vi pilot</a></li>
+      <li><a href="#luong-du-lieu"><span>03</span>Hai luồng dữ liệu</a></li>
+      <li><a href="#baseline"><span>04</span>Baseline</a></li>
+      <li><a href="#truoc-sau"><span>05</span>Trước và sau</a></li>
+      <li><a href="#ung-dung"><span>06</span>Ứng dụng đã chạy</a></li>
+      <li><a href="#phat-hien"><span>07</span>Phát hiện từ dữ liệu</a></li>
+      <li><a href="#de-xuat"><span>08</span>Bước tiếp theo: pilot có phí</a></li>
+      <li><a href="#phu-luc-a"><span>A</span>Chi phí pilot</a></li>
+      <li><a href="#phu-luc-c"><span>B</span>Nguồn số liệu</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <!-- 01 -->
+    <section id="tom-tat">
+      <div class="wrap">
+        <p class="sec-num">01</p>
+        <h2>Tóm tắt</h2>
+        <p class="deck">Dữ liệu hệ thống lạnh đã về Minder tự động, và đã chỉ ra những việc cần làm.</p>
+
+        <div class="kpis">
+          <div class="kpi"><b class="num">15</b><span>thiết bị lạnh nối tự động qua BOSS Mini</span></div>
+          <div class="kpi"><b class="num">9,5 giây</b><span>một lần đo, trước đây 1 lần mỗi giờ ghi tay</span></div>
+          <div class="kpi"><b class="num">1,7 triệu</b><span>bản ghi thiết bị từ 29/09/2026</span></div>
+          <div class="kpi"><b class="num">4</b><span>phát hiện vận hành cần kiểm tra tại nhà máy</span></div>
+        </div>
+
+        <h3>Kết quả chính</h3>
+        <ul class="points">
+          <li><b>Luồng thiết bị lạnh chạy ổn định.</b> 15 thiết bị gửi nhiệt độ, trạng thái máy nén, quạt, cửa và xả đá
+            về Minder. Mỗi thiết bị có khoảng 9.100 điểm đo mỗi ngày, so với 24 dòng Excel.</li>
+          <li><b>Luồng máy nén đang thử nghiệm.</b> Firmware Minder đã đo dòng điện máy nén 4 trong 2 ngày. Camera AI
+            đọc đồng hồ là bước tiếp theo.</li>
+          <li><b>Ứng dụng đã chạy trên dữ liệu thật.</b> Mô hình nhà máy 3D cập nhật trực tiếp, dashboard nhiệt độ, cảnh
+            báo tự động cho Kho lạnh 3, và báo cáo vận hành IQF viết từ một câu hỏi tiếng Việt.</li>
+          <li><b>Dữ liệu chỉ ra 4 việc.</b> Đầu dò Kho lạnh 1 báo sai 98% thời gian. Kho lạnh 2 chạy máy nén 95% thời
+            gian nhưng có ngày chỉ 51% thời gian đạt dải nhiệt. Cảnh báo Kho lạnh 3 cần bỏ qua chu kỳ xả đá. IQF 3 chỉ
+            chạy 1 trong 5 ngày.</li>
+        </ul>
+
+        <div class="callout">
+          <p class="label">Đề xuất</p>
+          <p>Pilot có phí 12 tuần tại một phân xưởng sản xuất, từ 02/11/2026 đến 24/01/2027. Phí trọn gói 320,4 triệu
+            đồng cộng tiền thuê phần cứng theo số máy áp dụng, chưa VAT, đã giảm 10% phí Minder License cho đối tác
+            chiến lược. Quyết định Đạt/Không đạt ngày 08/01/2027, dựa trên 3 chỉ tiêu chốt trong tuần đầu.</p>
+        </div>
+
+        <h3>Video tổng kết</h3>
+        <figure class="shot">
+          <video controls playsinline preload="metadata"
+            poster="/decks/saigon-food/assets/video/sgf-pilot-tong-quan-poster.jpg" width="1600" height="900">
+            <source src="/decks/saigon-food/assets/video/sgf-pilot-tong-quan.mp4" type="video/mp4">
+          </video>
+          <img class="print-only" src="/decks/saigon-food/assets/video/sgf-pilot-tong-quan-poster.jpg"
+            alt="Khung hình video tổng kết" width="1600" height="900">
+          <figcaption><b>Video tổng kết 2 phút 30 giây</b>Dữ liệu đi vào Minder thế nào, các ứng dụng chạy trên dữ liệu
+            thật, và những phát hiện vận hành sau 4 tuần triển khai.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section id="pham-vi">
+      <div class="wrap">
+        <p class="sec-num">02</p>
+        <h2>Phạm vi pilot</h2>
+        <p class="deck">Hệ thống lạnh do BOSS Mini giám sát, và một máy nén trong phòng máy.</p>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t kv">
+              <tbody>
+                <tr>
+                  <td>Khu vực</td>
+                  <td>Kho lạnh 1 và hệ thống lạnh liên quan</td>
+                </tr>
+                <tr>
+                  <td>Thiết bị qua BOSS Mini</td>
+                  <td>3 kho lạnh, 3 phòng tiền đông, 6 cụm tủ đông, 3 băng chuyền IQF</td>
+                </tr>
+                <tr>
+                  <td>Thiết bị qua firmware Minder</td>
+                  <td>Máy nén 4: dòng điện và trạng thái chạy</td>
+                </tr>
+                <tr>
+                  <td>Tín hiệu</td>
+                  <td>Nhiệt độ, rơ-le máy nén, quạt, cửa, xả đá, dòng điện</td>
+                </tr>
+                <tr>
+                  <td>Thời gian</td>
+                  <td>1 tháng. Dữ liệu tự động từ 29/09/2026 trên môi trường thử nghiệm, từ 12/10/2026 trên môi trường
+                    chính thức.</td>
+                </tr>
+                <tr>
+                  <td>Ứng dụng đã dùng</td>
+                  <td>Kết nối dữ liệu, mô hình nhà máy, dashboard, cảnh báo, chat và báo cáo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section id="luong-du-lieu">
+      <div class="wrap">
+        <p class="sec-num">03</p>
+        <h2>Hai luồng dữ liệu</h2>
+        <p class="deck">Trước pilot, số liệu đi qua tay người. Trong pilot, số liệu đi thẳng từ thiết bị vào Minder.</p>
+
+        <div class="flow">
+          <div class="flow-row before">
+            <div class="flow-label"><b>Trước pilot</b><span class="pill grey">Ghi tay</span></div>
+            <div class="flow-steps">
+              <div class="node"><b>Thiết bị lạnh</b><span>Màn hình bộ điều khiển</span></div>
+              <div class="arrow" aria-hidden="true"></div>
+              <div class="node manual"><b>Nhân viên vận hành</b><span>Đọc số mỗi giờ</span></div>
+              <div class="arrow" aria-hidden="true"></div>
+              <div class="node manual"><b>File Excel</b><span>Tổng hợp cuối ca</span></div>
+            </div>
+          </div>
+          <div class="flow-row">
+            <div class="flow-label"><b>Luồng 1: thiết bị lạnh</b><span class="pill ok">Đang chạy</span></div>
+            <div class="flow-steps">
+              <div class="node"><b>Kho lạnh, tiền đông, tủ đông, IQF</b><span>Bộ điều khiển hiện có</span></div>
+              <div class="arrow" aria-hidden="true"></div>
+              <div class="node"><b>BOSS Mini</b><span>Phần mềm giám sát của SGF</span></div>
+              <div class="arrow" aria-hidden="true"></div>
+              <div class="node minder"><b>Minder Platform</b><span>15 thiết bị, 9,5 giây một lần đo</span></div>
+            </div>
+          </div>
+          <div class="flow-row">
+            <div class="flow-label"><b>Luồng 2: máy nén</b><span class="pill">Đang thử nghiệm</span></div>
+            <div class="flow-steps">
+              <div class="node"><b>Máy nén</b><span>Đồng hồ áp suất, bộ điều khiển nhiệt, ampe kế</span></div>
+              <div class="arrow" aria-hidden="true"></div>
+              <div class="node"><b>Firmware và camera AI của Minder</b><span>Cảm biến dòng, camera đọc đồng hồ</span>
+              </div>
+              <div class="arrow" aria-hidden="true"></div>
+              <div class="node minder"><b>Minder Platform</b><span>Máy nén 4: dòng điện, 2 ngày dữ liệu</span></div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Phòng máy nén hôm nay</h3>
+        <p class="note">Đồng hồ cơ, rơ-le áp suất và ampe kế đang được đọc bằng mắt. Đây là các điểm firmware và camera
+          AI của Minder sẽ đọc.</p>
+        <div class="photos">
+          <figure><a class="zoom" href="/decks/saigon-food/assets/site/photo-4.jpg" target="_blank" rel="noopener"><img
+                src="/decks/saigon-food/assets/site/photo-4.jpg" alt="Máy nén Hasegawa và tủ điều khiển" width="1200"
+                height="958" loading="lazy"></a>
+            <figcaption>Máy nén Hasegawa và tủ điều khiển</figcaption>
+          </figure>
+          <figure><a class="zoom" href="/decks/saigon-food/assets/site/photo-2.jpg" target="_blank" rel="noopener"><img
+                src="/decks/saigon-food/assets/site/photo-2.jpg" alt="Đồng hồ áp suất và rơ-le áp suất Saginomiya"
+                width="1200" height="1600" loading="lazy"></a>
+            <figcaption>Đồng hồ áp suất, rơ-le áp suất</figcaption>
+          </figure>
+          <figure><a class="zoom" href="/decks/saigon-food/assets/site/photo-1.jpg" target="_blank" rel="noopener"><img
+                src="/decks/saigon-food/assets/site/photo-1.jpg" alt="Bộ điều khiển nhiệt độ Hanyoung AX4" width="1200"
+                height="1600" loading="lazy"></a>
+            <figcaption>Bộ điều khiển nhiệt độ</figcaption>
+          </figure>
+          <figure><a class="zoom" href="/decks/saigon-food/assets/site/photo-6.jpg" target="_blank" rel="noopener"><img
+                src="/decks/saigon-food/assets/site/photo-6.jpg" alt="Ampe kế Selec trên tủ máy nén, 114,1 A"
+                width="590" height="832" loading="lazy"></a>
+            <figcaption>Ampe kế máy nén</figcaption>
+          </figure>
+          <figure><a class="zoom" href="/decks/saigon-food/assets/site/photo-5.jpg" target="_blank" rel="noopener"><img
+                src="/decks/saigon-food/assets/site/photo-5.jpg" alt="Cụm đồng hồ và rơ-le áp suất Danfoss" width="718"
+                height="960" loading="lazy"></a>
+            <figcaption>Cụm đồng hồ, rơ-le Danfoss</figcaption>
+          </figure>
+          <figure><a class="zoom" href="/decks/saigon-food/assets/site/photo-7.jpg" target="_blank" rel="noopener"><img
+                src="/decks/saigon-food/assets/site/photo-7.jpg"
+                alt="Thiết bị firmware Minder đặt cạnh máy nén để đo dòng điện" width="1200" height="1600"
+                loading="lazy"></a>
+            <figcaption>Firmware Minder đo độ rung máy nén</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section id="baseline">
+      <div class="wrap">
+        <p class="sec-num">04</p>
+        <h2>Baseline</h2>
+        <p class="deck">Mức nền để đo cải thiện: cách làm trước pilot, và mức vận hành Minder đo được ngày 13 đến
+          17/10/2026.</p>
+
+        <h3>Cách làm trước pilot</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t kv">
+              <tbody>
+                <tr>
+                  <td>Ghi nhiệt độ, giờ chạy</td>
+                  <td>Nhân viên đọc màn hình, nhập Excel mỗi giờ</td>
+                </tr>
+                <tr>
+                  <td>Tìm số liệu</td>
+                  <td>Dữ liệu nằm ở Excel, HMI và BOSS Mini; phải hỏi người phụ trách</td>
+                </tr>
+                <tr>
+                  <td>Giờ chạy máy</td>
+                  <td>Ước lượng tương đối</td>
+                </tr>
+                <tr>
+                  <td>Phát hiện bất thường</td>
+                  <td>Dựa vào kinh nghiệm của người trực</td>
+                </tr>
+                <tr>
+                  <td>Độ tin cậy nhật ký</td>
+                  <td>Có trường hợp chép lại số liệu cũ</td>
+                </tr>
+                <tr>
+                  <td>Máy nén</td>
+                  <td>Đồng hồ cơ và ampe kế, đọc tại chỗ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3>Kho lạnh</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t">
+              <thead>
+                <tr>
+                  <th>Kho</th>
+                  <th class="num">Nhiệt độ trung bình</th>
+                  <th class="num">Thời gian trong dải −22 đến −18 °C</th>
+                  <th class="num">Máy nén chạy</th>
+                  <th class="num">Xả đá mỗi ngày</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Kho lạnh 1</td>
+                  <td class="num flag">−19,8 °C khi đầu dò đọc được</td>
+                  <td class="num flag">Chưa đo được, đầu dò báo sai 98% thời gian</td>
+                  <td class="num">0,2%</td>
+                  <td class="num">0</td>
+                </tr>
+                <tr>
+                  <td>Kho lạnh 2</td>
+                  <td class="num">−18,5 °C</td>
+                  <td class="num">74% (51 đến 93% theo ngày)</td>
+                  <td class="num">95%</td>
+                  <td class="num">3</td>
+                </tr>
+                <tr>
+                  <td>Kho lạnh 3</td>
+                  <td class="num">−19,4 °C</td>
+                  <td class="num">91%</td>
+                  <td class="num">46%</td>
+                  <td class="num">4</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="note">Dải −22 đến −18 °C là ngưỡng đặt trong bản nháp nhật ký ca. SGF cần xác nhận ngưỡng chuẩn của
+          từng kho.</p>
+
+        <h3>Băng chuyền IQF: giờ cấp đông mỗi ngày</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t">
+              <thead>
+                <tr>
+                  <th>Băng chuyền</th>
+                  <th class="num">13/10</th>
+                  <th class="num">14/10</th>
+                  <th class="num">15/10</th>
+                  <th class="num">16/10</th>
+                  <th class="num">17/10</th>
+                  <th class="num">Nhiệt độ thấp nhất</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>IQF 1, Lưới Khè 2</td>
+                  <td class="num">3,4</td>
+                  <td class="num">6,6</td>
+                  <td class="num">6,5</td>
+                  <td class="num">6,7</td>
+                  <td class="num">4,9</td>
+                  <td class="num">−45,1 °C</td>
+                </tr>
+                <tr>
+                  <td>IQF 2, Tân Long</td>
+                  <td class="num">8,0</td>
+                  <td class="num">6,9</td>
+                  <td class="num">6,0</td>
+                  <td class="num">6,3</td>
+                  <td class="num">5,1</td>
+                  <td class="num">−59,6 °C</td>
+                </tr>
+                <tr>
+                  <td>IQF 3, Cá Tẩm</td>
+                  <td class="num">0</td>
+                  <td class="num">5,0</td>
+                  <td class="num">0</td>
+                  <td class="num">0</td>
+                  <td class="num">0</td>
+                  <td class="num">−44,5 °C</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="note">Giờ cấp đông: số giờ nhiệt độ băng chuyền ở −35 °C hoặc thấp hơn.</p>
+
+        <h3>Máy nén 4</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t">
+              <thead>
+                <tr>
+                  <th>Ngày</th>
+                  <th class="num">Giờ chạy</th>
+                  <th class="num">Dòng điện trung bình khi chạy</th>
+                  <th class="num">Dòng điện cao nhất</th>
+                  <th class="num">Công suất ước tính</th>
+                  <th class="num">Điện năng ước tính</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>15/10/2026</td>
+                  <td class="num">6,2 giờ</td>
+                  <td class="num">149 A</td>
+                  <td class="num">178 A</td>
+                  <td class="num">83 kW</td>
+                  <td class="num">515 kWh</td>
+                </tr>
+                <tr>
+                  <td>17/10/2026</td>
+                  <td class="num">8,3 giờ</td>
+                  <td class="num">156 A</td>
+                  <td class="num">176 A</td>
+                  <td class="num">87 kW</td>
+                  <td class="num">720 kWh</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="note">Công suất và điện năng là ước tính, giả định điện áp 380 V ba pha và hệ số công suất 0,85. Công
+          tơ điện trong pilot có phí sẽ thay ước tính bằng số đo.</p>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section id="truoc-sau">
+      <div class="wrap">
+        <p class="sec-num">05</p>
+        <h2>Trước và sau</h2>
+        <p class="deck">Cùng thiết bị: trước đọc bằng mắt, ghi tay. Với Minder, số liệu thành dữ liệu cho AI dùng.</p>
+        <div class="pairs">
+          <article class="pair">
+            <header class="pair-head"><span class="idx">01</span>
+              <h3>Kết nối dữ liệu theo thời gian thực</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media"><img src="/decks/saigon-food/assets/pairs/before-excel-log.jpg"
+                    alt="Sổ nhật ký vận hành hệ kho lạnh và đông gió trên Excel, ghi theo giờ" width="2000" height="969"
+                    loading="lazy" style="aspect-ratio:auto;object-fit:contain">
+                </div>
+                <figcaption><b>Sổ nhật ký vận hành, chép tay vào Excel</b>
+                  <dl>
+                    <dt>Tần suất</dt>
+                    <dd>1 dòng mỗi giờ, mỗi ngày một trang</dd>
+                    <dt>Kết nối</dt>
+                    <dd>Từng file riêng, không nối với hệ thống khác</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media"><img src="/decks/saigon-food/assets/shots/database-devices.png"
+                    alt="Bảng thiết bị BOSS Mini trong cơ sở dữ liệu Saigon Food trên Minder" width="1449" height="840"
+                    loading="lazy">
+                </div>
+                <div class="media" style="margin-top:12px"><img
+                    src="/decks/saigon-food/assets/shots/database-bronze.png"
+                    alt="Tổng quan cơ sở dữ liệu Saigon Food: 9 bảng, 3 pipeline, các lần chạy thành công" width="1449"
+                    height="840" loading="lazy">
+                </div>
+                <figcaption><b>Dữ liệu về một cơ sở dữ liệu, cập nhật liên tục</b>
+                  <dl>
+                    <dt>Thiết bị</dt>
+                    <dd>15 thiết bị BOSS Mini, mỗi thiết bị một mã</dd>
+                    <dt>Dữ liệu</dt>
+                    <dd>9 bảng, 3 pipeline xử lý, chạy vài phút một lần và đều thành công</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="pair">
+            <header class="pair-head"><span class="idx">02</span>
+              <h3>Nhiệt độ</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media"><img src="/decks/saigon-food/assets/pairs/before-controller.jpg"
+                    alt="Màn hình bộ điều khiển nhiệt độ trên tủ máy nén" width="1200" height="900" loading="lazy">
+                </div>
+                <figcaption><b>Đọc màn hình, chép vào Excel</b>
+                  <dl>
+                    <dt>Tần suất</dt>
+                    <dd>1 lần mỗi giờ</dd>
+                    <dt>Mỗi ngày</dt>
+                    <dd>24 điểm đo mỗi thiết bị</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media"><img src="/decks/saigon-food/assets/shots/dashboard-kho-lanh-2-3.png"
+                    alt="Dashboard nhiệt độ Kho lạnh 2 và Kho lạnh 3 trên Minder" width="1449" height="840"
+                    loading="lazy"></div>
+                <figcaption><b>Nhiệt độ về tự động, vẽ thành đồ thị</b>
+                  <dl>
+                    <dt>Tần suất</dt>
+                    <dd>9,5 giây một lần</dd>
+                    <dt>Mỗi ngày</dt>
+                    <dd>Khoảng 9.100 điểm đo mỗi thiết bị</dd>
+                    <dt>Thấy ngay</dt>
+                    <dd>Kho lạnh 3 xả đá 4 lần mỗi ngày, đạt dải nhiệt 91% thời gian</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="pair">
+            <header class="pair-head"><span class="idx">03</span>
+              <h3>Dòng điện máy nén</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media"><img src="/decks/saigon-food/assets/pairs/before-ammeter.jpg"
+                    alt="Ampe kế Selec trên tủ máy nén hiển thị 114,1 A" width="900" height="674" loading="lazy"></div>
+                <figcaption><b>Ampe kế trên tủ, chỉ thấy khi đứng trước tủ</b>
+                  <dl>
+                    <dt>Lưu lại</dt>
+                    <dd>Khi có người ghi</dd>
+                    <dt>Giờ chạy</dt>
+                    <dd>Ước lượng</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media"><img src="/decks/saigon-food/assets/shots/compressor-4-current-48h.png"
+                    alt="Cường độ dòng điện trung bình và cao nhất của Máy nén 4 theo giờ, 48 tiếng gần nhất"
+                    width="632" height="383" loading="lazy">
+                </div>
+                <figcaption><b>Firmware Minder đo dòng điện liên tục</b>
+                  <dl>
+                    <dt>Ngày 17/10</dt>
+                    <dd>Chạy 8,3 giờ, trung bình 156 A khi chạy</dd>
+                    <dt>Cao nhất 30 phút</dt>
+                    <dd>168 A, lúc 14:30</dd>
+                    <dt>Dừng máy</dt>
+                    <dd>Ngắn lúc 16:30, dừng hẳn từ 18:00</dd>
+                  </dl>
+                </figcaption>
+                <details class="data-view">
+                  <summary>Xem số liệu 30 phút</summary>
+                  <div class="dv-grid"><span>09:00<b>155,7 A</b></span><span>09:30<b>147,6
+                        A</b></span><span>10:00<b>150,5 A</b></span><span>10:30<b>145,4 A</b></span><span>11:00<b>147,8
+                        A</b></span><span>11:30<b>163,0 A</b></span><span>12:00<b>152,2 A</b></span><span>12:30<b>157,0
+                        A</b></span><span>13:00<b>165,6 A</b></span><span>13:30<b>165,3 A</b></span><span>14:00<b>168,0
+                        A</b></span><span>14:30<b>168,3 A</b></span><span>15:00<b>161,1 A</b></span><span>15:30<b>157,5
+                        A</b></span><span>16:00<b>151,1 A</b></span><span>16:30<b>62,3 A</b></span><span>17:00<b>117,9
+                        A</b></span><span>17:30<b>131,9 A</b></span><span>18:00<b>0,0 A</b></span><span>18:30<b>0,0
+                        A</b></span><span>19:00<b>0,0 A</b></span><span>19:30<b>0,0 A</b></span><span>20:00<b>0,0
+                        A</b></span><span>20:30<b>0,0 A</b></span><span>21:00<b>0,0 A</b></span><span>21:30<b>0,0
+                        A</b></span><span>22:00<b>0,0 A</b></span><span>22:30<b>0,0 A</b></span><span>23:00<b>0,0
+                        A</b></span></div>
+                </details>
+              </figure>
+            </div>
+          </article>
+          <article class="pair">
+            <header class="pair-head"><span class="idx">04</span>
+              <h3>Áp suất máy nén</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media"><img src="/decks/saigon-food/assets/pairs/before-gauges.jpg"
+                    alt="Bốn đồng hồ áp suất và rơ-le áp suất trên tủ máy nén" width="1200" height="900" loading="lazy">
+                </div>
+                <figcaption><b>Đồng hồ cơ, đọc bằng mắt</b>
+                  <dl>
+                    <dt>Ghi lại</dt>
+                    <dd>Bằng tay, theo ca</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media overlay"><img src="/decks/saigon-food/assets/pairs/before-gauges.jpg"
+                    alt="Minh họa camera AI nhận diện bốn đồng hồ áp suất" width="1200" height="900"
+                    loading="lazy"><span class="ai-box"
+                    style="left:0.7%;top:24.0%;width:17.0%;height:22.7%"></span><span class="ai-label"
+                    style="left:9.2%;top:48.4%">1 → kg/cm²</span><span class="ai-box"
+                    style="left:27.3%;top:22.4%;width:17.2%;height:22.9%"></span><span class="ai-label"
+                    style="left:35.8%;top:47.0%">2 → kg/cm²</span><span class="ai-box"
+                    style="left:52.9%;top:23.1%;width:17.8%;height:23.8%"></span><span class="ai-label"
+                    style="left:61.8%;top:48.6%">3 → kg/cm²</span><span class="ai-box"
+                    style="left:80.0%;top:17.8%;width:20.0%;height:27.1%"></span><span class="ai-label r"
+                    style="top:46.6%">4 → MPa</span><span class="tag mock">Minh họa</span></div>
+                <figcaption><b>Camera AI đọc kim đồng hồ thành số</b>
+                  <dl>
+                    <dt>Trạng thái</dt>
+                    <dd>Bước tiếp theo, đã có nơi lưu dữ liệu</dd>
+                    <dt>Đầu ra</dt>
+                    <dd>4 tín hiệu áp suất cho mỗi máy nén, nối vào mô hình nhà máy</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="pair">
+            <header class="pair-head"><span class="idx">05</span>
+              <h3>Độ rung máy nén</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media"><img src="/decks/saigon-food/assets/pairs/before-compressor-6.jpg"
+                    alt="Máy nén 6 trong phòng máy" width="972" height="1024" loading="lazy"
+                    style="object-position:center top">
+                </div>
+                <figcaption><b>Không có số đo độ rung</b>
+                  <dl>
+                    <dt>Ai biết</dt>
+                    <dd>Người trực nghe tiếng máy, sờ thân máy</dd>
+                    <dt>Lưu lại</dt>
+                    <dd>Không có</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media"><img src="/decks/saigon-food/assets/shots/vibration-xyz.png"
+                    alt="Xu hướng gia tốc độ rung trục X, Y, Z và rung tổng hợp trên Minder" width="1206" height="605"
+                    loading="lazy">
+                </div>
+                <figcaption><b>Cảm biến đo gia tốc rung 3 trục liên tục</b>
+                  <dl>
+                    <dt>Đo</dt>
+                    <dd>Gia tốc trục X, Y, Z và rung tổng hợp, cảm biến MPU6050</dd>
+                    <dt>Đọc được</dt>
+                    <dd>Rung tổng hợp khoảng 0,09 đến 0,16 trước 21:54, giảm còn 0,05 đến 0,10 sau đó</dd>
+                    <dt>Về sau</dt>
+                    <dd>Dữ liệu cho bảo trì dự báo</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="pair">
+            <header class="pair-head"><span class="idx">06</span>
+              <h3>Cảnh báo</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media"><img src="/decks/saigon-food/assets/pairs/before-compressor-mycom.jpg"
+                    alt="Máy nén Mycom trong phòng máy" width="1200" height="1600" loading="lazy">
+                </div>
+                <figcaption><b>Lỗi chỉ thấy khi đứng tại máy nén</b>
+                  <dl>
+                    <dt>Ai biết</dt>
+                    <dd>Người đứng gần máy</dd>
+                    <dt>Nguyên nhân</dt>
+                    <dd>Dựa vào kinh nghiệm người trực</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media"><img src="/decks/saigon-food/assets/shots/fault-detection.png"
+                    alt="Trang theo dõi lệch chuẩn: cảnh báo đang mở, thiết bị được theo dõi và Kho lạnh 3 đang cảnh báo"
+                    width="1512" height="805" loading="lazy">
+                </div>
+                <div class="media" style="margin-top:12px"><img
+                    src="/decks/saigon-food/assets/shots/alert-kho-lanh-3.png"
+                    alt="Chi tiết cảnh báo nhiệt độ Kho lạnh 3 trên Minder" width="1512" height="805" loading="lazy">
+                </div>
+                <div class="media" style="margin-top:12px"><img
+                    src="/decks/saigon-food/assets/shots/alert-email-kho-lanh-3.png"
+                    alt="Email Minder báo cảnh báo Kho lạnh 3 đã được xử lý" width="1500" height="498" loading="lazy">
+                </div>
+                <figcaption><b>Minder phát hiện lệch chuẩn, gửi email kèm đồ thị</b>
+                  <dl>
+                    <dt>Kho lạnh 3</dt>
+                    <dd>9 cảnh báo trong 4 ngày, mỗi cảnh báo kèm đồ thị nguyên nhân</dd>
+                    <dt>Về sau</dt>
+                    <dd>Khi đã có lần xử lý, Minder hiện cách làm lần trước</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="pair">
+            <header class="pair-head"><span class="idx">07</span>
+              <h3>Báo cáo ca</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media sheet-media">
+                  <div class="sheet" role="img" aria-label="Minh họa sổ Excel ghi tay">
+                    <div class="sheet-top"><span></span><span></span><span></span><b>nhat-ky-van-hanh.xlsx</b></div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>A</th>
+                          <th>B</th>
+                          <th>C</th>
+                          <th>D</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>2</th>
+                          <td class="hd">Giờ</td>
+                          <td class="hd">Kho 1</td>
+                          <td class="hd">Kho 2</td>
+                          <td class="hd">Kho 3</td>
+                        </tr>
+                        <tr>
+                          <th>3</th>
+                          <td>07:00</td>
+                          <td><i style="width:62%"></i></td>
+                          <td><i style="width:70%"></i></td>
+                          <td><i style="width:54%"></i></td>
+                        </tr>
+                        <tr>
+                          <th>4</th>
+                          <td>08:00</td>
+                          <td><i style="width:58%"></i></td>
+                          <td><i style="width:66%"></i></td>
+                          <td><i style="width:60%"></i></td>
+                        </tr>
+                        <tr>
+                          <th>5</th>
+                          <td>09:00</td>
+                          <td><i style="width:64%"></i></td>
+                          <td><i style="width:52%"></i></td>
+                          <td><i style="width:70%"></i></td>
+                        </tr>
+                        <tr>
+                          <th>6</th>
+                          <td>10:00</td>
+                          <td><i style="width:55%"></i></td>
+                          <td><i style="width:72%"></i></td>
+                          <td><i style="width:58%"></i></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <figcaption><b>Tổng hợp tay từ Excel cuối ca</b>
+                  <dl>
+                    <dt>Người làm</dt>
+                    <dd>Nhân viên vận hành</dd>
+                    <dt>Đối chiếu nguồn</dt>
+                    <dd>Khó</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media"><img src="/decks/saigon-food/assets/pairs/after-chat.png"
+                    alt="Báo cáo vận hành IQF do Minder viết trong chat" width="1361" height="1120" loading="lazy">
+                </div>
+                <figcaption><b>AI viết báo cáo từ một câu hỏi tiếng Việt</b>
+                  <dl>
+                    <dt>Câu hỏi</dt>
+                    <dd>Báo cáo 3 băng chuyền IQF ngày 13/10</dd>
+                    <dt>Minder làm</dt>
+                    <dd>Tự chạy 43 bước, trả bảng giờ chạy và nhiệt độ thấp nhất</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="pair">
+            <header class="pair-head"><span class="idx">08</span>
+              <h3>Độ tin cậy số liệu</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media sheet-media">
+                  <div class="sheet" role="img" aria-label="Minh họa sổ Excel ghi tay">
+                    <div class="sheet-top"><span></span><span></span><span></span><b>nhat-ky-van-hanh.xlsx</b></div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>A</th>
+                          <th>B</th>
+                          <th>C</th>
+                          <th>D</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>2</th>
+                          <td class="hd">Giờ</td>
+                          <td class="hd">Kho 1</td>
+                          <td class="hd">Kho 2</td>
+                          <td class="hd">Kho 3</td>
+                        </tr>
+                        <tr>
+                          <th>3</th>
+                          <td>07:00</td>
+                          <td><i style="width:62%"></i></td>
+                          <td><i style="width:70%"></i></td>
+                          <td><i style="width:54%"></i></td>
+                        </tr>
+                        <tr>
+                          <th>4</th>
+                          <td>08:00</td>
+                          <td><em class="copy">= ô trên</em></td>
+                          <td><em class="copy">= ô trên</em></td>
+                          <td><em class="copy">= ô trên</em></td>
+                        </tr>
+                        <tr>
+                          <th>5</th>
+                          <td>09:00</td>
+                          <td><em class="copy">= ô trên</em></td>
+                          <td><em class="copy">= ô trên</em></td>
+                          <td><em class="copy">= ô trên</em></td>
+                        </tr>
+                        <tr>
+                          <th>6</th>
+                          <td>10:00</td>
+                          <td><em class="copy">= ô trên</em></td>
+                          <td><em class="copy">= ô trên</em></td>
+                          <td><em class="copy">= ô trên</em></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <figcaption><b>Có lúc chép lại số của giờ trước</b>
+                  <dl>
+                    <dt>Hệ quả</dt>
+                    <dd>Nhật ký không khớp thời điểm vận hành</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media"><img src="/decks/saigon-food/assets/shots/dashboard-kho-lanh-1.png"
+                    alt="Đồ thị nhiệt độ Kho lạnh 1 trên Minder" width="1416" height="522" loading="lazy"></div>
+                <figcaption><b>Mỗi số có thời điểm đo, lỗi đầu dò lộ ra ngay</b>
+                  <dl>
+                    <dt>Kho lạnh 1</dt>
+                    <dd>Đầu dò 1 báo 0,0 °C ở 98% lần đọc, hiển thị nhảy lên +31 °C</dd>
+                    <dt>Việc cần làm</dt>
+                    <dd>Phát hiện ưu tiên 1, mục 07</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="pair">
+            <header class="pair-head"><span class="idx">09</span>
+              <h3>Mô hình nhà máy</h3>
+            </header>
+            <div class="pair-grid">
+              <figure class="side">
+                <span class="tag before">Trước</span>
+                <div class="media"><img src="/decks/saigon-food/assets/pairs/before-bossmini-map.jpg"
+                    alt="Bản đồ nhiệt độ BossMini của phân xưởng 1 trên máy tính tại xưởng" width="1600" height="1200"
+                    loading="lazy">
+                </div>
+                <figcaption><b>Bản đồ BossMini trên máy tính tại xưởng</b>
+                  <dl>
+                    <dt>Thấy được</dt>
+                    <dd>Nhiệt độ và trạng thái kho lạnh, tủ đông, IQF</dd>
+                    <dt>Giới hạn</dt>
+                    <dd>Xem tại máy, chưa gắn với máy nén và dây chuyền</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+              <div class="pair-arrow" aria-hidden="true"></div>
+              <figure class="side after">
+                <span class="tag after">Sau, với Minder</span>
+                <div class="media"><img src="/decks/saigon-food/assets/shots/plant-3d.png"
+                    alt="Mô hình 3D nhà máy Sài Gòn Food, thẻ số đo trực tiếp của Kho lạnh 3" width="1449" height="840"
+                    loading="lazy">
+                </div>
+                <div class="media" style="margin-top:12px"><img src="/decks/saigon-food/assets/shots/plant-flow.png"
+                    alt="Sơ đồ 2D nhà máy: Máy nén 4 cấp lạnh cho Kho lạnh 1, 2, 3, số liệu trực tiếp" width="1568"
+                    height="742" loading="lazy">
+                </div>
+                <figcaption><b>Mô hình nhà máy 3D và sơ đồ 2D, số liệu trực tiếp</b>
+                  <dl>
+                    <dt>3D</dt>
+                    <dd>Rê chuột lên thiết bị để xem số đo: Kho lạnh 3 ở −21,6 °C, máy nén và quạt bật</dd>
+                    <dt>2D</dt>
+                    <dd>Máy nén 4 nối tới Kho lạnh 1, 2, 3; mỗi thẻ hiện nhiệt độ, máy nén, quạt, cửa, xả đá</dd>
+                    <dt>Xem ở</dt>
+                    <dd>Mọi nơi, trên trình duyệt</dd>
+                  </dl>
+                </figcaption>
+              </figure>
+            </div>
+          </article>
+        </div>
+
+        <h3>Tóm tắt</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t">
+              <thead>
+                <tr>
+                  <th>Hạng mục</th>
+                  <th>Trước pilot</th>
+                  <th>Sau 1 tháng với Minder</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Giờ chạy và số lần bật tắt máy nén</td>
+                  <td class="before">Ước lượng, ghi tay theo ca</td>
+                  <td class="after">Tính từ dòng điện và trạng thái máy nén. Ví dụ Máy nén 4 ngày 17/10 chạy 8,3 giờ,
+                    dừng ngắn lúc 16:30, dừng hẳn từ 18:00; IQF 2 chạy 8,0 giờ ngày 13/10</td>
+                </tr>
+                <tr>
+                  <td>Áp suất, độ rung, nhớt máy nén và lịch bảo trì</td>
+                  <td class="before">Đọc đồng hồ bằng mắt, nghe tiếng máy; bảo trì theo kinh nghiệm</td>
+                  <td class="after">Độ rung 3 trục đã đo liên tục. Áp suất đầu vào, hút, trung gian và áp suất máy nén:
+                    camera AI đọc đồng hồ là bước tiếp theo. Lượng nhớt còn lại chưa đo. Khi đủ dữ liệu, Minder khuyến
+                    cáo lịch bảo trì, bảo dưỡng định kỳ</td>
+                </tr>
+                <tr>
+                  <td>Tần suất ghi nhận</td>
+                  <td class="before">1 lần mỗi giờ, ghi tay</td>
+                  <td class="after">9,5 giây một lần, tự động</td>
+                </tr>
+                <tr>
+                  <td>Điểm đo mỗi thiết bị mỗi ngày</td>
+                  <td class="before">24</td>
+                  <td class="after">Khoảng 9.100</td>
+                </tr>
+                <tr>
+                  <td>Độ trễ</td>
+                  <td class="before">Cuối ca mới có bảng tổng hợp</td>
+                  <td class="after">Số đo vào hệ thống sau khoảng 8 giây; dashboard cập nhật vài phút một lần</td>
+                </tr>
+                <tr>
+                  <td>Một màn hình xem được</td>
+                  <td class="before">Từng sổ, từng màn hình riêng</td>
+                  <td class="after">16 thiết bị trên một mô hình nhà máy</td>
+                </tr>
+                <tr>
+                  <td>Cảnh báo</td>
+                  <td class="before">Người trực tự phát hiện</td>
+                  <td class="after">Minder theo dõi Kho lạnh 3, gửi email khi lệch ngưỡng</td>
+                </tr>
+                <tr>
+                  <td>Báo cáo</td>
+                  <td class="before">Soạn tay từ Excel</td>
+                  <td class="after">Hỏi bằng tiếng Việt, Minder tự chạy 43 bước và trả bảng báo cáo</td>
+                </tr>
+                <tr>
+                  <td>Độ tin cậy</td>
+                  <td class="before">Khó đối chiếu với nguồn</td>
+                  <td class="after">Mỗi số gắn thiết bị và thời điểm đo; đầu dò sai hiện ra ngay</td>
+                </tr>
+                <tr>
+                  <td>Truy cập</td>
+                  <td class="before">Hỏi người phụ trách</td>
+                  <td class="after">Dashboard và chat dùng chung, phân quyền theo người</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="note">Chưa đo trong pilot: số phút ghi chép mỗi ca, hóa đơn điện, chi phí sửa chữa. Ba số này được đo
+          trong 2 tuần đầu của pilot có phí.</p>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section id="ung-dung">
+      <div class="wrap">
+        <p class="sec-num">06</p>
+        <h2>Ứng dụng đã chạy</h2>
+        <h3>Video giao diện thực tế trên Minder</h3>
+        <figure class="shot">
+          <video controls muted playsinline preload="metadata"
+            poster="/decks/saigon-food/assets/video/sgf-minder-demo-poster.jpg" width="1460" height="690">
+            <source src="/decks/saigon-food/assets/video/sgf-minder-demo.mp4" type="video/mp4">
+          </video>
+          <img class="print-only" src="/decks/saigon-food/assets/video/sgf-minder-demo-poster.jpg"
+            alt="Khung hình video demo" width="1460" height="690">
+          <figcaption>Mô hình 3D, sơ đồ 2D, theo dõi lệch chuẩn, dashboard và báo cáo trong
+            chat, thao tác trực tiếp trên app.celesnity.com.</figcaption>
+        </figure>
+
+        <h3>Chưa làm trong pilot</h3>
+        <ul class="todo">
+          <li><b>Nhật ký ca tự động</b>Đã có bản nháp quy tắc trong chat: kho lạnh −22 đến −18 °C, IQF từ −35 °C trở
+            xuống. Chưa bật lịch chạy.</li>
+          <li><b>Tài liệu</b>Chưa nạp quy trình vận hành và hướng dẫn xử lý sự cố của SGF.</li>
+          <li><b>Camera AI đọc đồng hồ</b>Đã có nơi lưu dữ liệu cho máy nén, chưa có ảnh đọc.</li>
+          <li><b>Dự báo bằng Mô hình AI Thế giới thực</b>Bắt đầu thử nghiệm trong pilot có phí (mục 08).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section id="phat-hien">
+      <div class="wrap">
+        <p class="sec-num">07</p>
+        <h2>Phát hiện từ dữ liệu</h2>
+        <p class="deck">Năm điểm cần xử lý, xếp theo mức ảnh hưởng.</p>
+
+        <div class="findings">
+          <article class="finding">
+            <header><span class="pill warn">Ưu tiên 1</span>
+              <h3>Kho lạnh 1: đầu dò báo sai</h3>
+            </header>
+            <dl>
+              <dt>Dữ liệu</dt>
+              <dd>Ngày 13 đến 17/10, 98% số lần đọc của đầu dò 1 là 0,0 °C. Khi đó nhiệt độ hiển thị nhảy lên khoảng +31
+                °C. Tình trạng có từ 01/10.</dd>
+              <dt>Khi đọc được</dt>
+              <dd>Các lần đầu dò có số đọc cho thấy kho ở khoảng −20 °C. Rơ-le máy nén của bộ điều khiển gần như không
+                đóng (0,2% thời gian).</dd>
+              <dt>Việc cần làm</dt>
+              <dd>Kiểm tra đầu dò 1, dây nối và cấu hình đầu dò ảo trên bộ điều khiển. Đối chiếu với nhiệt kế tại kho và
+                sổ Excel cùng ngày. Sau khi sửa, bật cảnh báo cho Kho lạnh 1.</dd>
+              <dt>Đồ thị</dt>
+              <dd>Mục 05, cặp 08.</dd>
+            </dl>
+          </article>
+
+          <article class="finding">
+            <header><span class="pill warn">Ưu tiên 2</span>
+              <h3>Kho lạnh 2: máy nén chạy gần liên tục</h3>
+            </header>
+            <dl>
+              <dt>Dữ liệu</dt>
+              <dd>Máy nén chạy 95% thời gian. Thời gian trong dải −22 đến −18 °C giảm từ 93% ngày 13/10 xuống 51% ngày
+                17/10, rồi về 93% ngày 18/10.</dd>
+              <dt>Ý nghĩa</dt>
+              <dd>Máy nén chạy liên tục mà kho vẫn ấm dần là dấu hiệu tốn điện và hao mòn máy.</dd>
+              <dt>Việc cần làm</dt>
+              <dd>Đối chiếu với lịch nhập hàng và mở cửa. Kiểm tra dàn lạnh đóng băng, lượng gas và tải của kho.</dd>
+            </dl>
+          </article>
+
+          <article class="finding">
+            <header><span class="pill">Ưu tiên 3</span>
+              <h3>Kho lạnh 3: cảnh báo trùng chu kỳ xả đá</h3>
+            </header>
+            <dl>
+              <dt>Dữ liệu</dt>
+              <dd>Kho xả đá 4 lần mỗi ngày lúc 00:09, 06:09, 12:09 và 18:09, mỗi lần khoảng 23 phút. Nhiệt độ lên khoảng
+                −8 °C và mất 70 đến 85 phút để về ngưỡng. 7 trong 9 cảnh báo mở ngay sau xả đá.</dd>
+              <dt>Hai cảnh báo khác</dt>
+              <dd>15/10 lúc 08:57, kéo dài 4 giờ 20 phút, và 17/10 lúc 08:19. Cần đối chiếu với lịch nhập hàng.</dd>
+              <dt>Việc cần làm</dt>
+              <dd>Cho cảnh báo bỏ qua 90 phút sau mỗi lần xả đá. Xem xét xả đá theo nhu cầu thay cho theo giờ cố định.
+              </dd>
+            </dl>
+          </article>
+
+          <article class="finding">
+            <header><span class="pill">Ưu tiên 4</span>
+              <h3>IQF: tải dồn lên 2 băng chuyền</h3>
+            </header>
+            <dl>
+              <dt>Dữ liệu</dt>
+              <dd>IQF 1 chạy 3,4 đến 6,7 giờ và IQF 2 chạy 5,1 đến 8,0 giờ mỗi ngày. IQF 3 chỉ chạy ngày 14/10. IQF 2
+                xuống −59,6 °C ngày 16/10, các ngày khác ở −47 đến −54 °C.</dd>
+              <dt>Việc cần làm</dt>
+              <dd>Xác nhận điểm đặt nhiệt độ theo từng sản phẩm. Dùng giờ chạy của từng băng chuyền để xếp lịch sản xuất
+                và lịch bảo trì.</dd>
+            </dl>
+          </article>
+
+          <article class="finding">
+            <header><span class="pill grey">Celesnity xử lý</span>
+              <h3>Máy nén 4: kết nối cần gia cố</h3>
+            </header>
+            <dl>
+              <dt>Dữ liệu</dt>
+              <dd>Firmware gửi đủ dữ liệu trong 2 trên 5 ngày, 15/10 và 17/10. Sóng vô tuyến yếu đi khi máy chạy: −70
+                dBm, so với −53 dBm khi máy dừng.</dd>
+              <dt>Việc cần làm</dt>
+              <dd>Dùng gateway có dây hoặc anten ngoài. Hạng mục này nằm trong phần cứng cho thuê của pilot có phí.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section id="de-xuat">
+      <div class="wrap">
+        <p class="sec-num">08</p>
+        <h2>Bước tiếp theo: pilot có phí</h2>
+        <p class="deck">Pilot vừa qua nối điểm cuối dây chuyền: cấp đông và kho lạnh. Pilot có phí đi ngược lên các công
+          đoạn sản xuất, trong khi kho lạnh tiếp tục chạy và được hoàn thiện.</p>
+
+        <h3>Hai luồng song song</h3>
+        <div class="values two">
+          <div class="value"><span class="idx">Luồng 1</span><b>Kho lạnh và máy nén: hoàn thiện và duy trì</b>
+            <p>Kho lạnh đã có dữ liệu từ 29/09/2026. Từ 19/10 đến 31/10, trước khi pilot bắt đầu, luồng này xử lý các
+              phát hiện ở mục 07, bật cảnh báo cho cả 16 thiết bị và chạy nhật ký ca tự động, rồi duy trì đến hết tuần
+              4. Từ mùa cao điểm, kho lạnh vận hành cùng phân xưởng trên một hệ thống.</p>
+          </div>
+          <div class="value"><span class="idx">Luồng 2</span><b>Khu vực sản xuất mới</b>
+            <p>Khảo sát, lắp đặt và vận hành từ chế biến đến nhập kho lạnh.</p>
+          </div>
+        </div>
+
+        <h3>Mô hình AI Thế giới thực</h3>
+        <p class="note">Minder chạy trên Mô hình AI Thế giới thực (World Model) do Celesnity tự nghiên cứu và phát
+          triển. Pilot vừa qua dùng hai lớp đầu: nhìn thấy và ghi nhớ. Pilot có phí thử nghiệm lớp thứ ba, dự báo, trên
+          dữ liệu của SGF.</p>
+        <div class="values three" style="margin-top:18px">
+          <div class="value"><span class="idx">Dự báo</span><b>Kho lạnh</b>
+            <p>Dự báo thời gian về ngưỡng sau mỗi lần xả đá, để cảnh báo chỉ bật khi kho lệch thật.</p>
+          </div>
+          <div class="value"><span class="idx">Dự báo</span><b>Máy nén</b>
+            <p>Dự báo điện năng và độ mòn khi máy nén chạy gần liên tục, như Kho lạnh 2.</p>
+          </div>
+          <div class="value"><span class="idx">Dự báo</span><b>IQF và sản xuất</b>
+            <p>Thử dời lô sang khung giờ điện rẻ hơn mà vẫn đủ công suất cấp đông.</p>
+          </div>
+        </div>
+        <p class="note">Mỗi dự báo kèm mức độ tin cậy. Con người phê duyệt những việc quan trọng.</p>
+
+        <h3>Mục tiêu</h3>
+        <div class="values">
+          <div class="value"><span class="idx">01</span><b>Sản xuất</b>
+            <p>Sản lượng, dừng máy và OEE theo ca cho từng dây chuyền.</p>
+          </div>
+          <div class="value"><span class="idx">02</span><b>Chất lượng và an toàn thực phẩm</b>
+            <p>Nhiệt độ sản phẩm qua từng công đoạn đến khi vào kho lạnh, nhật ký HACCP tự điền, sẵn cho đánh giá BRC và
+              FSSC 22000.</p>
+          </div>
+          <div class="value"><span class="idx">03</span><b>Năng lượng</b>
+            <p>kWh trên mỗi kg sản phẩm cho từng dây chuyền và từng máy nén, gồm cả máy nén kho lạnh.</p>
+          </div>
+          <div class="value"><span class="idx">04</span><b>Bảo trì và con người</b>
+            <p>Giờ chạy, cảnh báo sớm, báo cáo ca tự động, hướng dẫn xử lý sự cố tra cứu bằng chat.</p>
+          </div>
+        </div>
+
+        <h3>Phạm vi đề xuất</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t kv">
+              <tbody>
+                <tr>
+                  <td>Khu vực</td>
+                  <td>1 phân xưởng sản xuất do SGF chọn, cùng khu kho lạnh và phòng máy nén đang kết nối (16 thiết bị)
+                  </td>
+                </tr>
+                <tr>
+                  <td>Công đoạn</td>
+                  <td>Từ chế biến đến cấp đông, đóng gói và nhập kho lạnh</td>
+                </tr>
+                <tr>
+                  <td>Kết nối</td>
+                  <td>PLC và HMI dây chuyền, BOSS Mini, công tơ điện, cảm biến dòng, camera AI đọc đồng hồ</td>
+                </tr>
+                <tr>
+                  <td>Ứng dụng</td>
+                  <td>Mô hình phân xưởng, dashboard sản xuất và năng lượng, cảnh báo, nhật ký ca và HACCP tự điền, báo
+                    cáo ca, chat trên tài liệu quy trình</td>
+                </tr>
+                <tr>
+                  <td>Người dùng</td>
+                  <td>Ban giám đốc, quản đốc, trưởng ca, kỹ thuật, QA</td>
+                </tr>
+                <tr>
+                  <td>Đội Celesnity</td>
+                  <td>2 kỹ sư triển khai tại nhà máy (FDE), đội sản phẩm hỗ trợ từ xa</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3>Thời gian: 12 tuần</h3>
+        <div class="gantt-wrap">
+          <table class="gantt">
+            <colgroup>
+              <col class="lab">
+              <col span="14">
+            </colgroup>
+            <thead>
+              <tr class="months">
+                <th class="lab">2026 đến 2027</th>
+                <th colspan="2">Tháng 10</th>
+                <th colspan="4">Tháng 11</th>
+                <th colspan="5">Tháng 12</th>
+                <th colspan="3">Tháng 1</th>
+              </tr>
+              <tr>
+                <th class="lab">Tuần</th>
+                <th colspan="2">Trước pilot</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+                <th>9</th>
+                <th>10</th>
+                <th>11</th>
+                <th>12</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="lab">Duy trì kho lạnh và máy nén<small>19/10 đến 29/11/2026</small></td>
+                <td colspan="6">
+                  <div class="bar b1"></div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="lab">Khảo sát, thử nghiệm và baseline<small>Khu vực mới · 02/11 đến 15/11/2026</small></td>
+                <td></td>
+                <td></td>
+                <td colspan="2">
+                  <div class="bar b1"></div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="lab">Hoàn thiện lắp đặt và kết nối<small>Khu vực mới · 16/11 đến 06/12/2026</small></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="3">
+                  <div class="bar b2"></div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="lab">Vận hành mùa cao điểm<small>30/11/2026 đến 10/01/2027</small></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="6">
+                  <div class="bar b3"></div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="lab">Đo kết quả và nghiệm thu<small>11/01 đến 24/01/2027</small></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="2">
+                  <div class="bar b4"></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="lab">Mốc</td>
+                <td></td>
+                <td><span class="ms" title="Ký hợp đồng, kho lạnh hoàn thiện"></span></td>
+                <td></td>
+                <td><span class="ms" title="Baseline ký xác nhận"></span></td>
+                <td></td>
+                <td></td>
+                <td><span class="ms" title="Dữ liệu đủ 95%"></span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><span class="ms" title="Họp đánh giá Đạt/Không đạt"></span></td>
+                <td></td>
+                <td><span class="ms" title="Nghiệm thu"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-frame" style="margin-top:18px">
+          <div class="table-scroll">
+            <table class="t">
+              <colgroup>
+                <col style="width:22%">
+                <col style="width:7%">
+                <col style="width:19%">
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Giai đoạn</th>
+                  <th class="num">Tuần</th>
+                  <th class="num">Thời gian</th>
+                  <th>Việc</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Hoàn thiện khu vực kho lạnh và máy nén</td>
+                  <td class="num">Trước pilot</td>
+                  <td class="num">19/10 đến 31/10/2026</td>
+                  <td>Sửa đầu dò Kho lạnh 1, đối chiếu với nhiệt kế và sổ Excel, rồi bật cảnh báo. Cảnh báo Kho lạnh 3
+                    bỏ qua 90 phút sau mỗi lần xả đá. Kiểm tra dàn lạnh, gas và tải của Kho lạnh 2. SGF xác nhận ngưỡng
+                    từng kho. Mở rộng theo dõi lệch chuẩn lên 16 thiết bị, bật nhật ký ca tự động, nạp quy trình vận
+                    hành. Gia cố kết nối Máy nén 4, gắn camera AI đọc đồng hồ.</td>
+                </tr>
+                <tr>
+                  <td>Khảo sát, thử nghiệm và baseline</td>
+                  <td class="num">1–2</td>
+                  <td class="num">02/11 đến 15/11/2026</td>
+                  <td><b>Các khu vực sản xuất mới:</b> khảo sát dây chuyền, thử kết nối PLC/HMI, lập bảng baseline.</td>
+                </tr>
+                <tr>
+                  <td>Hoàn thiện lắp đặt và kết nối</td>
+                  <td class="num">3–5</td>
+                  <td class="num">16/11 đến 06/12/2026</td>
+                  <td><b>Các khu vực sản xuất mới:</b> lắp PLC/HMI, công tơ điện, cảm biến dòng. Dựng mô hình phân xưởng
+                    và dashboard.</td>
+                </tr>
+                <tr>
+                  <td>Vận hành mùa cao điểm</td>
+                  <td class="num">5–10</td>
+                  <td class="num">30/11/2026 đến 10/01/2027</td>
+                  <td>Phân xưởng, kho lạnh và máy nén chạy trên một hệ thống: cảnh báo, nhật ký ca và HACCP tự điền, báo
+                    cáo ca chung, kWh theo dây chuyền và máy nén.</td>
+                </tr>
+                <tr>
+                  <td>Đo kết quả và nghiệm thu</td>
+                  <td class="num">11–12</td>
+                  <td class="num">11/01 đến 24/01/2027</td>
+                  <td>So với baseline: sản lượng, dừng máy, OEE, kWh/kg, thời gian trong dải nhiệt từng kho, số cảnh báo
+                    do xả đá.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="table-frame" style="margin-top:18px">
+          <div class="table-scroll">
+            <table class="t">
+              <thead>
+                <tr>
+                  <th>Mốc</th>
+                  <th class="num">Ngày</th>
+                  <th>Đầu ra</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ký hợp đồng pilot</td>
+                  <td class="num">Trước 30/10/2026</td>
+                  <td>Phạm vi, chỉ tiêu và người phụ trách hai bên</td>
+                </tr>
+                <tr>
+                  <td>Hoàn thiện kho lạnh</td>
+                  <td class="num">30/10/2026</td>
+                  <td>Đầu dò Kho lạnh 1 đã sửa, cả 16 thiết bị có cảnh báo, nhật ký ca kho lạnh chạy tự động</td>
+                </tr>
+                <tr>
+                  <td>Baseline sản xuất</td>
+                  <td class="num">13/11/2026</td>
+                  <td>Bảng baseline có chữ ký hai bên</td>
+                </tr>
+                <tr>
+                  <td>Hoàn tất lắp đặt</td>
+                  <td class="num">06/12/2026</td>
+                  <td>Dữ liệu khu vực sản xuất mới về đủ 95% thời gian</td>
+                </tr>
+                <tr>
+                  <td>Họp đánh giá Đạt/Không đạt</td>
+                  <td class="num">08/01/2027</td>
+                  <td>Quyết định tiếp tục dựa trên 3 chỉ tiêu</td>
+                </tr>
+                <tr>
+                  <td>Nghiệm thu</td>
+                  <td class="num">22/01/2027</td>
+                  <td>Báo cáo so với baseline, phạm vi triển khai toàn nhà máy</td>
+                </tr>
+                <tr>
+                  <td>Hợp đồng chính thức</td>
+                  <td class="num">Trước 31/03/2027</td>
+                  <td>Triển khai từ quý 2/2027</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3>Vì sao 12 tuần</h3>
+        <ul class="why">
+          <li>Kho lạnh và máy nén hoàn thiện trước khi pilot bắt đầu, nên SGF có cảnh báo và nhật ký ca đầy đủ ngay từ
+            tuần 1.</li>
+          <li>Lắp phần cứng xong đầu tháng 12, trước mùa cao điểm, khi dây chuyền còn dễ dừng.</li>
+          <li>6 tuần vận hành ở mức tải cao nhất năm cho kết quả đáng tin nhất.</li>
+          <li>Quyết định ở tuần 10, nghiệm thu ở tuần 12, đều xong trước Tết.</li>
+        </ul>
+        <p class="alt"><b>Phương án khác.</b> Bắt đầu 01/03/2027, 12 tuần, quyết định cuối tháng 5/2027. Hợp đồng chính
+          thức lùi sang quý 3/2027. Kho lạnh chạy tiếp đến ngày bắt đầu.</p>
+
+        <h3>Chỉ tiêu Đạt/Không đạt</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t">
+              <thead>
+                <tr>
+                  <th>Chỉ tiêu</th>
+                  <th>Ngưỡng đạt</th>
+                  <th>Cách đo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Dữ liệu đầy đủ</td>
+                  <td>Từ 95% thời gian có dữ liệu hợp lệ, 4 tuần liền, cho cả thiết bị phân xưởng và kho lạnh</td>
+                  <td>Minder đếm theo từng thiết bị</td>
+                </tr>
+                <tr>
+                  <td>Nhật ký ca tự điền</td>
+                  <td>Từ 90% số ca được trưởng ca xác nhận; thời gian ghi chép giảm từ 70%</td>
+                  <td>Bấm giờ trước và sau. Kho lạnh đo từ tuần 1, khu vực sản xuất mới từ tuần 5</td>
+                </tr>
+                <tr>
+                  <td>Giá trị lượng hóa</td>
+                  <td>Từ 3 cơ hội cải thiện, tổng giá trị mỗi năm lớn hơn phí pilot. Cơ hội ở kho lạnh được tính khi kết
+                    quả được đo trong pilot có phí</td>
+                  <td>Bảng tính chung, hai bên cùng ký</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="note">Theo dõi thêm: độ chính xác cảnh báo từ 80% sau tinh chỉnh, từ 15 người dùng mỗi tuần, từ 90%
+          lần dừng máy trên 5 phút có ghi lý do, không còn cảnh báo kho lạnh mở do xả đá.</p>
+
+        <h3>Phí và điều khoản</h3>
+        <div class="price">
+          <div class="price-box">
+            <p class="label">Phí trọn gói</p>
+            <p class="amount num">320,4 triệu đồng <span class="plus">+ thuê phần cứng</span></p>
+            <p class="sub">Chưa VAT. Khoảng 12.300 USD cộng tiền thuê phần cứng theo số máy áp dụng.</p>
+            <div class="split" aria-hidden="true"><i style="flex:180;background:var(--blue-500)"></i><i
+                style="flex:140;background:var(--orange-500)"></i></div>
+            <ul class="split-legend">
+              <li><span style="--c:var(--blue-300)">Thuê phần cứng cần thiết</span><b class="num">Theo số máy áp
+                  dụng</b></li>
+              <li><span style="--c:var(--blue-500)">Đội triển khai FDE</span><b class="num">180 triệu</b></li>
+              <li><span style="--c:var(--orange-500)">Minder License, giảm 10%</span><b class="num">140,4 triệu</b></li>
+            </ul>
+          </div>
+          <ul class="terms">
+            <li>Phí tính cho 3 tháng pilot. SGF thanh toán dần trong 12 tháng, từ 11/2026 đến 10/2027: mỗi tháng
+              26.700.000 đồng, trả vào cuối mỗi quý. Lịch chi tiết ở phụ lục A.</li>
+            <li>Phần cứng cần thiết, Celesnity cho thuê theo số máy áp dụng. Tiền thuê chốt sau khảo sát và cộng vào
+              lịch
+              thanh toán theo quý.</li>
+            <li>SGF sở hữu dữ liệu thô. Dữ liệu lưu trên cloud. Chỉ người được cấp
+              quyền mới truy cập.</li>
+            <li>Nếu SGF ký hợp đồng chính thức trong 60 ngày sau nghiệm thu, phí Minder License của pilot được trừ vào
+              năm đầu.</li>
+            <li>Cách tính chi tiết ở phụ lục A.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Phụ lục A -->
+    <section id="phu-luc-a" class="appendix">
+      <div class="wrap">
+        <p class="sec-num">Phụ lục A</p>
+        <h2>Chi phí pilot</h2>
+        <p class="deck">Hai khoản cố định, tính cho 3 tháng. Phần cứng cần thiết, Celesnity cho thuê theo số máy áp
+          dụng.
+          SGF thanh
+          toán dần trong 12 tháng, vào cuối mỗi quý.</p>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t">
+              <colgroup>
+                <col style="width:17%">
+                <col style="width:25%">
+                <col>
+                <col style="width:14%">
+                <col style="width:9%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Hạng mục</th>
+                  <th>Công thức</th>
+                  <th>Saigon Food</th>
+                  <th class="num">Thành tiền (đồng)</th>
+                  <th class="num">USD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Thuê phần cứng cần thiết<br></td>
+                  <td>Số thiết bị thuê × đơn giá thuê, chốt sau khảo sát</td>
+                  <td>Khoảng 70 thiết bị, trong đó 40 thiết bị do Celesnity thiết kế riêng. Chốt danh mục sau khảo sát:
+                    công tơ điện đa kênh, cảm biến dòng, camera AI đọc
+                    đồng hồ, gateway công nghiệp có dây, cảm biến nhiệt độ sản phẩm</td>
+                  <td class="num">Theo số máy áp dụng</td>
+                  <td class="num">–</td>
+                </tr>
+                <tr>
+                  <td>Đội triển khai FDE</td>
+                  <td>Số kỹ sư × số tháng × 30.000.000 đồng</td>
+                  <td>2 kỹ sư × 3 tháng × 30.000.000 đồng</td>
+                  <td class="num">180.000.000</td>
+                  <td class="num">≈ 6.900</td>
+                </tr>
+                <tr>
+                  <td>Minder License</td>
+                  <td>Số tháng × phí Minder License hằng tháng trong pilot</td>
+                  <td>3 tháng × 52.000.000 đồng = 156.000.000 đồng, giảm 10% cho Saigon Food với vai
+                    trò đối tác chiến lược. Gồm:<ul class="lic">
+                      <li>Trợ lý AI thông minh: theo dõi dữ liệu theo thời gian thực, báo cáo điểm bất thường, tạo
+                        dashboard, báo cáo tổng quan theo nhu cầu</li>
+                      <li>Mô hình nhà máy 3D với 8 module: Lên kế hoạch, Sản xuất, Vận chuyển, Kiểm tra, Giám sát, Bảo
+                        trì (bảo trì dự báo), Bảo vệ, Tối ưu</li>
+                      <li>Dashboard theo dõi thời gian thực: quản lý vật tư, dây chuyền sản xuất, năng lượng</li>
+                      <li>Tạo lịch báo cáo tự động</li>
+                    </ul>
+                  </td>
+                  <td class="num">140.400.000</td>
+                  <td class="num">≈ 5.400</td>
+                </tr>
+                <tr class="total">
+                  <td>Tổng, chưa VAT</td>
+                  <td>Thuê phần cứng + FDE + Minder License</td>
+                  <td>320.400.000 đồng cộng tiền thuê phần cứng theo số máy áp dụng</td>
+                  <td class="num">320.400.000<br><small>+ thuê phần cứng</small></td>
+                  <td class="num">≈ 12.300<br><small>+ thuê phần cứng</small></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3>Lộ trình thanh toán phí pilot</h3>
+        <div class="table-frame" style="margin-top:18px">
+          <div class="table-scroll">
+            <table class="t">
+              <thead>
+                <tr>
+                  <th>Kỳ</th>
+                  <th>Tháng tính phí</th>
+                  <th class="num">Số tháng</th>
+                  <th class="num">Hạn thanh toán</th>
+                  <th class="num">Số tiền (đồng)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Quý IV/2026</td>
+                  <td>T11–T12/2026</td>
+                  <td class="num">2</td>
+                  <td class="num">31/12/2026</td>
+                  <td class="num">53.400.000</td>
+                </tr>
+                <tr>
+                  <td>Quý I/2027</td>
+                  <td>T1–T3/2027</td>
+                  <td class="num">3</td>
+                  <td class="num">31/03/2027</td>
+                  <td class="num">80.100.000</td>
+                </tr>
+                <tr>
+                  <td>Quý II/2027</td>
+                  <td>T4–T6/2027</td>
+                  <td class="num">3</td>
+                  <td class="num">30/06/2027</td>
+                  <td class="num">80.100.000</td>
+                </tr>
+                <tr>
+                  <td>Quý III/2027</td>
+                  <td>T7–T9/2027</td>
+                  <td class="num">3</td>
+                  <td class="num">30/09/2027</td>
+                  <td class="num">80.100.000</td>
+                </tr>
+                <tr>
+                  <td>Quý IV/2027</td>
+                  <td>T10/2027</td>
+                  <td class="num">1</td>
+                  <td class="num">31/10/2027</td>
+                  <td class="num">26.700.000</td>
+                </tr>
+                <tr class="total">
+                  <td>Tổng, chưa VAT</td>
+                  <td>11/2026 đến 10/2027</td>
+                  <td class="num">12</td>
+                  <td></td>
+                  <td class="num">320.400.000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3>Cơ sở đơn giá</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t kv">
+              <tbody>
+                <tr>
+                  <td>Kỹ sư FDE</td>
+                  <td>30 triệu đồng mỗi người mỗi tháng, khoảng 1.150 USD. Kỹ sư cấp cao thuê ngoài tại Việt Nam theo
+                    giá quốc tế ở mức 4.500 đến 6.300 USD mỗi tháng.</td>
+                </tr>
+                <tr>
+                  <td>Minder License</td>
+                  <td>Trong pilot: 2.000 USD, khoảng 52 triệu đồng mỗi tháng. Saigon Food được giảm 10% với vai trò
+                    đối tác chiến lược.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <h3>Cách đo giá trị</h3>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t">
+              <thead>
+                <tr>
+                  <th>Nguồn giá trị</th>
+                  <th>Cách tính</th>
+                  <th>Tham chiếu</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Điện hệ thống lạnh</td>
+                  <td>kWh trước và sau × 2.204 đồng/kWh</td>
+                  <td>Tối ưu điều khiển tiết kiệm 10 đến 20% điện lạnh</td>
+                </tr>
+                <tr>
+                  <td>Sửa chữa máy</td>
+                  <td>Số lần hỏng lớn tránh được × chi phí sửa</td>
+                  <td>SGF: trên 100 triệu đồng mỗi lần sửa một máy</td>
+                </tr>
+                <tr>
+                  <td>Giờ công ghi chép</td>
+                  <td>Phút ghi chép mỗi ca × số ca × đơn giá giờ công</td>
+                  <td>Đo trong tuần 1 và 2</td>
+                </tr>
+                <tr>
+                  <td>Hao hụt và chất lượng</td>
+                  <td>Lô lệch nhiệt độ hoặc phải làm lại × giá trị lô</td>
+                  <td>Dữ liệu QA của SGF</td>
+                </tr>
+                <tr>
+                  <td>Sản lượng</td>
+                  <td>Giờ dừng máy giảm × sản lượng mỗi giờ</td>
+                  <td>Dữ liệu dây chuyền trong pilot</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section id="phu-luc-c" class="appendix">
+      <div class="wrap">
+        <p class="sec-num">Phụ lục B</p>
+        <h2>Nguồn số liệu</h2>
+        <p class="deck">Mọi số trong báo cáo lấy từ nền tảng Minder, giờ Việt Nam.</p>
+        <div class="table-frame">
+          <div class="table-scroll">
+            <table class="t kv">
+              <tbody>
+                <tr>
+                  <td>Môi trường chính thức</td>
+                  <td>app.celesnity.com, 12/10/2026 17:28 đến 18/10/2026 14:37. 805.299 bản ghi BOSS Mini; 10.749 bản
+                    ghi firmware máy nén 4.</td>
+                </tr>
+                <tr>
+                  <td>Môi trường thử nghiệm</td>
+                  <td>Từ 29/09/2026. 1.698.233 bản ghi BOSS Mini, 16 ngày có dữ liệu.</td>
+                </tr>
+                <tr>
+                  <td>Chu kỳ đo</td>
+                  <td>53.600 bản ghi của Kho lạnh 1 trong 5 ngày 21 giờ, tức 9,5 giây một bản ghi. Từ lúc đo đến lúc vào
+                    hệ thống khoảng 7,5 giây.</td>
+                </tr>
+                <tr>
+                  <td>Đầu dò không hợp lệ</td>
+                  <td>Đầu dò 1 trả về 0,0 °C</td>
+                </tr>
+                <tr>
+                  <td>Ngưỡng</td>
+                  <td>Kho lạnh −22 đến −18 °C. Giờ cấp đông IQF: nhiệt độ từ −35 °C trở xuống. Giờ chạy máy nén: dòng
+                    điện trên 20 A.</td>
+                </tr>
+                <tr>
+                  <td>Công suất máy nén</td>
+                  <td>√3 × 380 V × dòng điện × 0,85</td>
+                </tr>
+                <tr>
+                  <td>Bảng dữ liệu</td>
+                  <td><span class="mono">tnt_sgnf00000000_bronze</span>: devices, kho_lanh_1/2/3_timeseries,
+                    iqf_1/2/3_timeseries, mqtt_events. <span class="mono">tnt_sgnf00000001_bronze</span>:
+                    compressor_4_timeseries, mqtt_events.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer>
+    <div class="wrap">Celesnity. Báo cáo lập ngày 18/10/2026 cho Saigon Food. Số liệu trích từ nền tảng Minder.</div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.bench tr.sum').forEach(function (row) {
+      var body = row.parentElement, btn = row.querySelector('button'), hint = row.querySelector('.hint');
+      row.addEventListener('click', function () {
+        var open = body.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+        hint.textContent = open ? 'Thu gọn' : 'Xem chi tiết';
+      });
+    });
+  </script>
+</body>
+
+</html>
