@@ -8,8 +8,8 @@ Thư mục chung cho các landing deck tương tác gửi khách hàng. Mỗi kh
 | `/nestle-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Nestlé Trị An × Celesnity |
 | `/isuzu-vietnam` (+ `/phu-luc`, `/ban-in`) | Nhà máy siêu thông minh · Isuzu Việt Nam × Celesnity |
 | `/takako-vietnam` (+ `/phu-luc`, `/ban-in`) | Minder AI · Takako × Celesnity |
-| `/saigon-food` (+ `/v1`) | Báo cáo pilot Minder · Saigon Food, bản gửi SGF: chỉ có phí pilot, bỏ giá hợp đồng chính thức, so sánh thị trường và tham chiếu giá (trang tĩnh `public/decks/saigon-food/bao-cao-pilot-v1.html`, rewrite trong `next.config.ts`, không qua DeckProvider) |
-| `/saigon-food/v2` | Bản đầy đủ, có giá hợp đồng chính thức và so sánh thị trường (`bao-cao-pilot-v2.html`). Hai file là hai bản riêng: sửa nội dung chung thì sửa cả hai |
+| `/saigon-food/report` | Báo cáo pilot Minder · Saigon Food, bản đầy đủ: phí pilot, giá hợp đồng chính thức và so sánh thị trường (trang tĩnh `public/decks/saigon-food/bao-cao-pilot-v2.html`, rewrite trong `next.config.ts`, không qua DeckProvider) |
+| `/saigon-food/v1` | Bản chỉ có phí pilot, bỏ giá hợp đồng chính thức, so sánh thị trường và tham chiếu giá (`bao-cao-pilot-v1.html`). Hai file là hai bản riêng: sửa nội dung chung thì sửa cả hai |
 | `/` | Cổng chọn deck: nhà đầu tư theo khu vực; người mua theo ngôn ngữ |
 
 Đường dẫn cũ `/phu-luc`, `/ban-in`, `/v1` tự chuyển về `/hoa-phat/...`.
