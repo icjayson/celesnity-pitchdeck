@@ -42,7 +42,7 @@ type Choice = {
 export type PortalStep = "perspective" | "investor" | "language" | "depth";
 
 const COPY = {
-  tagline: "World Model Pitch Deck",
+  tagline: "Minder AI Pitch Deck",
   back: "Back",
   brand: "Minder AI",
   whoAreYou: "Which one are you?",
