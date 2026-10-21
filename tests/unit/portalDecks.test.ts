@@ -52,13 +52,11 @@ describe("deck portal routing", () => {
   });
 
   // Cloud Run rejects any single response over 32 MiB, and a video's first request asks for the whole file.
-  it("keeps every portal file under Cloud Run's 32 MiB response limit", () => {
-    for (const dir of ["portal", "briefings"]) {
-      const root = join(process.cwd(), "public", dir);
-      for (const name of readdirSync(root)) {
-        const size = statSync(join(root, name)).size;
-        expect(size, `${dir}/${name}`).toBeLessThan(32 * 1024 * 1024);
-      }
+  it("keeps every public file under Cloud Run's 32 MiB response limit", () => {
+    const root = join(process.cwd(), "public");
+    for (const name of readdirSync(root, { recursive: true, encoding: "utf8" })) {
+      const stat = statSync(join(root, name));
+      if (stat.isFile()) expect(stat.size, name).toBeLessThan(32 * 1024 * 1024);
     }
   });
 });
