@@ -147,7 +147,8 @@ export const PORTAL_DECKS: PortalDeck[] = [
     audience: "buyer",
     locale: "zh",
     depth: null,
-    title: "Celesnity · 买方简介",
+    title: "Minder与世界模型 · 致工厂负责人",
+    url: `${DIR}/buyer-non-technical-zh.pdf`,
   },
   {
     audience: "buyer",
