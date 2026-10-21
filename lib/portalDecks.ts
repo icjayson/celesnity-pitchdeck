@@ -60,7 +60,7 @@ export const BUYER_LANGUAGES: readonly PortalOption<Locale>[] = [
   { id: "it", label: "Italiano", flags: "🇮🇹 🇪🇺" },
   { id: "es", label: "Español", flags: "🇪🇸 🇪🇺" },
   { id: "pt", label: "Português", flags: "🇵🇹 🇪🇺" },
-  { id: "zh", label: "中文", flags: "🇨🇳" },
+  { id: "zh", label: "中文", flags: "🇨🇳 🇹🇼" },
   { id: "ko", label: "한국어", flags: "🇰🇷" },
   { id: "ja", label: "日本語", flags: "🇯🇵" },
   { id: "th", label: "ภาษาไทย", flags: "🇹🇭" },
