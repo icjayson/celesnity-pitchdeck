@@ -50,11 +50,11 @@ export type PortalOption<T extends string> = {
 export const INVESTOR_REGIONS: readonly PortalOption<InvestorRegion>[] = [
   { id: "usa", label: "USA", flags: "🇺🇸" },
   { id: "europe", label: "Europe", flags: "🇬🇧 🇪🇺" },
-  { id: "global", label: "Global", flags: "🌐" },
+  { id: "global", label: "Global", flags: "🌍" },
 ];
 
 export const BUYER_LANGUAGES: readonly PortalOption<Locale>[] = [
-  { id: "en", label: "English", flags: "🇬🇧 🇺🇸 🇪🇺 🌐" },
+  { id: "en", label: "English", flags: "🇬🇧 🇺🇸 🇪🇺 🌍" },
   { id: "fr", label: "Français", flags: "🇫🇷 🇪🇺" },
   { id: "de", label: "Deutsch", flags: "🇩🇪 🇪🇺" },
   { id: "it", label: "Italiano", flags: "🇮🇹 🇪🇺" },
