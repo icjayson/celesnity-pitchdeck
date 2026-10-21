@@ -55,17 +55,17 @@ export type PortalOption<T extends string> = {
 export const INVESTOR_REGIONS: readonly PortalOption<InvestorRegion>[] = [
   { id: "usa", slug: "usa", label: "USA", flags: "🇺🇸" },
   { id: "europe", slug: "europe", label: "Europe", flags: "🇬🇧 🇪🇺" },
-  { id: "global", slug: "global", label: "Global", flags: "🌐" },
+  { id: "global", slug: "global", label: "Global", flags: "🌍" },
 ];
 
 export const BUYER_LANGUAGES: readonly PortalOption<Locale>[] = [
-  { id: "en", slug: "english", label: "English", flags: "🇬🇧 🇺🇸 🇪🇺 🌐" },
+  { id: "en", slug: "english", label: "English", flags: "🇬🇧 🇺🇸 🇪🇺 🌍" },
   { id: "fr", slug: "french", label: "Français", flags: "🇫🇷 🇪🇺" },
   { id: "de", slug: "german", label: "Deutsch", flags: "🇩🇪 🇪🇺" },
   { id: "it", slug: "italian", label: "Italiano", flags: "🇮🇹 🇪🇺" },
   { id: "es", slug: "spanish", label: "Español", flags: "🇪🇸 🇪🇺" },
   { id: "pt", slug: "portuguese", label: "Português", flags: "🇵🇹 🇪🇺" },
-  { id: "zh", slug: "chinese", label: "中文", flags: "🇨🇳" },
+  { id: "zh", slug: "chinese", label: "中文", flags: "🇨🇳 🇹🇼" },
   { id: "ko", slug: "korean", label: "한국어", flags: "🇰🇷" },
   { id: "ja", slug: "japanese", label: "日本語", flags: "🇯🇵" },
   { id: "th", slug: "thai", label: "ภาษาไทย", flags: "🇹🇭" },

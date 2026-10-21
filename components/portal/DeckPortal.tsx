@@ -298,6 +298,7 @@ const TONE: Record<
 function ChoiceCard({ choice }: { choice: Choice }) {
   const tone = TONE[choice.tone];
   const disabled = !choice.href;
+  const flags = choice.flags?.split(" ") ?? [];
   const className = `group relative flex w-full min-w-0 max-w-full items-center text-left backdrop-blur transition duration-300 ease-[var(--ease-brand)] motion-safe:animate-[portal-in_480ms_var(--ease-brand)] ${
     choice.compact
       ? "min-h-[112px] gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 sm:min-h-[124px] sm:p-6"
@@ -313,9 +314,20 @@ function ChoiceCard({ choice }: { choice: Choice }) {
       {choice.flags ? (
         <span
           aria-hidden
-          className="w-[76px] shrink-0 text-center text-[26px] leading-tight sm:w-[88px] sm:text-[30px]"
+          className={`flex shrink-0 flex-nowrap items-center justify-center gap-1.5 text-[24px] leading-none sm:gap-2 sm:text-[28px] ${
+            flags.length > 2
+              ? "w-[124px] sm:w-[148px]"
+              : "w-[76px] sm:w-[88px]"
+          }`}
         >
-          {choice.flags}
+          {flags.map((flag) => (
+            <span
+              key={flag}
+              className={flag === "🌍" ? "text-[0.88em]" : undefined}
+            >
+              {flag}
+            </span>
+          ))}
         </span>
       ) : (
         <Signal
