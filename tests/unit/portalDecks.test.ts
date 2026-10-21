@@ -5,6 +5,8 @@ import {
   BUYER_LANGUAGES,
   INVESTOR_REGIONS,
   PORTAL_DECKS,
+  PORTAL_REWRITES,
+  deckPath,
   findBuyerDeck,
   findInvestorDeck,
 } from "@/lib/portalDecks";
@@ -37,5 +39,15 @@ describe("deck portal routing", () => {
       if (!deck.url) continue;
       expect(existsSync(join(process.cwd(), "public", deck.url))).toBe(true);
     }
+  });
+
+  it("gives every deck a readable path", () => {
+    expect(deckPath(findInvestorDeck("usa")!)).toBe("/investor-deck/usa");
+    expect(deckPath(findBuyerDeck("en", "technical")!)).toBe("/sales-deck/english/technical");
+    expect(deckPath(findBuyerDeck("de")!)).toBe("/sales-deck/german");
+
+    const sources = PORTAL_REWRITES.map((rewrite) => rewrite.source);
+    expect(new Set(sources).size).toBe(sources.length);
+    expect(PORTAL_REWRITES).toHaveLength(PORTAL_DECKS.filter((deck) => deck.url).length);
   });
 });

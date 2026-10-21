@@ -1,18 +1,25 @@
-"use client";
-
-/** Root portal: perspective → investor region OR buyer language → English depth. */
-import { useState } from "react";
+/** Root portal: perspective → investor region OR buyer language → English depth. Each step has its own path. */
+import Link from "next/link";
+import { EB_Garamond, Inter } from "next/font/google";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
   BUYER_LANGUAGES,
+  ENGLISH_SALES_PATH,
+  INVESTOR_PATH,
   INVESTOR_REGIONS,
+  SALES_PATH,
+  deckPath,
   findBuyerDeck,
   findInvestorDeck,
-  type Audience,
   type Depth,
-  type Locale,
+  type PortalDeck,
 } from "@/lib/portalDecks";
+import { FilmTabs, type FilmTab } from "./FilmTabs";
 import { SiteFooter } from "./footer/SiteFooter";
+
+/** Same type as the celesnity.com blog: EB Garamond headings, Inter text. */
+const heading = EB_Garamond({ subsets: ["latin"], weight: "400", display: "swap" });
+const text = Inter({ subsets: ["latin"], display: "swap" });
 
 type Tone = "blue" | "orange";
 type Glyph = "rise" | "pulse";
@@ -26,15 +33,16 @@ type Choice = {
   glyph?: Glyph;
   compact?: boolean;
   href?: string;
-  onSelect?: () => void;
+  /** PDFs open in a new tab; portal steps stay in this tab. */
+  newTab?: boolean;
 };
 
-type State = { audience?: Audience; locale?: Locale };
+export type PortalStep = "perspective" | "investor" | "language" | "depth";
 
 const COPY = {
-  tagline: "Minder AI · Briefings",
+  tagline: "World Model Pitch Deck",
   back: "Back",
-  perspective: "Which perspective is yours?",
+  brand: ["1779 Lab", "Industrial World Model"],
   investorRegion: "Where are you based?",
   language: "Which language do you speak?",
   depth: "How technical should we go?",
@@ -43,23 +51,43 @@ const COPY = {
   nonTechnical: ["Non-technical", "Focus on the decision"],
   technical: ["Technical", "Explore the architecture"],
   opens: "Opens the PDF in a new tab",
+  film: "1779 Lab films",
 } as const;
 
-export function DeckPortal() {
-  const [state, setState] = useState<State>({});
-  const { audience, locale } = state;
+/** Home-page films, played in this order. The Minder demo runs at 1.25× speed. */
+const FILMS: readonly FilmTab[] = [
+  {
+    key: "world-model",
+    label: "World Model",
+    src: "/portal/world-model.mp4",
+    poster: "/portal/world-model-poster.jpg",
+  },
+  {
+    key: "minder",
+    label: "Minder",
+    src: "/portal/minder-demo.mp4",
+    poster: "/portal/minder-demo-poster.jpg",
+    rate: 1.25,
+  },
+];
 
+/** Link to a deck's PDF path, or nothing while its PDF is missing (card shows disabled). */
+function pdfLink(deck: PortalDeck | undefined): Pick<Choice, "href" | "newTab"> {
+  return deck?.url ? { href: deckPath(deck), newTab: true } : {};
+}
+
+export function DeckPortal({ step: current = "perspective" }: { step?: PortalStep }) {
   let step: {
     title: string;
     choices: Choice[];
-    back?: () => void;
+    back?: string;
     footnote?: string;
     compactGrid?: boolean;
   };
 
-  if (!audience) {
+  if (current === "perspective") {
     step = {
-      title: COPY.perspective,
+      title: COPY.brand[0],
       choices: [
         {
           key: "investor",
@@ -67,7 +95,8 @@ export function DeckPortal() {
           hint: COPY.investor[1],
           tone: "blue",
           glyph: "rise",
-          onSelect: () => setState({ audience: "investor" }),
+          compact: true,
+          href: INVESTOR_PATH,
         },
         {
           key: "buyer",
@@ -75,14 +104,15 @@ export function DeckPortal() {
           hint: COPY.buyer[1],
           tone: "orange",
           glyph: "pulse",
-          onSelect: () => setState({ audience: "buyer" }),
+          compact: true,
+          href: SALES_PATH,
         },
       ],
     };
-  } else if (audience === "investor") {
+  } else if (current === "investor") {
     step = {
       title: COPY.investorRegion,
-      back: () => setState({}),
+      back: "/",
       compactGrid: true,
       choices: INVESTOR_REGIONS.map((region, index) => ({
         key: region.id,
@@ -90,29 +120,25 @@ export function DeckPortal() {
         flags: region.flags,
         compact: true,
         tone: index % 2 === 0 ? "blue" : "orange",
-        href: findInvestorDeck(region.id)?.url,
+        ...pdfLink(findInvestorDeck(region.id)),
       })),
       footnote: COPY.opens,
     };
-  } else if (!locale) {
+  } else if (current === "language") {
     step = {
       title: COPY.language,
-      back: () => setState({}),
+      back: "/",
       compactGrid: true,
-      choices: BUYER_LANGUAGES.map((language, index) => {
-        const isEnglish = language.id === "en";
-        return {
-          key: language.id,
-          label: language.label,
-          flags: language.flags,
-          compact: true,
-          tone: index % 2 === 0 ? "blue" : "orange",
-          onSelect: isEnglish
-            ? () => setState({ audience: "buyer", locale: "en" })
-            : undefined,
-          href: isEnglish ? undefined : findBuyerDeck(language.id)?.url,
-        };
-      }),
+      choices: BUYER_LANGUAGES.map((language, index) => ({
+        key: language.id,
+        label: language.label,
+        flags: language.flags,
+        compact: true,
+        tone: index % 2 === 0 ? "blue" : "orange",
+        ...(language.id === "en"
+          ? { href: ENGLISH_SALES_PATH }
+          : pdfLink(findBuyerDeck(language.id))),
+      })),
     };
   } else {
     const depthChoice = (depth: Depth): Choice => {
@@ -126,12 +152,12 @@ export function DeckPortal() {
         hint,
         tone: isTechnical ? "orange" : "blue",
         glyph: isTechnical ? "pulse" : "rise",
-        href: findBuyerDeck("en", depth)?.url,
+        ...pdfLink(findBuyerDeck("en", depth)),
       };
     };
     step = {
       title: COPY.depth,
-      back: () => setState({ audience: "buyer" }),
+      back: SALES_PATH,
       choices: [
         depthChoice("non-technical"),
         depthChoice("technical"),
@@ -142,7 +168,7 @@ export function DeckPortal() {
 
   return (
     <>
-      <main className="theme-dark grain relative flex min-h-[100svh] flex-col overflow-hidden">
+      <main className={`theme-dark grain relative flex min-h-[100svh] flex-col overflow-hidden ${text.className}`}>
         <span
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-[28%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 blur-[120px]"
@@ -152,7 +178,11 @@ export function DeckPortal() {
           className="pointer-events-none absolute -right-24 top-[60%] h-[320px] w-[320px] rounded-full bg-orange-500/10 blur-[120px]"
         />
 
-        <div className="relative mx-auto flex w-full max-w-[1200px] flex-1 flex-col px-4 py-6 sm:px-8 sm:py-10 lg:px-12">
+        <div
+          className={`relative mx-auto flex w-full flex-1 flex-col px-4 py-6 sm:px-8 sm:py-10 ${
+            current === "perspective" ? "max-w-[1680px] lg:px-10" : "max-w-[1200px] lg:px-12"
+          }`}
+        >
           <header className="flex items-center justify-between gap-4">
             <span className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -162,43 +192,68 @@ export function DeckPortal() {
               </span>
             </span>
             {step.back ? (
-              <button
-                type="button"
-                onClick={step.back}
+              <Link
+                href={step.back}
                 className="inline-flex h-10 items-center gap-2 rounded-[var(--radius-control)] border border-navy-700 bg-navy-900/60 px-4 text-[14px] font-medium text-blue-300 transition-colors hover:border-blue-400 hover:text-white"
               >
                 <ArrowLeft size={16} strokeWidth={1.5} aria-hidden />
                 {COPY.back}
-              </button>
+              </Link>
             ) : null}
           </header>
 
           <div className="flex flex-1 flex-col justify-center py-14 sm:py-20">
-            <p className="text-center text-[13px] font-medium uppercase tracking-[0.14em] text-blue-300">
-              {COPY.tagline}
-            </p>
-            <h1
-              key={step.title}
-              aria-live="polite"
-              className="mx-auto mt-4 max-w-[16ch] text-balance text-center text-[36px] font-semibold leading-[1.08] tracking-[-0.03em] sm:text-[52px] lg:max-w-none lg:whitespace-nowrap lg:text-[64px] motion-safe:animate-[portal-in_480ms_var(--ease-brand)]"
-            >
-              {step.title}
-            </h1>
+            {current === "perspective" ? (
+              /* First step: brand and the two choices on the left, intro film on the right (below them under xl). */
+              <div className="grid w-full items-center gap-12 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] xl:gap-14">
+                <div className="flex min-w-0 flex-col items-center xl:items-start">
+                  <h1
+                    key={step.title}
+                    className={`${heading.className} text-balance text-center text-[44px] font-normal leading-[1.02] tracking-[-0.01em] sm:text-[68px] xl:whitespace-nowrap xl:text-left xl:text-[58px] 2xl:text-[76px] motion-safe:animate-[portal-in_480ms_var(--ease-brand)]`}
+                  >
+                    <span className="block text-white">{COPY.brand[0]}</span>
+                    <span className="block text-blue-300/75">{COPY.brand[1]}</span>
+                  </h1>
+                  <div className="mt-10 grid w-full max-w-[640px] gap-4 sm:mt-12 sm:grid-cols-2 xl:max-w-[520px] xl:grid-cols-1">
+                    {step.choices.map((choice) => (
+                      <ChoiceCard
+                        key={`${step.title}-${choice.key}`}
+                        choice={choice}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <FilmTabs tabs={FILMS} label={COPY.film} />
+              </div>
+            ) : (
+              <>
+                <p className="text-center text-[13px] font-medium uppercase tracking-[0.14em] text-blue-300">
+                  {COPY.tagline}
+                </p>
+                <h1
+                  key={step.title}
+                  aria-live="polite"
+                  className={`${heading.className} mx-auto mt-4 max-w-[16ch] text-balance text-center text-[40px] font-normal leading-[1.05] tracking-[-0.01em] sm:text-[56px] lg:max-w-none lg:whitespace-nowrap lg:text-[72px] motion-safe:animate-[portal-in_480ms_var(--ease-brand)]`}
+                >
+                  {step.title}
+                </h1>
 
-            <div
-              className={`mx-auto mt-12 grid w-full max-w-[1176px] gap-4 sm:mt-16 lg:gap-5 ${
-                step.compactGrid
-                  ? "sm:grid-cols-2 xl:grid-cols-3"
-                  : "xl:grid-cols-2 xl:gap-6"
-              }`}
-            >
-              {step.choices.map((choice) => (
-                <ChoiceCard
-                  key={`${step.title}-${choice.key}`}
-                  choice={choice}
-                />
-              ))}
-            </div>
+                <div
+                  className={`mx-auto mt-12 grid w-full max-w-[1176px] gap-4 sm:mt-16 lg:gap-5 ${
+                    step.compactGrid
+                      ? "sm:grid-cols-2 xl:grid-cols-3"
+                      : "xl:grid-cols-2 xl:gap-6"
+                  }`}
+                >
+                  {step.choices.map((choice) => (
+                    <ChoiceCard
+                      key={`${step.title}-${choice.key}`}
+                      choice={choice}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
 
             {step.footnote ? (
               <p className="muted mt-6 text-center text-[14px]">
@@ -242,7 +297,7 @@ const TONE: Record<
 
 function ChoiceCard({ choice }: { choice: Choice }) {
   const tone = TONE[choice.tone];
-  const disabled = !choice.onSelect && !choice.href;
+  const disabled = !choice.href;
   const className = `group relative flex w-full min-w-0 max-w-full items-center text-left backdrop-blur transition duration-300 ease-[var(--ease-brand)] motion-safe:animate-[portal-in_480ms_var(--ease-brand)] ${
     choice.compact
       ? "min-h-[112px] gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 sm:min-h-[124px] sm:p-6"
@@ -302,7 +357,15 @@ function ChoiceCard({ choice }: { choice: Choice }) {
     </>
   );
 
-  if (choice.href) {
+  if (!choice.href) {
+    return (
+      <button type="button" disabled className={className}>
+        {body}
+      </button>
+    );
+  }
+
+  if (choice.newTab) {
     return (
       <a
         href={choice.href}
@@ -316,14 +379,9 @@ function ChoiceCard({ choice }: { choice: Choice }) {
   }
 
   return (
-    <button
-      type="button"
-      onClick={choice.onSelect}
-      disabled={disabled}
-      className={className}
-    >
+    <Link href={choice.href} className={className}>
       {body}
-    </button>
+    </Link>
   );
 }
 
