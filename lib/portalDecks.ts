@@ -1,7 +1,7 @@
 /**
  * Static PDF registry for the root deck portal.
  *
- * There are 15 routing slots:
+ * There are 16 routing slots:
  * - investor: USA, Europe and Global
  * - buyer: English technical/non-technical plus one direct deck for each other language
  *
@@ -24,7 +24,8 @@ export type Locale =
   | "ko"
   | "ja"
   | "th"
-  | "vi";
+  | "vi"
+  | "id";
 
 export type InvestorDeck = {
   audience: "investor";
@@ -70,6 +71,7 @@ export const BUYER_LANGUAGES: readonly PortalOption<Locale>[] = [
   { id: "ja", slug: "japanese", label: "日本語", flags: "🇯🇵" },
   { id: "th", slug: "thai", label: "ภาษาไทย", flags: "🇹🇭" },
   { id: "vi", slug: "vietnamese", label: "Tiếng Việt", flags: "🇻🇳" },
+  { id: "id", slug: "indonesian", label: "Bahasa Indonesia", flags: "🇮🇩" },
 ];
 
 const DIR = "/briefings";
@@ -177,6 +179,12 @@ export const PORTAL_DECKS: PortalDeck[] = [
     depth: null,
     title: "Minder & World Model · Dành cho lãnh đạo nhà máy",
     url: `${DIR}/buyer-non-technical-vi.pdf`,
+  },
+  {
+    audience: "buyer",
+    locale: "id",
+    depth: null,
+    title: "Minder & World Model · Untuk pimpinan pabrik",
   },
 ];
 

@@ -12,10 +12,10 @@ import {
 } from "@/lib/portalDecks";
 
 describe("deck portal routing", () => {
-  it("has exactly 15 routing slots", () => {
-    expect(PORTAL_DECKS).toHaveLength(15);
+  it("has exactly 16 routing slots", () => {
+    expect(PORTAL_DECKS).toHaveLength(16);
     expect(INVESTOR_REGIONS).toHaveLength(3);
-    expect(BUYER_LANGUAGES).toHaveLength(11);
+    expect(BUYER_LANGUAGES).toHaveLength(12);
   });
 
   it("routes investors only by region", () => {
