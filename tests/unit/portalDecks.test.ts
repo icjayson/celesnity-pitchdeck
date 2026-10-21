@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -49,5 +49,16 @@ describe("deck portal routing", () => {
     const sources = PORTAL_REWRITES.map((rewrite) => rewrite.source);
     expect(new Set(sources).size).toBe(sources.length);
     expect(PORTAL_REWRITES).toHaveLength(PORTAL_DECKS.filter((deck) => deck.url).length);
+  });
+
+  // Cloud Run rejects any single response over 32 MiB, and a video's first request asks for the whole file.
+  it("keeps every portal file under Cloud Run's 32 MiB response limit", () => {
+    for (const dir of ["portal", "briefings"]) {
+      const root = join(process.cwd(), "public", dir);
+      for (const name of readdirSync(root)) {
+        const size = statSync(join(root, name)).size;
+        expect(size, `${dir}/${name}`).toBeLessThan(32 * 1024 * 1024);
+      }
+    }
   });
 });

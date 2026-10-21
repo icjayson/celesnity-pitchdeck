@@ -32,6 +32,8 @@ type Choice = {
   tone: Tone;
   glyph?: Glyph;
   compact?: boolean;
+  /** Tall card: signal and arrow on top, label below (home page). */
+  stacked?: boolean;
   href?: string;
   /** PDFs open in a new tab; portal steps stay in this tab. */
   newTab?: boolean;
@@ -42,7 +44,8 @@ export type PortalStep = "perspective" | "investor" | "language" | "depth";
 const COPY = {
   tagline: "World Model Pitch Deck",
   back: "Back",
-  brand: ["1779 Lab", "Industrial World Model"],
+  brand: "Minder AI",
+  whoAreYou: "Which one are you?",
   investorRegion: "Where are you based?",
   language: "Which language do you speak?",
   depth: "How technical should we go?",
@@ -87,7 +90,7 @@ export function DeckPortal({ step: current = "perspective" }: { step?: PortalSte
 
   if (current === "perspective") {
     step = {
-      title: COPY.brand[0],
+      title: COPY.brand,
       choices: [
         {
           key: "investor",
@@ -95,7 +98,7 @@ export function DeckPortal({ step: current = "perspective" }: { step?: PortalSte
           hint: COPY.investor[1],
           tone: "blue",
           glyph: "rise",
-          compact: true,
+          stacked: true,
           href: INVESTOR_PATH,
         },
         {
@@ -104,7 +107,7 @@ export function DeckPortal({ step: current = "perspective" }: { step?: PortalSte
           hint: COPY.buyer[1],
           tone: "orange",
           glyph: "pulse",
-          compact: true,
+          stacked: true,
           href: SALES_PATH,
         },
       ],
@@ -204,17 +207,19 @@ export function DeckPortal({ step: current = "perspective" }: { step?: PortalSte
 
           <div className="flex flex-1 flex-col justify-center py-14 sm:py-20">
             {current === "perspective" ? (
-              /* First step: brand and the two choices on the left, intro film on the right (below them under xl). */
+              /* First step: brand, prompt and the two choices on the left, intro film on the right (below them under xl). */
               <div className="grid w-full items-center gap-12 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] xl:gap-14">
                 <div className="flex min-w-0 flex-col items-center xl:items-start">
                   <h1
                     key={step.title}
-                    className={`${heading.className} text-balance text-center text-[44px] font-normal leading-[1.02] tracking-[-0.01em] sm:text-[68px] xl:whitespace-nowrap xl:text-left xl:text-[58px] 2xl:text-[76px] motion-safe:animate-[portal-in_480ms_var(--ease-brand)]`}
+                    className={`${heading.className} text-center text-[56px] font-normal leading-[1] tracking-[-0.01em] text-white sm:text-[80px] xl:text-left xl:text-[88px] 2xl:text-[104px] motion-safe:animate-[portal-in_480ms_var(--ease-brand)]`}
                   >
-                    <span className="block text-white">{COPY.brand[0]}</span>
-                    <span className="block text-blue-300/75">{COPY.brand[1]}</span>
+                    {COPY.brand}
                   </h1>
-                  <div className="mt-10 grid w-full max-w-[640px] gap-4 sm:mt-12 sm:grid-cols-2 xl:max-w-[520px] xl:grid-cols-1">
+                  <p className="mt-5 text-center text-[17px] text-blue-300 sm:text-[19px] xl:text-left">
+                    {COPY.whoAreYou}
+                  </p>
+                  <div className="mt-8 grid w-full max-w-[720px] gap-4 sm:mt-10 sm:grid-cols-2 lg:gap-5">
                     {step.choices.map((choice) => (
                       <ChoiceCard
                         key={`${step.title}-${choice.key}`}
@@ -299,17 +304,49 @@ function ChoiceCard({ choice }: { choice: Choice }) {
   const tone = TONE[choice.tone];
   const disabled = !choice.href;
   const flags = choice.flags?.split(" ") ?? [];
-  const className = `group relative flex w-full min-w-0 max-w-full items-center text-left backdrop-blur transition duration-300 ease-[var(--ease-brand)] motion-safe:animate-[portal-in_480ms_var(--ease-brand)] ${
-    choice.compact
-      ? "min-h-[112px] gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 sm:min-h-[124px] sm:p-6"
-      : "min-h-[132px] gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 sm:min-h-[168px] sm:gap-6 sm:p-8 lg:gap-5"
+  const className = `group relative flex w-full min-w-0 max-w-full text-left backdrop-blur transition duration-300 ease-[var(--ease-brand)] motion-safe:animate-[portal-in_480ms_var(--ease-brand)] ${
+    choice.stacked
+      ? "min-h-[200px] flex-col justify-between gap-8 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-6 sm:min-h-[248px] sm:p-8"
+      : choice.compact
+      ? "items-center min-h-[112px] gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 sm:min-h-[124px] sm:p-6"
+      : "items-center min-h-[132px] gap-4 rounded-[var(--radius-card)] border border-navy-700 bg-navy-900/70 p-5 sm:min-h-[168px] sm:gap-6 sm:p-8 lg:gap-5"
   } ${
     disabled
       ? "cursor-not-allowed opacity-45"
       : `hover:-translate-y-1 ${tone.card}`
   }`;
 
-  const body = (
+  const arrow = (
+    <span
+      className={`grid shrink-0 place-items-center rounded-full border transition-colors duration-300 ${tone.ring} ${
+        disabled ? "" : tone.ringHover
+      } ${choice.compact ? "h-10 w-10" : "h-11 w-11 sm:h-14 sm:w-14"}`}
+    >
+      <ArrowRight
+        size={choice.compact ? 19 : 22}
+        strokeWidth={1.5}
+        aria-hidden
+        className="transition-transform duration-300 group-hover:translate-x-0.5"
+      />
+    </span>
+  );
+
+  const body = choice.stacked ? (
+    <>
+      <span className="flex w-full items-start justify-between gap-4">
+        <Signal glyph={choice.glyph ?? "rise"} stroke={tone.stroke} dot={tone.dot} />
+        {arrow}
+      </span>
+      <span className="block min-w-0">
+        <span className="block text-[28px] font-semibold leading-tight tracking-[-0.02em] text-white sm:text-[34px]">
+          {choice.label}
+        </span>
+        {choice.hint ? (
+          <span className="muted mt-2 block text-[15px] sm:text-[17px]">{choice.hint}</span>
+        ) : null}
+      </span>
+    </>
+  ) : (
     <>
       {choice.flags ? (
         <span
@@ -352,20 +389,7 @@ function ChoiceCard({ choice }: { choice: Choice }) {
           </span>
         ) : null}
       </span>
-      <span
-        className={`grid shrink-0 place-items-center rounded-full border transition-colors duration-300 ${tone.ring} ${
-          disabled ? "" : tone.ringHover
-        } ${
-          choice.compact ? "h-10 w-10" : "h-11 w-11 sm:h-14 sm:w-14"
-        }`}
-      >
-        <ArrowRight
-          size={choice.compact ? 19 : 22}
-          strokeWidth={1.5}
-          aria-hidden
-          className="transition-transform duration-300 group-hover:translate-x-0.5"
-        />
-      </span>
+      {arrow}
     </>
   );
 

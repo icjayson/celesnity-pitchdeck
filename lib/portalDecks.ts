@@ -174,7 +174,7 @@ export const PORTAL_DECKS: PortalDeck[] = [
     audience: "buyer",
     locale: "vi",
     depth: null,
-    title: "Celesnity · Minder & World Model, Dành cho Lãnh đạo Vận hành",
+    title: "Minder & World Model · Dành cho lãnh đạo nhà máy",
     url: `${DIR}/buyer-non-technical-vi.pdf`,
   },
 ];
