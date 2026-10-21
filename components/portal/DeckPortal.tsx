@@ -216,7 +216,7 @@ export function DeckPortal({ step: current = "perspective" }: { step?: PortalSte
                   >
                     {COPY.brand}
                   </h1>
-                  <p className="mt-5 text-center text-[17px] text-blue-300 sm:text-[19px] xl:text-left">
+                  <p className="mt-6 text-center text-[22px] text-blue-300 sm:text-[26px] xl:text-left xl:text-[28px]">
                     {COPY.whoAreYou}
                   </p>
                   <div className="mt-8 grid w-full max-w-[720px] gap-4 sm:mt-10 sm:grid-cols-2 lg:gap-5">
@@ -246,7 +246,7 @@ export function DeckPortal({ step: current = "perspective" }: { step?: PortalSte
                 <div
                   className={`mx-auto mt-12 grid w-full max-w-[1176px] gap-4 sm:mt-16 lg:gap-5 ${
                     step.compactGrid
-                      ? "sm:grid-cols-2 xl:grid-cols-3"
+                      ? "md:grid-cols-2 xl:grid-cols-3"
                       : "xl:grid-cols-2 xl:gap-6"
                   }`}
                 >
@@ -351,10 +351,12 @@ function ChoiceCard({ choice }: { choice: Choice }) {
       {choice.flags ? (
         <span
           aria-hidden
-          className={`flex shrink-0 flex-nowrap items-center justify-center gap-1.5 text-[24px] leading-none sm:gap-2 sm:text-[28px] ${
+          // Sized to its flags (min width keeps 1–2 flag labels aligned); 3+ flags get smaller
+          // so the label always has room before the arrow.
+          className={`flex min-w-[76px] shrink-0 flex-nowrap items-center justify-center leading-none sm:min-w-[88px] ${
             flags.length > 2
-              ? "w-[124px] sm:w-[148px]"
-              : "w-[76px] sm:w-[88px]"
+              ? "gap-1 text-[20px] sm:gap-1.5 sm:text-[23px]"
+              : "gap-1.5 text-[24px] sm:gap-2 sm:text-[28px]"
           }`}
         >
           {flags.map((flag) => (
