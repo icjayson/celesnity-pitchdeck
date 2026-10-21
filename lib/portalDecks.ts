@@ -185,6 +185,7 @@ export const PORTAL_DECKS: PortalDeck[] = [
     locale: "id",
     depth: null,
     title: "Minder & World Model · Untuk pimpinan pabrik",
+    url: `${DIR}/buyer-non-technical-id.pdf`,
   },
 ];
 
