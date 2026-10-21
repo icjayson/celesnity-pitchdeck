@@ -93,14 +93,14 @@ export const PORTAL_DECKS: PortalDeck[] = [
     audience: "buyer",
     locale: "en",
     depth: "non-technical",
-    title: "Celesnity · Minder & World Model, UK & Europe Introduction",
+    title: "Minder & the World Model · For Chief Operators",
     url: `${DIR}/buyer-non-technical-en.pdf`,
   },
   {
     audience: "buyer",
     locale: "en",
     depth: "technical",
-    title: "Minder AI · For Technology Leaders",
+    title: "Minder & the World Model · For CTOs and Heads of Engineering",
     url: `${DIR}/buyer-technical-en.pdf`,
   },
   {
