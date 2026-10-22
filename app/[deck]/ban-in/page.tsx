@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDeck } from "@/decks/registry";
+import { uiFor } from "@/lib/i18n";
 import { Section } from "@/components/shared/Section";
 import { Blocks } from "@/components/shared/Blocks";
 import { RichText } from "@/components/shared/RichText";
@@ -11,7 +12,8 @@ type Props = { params: Promise<{ deck: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const deck = getDeck((await params).deck);
-  return { title: deck ? `Bản in · ${deck.meta.title}` : "Bản in", robots: { index: false, follow: false } };
+  const ui = uiFor(deck?.locale);
+  return { title: deck ? `${ui.print} · ${deck.meta.title}` : ui.print, robots: { index: false, follow: false } };
 }
 
 /** Bản in: toàn bộ nội dung, mọi lớp chi tiết đều mở, nền sáng. Nguồn cho `npm run pdf`. */
@@ -19,11 +21,12 @@ export default async function PrintVersion({ params }: Props) {
   const deck = getDeck((await params).deck);
   if (!deck) notFound();
   const { appendix, closing, meta, sections, acts, basePath } = deck;
+  const ui = uiFor(deck.locale);
   return (
     <main className="theme-light" data-print-root>
       <div className="mx-auto flex max-w-[1040px] items-center justify-between gap-4 px-4 pt-8 sm:px-8" data-hide-in-print>
         <Link href={basePath} className="text-[14px] font-medium text-blue-600">
-          Về trang chính
+          {ui.backHome}
         </Link>
         <PrintTrigger />
       </div>
@@ -46,7 +49,7 @@ export default async function PrintVersion({ params }: Props) {
       </section>
       <section className="theme-mist">
         <div className="mx-auto flex max-w-[1040px] flex-col gap-16 px-4 py-24 sm:px-8">
-          <h2 className="text-[32px] font-semibold tracking-[-0.02em]">Phụ lục</h2>
+          <h2 className="text-[32px] font-semibold tracking-[-0.02em]">{ui.appendix}</h2>
           {appendix.map((a) => (
             <div key={a.id} className="flex flex-col gap-6">
               <h3 className="text-[24px] font-semibold">

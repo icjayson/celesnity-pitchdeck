@@ -50,7 +50,8 @@ export type Block =
   | { kind: "chips"; items: Rich[]; tone?: "negative" | "neutral" }
   /** emphasis: khối nhấn lớn nền navy (câu chốt quan trọng) */
   /** lines: giữ xuống dòng trong text (mỗi ý một dòng); không đặt thì hiển thị như cũ */
-  | { kind: "quote"; text: Rich; emphasis?: boolean; lines?: boolean }
+  /** compact: chữ của khối nhấn còn khoảng 70% */
+  | { kind: "quote"; text: Rich; emphasis?: boolean; lines?: boolean; compact?: boolean }
   /** Câu nhấn lớn kèm bối cảnh và kết luận (bố cục biên tập hai cột) */
   | { kind: "statement"; context: Rich; highlight: Rich; conclusion: Rich }
   | { kind: "note"; text: Rich }
@@ -62,14 +63,32 @@ export type Block =
   | { kind: "photo"; photo: Photo }
   /** Video demo (public/decks/<slug>/...): có điều khiển, không tự phát; bản in hiện ảnh poster */
   | { kind: "video"; video: Video }
-  /** Ảnh đặt cạnh một nhóm khối (ảnh nhỏ không bị phóng to quá kích thước gốc) */
-  | { kind: "media"; photo: Photo; blocks: Block[]; side?: "left" | "right" }
+  /** Ảnh (hoặc video, ví dụ video quay dọc) đặt cạnh một nhóm khối (ảnh nhỏ không bị phóng to quá kích thước gốc) */
+  | { kind: "media"; photo?: Photo; video?: Video; blocks: Block[]; side?: "left" | "right" }
   /** Sơ đồ kiến trúc: các nhánh hội tụ sang phải, mũi tên một chiều (components/shared/Diagram.tsx) */
   | { kind: "diagram"; flow: DiagramFlow; legend?: { tone: DiagramTone; label: Rich }[]; caption?: Rich; /** px, mặc định 120 */ nodeWidth?: number }
   /** Hàng ô số liệu lớn (2–4 ô): con số, nhãn, ghi chú nhỏ */
   | { kind: "stats"; items: { value: Rich; label: Rich; note?: Rich }[] }
   /** Danh sách cam kết có dấu tick, 1 hoặc 2 cột (không phụ thuộc id section như M13 "commitments") */
-  | { kind: "checklist"; items: Rich[]; cols?: 1 | 2 };
+  | { kind: "checklist"; items: Rich[]; cols?: 1 | 2 }
+  /** Thanh tiến độ theo bước: đã xong · đang làm · kế tiếp · tầm nhìn; `now` = nhãn mốc "hôm nay" sau bước đã xong cuối cùng */
+  | { kind: "progress"; items: { label: Rich; text: Rich; status: ProgressStatus; when: Rich }[]; now?: Rich }
+  /** Gantt theo tháng: hàng năm (span = số tháng) và nhãn tháng (tuỳ chọn), nhãn mốc (T-1, T0, T+1…), các việc, các mốc */
+  | {
+      kind: "gantt";
+      corner?: string;
+      years?: { label: string; span: number }[];
+      months?: string[];
+      ticks?: string[];
+      rows: GanttRow[];
+      milestones?: { at: number; label: string }[];
+      milestoneLabel?: string;
+    };
+
+export type ProgressStatus = "done" | "active" | "next" | "future";
+
+/** Một việc trên Gantt: thanh từ cột `from` đến cột `to` (đếm từ 1); tone 0 nhạt … 4 đậm, 5 cam */
+export type GanttRow = { label: Rich; sub?: Rich; from: number; to: number; tone?: 0 | 1 | 2 | 3 | 4 | 5 };
 
 /** plain: thiết bị, hệ thống của khách hàng · edge: phần Celesnity lắp đặt · platform: nền tảng */
 export type DiagramTone = "plain" | "edge" | "platform";
@@ -98,6 +117,8 @@ export type Video = {
   height: number;
   title: Rich;
   caption?: Rich;
+  /** Chiều rộng tối đa (px) của khung video, ví dụ video quay dọc đặt cạnh nội dung */
+  maxWidth?: number;
 };
 
 export type Photo = {
@@ -111,7 +132,8 @@ export type Photo = {
 };
 
 /** printOnly: chỉ hiện trong bản in/PDF (trên web đã có module tương tác thể hiện) */
-export type Details = { title: Rich; blocks: Block[]; printOnly?: boolean };
+/** key: khóa ổn định để module tìm khối chi tiết khi tiêu đề được dịch sang ngôn ngữ khác */
+export type Details = { title: Rich; key?: string; blocks: Block[]; printOnly?: boolean };
 
 export type Theme = "dark" | "navy" | "light" | "mist";
 
@@ -193,6 +215,13 @@ export type UseCase = {
     caveat?: string;
     /** Ảnh minh hoạ trong M18 variant "detail" (ảnh chụp Minder) */
     images?: Photo[];
+    /** M18 variant "stages": tính năng Minder mà use case chạy trên đó */
+    minder?: string;
+    /** M18 variant "stages": mức sẵn sàng của tính năng (màu) và nhãn hiển thị */
+    status?: "live" | "forecast" | "act" | "vision";
+    statusLabel?: string;
+    /** M18 variant "features": video demo dưới sơ đồ; chưa có thì hiện ô chờ */
+    video?: Video;
   };
   note?: string;
 };
@@ -382,7 +411,7 @@ export type IslandSpec = {
   id: string;
   label: string;
   /** Kiểu hình vẽ trong components/art/Islands.tsx */
-  art: "gia-dung" | "dien-lanh" | "thep" | "capsule-line" | "coffee-plant" | "network" | "truck-line" | "truck-plant" | "dealer-network" | "machining-cell" | "machining-plant" | "second-plant";
+  art: "gia-dung" | "dien-lanh" | "thep" | "capsule-line" | "coffee-plant" | "network" | "truck-line" | "truck-plant" | "dealer-network" | "machining-cell" | "machining-plant" | "second-plant" | "cement-kiln" | "cement-works";
 };
 
 export type DeckLabels = {
@@ -417,9 +446,15 @@ export type CostShiftRow = { year: string; deploy: number; model: number; deploy
  * Dữ liệu của một deck gửi xuống trình duyệt (phải tuần tự hóa được: không có hàm).
  * Mỗi trang /<slug> chỉ nhận đúng deck của mình qua DeckProvider.
  */
+export type Locale = "vi" | "en" | "th";
+
 export type DeckData = {
   slug: string;
   basePath: string;
+  /** Ngôn ngữ của deck (chữ giao diện dùng chung lấy theo đây); mặc định "vi" */
+  locale?: Locale;
+  /** Các bản ngôn ngữ của cùng một đề xuất: hiện nút chuyển ngôn ngữ trên thanh điều hướng */
+  languages?: { code: Locale; label: string; href: string; flag?: string }[];
   /** series: tên bộ tài liệu ở đầu trang phụ lục; không đặt thì dùng "Nhà máy siêu thông minh" */
   meta: { title: string; description: string; tagline: string; footer: string; series?: string };
   /** Tính năng bật/tắt theo deck. assistant = false: không gắn trợ lý AI nổi và không gọi API chat */
@@ -493,7 +528,8 @@ export type DeckData = {
       gates: { m: number; name: string }[];
       finale: { headline: string; next: string };
       /** Chip "Use case đang dùng thật": id use case + tên ngắn; `label` thay cho nhãn mặc định "Ứng dụng 0N" */
-      chips: { id: string; short: string; label?: string }[];
+      /** `from`: tháng bắt đầu dùng thật khi chip không phải một use case (ví dụ một năng lực của nền tảng) */
+      chips: { id: string; short: string; label?: string; from?: number }[];
       /** Tiêu đề nhóm chip; mặc định "Use case đang dùng thật" */
       chipsTitle?: string;
       /** Làn mở rộng (HP: thép), hiện từ tháng `opensAt` */
@@ -515,8 +551,11 @@ export type DeckData = {
       leaders: { team: string; text: string };
     };
     m17?: { name: string; when: string; can: string; test: string }[];
-    /** Hình thức hợp tác (M13 "founding"): câu dưới tên mức đề xuất */
-    m13?: { foundingNote: string };
+    /** Hình thức hợp tác (M13 "founding"): câu dưới tên mức đề xuất.
+     * environments: hai nhãn môi trường (nước thứ nhất, nước thứ hai) → khung cảnh M13 vẽ hai quốc gia */
+    m13?: { foundingNote: string; environments?: [string, string] };
+    /** Ba lớp (M7): sources = vẽ thêm hàng nguồn dữ liệu (con người, máy móc, phần mềm, robot) đổ vào tầng ① */
+    m7?: { sources: boolean };
     /** Hai con đường (M3): chú thích cho trình đọc màn hình theo con đường */
     m3?: {
       captions: { A: string; B: string };
@@ -603,7 +642,9 @@ export type DeckAssistant = {
   /** Quy tắc hệ thống; `live` = id các section đang hiển thị (để bật/tắt nhắc tool của section tạm cất) */
   rules: (live: Set<string>) => string;
   /** Dòng nhắc ngôn ngữ đặt cuối hội thoại */
-  languageNudge: { en: string; vi: string };
+  languageNudge: { en: string; vi: string; th?: string };
+  /** Ngôn ngữ trả lời khi câu hỏi không rõ ngôn ngữ (deck tiếng Anh: "en"); mặc định "vi" */
+  defaultLang?: "en" | "vi" | "th";
   /** Hồ sơ đề xuất chi tiết (PHẦN B của gói tri thức) */
   knowledgeBrief: string;
   /** Ghi chú cho từng module tương tác trong gói tri thức */

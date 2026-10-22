@@ -4,6 +4,7 @@
  * Viên nang: máy chiết rót, băng tải viên nang, máy đóng hộp · Nhà máy cà phê: tháp sấy, silo · Mạng lưới: ba nhà máy nối về một điểm.
  * Chuyền cabin: ba cabin xe tải trên xe đẩy, một đồ gá bao quanh · Nhà máy xe tải: năm khoang BODY · PAINT · TRIM · CHASSIS · QC, kiện CKD
  * · Đại lý và hậu mãi: khoang dịch vụ có xe tải trên cầu nâng, đường ra hai đại lý.
+ * Lò nung xi măng: tháp trao đổi nhiệt, lò quay, máy làm nguội clinker, silo · Nhà máy xi măng: cụm silo, lò, xưởng nghiền và đóng bao.
  */
 import type { ReactNode } from "react";
 import type { IslandSpec } from "@/decks/types";
@@ -588,6 +589,96 @@ function SecondPlant({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
   );
 }
 
+/** Lò quay: ống nghiêng nằm dọc trục x, có vành băng đa (tyre) */
+function Kiln({ pts, pal, rings }: { pts: [Pt, Pt]; pal: Pal; rings: number[] }) {
+  const d = line(pts);
+  const [[ax, ay], [bx, by]] = pts;
+  return (
+    <g fill="none" strokeLinecap="round">
+      <path d={d} stroke={pal.stroke} strokeWidth={11} />
+      <path d={d} stroke={pal.left} strokeWidth={8} />
+      <path d={d} stroke={pal.top} strokeWidth={3} strokeOpacity={0.8} transform="translate(0 -2)" />
+      {rings.map((t) => {
+        const x = ax + (bx - ax) * t;
+        const y = ay + (by - ay) * t;
+        return <path key={t} {...NS} d={`M${x - 3.2} ${y - 6}L${x + 3.2} ${y + 6}`} stroke={pal.detail} strokeOpacity={0.85} strokeWidth={1.4} />;
+      })}
+    </g>
+  );
+}
+
+/** Dây chuyền lò nung xi măng: tháp trao đổi nhiệt, lò quay trên gối đỡ, máy làm nguội clinker, silo và ống khói */
+function CementKiln({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const levels = [18, 34, 50].map((z) => line([P(-52, -30, z), P(-30, -30, z), P(-30, -52, z)])).join("");
+  return (
+    <g>
+      {/* Tháp trao đổi nhiệt và cyclone trên đỉnh */}
+      <Box f={box(ox, oy, -52, -52, 22, 22, 66)} pal={pal} />
+      <Detail d={levels} pal={pal} opacity={0.5} />
+      <Cyl c={cyl(ox, oy, -46, -46, 4, 10, 66)} pal={pal} />
+      <Cyl c={cyl(ox, oy, -36, -38, 4, 8, 66)} pal={pal} />
+      {/* Gối đỡ lò */}
+      {[-16, 6, 26].map((x) => (
+        <Box key={x} f={box(ox, oy, x, -42, 5, 9, 18 - (x + 16) * 0.12)} pal={pal} />
+      ))}
+      {/* Lò quay, nghiêng xuống phía máy làm nguội */}
+      <Kiln pts={[P(-30, -38, 24), P(36, -38, 13)]} pal={pal} rings={[0.3, 0.62]} />
+      {/* Silo bột liệu */}
+      <Cyl c={cyl(ox, oy, -34, 22, 10, 40)} pal={pal}>
+        <Detail d={line([P(-34, 22, 40), P(-34, 22, 46)])} pal={pal} opacity={0.6} />
+      </Cyl>
+      {/* Máy làm nguội clinker */}
+      <Box f={box(ox, oy, 34, -48, 20, 20, 12)} pal={pal} />
+      <Detail d={line([P(38, -28, 4), P(50, -28, 4)]) + line([P(38, -28, 8), P(50, -28, 8)])} pal={pal} opacity={0.45} />
+      <Cyl c={cyl(ox, oy, -10, 34, 10, 32)} pal={pal} />
+      {/* Băng tải clinker ra kho */}
+      <Box f={box(ox, oy, 40, -26, 7, 40, 5)} pal={pal} />
+      {/* Ống khói */}
+      <Cyl c={cyl(ox, oy, 42, 30, 4, 58)} pal={pal} />
+    </g>
+  );
+}
+
+/** Nhà máy xi măng hoàn chỉnh: cụm silo, tháp trao đổi nhiệt, lò quay, xưởng nghiền và đóng bao, ống khói */
+function CementWorks({ ox, oy, pal }: { ox: number; oy: number; pal: Pal }) {
+  const P = (x: number, y: number, z: number) => iso(ox, oy, x, y, z);
+  const saw: string[] = [];
+  for (let x = -50; x < -6; x += 11) saw.push(line([P(x, 46, 18), P(x + 5.5, 46, 24), P(x + 11, 46, 18)]));
+  return (
+    <g>
+      {/* Cụm bốn silo xi măng */}
+      {(
+        [
+          [-46, -46],
+          [-30, -46],
+          [-46, -30],
+          [-30, -30],
+        ] as [number, number][]
+      ).map(([x, y]) => (
+        <Cyl key={`${x}${y}`} c={cyl(ox, oy, x, y, 7, 44)} pal={pal} />
+      ))}
+      {/* Tháp trao đổi nhiệt */}
+      <Box f={box(ox, oy, -6, -52, 18, 18, 70)} pal={pal} />
+      <Detail d={[20, 38, 56].map((z) => line([P(-6, -34, z), P(12, -34, z), P(12, -52, z)])).join("")} pal={pal} opacity={0.5} />
+      {/* Lò quay */}
+      {[18, 34].map((x) => (
+        <Box key={x} f={box(ox, oy, x, -42, 4, 8, 16 - (x - 18) * 0.15)} pal={pal} />
+      ))}
+      <Kiln pts={[P(12, -38, 20), P(50, -38, 12)]} pal={pal} rings={[0.4]} />
+      {/* Xưởng nghiền xi măng và đóng bao */}
+      <Box f={box(ox, oy, -52, 14, 52, 32, 18)} pal={pal} />
+      <Detail d={saw.join("")} pal={pal} opacity={0.7} />
+      {/* Bao xi măng trên pallet */}
+      <Box f={box(ox, oy, 8, 30, 12, 12, 5)} pal={pal} />
+      <Box f={box(ox, oy, 8, 30, 12, 12, 5, 5)} pal={pal} />
+      <Box f={box(ox, oy, 24, 30, 12, 12, 5)} pal={pal} />
+      {/* Ống khói */}
+      <Cyl c={cyl(ox, oy, 44, 4, 4, 62)} pal={pal} />
+    </g>
+  );
+}
+
 type ArtKind = IslandSpec["art"];
 const ART: Record<ArtKind, (p: { ox: number; oy: number; pal: Pal }) => ReactNode> = {
   "gia-dung": GiaDung,
@@ -602,6 +693,8 @@ const ART: Record<ArtKind, (p: { ox: number; oy: number; pal: Pal }) => ReactNod
   "machining-cell": MachiningCell,
   "machining-plant": MachiningPlant,
   "second-plant": SecondPlant,
+  "cement-kiln": CementKiln,
+  "cement-works": CementWorks,
 };
 
 /** Vẽ một đảo: `id` là vị trí (trái · giữa · phải, quyết định bảng màu), `art` là kiểu hình vẽ của deck */

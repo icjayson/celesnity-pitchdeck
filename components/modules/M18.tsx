@@ -3,14 +3,17 @@
  * M18 — Danh mục ứng dụng dạng carousel trước/sau, tự chuyển khi cuộn.
  * Variant "detail": thẻ use case gồm bài toán, giải pháp, chỉ số đo lường và ảnh minh hoạ,
  * chọn bằng tab, không ghim khi cuộn vì thẻ cao hơn màn hình.
+ * Variant "features": danh sách bên trái là các tính năng Minder (card.minder); thẻ bên phải là sơ đồ cây
+ * tính năng → ứng dụng thực tế (mỗi ứng dụng gắn khâu, card.stage) và một ô video bên dưới (card.video, chưa có thì ô chờ).
  * Dữ liệu: deck.useCases + deck.beforeAfter.
  */
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from "react";
-import { ArrowRight, BadgeCheck, Gauge, Hand, ImageIcon, Sparkles, UserRound } from "lucide-react";
+import { ArrowRight, BadgeCheck, Factory, Gauge, Hand, ImageIcon, Sparkles, UserRound } from "lucide-react";
 import type { UseCase } from "@/decks/types";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { Photo } from "@/components/shared/Photo";
 import { RichText } from "@/components/shared/RichText";
+import { Video } from "@/components/shared/Video";
 import { ScrollSteps } from "@/components/shared/ScrollSteps";
 import { onAction } from "@/lib/actions";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -18,6 +21,7 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export default function M18({ variant }: { variant?: string }) {
   if (variant === "detail") return <Detail />;
+  if (variant === "features") return <Features />;
   return <Carousel />;
 }
 
@@ -302,5 +306,145 @@ function ListBox({ icon, title, items, tone }: { icon: ReactNode; title: string;
         ))}
       </ul>
     </section>
+  );
+}
+
+// ───────────────────────────── Variant "features" ─────────────────────────────
+
+/** "Tên (phụ đề)" → tên + phụ đề */
+function splitName(t: string) {
+  const m = t.match(/^(.*?)\s*\((.+)\)\s*$/);
+  return m ? { name: m[1], sub: m[2] } : { name: t, sub: "" };
+}
+
+function Features() {
+  const ui = useUi();
+  const { useCases, beforeAfter } = useDeck();
+  const items = useMemo(() => useCases.filter((u) => beforeAfter[u.id] && u.card), [useCases, beforeAfter]);
+  /** Các tính năng theo thứ tự xuất hiện; mỗi tính năng là một tab, ứng dụng của nó nằm trong sơ đồ bên phải */
+  const groups = useMemo(() => {
+    const out: { f: string; list: { u: UseCase; i: number }[] }[] = [];
+    items.forEach((u, i) => {
+      const f = u.card?.minder ?? "";
+      const g = out.find((x) => x.f === f);
+      if (g) g.list.push({ u, i });
+      else out.push({ f, list: [{ u, i }] });
+    });
+    return out;
+  }, [items]);
+  const [gi, setGi] = useState(0);
+  const panel = useRef<HTMLDivElement>(null);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Trợ lý mở một ứng dụng: chọn tính năng chứa ứng dụng đó
+  useEffect(
+    () =>
+      onAction("open_use_case", ({ uc }) => {
+        const g = groups.findIndex((x) => x.list.some(({ u }) => u.id === uc));
+        if (g >= 0) setGi(g);
+      }),
+    [groups],
+  );
+
+  const pick = (g: number) => {
+    setGi(g);
+    if (window.matchMedia("(max-width: 1023px)").matches) panel.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    const step = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
+    if (!step) return;
+    e.preventDefault();
+    const g = (gi + step + groups.length) % groups.length;
+    setGi(g);
+    tabs.current[g]?.focus();
+  };
+
+  const g = groups[gi];
+  return (
+    <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
+      <div role="tablist" aria-label={ui.minderFeatures} aria-orientation="vertical" onKeyDown={onKey} className="flex flex-col gap-2 lg:sticky lg:top-24">
+        {groups.map((x, i) => {
+          const t = splitName(x.f);
+          const on = i === gi;
+          return (
+            <button
+              key={x.f}
+              ref={(el) => {
+                tabs.current[i] = el;
+              }}
+              role="tab"
+              type="button"
+              id={`m18f-tab-${i}`}
+              aria-selected={on}
+              aria-controls="m18f-panel"
+              tabIndex={on ? 0 : -1}
+              onClick={() => pick(i)}
+              className={`flex min-w-0 items-start gap-3 rounded-[12px] border px-4 py-3 text-left transition-colors duration-300 ease-[var(--ease-brand)] ${
+                on ? "border-navy-900 bg-navy-900 text-white shadow-[0_14px_30px_-18px_rgba(10,31,68,0.7)]" : "border-line-200 bg-white text-navy-900 hover:border-blue-300 hover:bg-blue-100/60"
+              }`}
+            >
+              <span className={`tabular mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full text-[12px] font-semibold ${on ? "bg-blue-500 text-white" : "border border-line-200 text-ink-500"}`}>{i + 1}</span>
+              <span className="min-w-0 flex-1 leading-snug">
+                <span className="block text-[15px] font-semibold">{t.name}</span>
+                {t.sub ? <span className={`block text-[13px] ${on ? "text-blue-300" : "text-ink-500"}`}>{t.sub}</span> : null}
+              </span>
+              <span className={`tabular shrink-0 text-[12px] font-medium ${on ? "text-white/80" : "text-ink-500"}`}>{x.list.length}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div ref={panel} id="m18f-panel" role="tabpanel" aria-labelledby={`m18f-tab-${gi}`} tabIndex={0} className="scroll-mt-24 outline-offset-4">
+        <FeatureCard key={g.f} f={g.f} n={gi + 1} total={groups.length} list={g.list} />
+      </div>
+    </div>
+  );
+}
+
+/** Thẻ của một tính năng: sơ đồ cây tính năng → ứng dụng thực tế (mỗi ứng dụng gắn khâu), rồi ô video bên dưới */
+function FeatureCard({ f, n, total, list }: { f: string; n: number; total: number; list: { u: UseCase; i: number }[] }) {
+  const ui = useUi();
+  const t = splitName(f);
+  const video = list.find(({ u }) => u.card?.video)?.u.card?.video;
+  return (
+    <article className="flex flex-col gap-5 rounded-[var(--radius-card)] border border-line-200 bg-white p-5 shadow-[0_24px_60px_-40px_rgba(10,31,68,0.45)] sm:p-7">
+      <header className="flex flex-col gap-1.5">
+        <p className="tabular text-[13px] font-semibold text-blue-600">
+          {ui.featureOf(n, total, list.length)}
+        </p>
+        <h4 className="text-[24px] font-semibold leading-tight tracking-[-0.02em] text-navy-900 sm:text-[28px]">{t.name}</h4>
+        {t.sub ? <p className="text-[15px] text-ink-500">{t.sub}</p> : null}
+      </header>
+
+      {/* video demo chỉ hiện khi có video thật; không có thì không chừa chỗ trống */}
+      {video ? <Video video={video} /> : null}
+
+      <figure className="m-0 rounded-[14px] bg-mist-50 p-4 sm:p-5">
+        <figcaption className="sr-only">{ui.featureCaption(t.name, list.length)}</figcaption>
+        <div className="inline-flex items-center gap-2 rounded-[10px] bg-navy-900 px-3 py-2 text-[14px] font-semibold text-white">
+          <span className="tabular grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-[11px]">{n}</span>
+          Minder · {t.name}
+        </div>
+        <ol className="relative mt-2 flex flex-col gap-2 pl-7">
+          <span aria-hidden className="absolute bottom-6 left-[13px] top-0 w-px bg-line-200" />
+          {list.map(({ u, i }) => (
+            <li key={u.id} className="relative">
+              <span aria-hidden className="absolute -left-[14px] top-1/2 h-px w-3.5 bg-line-200" />
+              <span aria-hidden className="absolute -left-[17px] top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-blue-500" />
+              <div className="flex flex-col gap-2 rounded-[10px] border border-line-200 bg-white px-3.5 py-2.5 sm:flex-row sm:items-center sm:gap-4">
+                <p className="min-w-0 flex-1 text-[14px] leading-snug text-navy-900">
+                  <span className="tabular mr-2 text-[12px] font-semibold text-ink-500">{String(i + 1).padStart(2, "0")}</span>
+                  {u.question}
+                </p>
+                <span className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-full bg-blue-100 px-2.5 py-1 text-[12px] font-medium text-navy-900 sm:self-center">
+                  <Factory aria-hidden size={13} strokeWidth={1.5} className="text-blue-600" />
+                  {u.card?.stage}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </figure>
+    </article>
   );
 }

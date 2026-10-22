@@ -23,7 +23,7 @@ const calculator = z
 export const actionSchemas = {
   scroll_to_section: z.object({ id: z.string().min(1).max(64) }).strict(),
   open_use_case: z.object({ uc: z.string().min(1).max(32) }).strict(),
-  set_timeline_month: z.object({ month: z.number().int().min(1).max(12) }).strict(),
+  set_timeline_month: z.object({ month: z.number().int().min(1).max(36) }).strict(),
   set_calculator: calculator,
   run_simulation: z.object({ option: z.enum(["A", "B", "C", "ncc-moi"]) }).strict(),
 } as const;

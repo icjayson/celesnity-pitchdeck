@@ -7,7 +7,7 @@ import { useDetailList, useDetailTable } from "./shared/detailContent";
 import { MotionToggle, useMotionGate } from "./shared/motion";
 import { Segmented } from "./shared/Segmented";
 import { SovereigntyScene, type Level } from "./M13/Scene";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 
 const FADE_CSS = `@keyframes m13-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .m13-in{animation:m13-in 450ms cubic-bezier(.22,1,.36,1) both}`;
@@ -161,7 +161,8 @@ const EXCHANGE_TONES = [
 /** Chu trình luân chuyển dữ liệu và tri thức khép kín: dữ liệu ở lại, bản cập nhật đi ra khi được duyệt, phiên bản mô hình nền mới quay về. */
 function Exchange() {
   const { party } = useDeck();
-  const { rows, caption } = useDetailTable("hai-ben", "Chu trình luân chuyển dữ liệu và tri thức khép kín");
+  const ui = useUi();
+  const { rows, caption } = useDetailTable("hai-ben", "Chu trình luân chuyển dữ liệu và tri thức khép kín", "cycle");
   const gate = useMotionGate<HTMLDivElement>();
 
   return (
@@ -182,11 +183,11 @@ function Exchange() {
             </li>
             <li className="flex items-center gap-1.5">
               <span aria-hidden className="h-2 w-2 rounded-full bg-blue-300" />
-              Bản cập nhật mô hình
+              {ui.modelUpdate}
             </li>
             <li className="flex items-center gap-1.5">
               <span aria-hidden className="h-2 w-2 rounded-full bg-white" />
-              Phiên bản mô hình nền mới
+              {ui.newFoundationModel}
             </li>
             <li className="ml-auto">
               <MotionToggle paused={gate.userPaused} onToggle={gate.toggle} reduced={gate.reduced} tone="dark" className="-mr-1" />
@@ -269,7 +270,7 @@ function Founding() {
 
 /** Các cam kết không thay đổi ("Bảy…", "Sáu…"), chia hai cột. */
 function Commitments() {
-  const commitments = useDetailList(["hai-ben", "hop-tac"], /cam kết không thay đổi$/);
+  const commitments = useDetailList(["hai-ben", "hop-tac"], /cam kết không thay đổi$/, "commitments");
   return (
     <ol className="grid grid-cols-1 gap-3 md:grid-cols-2">
       {commitments.map((c, i) => {

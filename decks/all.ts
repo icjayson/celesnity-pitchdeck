@@ -11,12 +11,17 @@ import { isuzuVietnamDeck } from "./isuzu-vietnam";
 import { isuzuAssistant } from "./isuzu-vietnam/assistant";
 import { takakoDeck } from "./takako-vietnam";
 import { takakoAssistant } from "./takako-vietnam/assistant";
+import { scgDeck, scgDeckTh, scgDeckVi } from "./scg-vietnam";
+import { scgAssistant, scgAssistantEn, scgAssistantTh } from "./scg-vietnam/assistant";
 
 export const allDecks: Record<string, DeckData> = {
   [hoaPhatDeck.slug]: hoaPhatDeck,
   [nestleVietnamDeck.slug]: nestleVietnamDeck,
   [isuzuVietnamDeck.slug]: isuzuVietnamDeck,
   [takakoDeck.slug]: takakoDeck,
+  [scgDeck.slug]: scgDeck,
+  [scgDeckVi.slug]: scgDeckVi,
+  [scgDeckTh.slug]: scgDeckTh,
 };
 
 export const allAssistants: Record<string, DeckAssistant> = {
@@ -24,6 +29,9 @@ export const allAssistants: Record<string, DeckAssistant> = {
   [nestleVietnamDeck.slug]: nestleAssistant,
   [isuzuVietnamDeck.slug]: isuzuAssistant,
   [takakoDeck.slug]: takakoAssistant,
+  [scgDeck.slug]: scgAssistantEn,
+  [scgDeckVi.slug]: scgAssistant,
+  [scgDeckTh.slug]: scgAssistantTh,
 };
 
 /** Tệp nội dung gốc (markdown) của mỗi deck, dùng cho npm run content:check */
@@ -32,13 +40,18 @@ export const deckSources: Record<string, string> = {
   "nestle-vietnam": "docs/nestle-content-v4.md",
   "isuzu-vietnam": "docs/isuzu-content-v1.md",
   "takako-vietnam": "docs/takako-content-v1.md",
+  scg: "docs/scg-content-v1.en.md",
+  "scg-vi": "docs/scg-content-v1.md",
+  "scg-th": "docs/scg-content-v1.th.md",
 };
 
 /** Tên riêng của khách hàng khác không được xuất hiện trong deck này (npm run leak:check) */
 export const forbiddenTerms: Record<string, string[]> = {
-  "hoa-phat": ["Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "Takako"],
-  "nestle-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "Takako"],
-  "isuzu-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Takako"],
+  "hoa-phat": ["Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "Takako", "SCG", "Siam Cement", "Sông Gianh", "Lampang", "CiMie"],
+  "nestle-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "Takako", "SCG", "Siam Cement", "Sông Gianh", "Lampang", "CiMie"],
+  "isuzu-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Takako", "SCG", "Siam Cement", "Sông Gianh", "Lampang", "CiMie"],
   /** Ngoài tên khách hàng khác: không nêu tên cá nhân phía Takako, không dùng "chatbot", "template cố định" */
-  "takako-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "anh Thảo", "chatbot", "template cố định", "GIANTY"],
+  "takako-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "anh Thảo", "chatbot", "template cố định", "GIANTY", "SCG", "Siam Cement", "Sông Gianh", "Lampang", "CiMie"],
+  /** Ngoài tên khách hàng khác: không nêu tên cá nhân phía SCG */
+  "scg-vietnam": ["Hòa Phát", "Hoa Phat", "Hòa Mạc", "Dung Quất", "Funiki", "bếp từ", "Phú Mỹ", "Nestlé", "Nestle", "Trị An", "Dolce Gusto", "NESCAFÉ", "Bình An", "Bông Sen", "Isuzu", "Gò Vấp", "Monozukuri", "Asakai", "QKR", "D-MAX", "mu-X", "Takako", "GIANTY"],
 };

@@ -1,5 +1,6 @@
 "use client";
 import { useId } from "react";
+import { useUi } from "@/components/deck/DeckProvider";
 import { LoopSvg } from "../shared/motion";
 import { isoBox } from "../shared/iso";
 
@@ -14,6 +15,13 @@ const H = 18;
 export const anchorY = (i: number) => SLAB_Y[i] - W * 0.5 - H;
 export const ANCHOR_X = CX + W * 0.866;
 export const LABEL_X = 352;
+
+/** Sơ đồ dòng chảy (FlowStack), từ dưới lên: ① World Model → con người, máy móc, phần mềm, robot → ② Minder → người có thẩm quyền */
+export const FLOW_H = 548;
+const FLOW_WM_Y = 530;
+const FLOW_MINDER_Y = 250;
+/** Đỉnh phải mặt trên của khối World Model và khối Minder: nơi kéo đường dẫn tới nhãn */
+export const FLOW_ANCHOR = { wm: FLOW_WM_Y - W * 0.5 - H, minder: FLOW_MINDER_Y - W * 0.5 - H };
 
 const NAVY = "#0A1F44";
 const BLUE6 = "#1F5FD6";
@@ -37,6 +45,7 @@ export function LayerStack({
   play: boolean;
   reduced: boolean;
 }) {
+  const ui = useUi();
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const styles: SlabStyle[] = [
     { top: "#FFFFFF", left: "#F6F8FC", right: "#E9EEF6", stroke: NAVY },
@@ -127,9 +136,228 @@ export function LayerStack({
         fill={BLUE6}
         letterSpacing="0.06em"
       >
-        VÒNG LẶP CẢI THIỆN ↻
+        {ui.improvementLoop}
       </text>
     </LoopSvg>
+  );
+}
+
+export type FlowKey = "wm" | "minder" | "people";
+
+/**
+ * Sơ đồ dòng chảy (deck bật scenarios.m7.sources): không có tầng tác nhân AI. Đọc từ dưới lên:
+ * ① World Model dự báo, đề xuất → con người, máy móc, phần mềm, robot thực hiện → ② Minder ghi lại → người có thẩm quyền phê duyệt (trên cùng);
+ * vòng cải thiện đưa những gì Minder ghi lại xuống cho World Model học.
+ */
+export function FlowStack({
+  active,
+  onPick,
+  play,
+  reduced,
+  sources,
+  people,
+}: {
+  active: FlowKey;
+  onPick: (k: FlowKey) => void;
+  play: boolean;
+  reduced: boolean;
+  sources: string[];
+  people: string;
+}) {
+  const ui = useUi();
+  const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const slabs = [
+    { key: "minder" as const, y: FLOW_MINDER_Y, layer: 2, s: { top: "#0F2A5C", left: "#0A1F44", right: "#06142E", stroke: "#16367A" } },
+    { key: "wm" as const, y: FLOW_WM_Y, layer: 1, s: { top: `url(#${uid}mid)`, left: BLUE6, right: "#1A50B8", stroke: BLUE3 } },
+  ];
+  const topWm = isoBox(CX, FLOW_WM_Y, W, W, H).topPts;
+  const topMd = isoBox(CX, FLOW_MINDER_Y, W, W, H).topPts;
+  // vòng cải thiện: từ Minder (trên) quay xuống World Model (dưới)
+  const loopD = `M${topMd.left[0] - 2} ${topMd.left[1] + 10} C ${topMd.left[0] - 40} ${topMd.left[1] + 50}, ${topWm.left[0] - 40} ${topWm.left[1] - 30}, ${topWm.left[0] - 4} ${topWm.left[1] + 4}`;
+  const midY = (topWm.left[1] + topMd.left[1]) / 2;
+  const PEOPLE_TOP = 8;
+  const peopleOn = active === "people";
+  return (
+    <LoopSvg play={play} reduced={reduced} staticAt={1.2} viewBox={`0 0 ${STACK_W} ${FLOW_H}`} className="h-auto w-full">
+      <style>{SURF_CSS}</style>
+      <defs>
+        <linearGradient id={`${uid}mid`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor={BLUE4} />
+          <stop offset="1" stopColor={BLUE5} />
+        </linearGradient>
+        <filter id={`${uid}glow`} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation={22} />
+        </filter>
+        <marker id={`${uid}arrow`} viewBox="0 0 10 10" refX="6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M1 1 L8 5 L1 9" fill="none" stroke={BLUE5} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+        </marker>
+      </defs>
+
+      <polygon points={isoBox(CX, FLOW_WM_Y, W, W, H).top} fill={BLUE5} opacity={0.55} filter={`url(#${uid}glow)`}>
+        <animate attributeName="opacity" values="0.4;0.65;0.4" dur="4s" repeatCount="indefinite" />
+      </polygon>
+
+      {/* chảy lên: World Model → nguồn (đề xuất được thực hiện) → Minder (mọi việc được ghi lại) */}
+      {SRC_X.map((x, i) => (
+        <g key={i}>
+          <Flow x={x} y1={faceTopY(x, FLOW_WM_Y)} y2={SRC_TOP + SRC_H} delay={i * 0.45} />
+          <Flow x={x} y1={SRC_TOP} y2={slabBottomY(x, FLOW_MINDER_Y) + 2} delay={i * 0.45 + 0.9} />
+        </g>
+      ))}
+      {/* Minder → người có thẩm quyền */}
+      <Flow x={CX} y1={faceTopY(CX, FLOW_MINDER_Y)} y2={PEOPLE_TOP + 48} delay={0.3} />
+
+      {slabs.map(({ key, y, layer, s: st }) => {
+        const box = isoBox(CX, y, W, W, H);
+        const on = active === key;
+        return (
+          <g key={key} onClick={() => onPick(key)} className="cursor-pointer" style={{ transform: on ? "translateY(-6px)" : "none", transition: `transform ${T}` }}>
+            <polygon points={box.left} fill={st.left} stroke={st.stroke} strokeWidth={1.5} strokeLinejoin="round" />
+            <polygon points={box.right} fill={st.right} stroke={st.stroke} strokeWidth={1.5} strokeLinejoin="round" />
+            <polygon
+              points={box.top}
+              fill={st.top}
+              stroke={on ? (layer === 1 ? "#FFFFFF" : BLUE5) : st.stroke}
+              strokeWidth={on ? 2 : 1.5}
+              strokeLinejoin="round"
+              style={{ transition: `stroke ${T}` }}
+            />
+            <Surface layer={layer} near={box.topPts.near} top={box.top} on={on} />
+          </g>
+        );
+      })}
+
+      <Sources labels={sources} />
+
+      {/* Người có thẩm quyền */}
+      <g onClick={() => onPick("people")} className="cursor-pointer">
+        <rect
+          x={CX - 100}
+          y={PEOPLE_TOP}
+          width={200}
+          height={48}
+          rx={12}
+          fill={peopleOn ? "#FFE9D6" : "#FFF4EA"}
+          stroke={ORANGE}
+          strokeOpacity={peopleOn ? 1 : 0.5}
+          strokeWidth={peopleOn ? 2 : 1.25}
+          style={{ transition: `all ${T}` }}
+        />
+        <circle cx={CX - 76} cy={PEOPLE_TOP + 24} r={14} fill={ORANGE} />
+        <g transform={`translate(${CX - 76} ${PEOPLE_TOP + 24})`} stroke={NAVY} strokeWidth={1.6} fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx={-1.5} cy={-3.5} r={3.2} />
+          <path d="M-7.5 7 c0 -4.5 3 -6 6 -6 s4 1 5 2.5 M3 4.5 l2 2 l3.5 -3.5" />
+        </g>
+        <text x={CX - 54} y={PEOPLE_TOP + 29} fontSize={13} fontWeight={600} fill={NAVY}>
+          {people}
+        </text>
+      </g>
+
+      {/* vòng cải thiện ↻: Minder ghi lại → World Model học */}
+      <path d={loopD} fill="none" stroke={BLUE5} strokeOpacity={0.45} strokeWidth={1.5} strokeDasharray="3 5" markerEnd={`url(#${uid}arrow)`} />
+      <g>
+        <circle r={9} fill={BLUE5} opacity={0.18} />
+        <circle r={4} fill={BLUE5} />
+        <circle r={1.8} fill="#fff" />
+        <animateMotion path={loopD} dur="2.8s" repeatCount="indefinite" calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines="0.45 0 0.35 1" />
+      </g>
+      <text
+        x={topWm.left[0] - 56}
+        y={midY}
+        transform={`rotate(-90 ${topWm.left[0] - 56} ${midY})`}
+        textAnchor="middle"
+        fontSize={12}
+        fontWeight={600}
+        fill={BLUE6}
+        letterSpacing="0.06em"
+      >
+        {ui.improvementLoop}
+      </text>
+
+      {/* đường dẫn tới nhãn hai khối */}
+      {(["wm", "minder"] as const).map((k) => {
+        const y = FLOW_ANCHOR[k] - (active === k ? 6 : 0);
+        return (
+          <g key={k}>
+            <line x1={ANCHOR_X + 4} y1={y} x2={LABEL_X - 6} y2={y} stroke={active === k ? NAVY : LINE} strokeWidth={1.25} style={{ transition: `stroke ${T}` }} />
+            <circle cx={ANCHOR_X + 4} cy={y} r={3} fill={active === k ? NAVY : "#fff"} stroke={NAVY} strokeWidth={1.25} />
+          </g>
+        );
+      })}
+    </LoopSvg>
+  );
+}
+
+/** Dòng chảy thẳng đứng từ y1 tới y2, chấm sáng chạy theo */
+function Flow({ x, y1, y2, delay }: { x: number; y1: number; y2: number; delay: number }) {
+  return (
+    <g>
+      <line x1={x} y1={y1} x2={x} y2={y2} stroke={BLUE5} strokeOpacity={0.45} strokeWidth={1.5} strokeDasharray="3 4" />
+      <circle cx={x} r={3} fill={BLUE5}>
+        <animate attributeName="cy" values={`${y1};${y2}`} dur="1.8s" begin={`${delay}s`} repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.8;1" dur="1.8s" begin={`${delay}s`} repeatCount="indefinite" />
+      </circle>
+    </g>
+  );
+}
+
+/** Hàng nguồn giữa hai khối: con người, máy móc, phần mềm, robot */
+const SRC_X = [76, 153, 230, 307];
+const SRC_TOP = 292;
+const SRC_H = 52;
+/** Cạnh đáy (trái/phải) của khối có góc đáy gần ở (CX, y): đi lên theo độ dốc 30° */
+const slabBottomY = (x: number, y: number) => y - Math.abs(CX - x) * Math.tan(Math.PI / 6);
+/** Cạnh xa (trái/phải) của mặt trên khối có góc đáy gần ở (CX, y) */
+const faceTopY = (x: number, y: number) => y - H - W + Math.abs(CX - x) * Math.tan(Math.PI / 6);
+
+function Sources({ labels }: { labels: string[] }) {
+  const glyphs = ["person", "machine", "software", "robot"] as const;
+  return (
+    <g>
+      {SRC_X.map((x, i) => (
+        <g key={i}>
+          <rect x={x - 34} y={SRC_TOP} width={68} height={SRC_H} rx={10} fill="#fff" stroke={LINE} strokeWidth={1.25} />
+          <g transform={`translate(${x} ${SRC_TOP + 18})`} stroke={NAVY} strokeWidth={1.6} fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <SourceGlyph kind={glyphs[i]} />
+          </g>
+          <text x={x} y={SRC_TOP + 43} textAnchor="middle" fontSize={11} fontWeight={600} fill={NAVY}>
+            {labels[i]}
+          </text>
+        </g>
+      ))}
+    </g>
+  );
+}
+
+function SourceGlyph({ kind }: { kind: "person" | "machine" | "software" | "robot" }) {
+  if (kind === "person")
+    return (
+      <>
+        <circle cx={0} cy={-4} r={4} />
+        <path d="M-8 9 c0 -6 4 -8 8 -8 s8 2 8 8" />
+      </>
+    );
+  if (kind === "machine")
+    return (
+      <>
+        <circle cx={0} cy={0} r={4} />
+        <path d="M0 -9 v3 M0 6 v3 M-9 0 h3 M6 0 h3 M-6.4 -6.4 l2.1 2.1 M4.3 4.3 l2.1 2.1 M-6.4 6.4 l2.1 -2.1 M4.3 -4.3 l2.1 -2.1" />
+      </>
+    );
+  if (kind === "software")
+    return (
+      <>
+        <rect x={-9} y={-7} width={18} height={14} rx={2} />
+        <path d="M-9 -3 h18 M-4 1 l-2 2 l2 2 M4 1 l2 2 l-2 2" />
+      </>
+    );
+  return (
+    <>
+      <rect x={-7} y={-5} width={14} height={11} rx={3} />
+      <path d="M0 -5 v-3 M-9 0 v3 M9 0 v3" />
+      <circle cx={-3} cy={0} r={0.8} fill={NAVY} />
+      <circle cx={3} cy={0} r={0.8} fill={NAVY} />
+    </>
   );
 }
 

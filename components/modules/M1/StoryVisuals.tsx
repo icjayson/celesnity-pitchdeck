@@ -7,7 +7,7 @@
  * Chuyển động chỉ chạy khi minh họa đang hiển thị; tắt khi người dùng giảm chuyển động.
  */
 import { useId } from "react";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 
 const BLUE5 = "#2F7BF6";
 const BLUE3 = "#8DB8FF";
@@ -70,17 +70,18 @@ const ACC = [0.4, 0.45, 0.49, 0.54, 0.58, 0.62, 0.66, 0.7, 0.74, 0.78, 0.82, 0.8
 function SelfLearning({ on, reduced }: P) {
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
   const learn = useDeck().scenarios.m1!.learn;
+  const ui = useUi();
   const acc = learn?.curve?.length === 12 ? learn.curve : ACC;
-  const badge = learn?.badge ?? "Mỗi tháng thông minh hơn";
+  const badge = learn?.badge ?? ui.smarterEachMonth;
   // độ rộng nhãn theo số ký tự (13px, đậm)
   const badgeW = Math.round(badge.length * 6.6 + 16);
   const cx = 190;
   const cy = 210;
   const R = 98;
   const nodes = [
-    { a: 0, label: "Quyết định", dx: 0, dy: -18, anchor: "middle" as const },
-    { a: 120, label: "Kết quả", dx: 14, dy: 22, anchor: "start" as const },
-    { a: 240, label: "Học thêm", dx: -14, dy: 22, anchor: "end" as const },
+    { a: 0, label: ui.decision, dx: 0, dy: -18, anchor: "middle" as const },
+    { a: 120, label: ui.outcome, dx: 14, dy: 22, anchor: "start" as const },
+    { a: 240, label: ui.learnMore, dx: -14, dy: 22, anchor: "end" as const },
   ].map((n) => {
     const t = ((n.a - 90) * Math.PI) / 180;
     return { ...n, x: cx + R * Math.cos(t), y: cy + R * Math.sin(t) };
@@ -134,7 +135,7 @@ function SelfLearning({ on, reduced }: P) {
       <circle cx={cx} cy={cy} r="58" fill={`url(#${uid}-core)`} opacity="0.55" className={on && !reduced ? "m1v-pulse" : ""} />
       <circle cx={cx} cy={cy} r="34" fill={NAVY8} stroke={BLUE5} strokeWidth="2" />
       <text x={cx} y={cy + 5} textAnchor="middle" fontSize="13" fontWeight="600" fill="#fff">
-        Mô hình
+        {ui.model}
       </text>
 
       {/* Mũi tên sang biểu đồ */}
@@ -143,7 +144,7 @@ function SelfLearning({ on, reduced }: P) {
 
       {/* Biểu đồ độ chính xác */}
       <text x={x0} y={92} fontSize="12" fontWeight="600" letterSpacing="1.2" fill={BLUE3}>
-        ĐỘ CHÍNH XÁC DỰ BÁO
+        {ui.forecastAccuracy}
       </text>
       <line x1={x0} x2={x0 + step * 12} y1={base} y2={base} stroke={BLUE3} strokeOpacity="0.35" />
       {acc.map((v, i) => {
@@ -179,10 +180,10 @@ function SelfLearning({ on, reduced }: P) {
         </text>
       </g>
       <text x={x0} y={base + 22} fontSize="12" fill={BLUE3}>
-        Tháng thứ 1
+        {ui.month1}
       </text>
       <text x={x0 + step * 12 - 7} y={base + 22} textAnchor="end" fontSize="12" fill={BLUE3}>
-        Tháng thứ 12
+        {ui.month12}
       </text>
     </svg>
   );
@@ -216,6 +217,7 @@ const OPTION_SHAPES = [
 
 function Foresight({ on }: P) {
   const f = useDeck().scenarios.m1!.foresight;
+  const ui = useUi();
   const OPTIONS = OPTION_SHAPES.map((o, i) => ({ ...o, label: f.options[i] }));
   const history = `M40 168 L70 152 L100 170 L130 150 L160 164 L190 152 L${NOW_X} ${NOW_Y}`;
   return (
@@ -227,17 +229,17 @@ function Foresight({ on }: P) {
       <line x1={40} x2={40} y1={82} y2={340} stroke={BLUE3} strokeOpacity="0.3" />
       <line x1={40} x2={580} y1={340} y2={340} stroke={BLUE3} strokeOpacity="0.3" />
       <text x={130} y={362} textAnchor="middle" fontSize="12" fill={BLUE3}>
-        Đã xảy ra
+        {ui.happened}
       </text>
       <text x={395} y={362} textAnchor="middle" fontSize="12" fill={BLUE3}>
-        Dự báo, trước khi thực hiện
+        {ui.forecastBefore}
       </text>
 
       {/* Hôm nay */}
       <line x1={NOW_X} x2={NOW_X} y1={92} y2={340} stroke="#fff" strokeOpacity="0.35" strokeDasharray="3 5" />
       <rect x={NOW_X - 38} y={82} width="76" height="24" rx="12" fill="#fff" />
       <text x={NOW_X} y={98} textAnchor="middle" fontSize="12" fontWeight="600" fill="#0A1F44">
-        Hôm nay
+        {ui.today}
       </text>
 
       <path d={history} fill="none" stroke="#fff" strokeWidth="2.5" strokeLinejoin="round" />
@@ -300,14 +302,15 @@ function Foresight({ on }: P) {
 
 /** Vị trí bốn nơi nhận; nhãn lấy từ deck (scenarios.m1.replicate.targets), nơi cuối là đích đến */
 const TARGET_SLOTS = [
-  { y: 72, fill: 0.62 },
-  { y: 158, fill: 0.68 },
-  { y: 244, fill: 0.58 },
-  { y: 330, fill: 0.45, steel: true },
+  { y: 62, fill: 0.62 },
+  { y: 144, fill: 0.68 },
+  { y: 226, fill: 0.58 },
+  { y: 308, fill: 0.45, steel: true },
 ];
 
 function Replicate({ on, reduced }: P) {
   const r = useDeck().scenarios.m1!.replicate;
+  const ui = useUi();
   const TARGETS = TARGET_SLOTS.map((t, i) => ({ ...t, label: r.targets[i] }));
   const sx = 222;
   const sy = 200;
@@ -316,7 +319,7 @@ function Replicate({ on, reduced }: P) {
     <svg {...svgProps}>
       {/* Nguồn: kinh nghiệm một dây chuyền */}
       <text x={40} y={128} fontSize="12" fontWeight="600" letterSpacing="1.2" fill={BLUE3}>
-        KINH NGHIỆM ĐÃ HỌC
+        {ui.learnedExperience}
       </text>
       <rect x={52} y={146} width="180" height="96" rx="14" fill={NAVY8} stroke={BLUE3} strokeOpacity="0.25" />
       <rect x={46} y={152} width="180" height="96" rx="14" fill={NAVY8} stroke={BLUE3} strokeOpacity="0.4" />
@@ -343,7 +346,8 @@ function Replicate({ on, reduced }: P) {
             ) : null}
             <g className={anim(on, "m1v-rise")} style={on ? { animationDelay: `${delay}ms` } : undefined}>
               <rect x={tx} y={t.y - 30} width="184" height="60" rx="12" fill={NAVY8} stroke={color} strokeOpacity={t.steel ? 0.9 : 0.5} strokeWidth={t.steel ? 2 : 1.5} />
-              <text x={tx + 16} y={t.y - 6} fontSize="14" fontWeight="600" fill="#fff">
+              {/* tên dài thì thu chữ lại để vừa khung (vùng chữ rộng ~152) */}
+              <text x={tx + 16} y={t.y - 6} fontSize={Math.min(14, 270 / Math.max(t.label.length, 1))} fontWeight="600" fill="#fff">
                 {t.label}
               </text>
               <rect x={tx + 16} y={t.y + 8} width="152" height="7" rx="3.5" fill="#fff" fillOpacity="0.12" />
@@ -362,11 +366,12 @@ function Replicate({ on, reduced }: P) {
         );
       })}
 
-      <text x={40} y={388} fontSize="12" fill={BLUE3} className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1500ms" } : undefined}>
-        Thanh màu: kinh nghiệm được nhân rộng, không bắt đầu lại từ 0
+      {/* chú thích ở dòng cuối; "… và các nhà máy tiếp theo" nằm ngay dưới khung cuối, không đè lên chú thích */}
+      <text x={40} y={390} fontSize="12" fill={BLUE3} className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1500ms" } : undefined}>
+        {ui.replicateNote}
       </text>
       {r.more ? (
-        <text x={tx + 184} y={388} textAnchor="end" fontSize="13" fontWeight="600" fill="#fff" className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1500ms" } : undefined}>
+        <text x={tx + 184} y={362} textAnchor="end" fontSize="13" fontWeight="600" fill="#fff" className={anim(on, "m1v-fade")} style={on ? { animationDelay: "1500ms" } : undefined}>
           {r.more}
         </text>
       ) : null}

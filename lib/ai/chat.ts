@@ -102,6 +102,7 @@ export const chatErrors = {
   badRequest: "Câu hỏi chưa hợp lệ. Quý vị vui lòng nhập câu hỏi ngắn hơn 1.000 ký tự.",
 };
 
+const THAI_CHARS = /[\u0E00-\u0E7F]/;
 const VI_CHARS = /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i;
 /** Từ tiếng Anh thông dụng: câu hỏi có ít nhất 2 từ này và ít từ có dấu tiếng Việt → coi là tiếng Anh */
 const EN_WORDS = /^(the|a|an|is|are|does|do|did|what|how|who|when|where|why|which|if|will|can|should|of|to|in|for|with|data|need|happen|happens|leave|ever|many|much|and|or|it|this|that|be|trial|model)$/i;
@@ -150,8 +151,11 @@ export async function runChat(
     { role: "system", content: ctx.systemPrompt },
     ...messages.map((m): OaiMessage => ({ role: m.role, content: m.content })),
   ];
-  // Câu hỏi không có chữ tiếng Việt (có dấu) → nhắc trả lời bằng tiếng Anh. Đặt sau lịch sử để không phá cache tiền tố.
-  const nudge = isLikelyEnglish(q) ? ctx.languageNudge.en : ctx.languageNudge.vi;
+  // Ngôn ngữ trả lời theo câu hỏi: chữ Thái → tiếng Thái (nếu deck có), tiếng Anh rõ ràng → tiếng Anh, có dấu tiếng Việt → tiếng Việt,
+  // còn lại theo ngôn ngữ mặc định của deck. Đặt sau lịch sử để không phá cache tiền tố.
+  const lang =
+    THAI_CHARS.test(q) && ctx.languageNudge.th ? "th" : isLikelyEnglish(q) ? "en" : VI_CHARS.test(q) ? "vi" : ctx.defaultLang;
+  const nudge = (lang === "th" ? ctx.languageNudge.th : undefined) ?? (lang === "en" ? ctx.languageNudge.en : ctx.languageNudge.vi);
   convo.push({ role: "system", content: nudge });  let textEmitted = false;
 
   try {

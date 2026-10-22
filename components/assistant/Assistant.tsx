@@ -12,7 +12,7 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { Sparkles, X } from "lucide-react";
 import { dispatchAction } from "@/lib/actions";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useChat } from "./useChat";
 import { useSpeech } from "./useSpeech";
@@ -55,6 +55,7 @@ function floatGeom(): Geom {
 
 export function Assistant() {
   const { faq, quickFaqIds } = useDeck();
+  const ui = useUi();
   /** Câu hỏi nhanh dưới ô nhập ở trang bìa */
   const quickPrompts = quickFaqIds.map((id) => faq.find((f) => f.id === id)?.q).filter((q): q is string => !!q);
   const [open, setOpen] = useState(false);
@@ -372,7 +373,7 @@ export function Assistant() {
         ref={launcherRef}
         type="button"
         onClick={() => (open ? closePanel() : openPanel())}
-        aria-label={open ? "Đóng trợ lý hỏi về đề xuất" : "Mở trợ lý hỏi về đề xuất"}
+        aria-label={open ? ui.closeAssistant : ui.openAssistant}
         aria-expanded={open}
         aria-controls="assistant-panel"
         className={`group fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-blue-500 bg-navy-900 text-white shadow-[0_0_0_6px_rgba(47,123,246,0.14),0_14px_36px_-10px_rgba(47,123,246,0.7)] hover:border-blue-400 hover:bg-navy-800 hover:shadow-[0_0_0_8px_rgba(47,123,246,0.18),0_16px_40px_-10px_rgba(47,123,246,0.8)] sm:bottom-6 sm:right-6 ${
@@ -395,7 +396,7 @@ export function Assistant() {
               hintOn ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"
             } ${reduced ? "" : "transition-[opacity,transform] duration-300"}`}
           >
-            Trợ lý Minder AI
+            {ui.assistantName}
             <span className="absolute left-1/2 top-full -translate-x-1/2 border-x-[5px] border-t-[5px] border-x-transparent border-t-white" />
           </span>
         ) : null}
@@ -449,13 +450,13 @@ export function Assistant() {
           <div className="min-w-0">
             <h2 id="assistant-title" className="flex items-center gap-2 text-[17px] font-semibold leading-tight">
               <Sparkles aria-hidden size={18} strokeWidth={1.5} className="text-blue-300" />
-              Trợ lý Minder AI
+              {ui.assistantName}
             </h2>
           </div>
           <button
             type="button"
             onClick={closePanel}
-            aria-label={docked ? "Thu gọn khung chat" : "Đóng trợ lý"}
+            aria-label={docked ? ui.collapseChat : ui.closeChat}
             className={`-mr-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-control)] text-blue-100 hover:text-white ${
               docked ? "hover:bg-white/10" : "hover:bg-navy-800"
             }`}
@@ -480,7 +481,7 @@ export function Assistant() {
         {compactDock ? (
           <p className="mb-3 flex items-center gap-2 text-[15px] font-semibold tracking-[-0.01em] text-white">
             <Sparkles aria-hidden size={17} strokeWidth={1.5} className="text-blue-300" />
-            Trợ lý Minder AI
+            {ui.assistantName}
           </p>
         ) : null}
         <ChatComposer
@@ -493,7 +494,7 @@ export function Assistant() {
           glass={docked}
         />
         {compactDock ? (
-          <ul className="mt-3 flex flex-wrap gap-2" aria-label="Câu hỏi nhanh">
+          <ul className="mt-3 flex flex-wrap gap-2" aria-label={ui.quickQuestions}>
             {quickPrompts.map((q) => (
               <li key={q}>
                 <button

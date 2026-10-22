@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { ArrowLeftRight, ArrowDownUp, FileDown, MessageCircle, ArrowRight } from "lucide-react";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { RichText } from "@/components/shared/RichText";
 import { FactoryScene } from "@/components/art/FactoryScene";
 import { useInView } from "@/lib/useInView";
@@ -20,17 +20,9 @@ export default function M14({ variant }: { variant?: string }) {
 
 /* ───────────── Lợi ích hai bên ───────────── */
 
-const ui = {
-  receive: "Nhận",
-  give: "Góp",
-  exchange: "Trao đổi giá trị",
-  deploy: "Triển khai và chuyển giao",
-  model: "Mô hình + Ứng dụng",
-  shiftTitle: "Dịch chuyển chi phí",
-  shiftNote: "Càng tự chủ, chi phí triển khai càng giảm",
-};
 
 function Benefits() {
+  const ui = useUi();
   const { benefits } = useDeck();
   const sides = [
     { key: "hp", data: benefits.partner, accent: "orange" as const },
@@ -59,6 +51,7 @@ function BenefitColumn({
 }: {
   side: { key: string; data: { name: string; receive: string[]; give: string[] }; accent: "orange" | "blue" };
 }) {
+  const ui = useUi();
   const isHP = side.accent === "orange";
   const bar = isHP ? "bg-orange-500" : "bg-blue-500";
   const dot = isHP ? "bg-orange-500" : "bg-blue-500";
@@ -103,6 +96,7 @@ function BenefitColumn({
 
 /** Dòng thứ i của khách hàng đối ứng dòng thứ i của Celesnity (decks/<slug>/content.vi.ts → benefits). */
 function PairedBenefits() {
+  const ui = useUi();
   const { benefits } = useDeck();
   const { partner, celesnity, rowLabels, groupTitles, columnHeads } = benefits;
   const groups = [
@@ -212,6 +206,7 @@ function PairCell({ name, text, accent }: { name: string; text: string; accent: 
 /* ───────────── Gói hợp tác ───────────── */
 
 function Package() {
+  const ui = useUi();
   const { packageParts, costShift } = useDeck();
   const [ref, inView] = useInView<HTMLElement>("-10% 0px");
   const reduced = useReducedMotion();
@@ -258,7 +253,7 @@ function Package() {
 
       {costShift.length ? (
       <>
-      <h3 className="pt-4 text-[22px] font-semibold tracking-tight sm:text-[26px]">Dự tính chi phí</h3>
+      <h3 className="pt-4 text-[22px] font-semibold tracking-tight sm:text-[26px]">{ui.costEstimate}</h3>
       <figure
         ref={ref}
         className="rounded-[var(--radius-card)] border border-line-200 bg-white p-6 shadow-[0_20px_50px_-28px_rgba(10,31,68,0.4)] sm:p-8"
@@ -270,7 +265,7 @@ function Package() {
               <span className="h-2.5 w-5 rounded-full bg-blue-300" /> {ui.deploy}
             </li>
             <li className="flex items-center gap-2">
-              <span className="h-2.5 w-5 rounded-full bg-blue-500" /> {ui.model}
+              <span className="h-2.5 w-5 rounded-full bg-blue-500" /> {ui.modelApps}
             </li>
           </ul>
         </div>
@@ -304,7 +299,7 @@ function Package() {
           <span>{ui.shiftNote}</span>
           <span className="sr-only">
             {costShift
-              .map((r) => `${r.year}: ${ui.deploy} ${r.deployLabel.toLowerCase()}, ${ui.model} ${r.modelLabel.toLowerCase()}.`)
+              .map((r) => `${r.year}: ${ui.deploy} ${r.deployLabel.toLowerCase()}, ${ui.modelApps} ${r.modelLabel.toLowerCase()}.`)
               .join(" ")}
           </span>
         </figcaption>

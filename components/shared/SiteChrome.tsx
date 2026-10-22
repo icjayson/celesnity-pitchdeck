@@ -2,13 +2,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { List, X, FileDown, BookOpen, Presentation, Handshake } from "lucide-react";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { plainText } from "./RichText";
 import { scrollToSection } from "@/lib/actions";
 
 /** Mục lục bên trái (thu gọn được) và thanh tiến độ chia 3 hồi. */
 export function SiteChrome() {
-  const { acts, sections, basePath, quickLink } = useDeck();
+  const { acts, sections, basePath, quickLink, languages, locale } = useDeck();
+  const ui = useUi();
   const [active, setActive] = useState<string>(sections[0].id);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -65,7 +66,7 @@ export function SiteChrome() {
       </div>
 
       {/* Nút mở mục lục */}
-      <div className="fixed left-4 top-4 z-40 flex items-center gap-2" data-hide-in-presenter>
+      <div className="fixed left-4 top-4 z-40 flex max-w-[calc(100vw-2rem)] flex-wrap items-center gap-2" data-hide-in-presenter>
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
@@ -78,7 +79,7 @@ export function SiteChrome() {
           }`}
         >
           {open ? <X size={16} strokeWidth={1.5} aria-hidden /> : <List size={16} strokeWidth={1.5} aria-hidden />}
-          <span>Mục lục</span>
+          <span>{ui.toc}</span>
         </button>
         {quickLink ? (
           <button
@@ -93,12 +94,45 @@ export function SiteChrome() {
             <span>{quickLink.label}</span>
           </button>
         ) : null}
+        {/* Chuyển ngôn ngữ: các bản dịch của cùng một deck */}
+        {languages && languages.length > 1 ? (
+          <nav
+            aria-label={ui.language}
+            className={`flex h-10 items-center gap-0.5 rounded-[var(--radius-control)] border p-1 backdrop-blur ${
+              darkNow ? "border-white/15 bg-navy-900/70" : "border-line-200 bg-white/85"
+            }`}
+          >
+            {languages.map((l) => {
+              const on = l.code === (locale ?? "vi");
+              return (
+                <Link
+                  key={l.code}
+                  href={l.href}
+                  hrefLang={l.code}
+                  lang={l.code}
+                  aria-current={on ? "page" : undefined}
+                  title={l.label}
+                  className={`tabular flex h-8 items-center gap-1.5 rounded-[6px] px-2.5 text-[13px] font-semibold uppercase transition-colors ${
+                    on ? "bg-navy-900 text-white" : darkNow ? "text-white/80 hover:bg-white/10" : "text-navy-900 hover:bg-mist-50"
+                  }`}
+                >
+                  {l.flag ? (
+                    <span aria-hidden className="text-[15px] leading-none">
+                      {l.flag}
+                    </span>
+                  ) : null}
+                  {l.code}
+                </Link>
+              );
+            })}
+          </nav>
+        ) : null}
       </div>
 
       {open ? (
         <nav
           id="toc"
-          aria-label="Mục lục"
+          aria-label={ui.toc}
           className="fixed bottom-4 left-4 top-16 z-40 w-[min(360px,calc(100vw-32px))] overflow-y-auto rounded-[var(--radius-card)] border border-line-200 bg-white p-5 text-navy-900 shadow-[0_24px_60px_-20px_rgba(10,31,68,0.35)]"
         >
           <ol className="flex flex-col gap-1 text-[14px]">
@@ -135,10 +169,10 @@ export function SiteChrome() {
           </ol>
           <div className="mt-2 flex flex-col gap-1 border-t border-line-200 pt-4 text-[14px]">
             <Link href={`${basePath}/phu-luc`} className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-mist-50">
-              <BookOpen size={16} strokeWidth={1.5} aria-hidden /> Phụ lục
+              <BookOpen size={16} strokeWidth={1.5} aria-hidden /> {ui.appendix}
             </Link>
             <Link href={`${basePath}/ban-in`} className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-mist-50">
-              <FileDown size={16} strokeWidth={1.5} aria-hidden /> Bản in / PDF
+              <FileDown size={16} strokeWidth={1.5} aria-hidden /> {ui.printPdf}
             </Link>
             <button
               type="button"
@@ -148,7 +182,7 @@ export function SiteChrome() {
               }}
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-left hover:bg-mist-50"
             >
-              <Presentation size={16} strokeWidth={1.5} aria-hidden /> Chế độ trình chiếu (phím P)
+              <Presentation size={16} strokeWidth={1.5} aria-hidden /> {ui.presenter}
             </button>
           </div>
         </nav>

@@ -2,17 +2,41 @@
 import { useRef } from "react";
 import { useDeck } from "@/components/deck/DeckProvider";
 
-const pos = (m: number) => ((m - 1) / 11) * 100;
+const BAND_FIRST = "bg-blue-100 text-blue-600";
+const BAND_MID = "bg-[linear-gradient(90deg,var(--color-blue-100),var(--color-orange-100))] text-navy-900";
+const BAND_LAST = "bg-orange-100 text-orange-700";
 
-const bands = [
-  { name: "Thử nghiệm: Học", from: 0, to: (3.5 / 11) * 100, cls: "bg-blue-100 text-blue-600" },
-  { name: "Dùng thật", from: (3.5 / 11) * 100, to: (7.5 / 11) * 100, cls: "bg-[linear-gradient(90deg,var(--color-blue-100),var(--color-orange-100))] text-navy-900" },
-  { name: "Nhân rộng", from: (7.5 / 11) * 100, to: 100, cls: "bg-orange-100 text-orange-700" },
+/** Dải mặc định của lộ trình 12 tháng (giữ như bản đầu) */
+const DEFAULT_BANDS = [
+  { name: "Thử nghiệm: Học", from: 0, to: (3.5 / 11) * 100, cls: BAND_FIRST },
+  { name: "Dùng thật", from: (3.5 / 11) * 100, to: (7.5 / 11) * 100, cls: BAND_MID },
+  { name: "Nhân rộng", from: (7.5 / 11) * 100, to: 100, cls: BAND_LAST },
 ];
 
-/** Trục 12 tháng: thanh kéo (role="slider"), 4 ổ khóa cổng và 3 dải giai đoạn */
+/** Dải theo các giai đoạn liên tiếp trong bảng tháng (lộ trình khác 12 tháng) */
+function bandsFrom(months: { m: number; phase: string }[], pos: (m: number) => number) {
+  const runs: { name: string; first: number; last: number }[] = [];
+  for (const r of months) {
+    const cur = runs[runs.length - 1];
+    if (cur && cur.name === r.phase) cur.last = r.m;
+    else runs.push({ name: r.phase, first: r.m, last: r.m });
+  }
+  const n = months.length;
+  return runs.map((r, i) => ({
+    name: r.name,
+    from: r.first === 1 ? 0 : pos(r.first - 0.5),
+    to: r.last === n ? 100 : pos(r.last + 0.5),
+    cls: i === 0 ? BAND_FIRST : i === runs.length - 1 ? BAND_LAST : BAND_MID,
+  }));
+}
+
+/** Trục N tháng (mặc định 12): thanh kéo (role="slider"), ổ khóa cổng và dải giai đoạn */
 export function Timeline({ month, onChange }: { month: number; onChange: (m: number) => void }) {
-  const m10Months = useDeck().scenarios.m10!.months;
+  const { months: m10Months, gates } = useDeck().scenarios.m10!;
+  const n = m10Months.length;
+  const pos = (m: number) => ((m - 1) / (n - 1)) * 100;
+  const bands = n === 12 ? DEFAULT_BANDS : bandsFrom(m10Months, pos);
+  const keyMonths = new Set([1, n, ...gates.map((g) => g.m)]);
   const track = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   const row = m10Months[month - 1];
@@ -22,7 +46,7 @@ export function Timeline({ month, onChange }: { month: number; onChange: (m: num
     if (!el) return;
     const r = el.getBoundingClientRect();
     const t = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
-    onChange(Math.round(t * 11) + 1);
+    onChange(Math.round(t * (n - 1)) + 1);
   };
 
   const onKey = (e: React.KeyboardEvent) => {
@@ -34,11 +58,11 @@ export function Timeline({ month, onChange }: { month: number; onChange: (m: num
       PageDown: month - 3,
       PageUp: month + 3,
       Home: 1,
-      End: 12,
+      End: n,
     };
     if (e.key in map) {
       e.preventDefault();
-      onChange(Math.min(12, Math.max(1, map[e.key])));
+      onChange(Math.min(n, Math.max(1, map[e.key])));
     }
   };
 
@@ -49,9 +73,9 @@ export function Timeline({ month, onChange }: { month: number; onChange: (m: num
         ref={track}
         role="slider"
         tabIndex={0}
-        aria-label="Tháng trong lộ trình 12 tháng"
+        aria-label={`Tháng trong lộ trình ${n} tháng`}
         aria-valuemin={1}
-        aria-valuemax={12}
+        aria-valuemax={n}
         aria-valuenow={month}
         aria-valuetext={`Tháng thứ ${month}, ${row.phase}`}
         onKeyDown={onKey}
@@ -92,7 +116,7 @@ export function Timeline({ month, onChange }: { month: number; onChange: (m: num
       {/* Nhãn tháng */}
       <div className="relative mt-1 h-5" aria-hidden>
         {m10Months.map((r) => {
-          const key = r.m === 1 || r.m === 4 || r.m === 8 || r.m === 12;
+          const key = keyMonths.has(r.m);
           return (
             <button
               key={r.m}

@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";
 import { X } from "lucide-react";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { plainText } from "@/components/shared/RichText";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -73,6 +73,7 @@ function computeStops(ids: string[]): number[] {
 
 export function PresenterMode() {
   const { acts, sections, basePath } = useDeck();
+  const ui = useUi();
   const ids = useMemo(() => sections.map((s) => s.id), [sections]);
   const [on, setOn] = useState(false);
   const [index, setIndex] = useState(0);
@@ -224,15 +225,15 @@ export function PresenterMode() {
           </p>
           <p className="max-w-[26ch] truncate text-[15px] font-medium leading-snug">{s ? plainText(s.eyebrow) : ""}</p>
         </div>
-        <ul className="hidden flex-wrap gap-x-3 gap-y-1 text-[12px] text-blue-300 sm:flex" aria-label="Phím tắt">
+        <ul className="hidden flex-wrap gap-x-3 gap-y-1 text-[12px] text-blue-300 sm:flex" aria-label={ui.shortcuts}>
           <li>
-            <Kbd>←</Kbd> <Kbd>→</Kbd> chuyển
+            <Kbd>←</Kbd> <Kbd>→</Kbd> {ui.navigate}
           </li>
           <li>
-            <Kbd>D</Kbd> chi tiết
+            <Kbd>D</Kbd> {ui.details}
           </li>
           <li>
-            <Kbd>Esc</Kbd> thoát
+            <Kbd>Esc</Kbd> {ui.exit}
           </li>
         </ul>
       </div>
@@ -241,16 +242,16 @@ export function PresenterMode() {
           <div
             className="h-[84px] w-[84px] overflow-hidden rounded-[var(--radius-control)] bg-white p-1 [&>svg]:h-full [&>svg]:w-full"
             role="img"
-            aria-label="Mã QR mở trang này"
+            aria-label={ui.qrLabel}
             dangerouslySetInnerHTML={{ __html: qr }}
           />
-          <figcaption className="text-[11px] text-blue-300">Mở trên điện thoại</figcaption>
+          <figcaption className="text-[11px] text-blue-300">{ui.openOnPhone}</figcaption>
         </figure>
       ) : null}
       <button
         type="button"
         onClick={() => setOn(false)}
-        aria-label="Thoát chế độ trình chiếu"
+        aria-label={ui.exitPresenter}
         className="flex h-8 w-8 shrink-0 items-center justify-center self-start rounded-[var(--radius-control)] text-blue-300 transition-colors hover:bg-white/10 hover:text-white"
       >
         <X size={16} strokeWidth={1.5} aria-hidden />

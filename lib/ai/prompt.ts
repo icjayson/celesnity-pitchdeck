@@ -20,6 +20,7 @@ export type AssistantContext = {
   schemas: ReturnType<typeof deckActionSchemas>;
   matcher: FaqMatcher;
   languageNudge: DeckAssistant["languageNudge"];
+  defaultLang: NonNullable<DeckAssistant["defaultLang"]>;
   extract: DeckAssistant["extract"];
   /** Câu mẫu → thẻ soạn sẵn (M6) */
   extractFallback: Record<string, unknown>;
@@ -29,6 +30,7 @@ type ToolDef = { name: string; description: string; strict: boolean; input_schem
 
 function buildTools(deck: DeckData, a: DeckAssistant, live: Set<string>, useCaseIds: string[]): OaiTool[] {
   const sectionIds = deck.sections.map((s) => s.id);
+  const monthCount = deck.scenarios.m10?.months.length ?? 12;
   const defs: ToolDef[] = [
     {
       name: "open_use_case",
@@ -54,7 +56,7 @@ function buildTools(deck: DeckData, a: DeckAssistant, live: Set<string>, useCase
     },
     {
       name: "set_timeline_month",
-      description: "Đặt thanh kéo lộ trình 12 tháng (section lo-trinh) tới một tháng T+1–T+12. month là số nguyên 1–12.",
+      description: `Đặt thanh kéo lộ trình ${monthCount} tháng (section lo-trinh) tới một tháng T+1–T+${monthCount}. month là số nguyên 1–${monthCount}.`,
       strict: true,
       input_schema: {
         type: "object",
@@ -131,6 +133,7 @@ export function buildAssistantContext(deck: DeckData, a: DeckAssistant): Assista
     schemas: deckActionSchemas(deck.sections.map((s) => s.id), useCaseIds),
     matcher: createFaqMatcher(deck.faq),
     languageNudge: a.languageNudge,
+    defaultLang: a.defaultLang ?? "vi",
     extract: a.extract,
     extractFallback: deck.scenarios.m6?.fallback ?? {},
   };

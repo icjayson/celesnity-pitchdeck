@@ -5,10 +5,10 @@ import { RichText } from "./RichText";
  * Video demo trong section: khung thẻ như ảnh, có điều khiển, không tự phát (preload chỉ metadata).
  * Bản in hiện ảnh poster thay cho video.
  */
-export function Video({ video }: { video: VideoT }) {
-  const { src, poster, width, height, title, caption } = video;
+export function Video({ video, className = "" }: { video: VideoT; className?: string }) {
+  const { src, poster, width, height, title, caption, maxWidth } = video;
   return (
-    <figure className="flex w-full flex-col gap-3">
+    <figure className={`flex w-full flex-col gap-3 ${className}`} style={maxWidth ? { maxWidth } : undefined}>
       <figcaption className="text-[17px] font-semibold">
         <RichText text={title} />
       </figcaption>

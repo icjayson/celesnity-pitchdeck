@@ -8,6 +8,8 @@ import { ModuleSlot } from "./ModuleSlot";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { KeyValue, Cards, Steps, Timeline, Compare, Chips, Pillars, Stats, Checklist } from "./Visuals";
 import { Diagram } from "./Diagram";
+import { Progress } from "./Progress";
+import { Gantt } from "./Gantt";
 
 /**
  * Hiển thị một dãy khối nội dung. `skipModules` dùng cho bản in.
@@ -64,6 +66,10 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
       return <Cards head={b.head} rows={b.rows} cols={b.cols} tone={b.tone} partner={partner} />;
     case "steps":
       return <Steps head={b.head} rows={b.rows} layout={b.layout} cols={b.cols} />;
+    case "progress":
+      return <Progress items={b.items} now={b.now} />;
+    case "gantt":
+      return <Gantt years={b.years} months={b.months} ticks={b.ticks} rows={b.rows} milestones={b.milestones} corner={b.corner} milestoneLabel={b.milestoneLabel} />;
     case "timeline":
       return <Timeline head={b.head} rows={b.rows} />;
     case "compare":
@@ -83,7 +89,11 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
             <span aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-blue-500/25 blur-3xl" />
             <span aria-hidden className="pointer-events-none absolute -bottom-32 left-1/3 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
             <span aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-orange-500" />
-            <p className="relative whitespace-pre-line text-[32px] font-semibold leading-[1.12] tracking-[-0.025em] sm:text-[48px] lg:text-[60px]">
+            <p
+              className={`relative whitespace-pre-line font-semibold leading-[1.12] tracking-[-0.025em] ${
+                b.compact ? "text-[22px] sm:text-[34px] lg:text-[42px]" : "text-[32px] sm:text-[48px] lg:text-[60px]"
+              }`}
+            >
               <RichText text={b.text} strongClass="font-semibold text-orange-500" />
             </p>
           </blockquote>
@@ -184,7 +194,11 @@ function BlockView({ block: b, skipModules, partner }: { block: Block; skipModul
               <BlockView key={i} block={x} skipModules={skipModules} partner={partner} />
             ))}
           </div>
-          <Photo photo={b.photo} className={b.side === "left" ? "lg:order-1" : "lg:justify-self-end"} />
+          {b.video ? (
+            <Video video={b.video} className={b.side === "left" ? "lg:order-1 lg:justify-self-center" : "lg:justify-self-center"} />
+          ) : b.photo ? (
+            <Photo photo={b.photo} className={b.side === "left" ? "lg:order-1" : "lg:justify-self-end"} />
+          ) : null}
         </div>
       );
   }

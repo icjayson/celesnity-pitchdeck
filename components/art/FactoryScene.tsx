@@ -7,7 +7,7 @@
  * (components/art/sceneEngine.ts). Canvas tạm dừng khi ngoài khung nhìn, dừng hẳn khi giảm chuyển động.
  */
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { useInView } from "@/lib/useInView";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { IslandArt, paletteFor } from "./Islands";
@@ -59,7 +59,6 @@ export type FactorySceneProps = {
   showCoreLabel?: boolean;
 };
 
-const CORE_NAME = "Mô hình AI Thế giới thực";
 
 const EASE = "var(--ease-brand)";
 const tr = (props: string[], ms = 500, delay = 0) => props.map((p) => `${p} ${ms}ms ${EASE} ${delay}ms`).join(", ");
@@ -81,8 +80,9 @@ export function FactoryScene({
   showCoreLabel = true,
 }: FactorySceneProps) {
   const { islands, brand } = useDeck();
+  const ui = useUi();
   /** Nhãn lõi: theo deck (ví dụ "Minder AI"), mặc định Mô hình AI Thế giới thực */
-  const coreName = brand.coreLabel ?? CORE_NAME;
+  const coreName = brand.coreLabel ?? ui.coreName;
   /** Vị trí ↔ đảo của deck */
   const spec = (slot: Slot) => islands[ISLAND_IDS.indexOf(slot)];
   const slotOf = (id: IslandId | null | undefined): Slot | null => {
@@ -369,7 +369,7 @@ export function FactoryScene({
               <button
                 key={id}
                 type="button"
-                aria-label={`${spec(id)?.label ?? ""}${sel ? ", đang chọn" : ""}`}
+                aria-label={`${spec(id)?.label ?? ""}${sel ? ui.selected : ""}`}
                 aria-pressed={sel}
                 onClick={() => onIslandClick(deckId)}
                 onMouseEnter={() => setHovered(id)}

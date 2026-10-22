@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDeck } from "@/decks/registry";
+import { uiFor } from "@/lib/i18n";
 import { Section, ThemeSeam } from "@/components/shared/Section";
 import { SiteChrome } from "@/components/shared/SiteChrome";
 import { PresenterMode } from "@/components/presenter/PresenterMode";
@@ -31,10 +32,10 @@ export default async function Page({ params }: { params: Promise<{ deck: string 
           <p className="font-medium tracking-[0.04em]">{meta.footer}</p>
           <div className="muted flex gap-6">
             <Link href={`${basePath}/phu-luc`} className="hover:text-white">
-              Phụ lục
+              {uiFor(deck.locale).appendix}
             </Link>
             <Link href={`${basePath}/ban-in`} className="hover:text-white">
-              Bản in / PDF
+              {uiFor(deck.locale).printPdf}
             </Link>
           </div>
         </div>

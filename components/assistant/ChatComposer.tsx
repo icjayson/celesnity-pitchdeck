@@ -2,7 +2,7 @@
 /** Khung nhập: ô chữ tự giãn, micro (Web Speech vi-VN, ẩn nếu không hỗ trợ), nút gửi, thông báo chatNotice. */
 import { useEffect, type RefObject } from "react";
 import { ArrowUp, Mic, Square } from "lucide-react";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import type { useSpeech } from "./useSpeech";
 
 const MAX = 1000;
@@ -26,6 +26,7 @@ export function ChatComposer({
   glass?: boolean;
 }) {
   const { labels } = useDeck();
+  const ui = useUi();
   // Ô nhập tự giãn tới ~4 dòng
   useEffect(() => {
     const el = inputRef.current;
@@ -52,7 +53,7 @@ export function ChatComposer({
         }`}
       >
         <label htmlFor="assistant-input" className="sr-only">
-          Câu hỏi về đề xuất
+          {ui.questionLabel}
         </label>
         <textarea
           id="assistant-input"
@@ -67,7 +68,7 @@ export function ChatComposer({
               if (canSend) onSubmit();
             }
           }}
-          placeholder={speech.listening ? "Đang nghe…" : "Nhập câu hỏi của Quý vị"}
+          placeholder={speech.listening ? ui.listening : ui.inputPlaceholder}
           className={`max-h-[132px] min-h-[38px] flex-1 resize-none bg-transparent py-2 text-[15px] leading-snug outline-none focus-visible:outline-none ${
             glass ? "text-white placeholder:text-blue-100/60" : "text-navy-900 placeholder:text-ink-500"
           }`}
@@ -76,7 +77,7 @@ export function ChatComposer({
           <button
             type="button"
             onClick={speech.toggle}
-            aria-label={speech.listening ? "Dừng nghe" : "Hỏi bằng giọng nói"}
+            aria-label={speech.listening ? ui.stopListening : ui.askByVoice}
             aria-pressed={speech.listening}
             className={`flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[var(--radius-control)] transition-colors duration-200 ${
               speech.listening
@@ -96,7 +97,7 @@ export function ChatComposer({
         <button
           type="submit"
           disabled={!canSend}
-          aria-label="Gửi câu hỏi"
+          aria-label={ui.send}
           className={`flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[var(--radius-control)] bg-blue-600 text-white transition-colors duration-200 hover:bg-blue-500 ${
             glass ? "disabled:bg-white/10 disabled:text-blue-100/50" : "disabled:bg-line-200 disabled:text-ink-500"
           }`}

@@ -11,7 +11,7 @@ import { FactoryScene, type IslandId } from "@/components/art/FactoryScene";
 import { Label } from "@/components/shared/Label";
 import { plainText } from "@/components/shared/RichText";
 import type { Section } from "@/decks/types";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 
 type Arm = {
   id: IslandId;
@@ -27,14 +27,15 @@ type Arm = {
 
 function getArms(sections: Section[], ORDER: IslandId[]): Arm[] {
   const s = sections.find((x) => x.id === "ban-do");
-  const d = s?.details?.find((x) => plainText(x.title).startsWith("Bảng ba"));
+  const d = s?.details?.find((x) => x.key === "arms" || plainText(x.title).startsWith("Bảng ba"));
   const t = d?.blocks.find((b) => b.kind === "table");
   if (!t || t.kind !== "table") return [];
-  const row = (prefix: string) => t.rows.find((r) => plainText(r[0]).startsWith(prefix));
-  const place = row("Nơi");
-  const role = row("Vai trò");
-  const time = row("Thời gian");
-  const q = row("Câu hỏi");
+  // Bảng có key (đã dịch): hàng theo thứ tự nơi · vai trò · thời gian · câu hỏi; bảng cũ: tìm theo nhãn tiếng Việt
+  const row = (prefix: string, i: number) => (d?.key ? t.rows[i] : t.rows.find((r) => plainText(r[0]).startsWith(prefix)));
+  const place = row("Nơi", 0);
+  const role = row("Vai trò", 1);
+  const time = row("Thời gian", 2);
+  const q = row("Câu hỏi", 3);
   return ORDER.map((id, i) => {
     const head = plainText(t.head[i + 1] ?? "");
     const m = head.match(/^(\S+)\s+(.*)$/);
@@ -62,6 +63,7 @@ function getArms(sections: Section[], ORDER: IslandId[]): Arm[] {
 
 export default function M8(_props: { variant?: string }) {
   const { sections, labels, islands, features } = useDeck();
+  const ui = useUi();
   const showProposal = features?.mapProposalLabel !== false;
   const order = islands.map((x) => x.id);
   /** Đảo cuối là đích đến (orange) */
@@ -125,8 +127,7 @@ export default function M8(_props: { variant?: string }) {
             islandNotes={notes}
           />
           <figcaption className="sr-only">
-            Bản đồ ba mảng: {arms.map((a) => `${a.name}, ${a.role}, ${a.time}`).join("; ")}. Tia sáng đi từ{" "}
-            {order.map((id) => nameOf(id).toLowerCase()).join(" sang ")}. Bấm một đảo hoặc dùng các tab để xem chi tiết.
+            {ui.mapCaption(arms, order.map((id) => nameOf(id).toLowerCase()))}
           </figcaption>
         </figure>
         {showProposal ? (
@@ -137,7 +138,7 @@ export default function M8(_props: { variant?: string }) {
 
         <div
           role="tablist"
-          aria-label="Ba mảng"
+          aria-label={ui.threeArms}
           className="grid grid-cols-3 gap-1 rounded-[calc(var(--radius-control)+4px)] border border-line-200 bg-mist-50 p-1"
         >
           {arms.map((a, i) => {
@@ -162,9 +163,10 @@ export default function M8(_props: { variant?: string }) {
                     : "text-ink-500 hover:bg-white/60 hover:text-navy-900"
                 }`}
               >
-                <span className="flex items-center gap-1.5 text-[14px] font-semibold leading-tight">
+                {/* Tên dài (ví dụ bản tiếng Anh) xuống tối đa 2 dòng trong ô tab, không tràn sang ô bên cạnh */}
+                <span className="flex max-w-full items-center justify-center gap-1.5 text-[14px] font-semibold leading-tight">
                   {a.id === destId ? <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" /> : null}
-                  <span className="truncate">{nameOf(a.id)}</span>
+                  <span className="line-clamp-2 min-w-0 text-balance">{nameOf(a.id)}</span>
                 </span>
                 <span className="tabular whitespace-nowrap text-[12px] font-medium text-ink-500">{a.time}</span>
               </button>

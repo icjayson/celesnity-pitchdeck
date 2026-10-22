@@ -8,7 +8,7 @@ import { StoryVisuals } from "./M1/StoryVisuals";
 import { CoverVisual } from "./M1/Cover";
 import { plainText } from "@/components/shared/RichText";
 import type { Section } from "@/decks/types";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 type SceneState = 0 | 1 | 2 | 3;
@@ -38,6 +38,7 @@ function Hero() {
 
 function Story() {
   const { sections, scenarios } = useDeck();
+  const ui = useUi();
   /** Mô tả cảnh cho trình đọc màn hình (theo trạng thái) */
   const SCENE_CAPTION = scenarios.m1!.captions;
   const steps = getSteps(sections);
@@ -110,7 +111,7 @@ function Story() {
                       aria-hidden
                       className={`h-px w-8 transition-colors duration-500 ${on ? "bg-orange-500" : "bg-blue-300/50"}`}
                     />
-                    Bước {n} / {steps.length}
+                    {ui.stepOf(n, steps.length)}
                   </p>
                   <h3 className="text-[24px] font-semibold leading-tight tracking-[-0.015em] sm:text-[28px]">{st.title}</h3>
                   <p className="mt-3 text-[17px] leading-[1.6] text-white/85">{st.body}</p>
@@ -133,8 +134,9 @@ function StepIndicator({
   active: number;
   onSelect: (n: number) => void;
 }) {
+  const ui = useUi();
   return (
-    <nav aria-label="Các bước" className="mt-2 flex justify-center lg:mt-6">
+    <nav aria-label={ui.steps} className="mt-2 flex justify-center lg:mt-6">
       <ol className="flex items-center gap-2 sm:gap-3">
         {steps.map((st, idx) => {
           const n = idx + 1;
@@ -146,7 +148,7 @@ function StepIndicator({
                 type="button"
                 onClick={() => onSelect(n)}
                 aria-current={on ? "step" : undefined}
-                aria-label={`Bước ${n}: ${label}`}
+                aria-label={ui.stepLabel(n, label)}
                 className="group flex min-h-10 items-center gap-2 rounded-[var(--radius-control)] px-2 py-2 text-[13px] font-medium text-blue-300 transition-colors hover:text-white"
               >
                 <span

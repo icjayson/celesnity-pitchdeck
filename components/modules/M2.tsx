@@ -4,6 +4,7 @@ import { ArrowDown, ArrowRight } from "lucide-react";
 import { plainText } from "@/components/shared/RichText";
 import { useDetailTable } from "./shared/detailContent";
 import { useMotionGate } from "./shared/motion";
+import { useUi } from "@/components/deck/DeckProvider";
 import { ChatArt, RobotArmArt, WorldModelArt } from "./M2/Art";
 
 /** Tách "AI ngôn ngữ (ChatGPT, trợ lý ảo)" thành tên + phụ đề */
@@ -13,12 +14,13 @@ function splitTitle(cell: string) {
   return m ? { name: m[1], sub: m[2] } : { name: t, sub: "" };
 }
 
-const WAVE_ERAS = ["Những năm 2000", "Năm 2022", "Năm 2027"];
 
 export default function M2(_props: { variant?: string }) {
-  const { head, rows } = useDetailTable("ky-nguyen", "Bảng ba làn sóng");
+  const ui = useUi();
+  const WAVE_ERAS = ui.waveEras;
+  const { head, rows } = useDetailTable("ky-nguyen", "Bảng ba làn sóng", "waves");
   // tiêu đề cột thứ ba lấy từ bảng của deck ("Ai nắm lợi thế", "Người nắm lợi thế?"…)
-  const edgeLabel = plainText(head[2] ?? "").replace(/\?$/, "") || "Ai nắm lợi thế";
+  const edgeLabel = plainText(head[2] ?? "").replace(/\?$/, "") || ui.whoHoldsEdge;
   const gate = useMotionGate<HTMLDivElement>();
   const arts = [RobotArmArt, ChatArt, WorldModelArt];
 
@@ -32,7 +34,7 @@ export default function M2(_props: { variant?: string }) {
   return (
     <figure ref={gate.ref} className="relative m-0">
       <figcaption className="sr-only">
-        Ba làn sóng của AI trong sản xuất, theo thứ tự.{" "}
+        {ui.wavesCaption}{" "}
         {waves.map((w, i) => `${WAVE_ERAS[i]}, ${w.name}: AI ${w.can.charAt(0).toLowerCase()}${w.can.slice(1)}. ${edgeLabel}: ${w.edge}.`).join(" ")}
       </figcaption>
 
@@ -79,7 +81,7 @@ export default function M2(_props: { variant?: string }) {
                 <dl className="mt-5 flex flex-1 flex-col gap-4 text-[15px] leading-relaxed">
                   <div>
                     <dt className={`text-[12px] font-medium uppercase tracking-[0.1em] ${featured ? "text-blue-300" : "text-ink-500"}`}>
-                      AI làm được gì
+                      {ui.whatAiCan}
                     </dt>
                     <dd className="mt-1">{w.can}</dd>
                   </div>

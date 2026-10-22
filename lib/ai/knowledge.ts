@@ -22,6 +22,15 @@ function blockText(b: Block, moduleNotes: Record<string, string>): string {
       return `#### ${plainText(b.text)}`;
     case "label":
       return `(Nhãn: ${plainText(b.text)})`;
+    case "gantt":
+      return [
+        ...b.rows.map((r) => `${plainText(r.label)}${r.sub ? ` (${plainText(r.sub)})` : ""}`),
+        b.milestones?.length ? `Mốc: ${b.milestones.map((m) => m.label).join(", ")}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n");
+    case "progress":
+      return b.items.map((it) => `${plainText(it.label)}: ${plainText(it.text)} (${plainText(it.when)})`).join("\n") + (b.now ? `\nHôm nay: ${plainText(b.now)}` : "");
     case "flow":
       return b.steps.map(plainText).join(" → ") + (b.caption ? `\n${plainText(b.caption)}` : "");
     case "signature":
@@ -33,7 +42,13 @@ function blockText(b: Block, moduleNotes: Record<string, string>): string {
     case "video":
       return `(Video: ${plainText(b.video.title)}${b.video.caption ? ` — ${plainText(b.video.caption)}` : ""})`;
     case "media":
-      return [b.photo.caption ? `(Ảnh: ${plainText(b.photo.caption)})` : "", ...b.blocks.map((x) => blockText(x, moduleNotes))].filter(Boolean).join("\n\n");
+      return [
+        b.photo?.caption ? `(Ảnh: ${plainText(b.photo.caption)})` : "",
+        b.video ? `(Video: ${plainText(b.video.title)}${b.video.caption ? ` — ${plainText(b.video.caption)}` : ""})` : "",
+        ...b.blocks.map((x) => blockText(x, moduleNotes)),
+      ]
+        .filter(Boolean)
+        .join("\n\n");
     case "diagram":
       return ["(Sơ đồ)", ...diagramPaths(b.flow, plainText).map((p) => `- ${p}`), b.caption ? plainText(b.caption) : ""].filter(Boolean).join("\n");
     case "statement":

@@ -10,6 +10,8 @@ import { hoaphatBrief } from "../decks/hoa-phat/knowledge/hoaphat-brief";
 import { isuzuBrief } from "../decks/isuzu-vietnam/knowledge";
 import { faq as isuzuFaq } from "../decks/isuzu-vietnam/faq";
 import { takakoBrief } from "../decks/takako-vietnam/knowledge";
+import { scgBrief } from "../decks/scg-vietnam/knowledge";
+import { faq as scgFaq } from "../decks/scg-vietnam/vi/faq";
 import { faq as takakoFaq } from "../decks/takako-vietnam/faq";
 
 const problems: string[] = [];
@@ -99,6 +101,27 @@ for (const f of takakoFaq) {
   for (const [re, why] of TAKAKO_BANNED) if (re.test(f.q) || re.test(f.a)) problems.push(`[takako faq ${f.id}] ${why}`);
 }
 
+// ── SCG ──
+/** Dữ kiện công khai phải có nguồn; không có số tiền gắn với phí; không mô tả hệ thống điều khiển SCG đang dùng; không nêu tên cá nhân phía SCG */
+const SCG_BANNED: [RegExp, string][] = [
+  [/(phí|giá)[^.\n]{0,40}\d[\d.,]*\s*(usd|\$|đồng|triệu|tỷ)/i, "số tiền gắn với phí/giá"],
+  [/\bABB\b|IndustrialIT|Polysius|Huawei|Conch|\bFPT\b/i, "tên nhà cung cấp hệ thống của SCG (không nêu trong deck)"],
+  [/Thammasak|Surachai|Kulachet|Wichan/i, "tên cá nhân phía SCG"],
+];
+const sLines = scgBrief.split("\n");
+let sFacts = 0;
+let sPublic = false;
+sLines.forEach((l, i) => {
+  if (l.startsWith("## ")) sPublic = /nguồn công khai/i.test(l);
+  if (!l.startsWith("- ")) return;
+  sFacts++;
+  if (sPublic && !/\[[^\]]+\]\s*$/.test(l)) problems.push(`[scg] dòng ${i + 1}: thiếu nguồn [..]: ${l.slice(0, 80)}`);
+  for (const [re, why] of SCG_BANNED) if (re.test(l)) problems.push(`[scg] dòng ${i + 1}: ${why}: ${l.slice(0, 100)}`);
+});
+for (const f of scgFaq) {
+  for (const [re, why] of SCG_BANNED) if (re.test(f.q) || re.test(f.a)) problems.push(`[scg faq ${f.id}] ${why}`);
+}
+
 if (problems.length) {
   console.error(`knowledge:check · ${problems.length} vấn đề / ${facts} dữ kiện`);
   problems.forEach((p) => console.error("  - " + p));
@@ -108,3 +131,4 @@ console.log(`knowledge:check · Đạt: Hòa Phát ${facts} dữ kiện, đều 
 console.log(`knowledge:check · Đạt: Nestlé Trị An ${nFacts} dữ kiện, ${nestleFaq.length} câu hỏi; không có giá, không có ghi chú khảo sát nội bộ.`);
 console.log(`knowledge:check · Đạt: Isuzu Việt Nam ${iFacts} dữ kiện, ${isuzuFaq.length} câu hỏi; không có giá, không có ghi chú nội bộ.`);
 console.log(`knowledge:check · Đạt: Takako ${tFacts} dữ kiện, ${takakoFaq.length} câu hỏi; không nêu tên cá nhân, không có giá.`);
+console.log(`knowledge:check · Đạt: SCG ${sFacts} dữ kiện, ${scgFaq.length} câu hỏi; dữ kiện công khai có nguồn, không có giá, không nêu tên cá nhân.`);

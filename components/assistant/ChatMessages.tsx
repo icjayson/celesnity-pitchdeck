@@ -2,31 +2,32 @@
 /** Danh sách tin nhắn, trạng thái trống (câu gợi ý), đang soạn, lỗi. */
 import { useEffect, useRef } from "react";
 import { ArrowRight, BookOpenText, CircleAlert, CornerDownRight, RotateCcw, Sparkles, WifiOff } from "lucide-react";
-import { useDeck } from "@/components/deck/DeckProvider";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { plainText, renderRich } from "@/components/shared/RichText";
 import type { ChatMsg } from "./useChat";
 import { ThinkingStatus } from "./thinking/ThinkingStatus";
 
 function KindTag({ m, glass }: { m: ChatMsg; glass: boolean }) {
+  const ui = useUi();
   const muted = glass ? "text-blue-100/70" : "text-ink-500";
   if (m.kind === "offline")
     return (
       <span className={`inline-flex items-center gap-1.5 text-[12px] font-medium ${muted}`}>
         <WifiOff aria-hidden size={13} strokeWidth={1.5} />
-        Ngoại tuyến · câu trả lời soạn sẵn
+        {ui.offlineAnswers}
       </span>
     );
   if (m.kind === "prepared")
     return (
       <span className={`inline-flex items-center gap-1.5 text-[12px] font-medium ${muted}`}>
         <BookOpenText aria-hidden size={13} strokeWidth={1.5} />
-        Câu trả lời soạn sẵn
+        {ui.presetAnswer}
       </span>
     );
   return (
     <span className={`inline-flex items-center gap-1.5 text-[12px] font-medium ${glass ? "text-blue-300" : "text-blue-600"}`}>
       <Sparkles aria-hidden size={13} strokeWidth={1.5} />
-      Trợ lý Minder AI
+      {ui.assistantName}
     </span>
   );
 }
@@ -50,6 +51,7 @@ export function ChatMessages({
   glass?: boolean;
 }) {
   const { sections, faq, meta } = useDeck();
+  const ui = useUi();
   const suggestedFaq = faq.filter((f) => f.suggested);
   const sectionName = (id: string) => {
     const s = sections.find((x) => x.id === id);
@@ -78,10 +80,11 @@ export function ChatMessages({
       {messages.length === 0 ? (
         <div>
           <p className={`text-[15px] leading-relaxed ${glass ? "text-white/90" : "text-navy-900"}`}>
-            Celesnity sẵn sàng trả lời các câu hỏi về đề xuất <span className="font-semibold">{meta.series ?? "Nhà máy siêu thông minh"}</span>.
-            Quý vị có thể chọn một câu hỏi gợi ý:
+            {ui.greetingPre}
+            <span className="font-semibold">{meta.series ?? ui.seriesFallback}</span>
+            {ui.greetingPost} {ui.pickSuggested}
           </p>
-          <ul className="mt-4 flex flex-wrap gap-2" aria-label="Câu hỏi gợi ý">
+          <ul className="mt-4 flex flex-wrap gap-2" aria-label={ui.suggested}>
             {suggestedFaq.map((f) => (
               <li key={f.id}>
                 <button
@@ -137,7 +140,7 @@ export function ChatMessages({
                         className="inline-flex items-center gap-1.5 rounded-[var(--radius-control)] border border-line-200 px-3 py-1.5 text-[13px] font-medium hover:border-blue-500 hover:bg-blue-100 disabled:opacity-50"
                       >
                         <RotateCcw aria-hidden size={14} strokeWidth={1.5} />
-                        Thử lại
+                        {ui.retry}
                       </button>
                     </div>
                   ) : m.text ? (
@@ -166,7 +169,7 @@ export function ChatMessages({
                         : "border-blue-300 bg-blue-100 text-navy-900 hover:border-blue-500 hover:bg-white"
                     }`}
                   >
-                    <span className="shrink-0 whitespace-nowrap">Xem phần này</span>
+                    <span className="shrink-0 whitespace-nowrap">{ui.viewSection}</span>
                     <span className={`min-w-0 truncate font-normal ${glass ? "text-blue-100/70" : "text-ink-500"}`}>· {sectionName(m.section)}</span>
                     <ArrowRight
                       aria-hidden
@@ -178,7 +181,7 @@ export function ChatMessages({
                 ) : null}
                 {/* câu hỏi gợi ý tiếp theo: chỉ dưới câu trả lời mới nhất */}
                 {i === messages.length - 1 && m.status === "done" && m.followups?.length ? (
-                  <ul className="mt-1.5 flex max-w-full flex-col items-start gap-1.5" aria-label="Câu hỏi gợi ý tiếp theo">
+                  <ul className="mt-1.5 flex max-w-full flex-col items-start gap-1.5" aria-label={ui.suggestedNext}>
                     {m.followups.map((q) => (
                       <li key={q}>
                         <button

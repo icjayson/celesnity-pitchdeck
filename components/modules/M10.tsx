@@ -1,5 +1,5 @@
 "use client";
-/** M10. Thanh kéo 12 tháng (#lo-trinh): quyền vận hành chuyển dần về đội của khách hàng. Xem docs/implementation-plan.md mục 2 và 5. */
+/** M10. Thanh kéo theo tháng (#lo-trinh; mặc định 12 tháng, số tháng = độ dài bảng tháng của deck): quyền vận hành chuyển dần về đội của khách hàng. Xem docs/implementation-plan.md mục 2 và 5. */
 import { useEffect, useState } from "react";
 import { ScrollSteps } from "@/components/shared/ScrollSteps";
 import { ArrowRight, Check, Database, Factory, Pause, Play, RotateCcw, SkipForward, UserRound } from "lucide-react";
@@ -59,6 +59,7 @@ export default function M10({ variant }: { variant?: string }) {
   const { labels, useCases, party, scenarios } = useDeck();
   const { months: m10Months, finale: m10Finale, chips, chipsTitle, lane, partnerShareNote } = scenarios.m10!;
   const itSteps = itStepsOf(m10Months);
+  const last = m10Months.length;
   const laneRows = m10Months.filter((r) => r.expansion);
   const [month, setMonth] = useState(1);
   const [playing, setPlaying] = useState(false);
@@ -66,26 +67,26 @@ export default function M10({ variant }: { variant?: string }) {
   const [rootRef, inView] = useInView<HTMLDivElement>("-10% 0px");
   const row = m10Months[month - 1];
 
-  // Tự chạy ~1,2 giây mỗi tháng; dừng khi ngoài khung nhìn, khi giảm chuyển động hoặc tới T12
+  // Tự chạy ~1,2 giây mỗi tháng; dừng khi ngoài khung nhìn, khi giảm chuyển động hoặc tới tháng cuối
   useEffect(() => {
     if (!playing) return;
-    if (reduced || month >= 12) {
+    if (reduced || month >= last) {
       setPlaying(false);
       return;
     }
     if (!inView) return; // tạm dừng khi ngoài khung nhìn, chạy tiếp khi quay lại
-    const t = window.setTimeout(() => setMonth((m) => Math.min(12, m + 1)), STEP_MS);
+    const t = window.setTimeout(() => setMonth((m) => Math.min(last, m + 1)), STEP_MS);
     return () => window.clearTimeout(t);
-  }, [playing, month, reduced, inView]);
+  }, [playing, month, reduced, inView, last]);
 
   useEffect(
     () =>
       onAction("set_timeline_month", ({ month: m }) => {
         setPlaying(false);
-        setMonth(m);
+        setMonth(Math.min(last, Math.max(1, m)));
         rootRef.current?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
       }),
-    [reduced, rootRef],
+    [reduced, rootRef, last],
   );
 
   const manual = (m: number) => {
@@ -95,24 +96,24 @@ export default function M10({ variant }: { variant?: string }) {
 
   const togglePlay = () => {
     if (reduced) {
-      manual(12);
+      manual(last);
       return;
     }
     if (playing) setPlaying(false);
     else {
-      if (month >= 12) setMonth(1);
+      if (month >= last) setMonth(1);
       setPlaying(true);
     }
   };
 
-  const playLabel = reduced ? "Tới T12" : playing ? "Tạm dừng" : month >= 12 ? "Chạy lại" : "Tự chạy";
-  const PlayIcon = reduced ? SkipForward : playing ? Pause : month >= 12 ? RotateCcw : Play;
-  const finale = month === 12;
+  const playLabel = reduced ? `Tới T${last}` : playing ? "Tạm dừng" : month >= last ? "Chạy lại" : "Tự chạy";
+  const PlayIcon = reduced ? SkipForward : playing ? Pause : month >= last ? RotateCcw : Play;
+  const finale = month === last;
   const share = row.share;
 
   return (
     <>
-    <ScrollSteps steps={12} onStep={(i) => setMonth(i + 1)} perStepVh={22}>
+    <ScrollSteps steps={last} onStep={(i) => setMonth(i + 1)} perStepVh={last > 12 ? 14 : 22}>
     <div ref={rootRef} className="relative">
       <div className="rounded-[var(--radius-card)] border border-line-200 bg-white p-4 shadow-[0_24px_60px_-34px_rgba(10,31,68,0.45)] sm:p-6 lg:p-8">
         {/* Đầu: tháng hiện tại và nút tự chạy */}
@@ -121,7 +122,7 @@ export default function M10({ variant }: { variant?: string }) {
             <span className="tabular whitespace-nowrap text-[36px] font-semibold leading-none tracking-[-0.03em] text-navy-900 sm:text-[48px]">Tháng thứ {month}</span>
             <span className="flex flex-col">
               <span className="text-[13px] font-semibold uppercase tracking-[0.1em] text-blue-600">{row.phase}</span>
-              <span className="tabular text-[13px] text-ink-500">{month} / 12</span>
+              <span className="tabular text-[13px] text-ink-500">{month} / {last}</span>
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -177,8 +178,9 @@ export default function M10({ variant }: { variant?: string }) {
             <div className="mt-5">
               <p className="mb-2.5 text-[13px] font-semibold text-navy-900">{chipsTitle ?? "Use case đang dùng thật"}</p>
               <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {chips.map(({ id, short, label }) => {
+                {chips.map(({ id, short, label, from }) => {
                   const on = row.live.includes(id);
+                  const startsAt = from ?? liveMonth(useCases, id);
                   return (
                     <li
                       key={id}
@@ -193,8 +195,8 @@ export default function M10({ variant }: { variant?: string }) {
                         <span className="tabular block text-[13px] font-semibold">{label ?? `Ứng dụng ${String(Number(id.slice(2)) + 1).padStart(2, "0")}`}</span>
                         <span className={`block truncate text-[12px] ${on ? "text-white/85" : ""}`}>{short}</span>
                       </span>
-                      <span className="sr-only">{on ? ": dùng thật" : `: từ T+${liveMonth(useCases, id)}`}</span>
-                      {!on ? <span aria-hidden className="tabular ml-auto shrink-0 text-[11px]">T+{liveMonth(useCases, id)}</span> : null}
+                      <span className="sr-only">{on ? ": dùng thật" : `: từ T+${startsAt}`}</span>
+                      {!on ? <span aria-hidden className="tabular ml-auto shrink-0 text-[11px]">T+{startsAt}</span> : null}
                     </li>
                   );
                 })}
@@ -297,7 +299,7 @@ export default function M10({ variant }: { variant?: string }) {
       <style>{`@keyframes m10-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}`}</style>
     </div>
     </ScrollSteps>
-    {/* Kết ở T12 */}
+    {/* Kết ở tháng cuối */}
     <div
       aria-live="polite"
       className={`grid transition-[grid-template-rows,opacity,margin] duration-500 ease-[var(--ease-brand)] ${

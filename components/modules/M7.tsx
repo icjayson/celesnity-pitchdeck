@@ -8,8 +8,9 @@ const SCROLL_ORDER = [2, 1, 0, 3];
 import { ArrowLeft, UserCheck } from "lucide-react";
 import { RichText, plainText } from "@/components/shared/RichText";
 import { useDetailTable } from "./shared/detailContent";
+import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { MotionToggle, useMotionGate } from "./shared/motion";
-import { LABEL_X, STACK_H, STACK_W, anchorY, LayerStack } from "./M7/Stack";
+import { FLOW_ANCHOR, FLOW_H, FlowStack, LABEL_X, STACK_H, STACK_W, anchorY, LayerStack, type FlowKey } from "./M7/Stack";
 
 const FADE_CSS = `@keyframes m7-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .m7-in{animation:m7-in 450ms cubic-bezier(.22,1,.36,1) both}`;
@@ -24,12 +25,26 @@ function parseLayer(cell: string) {
 }
 
 export default function M7(_props: { variant?: string }) {
-  const { rows } = useDetailTable("ba-lop", "Bảng ba lớp");
+  const { rows } = useDetailTable("ba-lop", "Bảng ba lớp", "layers");
+  const ui = useUi();
+  const { scenarios } = useDeck();
   const items = rows.map((r) => ({ ...parseLayer(r[0] ?? ""), role: plainText(r[1] ?? ""), what: r[2] ?? "" }));
-  const [active, setActive] = useState(2); // mặc định mở tầng ① (bước đầu khi cuộn)
+  /** Sơ đồ dòng chảy (không có tầng tác nhân AI): World Model → nguồn → Minder → người có thẩm quyền */
+  const flow = !!scenarios.m7?.sources;
+  // sơ đồ ba tầng: ① Minder, ② World Model; sơ đồ dòng chảy: ① World Model, ② Minder
+  const wmIdx = items.findIndex((it) => it.num === (flow ? "①" : "②"));
+  const mdIdx = items.findIndex((it) => it.num === (flow ? "②" : "①"));
+  const humanIdx = items.findIndex((it) => !it.num);
+  const stackH = flow ? FLOW_H : STACK_H;
+  const labelIdx = flow ? [wmIdx, mdIdx] : [0, 1, 2];
+  const scrollOrder = flow ? [wmIdx, mdIdx, humanIdx] : SCROLL_ORDER;
+  const keyOf = (i: number): FlowKey => (i === wmIdx ? "wm" : i === mdIdx ? "minder" : "people");
+  const idxOf = (k: FlowKey) => (k === "wm" ? wmIdx : k === "minder" ? mdIdx : humanIdx);
+  const labelY = (i: number) => (flow ? FLOW_ANCHOR[keyOf(i) as "wm" | "minder"] : anchorY(i));
+  const [active, setActive] = useState(scrollOrder[0]); // mặc định mở bước đầu khi cuộn
   const gate = useMotionGate<HTMLDivElement>();
   const cur = items[active];
-  const isHuman = active === 3;
+  const isHuman = active === humanIdx;
 
   const tabProps = (i: number) => ({
     id: `m7-tab-${i}`,
@@ -39,33 +54,45 @@ export default function M7(_props: { variant?: string }) {
   });
 
   return (
-    <ScrollSteps steps={SCROLL_ORDER.length} onStep={(i) => setActive(SCROLL_ORDER[i])}>
+    <ScrollSteps steps={scrollOrder.length} onStep={(i) => setActive(scrollOrder[i])}>
     <div ref={gate.ref} className="flex flex-col gap-5">
       <style>{FADE_CSS}</style>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_216px] lg:gap-6">
+      <div className={`grid grid-cols-1 gap-4 lg:gap-6 ${flow ? "" : "lg:grid-cols-[minmax(0,1fr)_216px]"}`}>
         {/* Sơ đồ ba tầng */}
         <figure className="relative m-0 rounded-[var(--radius-card)] border border-line-200 bg-[radial-gradient(120%_90%_at_30%_55%,#E6F0FF_0%,#FFFFFF_60%)] px-2 pb-3 pt-4 sm:px-6 sm:pt-6">
           <figcaption className="sr-only">
-            Sơ đồ ba lớp xếp chồng: {items.slice(0, 3).map((it) => `${it.num} ${it.name}, vai trò ${it.role.toLowerCase()}`).join("; ")}. Bên cạnh là{" "}
-            {items[3]?.name}, vai trò {items[3]?.role.toLowerCase()}. Vòng lặp cải thiện: quyết định đã duyệt và kết quả thực tế quay từ lớp ③ về lớp ①.
+            {ui.layersCaption(labelIdx.map((i) => items[i]).filter(Boolean), items[humanIdx])}
           </figcaption>
           <div className="relative mx-auto w-full max-w-[640px]">
             {/* trên điện thoại chỉ hiện phần khối (nhãn nằm dưới), nên cắt bớt khoảng trống bên phải */}
             <div className="overflow-hidden">
               <div className="w-[165%] sm:w-full">
-                <LayerStack active={active} onPick={setActive} play={gate.play} reduced={gate.reduced} />
+                {flow ? (
+                  <FlowStack
+                    active={keyOf(active)}
+                    onPick={(k) => setActive(idxOf(k))}
+                    play={gate.play}
+                    reduced={gate.reduced}
+                    sources={ui.dataSources}
+                    people={items[humanIdx]?.name ?? ""}
+                  />
+                ) : (
+                  <LayerStack active={active} onPick={setActive} play={gate.play} reduced={gate.reduced} />
+                )}
               </div>
             </div>
             {/* nhãn tầng: lưới dưới sơ đồ trên điện thoại, đặt cạnh từng tầng từ sm trở lên */}
             <div className="mt-3 grid grid-cols-3 gap-2 sm:pointer-events-none sm:absolute sm:inset-0 sm:mt-0 sm:block">
-            {items.slice(0, 3).map((it, i) => {
+            {labelIdx.map((i) => {
+              const it = items[i];
+              if (!it) return null;
               const on = active === i;
               return (
                 <button
                   key={i}
                   type="button"
                   {...tabProps(i)}
-                  style={{ left: `${(LABEL_X / STACK_W) * 100}%`, top: `${((anchorY(i) - (on ? 6 : 0)) / STACK_H) * 100}%` }}
+                  style={{ left: `${(LABEL_X / STACK_W) * 100}%`, top: `${((labelY(i) - (on ? 6 : 0)) / stackH) * 100}%` }}
                   className={`flex flex-col items-start gap-1 rounded-[var(--radius-control)] border px-2.5 py-2 text-left transition-[background-color,border-color,color,top] duration-[450ms] ease-[var(--ease-brand)] sm:pointer-events-auto sm:absolute sm:max-w-[37%] sm:-translate-y-1/2 sm:flex-row sm:items-center sm:gap-2.5 sm:px-3 ${
                     on
                       ? "border-navy-900 bg-navy-900 text-white shadow-[0_16px_40px_-20px_rgba(10,31,68,0.6)]"
@@ -95,10 +122,10 @@ export default function M7(_props: { variant?: string }) {
         </figure>
 
         {/* Con người có thẩm quyền */}
-        {items[3] ? (
+        {items[humanIdx] && !flow ? (
           <button
             type="button"
-            {...tabProps(3)}
+            {...tabProps(humanIdx)}
             className={`group relative flex items-center gap-4 overflow-hidden rounded-[var(--radius-card)] border p-5 text-left transition-[box-shadow,border-color,transform] duration-[450ms] ease-[var(--ease-brand)] hover:-translate-y-0.5 lg:flex-col lg:items-start lg:justify-between lg:p-6 ${
               isHuman
                 ? "border-orange-500 bg-orange-100 shadow-[0_20px_50px_-24px_rgba(232,98,10,0.45)]"
@@ -109,13 +136,13 @@ export default function M7(_props: { variant?: string }) {
               <UserCheck aria-hidden size={24} strokeWidth={1.5} />
             </span>
             <span className="flex flex-col gap-1">
-              <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-orange-700">{items[3].role}</span>
-              <span className="text-[17px] font-semibold leading-snug text-navy-900">{items[3].name}</span>
-              <span className="text-[14px] leading-snug text-ink-500">Phê duyệt mọi thay đổi</span>
+              <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-orange-700">{items[humanIdx].role}</span>
+              <span className="text-[17px] font-semibold leading-snug text-navy-900">{items[humanIdx].name}</span>
+              <span className="text-[14px] leading-snug text-ink-500">{ui.approvesEveryChange}</span>
             </span>
             <span aria-hidden className="hidden items-center gap-2 text-[13px] font-medium text-orange-700 lg:flex">
               <ArrowLeft size={16} strokeWidth={1.5} />
-              cả ba lớp
+              {ui.allThreeLayers}
             </span>
           </button>
         ) : null}
@@ -128,7 +155,7 @@ export default function M7(_props: { variant?: string }) {
           role="tabpanel"
           aria-labelledby={`m7-tab-${active}`}
           aria-live="polite"
-          className={`rounded-[var(--radius-card)] border p-5 sm:p-7 ${isHuman ? "border-orange-500/50 bg-white" : active === 1 ? "border-blue-300 bg-blue-100/60" : "border-line-200 bg-white"}`}
+          className={`rounded-[var(--radius-card)] border p-5 sm:p-7 ${isHuman ? "border-orange-500/50 bg-white" : active === wmIdx ? "border-blue-300 bg-blue-100/60" : "border-line-200 bg-white"}`}
         >
           <div key={active} className="m7-in grid grid-cols-1 gap-4 sm:grid-cols-[minmax(0,240px)_minmax(0,1fr)] sm:gap-8">
             <div className="flex flex-col gap-1.5">
@@ -153,7 +180,7 @@ export default function M7(_props: { variant?: string }) {
               {cur.nick ? <p className="text-[15px] italic text-ink-500">“{cur.nick}”</p> : null}
             </div>
             <p className="max-w-[60ch] text-[16px] leading-relaxed sm:pt-1">
-              <span className="mb-1 block text-[12px] font-medium uppercase tracking-[0.1em] text-ink-500">Làm gì</span>
+              <span className="mb-1 block text-[12px] font-medium uppercase tracking-[0.1em] text-ink-500">{ui.whatItDoes}</span>
               <RichText text={cur.what} />
             </p>
           </div>
