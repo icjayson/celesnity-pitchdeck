@@ -12,6 +12,7 @@ import { ArrowRight, BadgeCheck, Factory, Gauge, Hand, ImageIcon, Sparkles, User
 import type { UseCase } from "@/decks/types";
 import { useDeck, useUi } from "@/components/deck/DeckProvider";
 import { Photo } from "@/components/shared/Photo";
+import { ZoomableImages } from "@/components/shared/Lightbox";
 import { RichText } from "@/components/shared/RichText";
 import { Video } from "@/components/shared/Video";
 import { ScrollSteps } from "@/components/shared/ScrollSteps";
@@ -406,6 +407,7 @@ function FeatureCard({ f, n, total, list }: { f: string; n: number; total: numbe
   const ui = useUi();
   const t = splitName(f);
   const video = list.find(({ u }) => u.card?.video)?.u.card?.video;
+  const images = list.find(({ u }) => u.card?.images?.length)?.u.card?.images;
   return (
     <article className="flex flex-col gap-5 rounded-[var(--radius-card)] border border-line-200 bg-white p-5 shadow-[0_24px_60px_-40px_rgba(10,31,68,0.45)] sm:p-7">
       <header className="flex flex-col gap-1.5">
@@ -418,6 +420,8 @@ function FeatureCard({ f, n, total, list }: { f: string; n: number; total: numbe
 
       {/* video demo chỉ hiện khi có video thật; không có thì không chừa chỗ trống */}
       {video ? <Video video={video} /> : null}
+      {/* ảnh chụp Minder: hai ảnh thì chia hai cột; bấm để phóng to */}
+      {images ? <ZoomableImages images={images} /> : null}
 
       <figure className="m-0 rounded-[14px] bg-mist-50 p-4 sm:p-5">
         <figcaption className="sr-only">{ui.featureCaption(t.name, list.length)}</figcaption>

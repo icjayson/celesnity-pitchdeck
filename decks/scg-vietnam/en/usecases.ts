@@ -3,6 +3,7 @@
  * Minder platform features available today; none needs Forecast or setpoint writes to the machine. Matches docs/scg-content-v1.md section #use-case
  * and the "version 3" table in the Song Gianh research document. Specific signals are confirmed in the survey against Siam Cement Group's signal list.
  */
+import { featureShots } from "../shots";
 import type { Phase, UseCase } from "../../types";
 import { PILOT_SHORT, THAI, VN_NEXT } from "./places";
 
@@ -91,6 +92,15 @@ const rows: { f: 0 | 1 | 2 | 3 | 4; name: string; detail: string; stage: string 
   { f: 4, name: "Daily dispatch report", detail: "Daily dispatch report: trucks, barges, silo stock", stage: S.dispatch },
 ];
 
+/** Ảnh chụp Minder theo tính năng (chỉ số trong FEATURES) */
+const shots = featureShots({
+  0: ["Minder data workflow that watches the kiln control system and refreshes the data every 30 seconds", "Minder database for Song Gianh: control system, laboratory, maintenance and shift log tables"],
+  1: ["Minder 3D plant model of Song Gianh kiln line 1 with live equipment status", "Minder dashboard: burning-zone temperature, kiln torque, O₂ and CO, free lime"],
+  2: ["Minder fault detection: ID fan drive-end bearing vibration alert", "Minder monitor with its limit, live view and alert rule"],
+  3: ["Minder AI assistant answering with a chart of fuel substitution rate by month"],
+  4: ["Minder routine: weekly mill energy report", "Minder routine: weekly setpoint gateway log in Excel"],
+});
+
 const nn = (i: number) => String(i + 1).padStart(2, "0");
 
 export const useCases: UseCase[] = [
@@ -110,6 +120,8 @@ export const useCases: UseCase[] = [
         pass: "",
         stage: r.stage,
         minder: FEATURES[r.f].name,
+        // ảnh chụp Minder gắn vào use case đầu tiên của mỗi tính năng
+        images: rows.findIndex((x) => x.f === r.f) === i ? shots(r.f) : undefined,
       },
     }),
   ),

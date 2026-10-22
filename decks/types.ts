@@ -213,14 +213,14 @@ export type UseCase = {
     value?: string;
     /** Điều kiện hoặc giới hạn cần nói trước */
     caveat?: string;
-    /** Ảnh minh hoạ trong M18 variant "detail" (ảnh chụp Minder) */
+    /** Ảnh minh hoạ (ảnh chụp Minder): M18 variant "detail"; variant "features" lấy từ use case đầu tiên của tính năng */
     images?: Photo[];
     /** M18 variant "stages": tính năng Minder mà use case chạy trên đó */
     minder?: string;
     /** M18 variant "stages": mức sẵn sàng của tính năng (màu) và nhãn hiển thị */
     status?: "live" | "forecast" | "act" | "vision";
     statusLabel?: string;
-    /** M18 variant "features": video demo dưới sơ đồ; chưa có thì hiện ô chờ */
+    /** M18 variant "features": video demo trên sơ đồ; không có thì không hiện */
     video?: Video;
   };
   note?: string;
