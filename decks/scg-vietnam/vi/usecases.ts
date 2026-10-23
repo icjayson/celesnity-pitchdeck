@@ -3,7 +3,7 @@
  * nền tảng Minder đang có; không ứng dụng nào cần Dự báo hay ghi điểm đặt xuống máy. Khớp docs/scg-content-v1.md mục #use-case
  * và bảng "version 3" trong tài liệu nghiên cứu Sông Gianh. Tín hiệu cụ thể chốt trong khảo sát với danh sách tín hiệu của Siam Cement Group.
  */
-import { featureShots } from "../shots";
+import { featureVideos } from "../shots";
 import type { Phase, UseCase } from "../../types";
 import { PILOT_SHORT, THAI, VN_NEXT } from "./places";
 
@@ -92,13 +92,13 @@ const rows: { f: 0 | 1 | 2 | 3 | 4; name: string; detail: string; stage: string 
   { f: 4, name: "Báo cáo xuất hàng ngày", detail: "Báo cáo xuất hàng hằng ngày: xe, sà lan, tồn silo", stage: S.dispatch },
 ];
 
-/** Ảnh chụp Minder theo tính năng (chỉ số trong FEATURES) */
-const shots = featureShots({
-  0: ["Luồng dữ liệu trên Minder theo dõi hệ thống điều khiển lò và làm mới dữ liệu mỗi 30 giây", "Cơ sở dữ liệu Sông Gianh trên Minder: các bảng hệ thống điều khiển, phòng thí nghiệm, bảo trì và sổ ca"],
-  1: ["Mô hình 3D dây chuyền lò 1 Sông Gianh trên Minder, trạng thái thiết bị theo thời gian thực", "Bảng điều khiển Minder: nhiệt độ vùng nung, mô-men lò, O₂ và CO, vôi tự do"],
-  2: ["Phát hiện sự cố trên Minder: cảnh báo rung ổ đỡ đầu dẫn động quạt ID", "Giám sát trên Minder với ngưỡng, biểu đồ trực tiếp và quy tắc cảnh báo"],
-  3: ["Trợ lý AI của Minder trả lời kèm biểu đồ tỷ lệ nhiên liệu thay thế theo tháng"],
-  4: ["Routine trên Minder: báo cáo năng lượng máy nghiền hằng tuần", "Routine trên Minder: nhật ký cổng điểm đặt hằng tuần dạng Excel"],
+/** Video demo Minder theo tính năng (chỉ số trong FEATURES) */
+const videos = featureVideos("Demo trên Minder · dữ liệu mô phỏng · tốc độ 2×", {
+  0: "Luồng dữ liệu theo dõi hệ thống điều khiển lò và làm mới các bảng dữ liệu mỗi 30 giây.",
+  1: "Sơ đồ sản xuất trực tiếp, bảng điều khiển cho ban lãnh đạo và lò nung, mô hình 3D dây chuyền lò 1.",
+  2: "Lò lệch khỏi vận hành ổn định sau lô than mới, cảnh báo chỉ ra tín hiệu nào thay đổi và tự đóng khi lò ổn định lại.",
+  3: "Hỏi về cảnh báo, điện năng máy nghiền, biểu đồ hay báo cáo giao ca, mọi con số đều kèm nguồn.",
+  4: "Báo cáo bảo trì hằng tuần do Minder viết, kèm file Excel các lần dừng lò còn thiếu nguyên nhân.",
 });
 
 const nn = (i: number) => String(i + 1).padStart(2, "0");
@@ -120,8 +120,8 @@ export const useCases: UseCase[] = [
         pass: "",
         stage: r.stage,
         minder: FEATURES[r.f].name,
-        // ảnh chụp Minder gắn vào use case đầu tiên của mỗi tính năng
-        images: rows.findIndex((x) => x.f === r.f) === i ? shots(r.f) : undefined,
+        // video demo Minder gắn vào use case đầu tiên của mỗi tính năng
+        video: rows.findIndex((x) => x.f === r.f) === i ? videos(r.f) : undefined,
       },
     }),
   ),

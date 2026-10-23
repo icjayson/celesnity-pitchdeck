@@ -3,7 +3,7 @@
  * Minder platform features available today; none needs Forecast or setpoint writes to the machine. Matches docs/scg-content-v1.md section #use-case
  * and the "version 3" table in the Song Gianh research document. Specific signals are confirmed in the survey against Siam Cement Group's signal list.
  */
-import { featureShots } from "../shots";
+import { featureVideos } from "../shots";
 import type { Phase, UseCase } from "../../types";
 import { PILOT_SHORT, THAI, VN_NEXT } from "./places";
 
@@ -92,13 +92,13 @@ const rows: { f: 0 | 1 | 2 | 3 | 4; name: string; detail: string; stage: string 
   { f: 4, name: "Daily dispatch report", detail: "Daily dispatch report: trucks, barges, silo stock", stage: S.dispatch },
 ];
 
-/** Ảnh chụp Minder theo tính năng (chỉ số trong FEATURES) */
-const shots = featureShots({
-  0: ["Minder data workflow that watches the kiln control system and refreshes the data every 30 seconds", "Minder database for Song Gianh: control system, laboratory, maintenance and shift log tables"],
-  1: ["Minder 3D plant model of Song Gianh kiln line 1 with live equipment status", "Minder dashboard: burning-zone temperature, kiln torque, O₂ and CO, free lime"],
-  2: ["Minder fault detection: ID fan drive-end bearing vibration alert", "Minder monitor with its limit, live view and alert rule"],
-  3: ["Minder AI assistant answering with a chart of fuel substitution rate by month"],
-  4: ["Minder routine: weekly mill energy report", "Minder routine: weekly setpoint gateway log in Excel"],
+/** Video demo Minder theo tính năng (chỉ số trong FEATURES) */
+const videos = featureVideos("Minder demo · simulated data · 2× speed", {
+  0: "A data workflow watches the kiln control system and refreshes the curated tables every 30 seconds.",
+  1: "Live production flow, management and kiln dashboards, and the 3D model of kiln line 1.",
+  2: "The kiln drifts after a new coal lot, the alert explains what moved, and it closes itself once the kiln recovers.",
+  3: "Ask about an alert, a mill's energy use, a chart or a shift handover report, with sources for every figure.",
+  4: "A weekly maintenance review written by Minder, plus the Excel export of kiln stops missing a cause.",
 });
 
 const nn = (i: number) => String(i + 1).padStart(2, "0");
@@ -120,8 +120,8 @@ export const useCases: UseCase[] = [
         pass: "",
         stage: r.stage,
         minder: FEATURES[r.f].name,
-        // ảnh chụp Minder gắn vào use case đầu tiên của mỗi tính năng
-        images: rows.findIndex((x) => x.f === r.f) === i ? shots(r.f) : undefined,
+        // video demo Minder gắn vào use case đầu tiên của mỗi tính năng
+        video: rows.findIndex((x) => x.f === r.f) === i ? videos(r.f) : undefined,
       },
     }),
   ),

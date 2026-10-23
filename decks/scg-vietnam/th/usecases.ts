@@ -3,7 +3,7 @@
  * ของแพลตฟอร์ม Minder ที่มีอยู่แล้ว ไม่มีกรณีใดต้องใช้การคาดการณ์หรือการเขียนค่าตั้งลงเครื่องจักร ตรงกับ docs/scg-content-v1.md หัวข้อ #use-case
  * และตาราง "version 3" ในเอกสารศึกษา Song Gianh สัญญาณที่ใช้จริงจะสรุปในการสำรวจตามรายการสัญญาณของ Siam Cement Group
  */
-import { featureShots } from "../shots";
+import { featureVideos } from "../shots";
 import type { Phase, UseCase } from "../../types";
 import { PILOT_SHORT, THAI, VN_NEXT } from "./places";
 
@@ -92,13 +92,13 @@ const rows: { f: 0 | 1 | 2 | 3 | 4; name: string; detail: string; stage: string 
   { f: 4, name: "รายงานการจ่ายสินค้ารายวัน", detail: "รายงานการจ่ายสินค้ารายวัน: รถบรรทุก เรือลำเลียง และระดับไซโล", stage: S.dispatch },
 ];
 
-/** Ảnh chụp Minder theo tính năng (chỉ số trong FEATURES) */
-const shots = featureShots({
-  0: ["เวิร์กโฟลว์ข้อมูลบน Minder ที่ติดตามระบบควบคุมเตาเผาและรีเฟรชข้อมูลทุก 30 วินาที", "ฐานข้อมูล Song Gianh บน Minder: ตารางจากระบบควบคุม ห้องปฏิบัติการ งานซ่อมบำรุง และบันทึกกะ"],
-  1: ["โมเดล 3 มิติของสายการผลิตเตาเผา 1 Song Gianh บน Minder พร้อมสถานะเครื่องจักรแบบเรียลไทม์", "แดชบอร์ด Minder: อุณหภูมิโซนเผา แรงบิดเตา O₂ และ CO ปูนขาวอิสระ"],
-  2: ["การตรวจจับความผิดปกติบน Minder: แจ้งเตือนการสั่นของแบริ่งพัดลม ID", "ตัวติดตามบน Minder พร้อมค่าขีดจำกัด กราฟสด และกฎการแจ้งเตือน"],
-  3: ["ผู้ช่วย AI ของ Minder ตอบพร้อมกราฟอัตราการใช้เชื้อเพลิงทดแทนรายเดือน"],
-  4: ["Routine บน Minder: รายงานพลังงานโรงบดรายสัปดาห์", "Routine บน Minder: บันทึกการส่งค่าตั้งรายสัปดาห์เป็น Excel"],
+/** Video demo Minder theo tính năng (chỉ số trong FEATURES) */
+const videos = featureVideos("การสาธิตบน Minder · ข้อมูลจำลอง · ความเร็ว 2 เท่า", {
+  0: "เวิร์กโฟลว์ข้อมูลติดตามระบบควบคุมเตาเผาและรีเฟรชตารางข้อมูลทุก 30 วินาที",
+  1: "ผังการผลิตแบบสด แดชบอร์ดสำหรับผู้บริหารและเตาเผา และโมเดล 3 มิติของสายการผลิตเตาเผา 1",
+  2: "เตาเผาเริ่มเบี่ยงหลังเปลี่ยนล็อตถ่านหิน การแจ้งเตือนบอกว่าสัญญาณใดเปลี่ยน และปิดเองเมื่อเตากลับสู่ภาวะปกติ",
+  3: "ถามเรื่องการแจ้งเตือน พลังงานของโรงบด กราฟ หรือรายงานส่งมอบกะ ทุกตัวเลขมีแหล่งที่มา",
+  4: "รายงานซ่อมบำรุงรายสัปดาห์ที่ Minder เขียนให้ พร้อมไฟล์ Excel การหยุดเตาที่ยังไม่ระบุสาเหตุ",
 });
 
 const nn = (i: number) => String(i + 1).padStart(2, "0");
@@ -120,8 +120,8 @@ export const useCases: UseCase[] = [
         pass: "",
         stage: r.stage,
         minder: FEATURES[r.f].name,
-        // ảnh chụp Minder gắn vào use case đầu tiên của mỗi tính năng
-        images: rows.findIndex((x) => x.f === r.f) === i ? shots(r.f) : undefined,
+        // video demo Minder gắn vào use case đầu tiên của mỗi tính năng
+        video: rows.findIndex((x) => x.f === r.f) === i ? videos(r.f) : undefined,
       },
     }),
   ),
