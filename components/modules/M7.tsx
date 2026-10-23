@@ -75,6 +75,7 @@ export default function M7(_props: { variant?: string }) {
                     reduced={gate.reduced}
                     sources={ui.dataSources}
                     people={items[humanIdx]?.name ?? ""}
+                    loopLabel={ui.improvementLoop}
                   />
                 ) : (
                   <LayerStack active={active} onPick={setActive} play={gate.play} reduced={gate.reduced} />

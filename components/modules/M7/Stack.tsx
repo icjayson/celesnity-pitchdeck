@@ -144,6 +144,34 @@ export function LayerStack({
 
 export type FlowKey = "wm" | "minder" | "people";
 
+/** Màu sơ đồ dòng chảy: nền sáng (deck) và nền navy (trang /minder-video) */
+const FLOW_LIGHT = {
+  minder: { top: "#0F2A5C", left: "#0A1F44", right: "#06142E", stroke: "#16367A" },
+  minderOn: BLUE5,
+  flow: BLUE5,
+  flowOpacity: 0.45,
+  people: "#FFF4EA",
+  peopleOn: "#FFE9D6",
+  ink: NAVY,
+  loopText: BLUE6,
+  lead: LINE,
+  leadOn: NAVY,
+  dotOff: "#fff",
+};
+const FLOW_DARK: typeof FLOW_LIGHT = {
+  minder: { top: "#16367A", left: "#0F2A5C", right: "#0A1F44", stroke: BLUE5 },
+  minderOn: BLUE3,
+  flow: BLUE4,
+  flowOpacity: 0.7,
+  people: "rgba(255,122,26,0.14)",
+  peopleOn: "rgba(255,122,26,0.3)",
+  ink: "#FFFFFF",
+  loopText: BLUE3,
+  lead: "rgba(141,184,255,0.35)",
+  leadOn: BLUE3,
+  dotOff: "#0A1F44",
+};
+
 /**
  * Sơ đồ dòng chảy (deck bật scenarios.m7.sources): không có tầng tác nhân AI. Đọc từ dưới lên:
  * ① World Model dự báo, đề xuất → con người, máy móc, phần mềm, robot thực hiện → ② Minder ghi lại → người có thẩm quyền phê duyệt (trên cùng);
@@ -156,6 +184,8 @@ export function FlowStack({
   reduced,
   sources,
   people,
+  loopLabel,
+  tone = "light",
 }: {
   active: FlowKey;
   onPick: (k: FlowKey) => void;
@@ -163,11 +193,16 @@ export function FlowStack({
   reduced: boolean;
   sources: string[];
   people: string;
+  /** Chữ "vòng cải thiện ↻"; truyền vào để sơ đồ dùng được cả ngoài deck (trang /minder-video) */
+  loopLabel: string;
+  /** "dark": màu cho nền navy (trang /minder-video); mặc định là nền sáng như trong deck */
+  tone?: "light" | "dark";
 }) {
-  const ui = useUi();
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const dark = tone === "dark";
+  const pal = dark ? FLOW_DARK : FLOW_LIGHT;
   const slabs = [
-    { key: "minder" as const, y: FLOW_MINDER_Y, layer: 2, s: { top: "#0F2A5C", left: "#0A1F44", right: "#06142E", stroke: "#16367A" } },
+    { key: "minder" as const, y: FLOW_MINDER_Y, layer: 2, s: pal.minder },
     { key: "wm" as const, y: FLOW_WM_Y, layer: 1, s: { top: `url(#${uid}mid)`, left: BLUE6, right: "#1A50B8", stroke: BLUE3 } },
   ];
   const topWm = isoBox(CX, FLOW_WM_Y, W, W, H).topPts;
@@ -200,12 +235,12 @@ export function FlowStack({
       {/* chảy lên: World Model → nguồn (đề xuất được thực hiện) → Minder (mọi việc được ghi lại) */}
       {SRC_X.map((x, i) => (
         <g key={i}>
-          <Flow x={x} y1={faceTopY(x, FLOW_WM_Y)} y2={SRC_TOP + SRC_H} delay={i * 0.45} />
-          <Flow x={x} y1={SRC_TOP} y2={slabBottomY(x, FLOW_MINDER_Y) + 2} delay={i * 0.45 + 0.9} />
+          <Flow x={x} y1={faceTopY(x, FLOW_WM_Y)} y2={SRC_TOP + SRC_H} delay={i * 0.45} color={pal.flow} opacity={pal.flowOpacity} />
+          <Flow x={x} y1={SRC_TOP} y2={slabBottomY(x, FLOW_MINDER_Y) + 2} delay={i * 0.45 + 0.9} color={pal.flow} opacity={pal.flowOpacity} />
         </g>
       ))}
       {/* Minder → người có thẩm quyền */}
-      <Flow x={CX} y1={faceTopY(CX, FLOW_MINDER_Y)} y2={PEOPLE_TOP + 48} delay={0.3} />
+      <Flow x={CX} y1={faceTopY(CX, FLOW_MINDER_Y)} y2={PEOPLE_TOP + 48} delay={0.3} color={pal.flow} opacity={pal.flowOpacity} />
 
       {slabs.map(({ key, y, layer, s: st }) => {
         const box = isoBox(CX, y, W, W, H);
@@ -217,7 +252,7 @@ export function FlowStack({
             <polygon
               points={box.top}
               fill={st.top}
-              stroke={on ? (layer === 1 ? "#FFFFFF" : BLUE5) : st.stroke}
+              stroke={on ? (layer === 1 ? "#FFFFFF" : pal.minderOn) : st.stroke}
               strokeWidth={on ? 2 : 1.5}
               strokeLinejoin="round"
               style={{ transition: `stroke ${T}` }}
@@ -227,7 +262,7 @@ export function FlowStack({
         );
       })}
 
-      <Sources labels={sources} />
+      <Sources labels={sources} dark={dark} />
 
       {/* Người có thẩm quyền */}
       <g onClick={() => onPick("people")} className="cursor-pointer">
@@ -237,7 +272,7 @@ export function FlowStack({
           width={200}
           height={48}
           rx={12}
-          fill={peopleOn ? "#FFE9D6" : "#FFF4EA"}
+          fill={peopleOn ? pal.peopleOn : pal.people}
           stroke={ORANGE}
           strokeOpacity={peopleOn ? 1 : 0.5}
           strokeWidth={peopleOn ? 2 : 1.25}
@@ -248,13 +283,13 @@ export function FlowStack({
           <circle cx={-1.5} cy={-3.5} r={3.2} />
           <path d="M-7.5 7 c0 -4.5 3 -6 6 -6 s4 1 5 2.5 M3 4.5 l2 2 l3.5 -3.5" />
         </g>
-        <text x={CX - 54} y={PEOPLE_TOP + 29} fontSize={13} fontWeight={600} fill={NAVY}>
+        <text x={CX - 54} y={PEOPLE_TOP + 29} fontSize={13} fontWeight={600} fill={pal.ink}>
           {people}
         </text>
       </g>
 
       {/* vòng cải thiện ↻: Minder ghi lại → World Model học */}
-      <path d={loopD} fill="none" stroke={BLUE5} strokeOpacity={0.45} strokeWidth={1.5} strokeDasharray="3 5" markerEnd={`url(#${uid}arrow)`} />
+      <path d={loopD} fill="none" stroke={pal.flow} strokeOpacity={pal.flowOpacity} strokeWidth={1.5} strokeDasharray="3 5" markerEnd={`url(#${uid}arrow)`} />
       <g>
         <circle r={9} fill={BLUE5} opacity={0.18} />
         <circle r={4} fill={BLUE5} />
@@ -268,10 +303,10 @@ export function FlowStack({
         textAnchor="middle"
         fontSize={12}
         fontWeight={600}
-        fill={BLUE6}
+        fill={pal.loopText}
         letterSpacing="0.06em"
       >
-        {ui.improvementLoop}
+        {loopLabel}
       </text>
 
       {/* đường dẫn tới nhãn hai khối */}
@@ -279,8 +314,8 @@ export function FlowStack({
         const y = FLOW_ANCHOR[k] - (active === k ? 6 : 0);
         return (
           <g key={k}>
-            <line x1={ANCHOR_X + 4} y1={y} x2={LABEL_X - 6} y2={y} stroke={active === k ? NAVY : LINE} strokeWidth={1.25} style={{ transition: `stroke ${T}` }} />
-            <circle cx={ANCHOR_X + 4} cy={y} r={3} fill={active === k ? NAVY : "#fff"} stroke={NAVY} strokeWidth={1.25} />
+            <line x1={ANCHOR_X + 4} y1={y} x2={LABEL_X - 6} y2={y} stroke={active === k ? pal.leadOn : pal.lead} strokeWidth={1.25} style={{ transition: `stroke ${T}` }} />
+            <circle cx={ANCHOR_X + 4} cy={y} r={3} fill={active === k ? pal.leadOn : pal.dotOff} stroke={pal.leadOn} strokeWidth={1.25} />
           </g>
         );
       })}
@@ -289,11 +324,25 @@ export function FlowStack({
 }
 
 /** Dòng chảy thẳng đứng từ y1 tới y2, chấm sáng chạy theo */
-function Flow({ x, y1, y2, delay }: { x: number; y1: number; y2: number; delay: number }) {
+function Flow({
+  x,
+  y1,
+  y2,
+  delay,
+  color = BLUE5,
+  opacity = 0.45,
+}: {
+  x: number;
+  y1: number;
+  y2: number;
+  delay: number;
+  color?: string;
+  opacity?: number;
+}) {
   return (
     <g>
-      <line x1={x} y1={y1} x2={x} y2={y2} stroke={BLUE5} strokeOpacity={0.45} strokeWidth={1.5} strokeDasharray="3 4" />
-      <circle cx={x} r={3} fill={BLUE5}>
+      <line x1={x} y1={y1} x2={x} y2={y2} stroke={color} strokeOpacity={opacity} strokeWidth={1.5} strokeDasharray="3 4" />
+      <circle cx={x} r={3} fill={color}>
         <animate attributeName="cy" values={`${y1};${y2}`} dur="1.8s" begin={`${delay}s`} repeatCount="indefinite" />
         <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.8;1" dur="1.8s" begin={`${delay}s`} repeatCount="indefinite" />
       </circle>
@@ -310,17 +359,27 @@ const slabBottomY = (x: number, y: number) => y - Math.abs(CX - x) * Math.tan(Ma
 /** Cạnh xa (trái/phải) của mặt trên khối có góc đáy gần ở (CX, y) */
 const faceTopY = (x: number, y: number) => y - H - W + Math.abs(CX - x) * Math.tan(Math.PI / 6);
 
-function Sources({ labels }: { labels: string[] }) {
+function Sources({ labels, dark = false }: { labels: string[]; dark?: boolean }) {
   const glyphs = ["person", "machine", "software", "robot"] as const;
+  const ink = dark ? "#E6F0FF" : NAVY;
   return (
     <g>
       {SRC_X.map((x, i) => (
         <g key={i}>
-          <rect x={x - 34} y={SRC_TOP} width={68} height={SRC_H} rx={10} fill="#fff" stroke={LINE} strokeWidth={1.25} />
-          <g transform={`translate(${x} ${SRC_TOP + 18})`} stroke={NAVY} strokeWidth={1.6} fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <SourceGlyph kind={glyphs[i]} />
+          <rect
+            x={x - 34}
+            y={SRC_TOP}
+            width={68}
+            height={SRC_H}
+            rx={10}
+            fill={dark ? "#0F2A5C" : "#fff"}
+            stroke={dark ? "rgba(141,184,255,0.4)" : LINE}
+            strokeWidth={1.25}
+          />
+          <g transform={`translate(${x} ${SRC_TOP + 18})`} stroke={ink} strokeWidth={1.6} fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <SourceGlyph kind={glyphs[i]} ink={ink} />
           </g>
-          <text x={x} y={SRC_TOP + 43} textAnchor="middle" fontSize={11} fontWeight={600} fill={NAVY}>
+          <text x={x} y={SRC_TOP + 43} textAnchor="middle" fontSize={11} fontWeight={600} fill={ink}>
             {labels[i]}
           </text>
         </g>
@@ -329,7 +388,7 @@ function Sources({ labels }: { labels: string[] }) {
   );
 }
 
-function SourceGlyph({ kind }: { kind: "person" | "machine" | "software" | "robot" }) {
+function SourceGlyph({ kind, ink = NAVY }: { kind: "person" | "machine" | "software" | "robot"; ink?: string }) {
   if (kind === "person")
     return (
       <>
@@ -355,8 +414,8 @@ function SourceGlyph({ kind }: { kind: "person" | "machine" | "software" | "robo
     <>
       <rect x={-7} y={-5} width={14} height={11} rx={3} />
       <path d="M0 -5 v-3 M-9 0 v3 M9 0 v3" />
-      <circle cx={-3} cy={0} r={0.8} fill={NAVY} />
-      <circle cx={3} cy={0} r={0.8} fill={NAVY} />
+      <circle cx={-3} cy={0} r={0.8} fill={ink} />
+      <circle cx={3} cy={0} r={0.8} fill={ink} />
     </>
   );
 }
